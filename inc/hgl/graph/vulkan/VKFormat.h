@@ -404,5 +404,10 @@ inline const char *GetVulkanFormatName(const VkFormat &format)
 }
 
 const VulkanFormat *GetVulkanFormat(const char *fmt_name);
+
+/**
+ * 根据spirv_cross::SPIRType类型获取vulkan类型
+ */
+const VkFormat GetVulkanFormat(const uint32_t &basetype,const uint32_t vecsize);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_FORMAT_INCLUDE

@@ -1,5 +1,6 @@
 ﻿#include<hgl/graph/vulkan/VKFormat.h>
 #include<hgl/type/StrChar.h>
+#include<spirv_cross/spirv_common.hpp>
 
 VK_NAMESPACE_BEGIN
 namespace
@@ -284,5 +285,33 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name)
     }
 
     return(nullptr);
+}
+
+const VkFormat GetVulkanFormat(const uint32_t &basetype,const uint32_t vecsize)
+{
+    constexpr VkFormat format[][4]=
+    {
+        {FMT_R8I,FMT_RG8I,VK_FORMAT_UNDEFINED,FMT_RGBA8I},    //sbyte
+        {FMT_R8U,FMT_RG8U,VK_FORMAT_UNDEFINED,FMT_RGBA8U},    //ubyte
+        {FMT_R16I,FMT_RG16I,VK_FORMAT_UNDEFINED,FMT_RGBA16I},//short
+        {FMT_R16U,FMT_RG16U,VK_FORMAT_UNDEFINED,FMT_RGBA16U},//ushort
+        {FMT_R32I,FMT_RG32I,FMT_RGB32I,FMT_RGBA32I},//int
+        {FMT_R32U,FMT_RG32U,FMT_RGB32U,FMT_RGBA32U},//uint
+        {FMT_R64I,FMT_RG64I,FMT_RGB64I,FMT_RGBA64I},//int64
+        {FMT_R64U,FMT_RG64U,FMT_RGB64U,FMT_RGBA64U},//uint64
+        {}, //atomic
+        {FMT_R16F,FMT_RG16F,VK_FORMAT_UNDEFINED,FMT_RGBA16F},//half
+        {FMT_R32F,FMT_RG32F,FMT_RGB32F,FMT_RGBA32F},//float
+        {FMT_R64F,FMT_RG64F,FMT_RGB64F,FMT_RGBA64F} //double
+    };
+
+    if(basetype< spirv_cross::SPIRType::SByte
+     ||basetype> spirv_cross::SPIRType::Double
+     ||basetype==spirv_cross::SPIRType::AtomicCounter
+     ||vecsize<1
+     ||vecsize>4)
+        return VK_FORMAT_UNDEFINED;
+
+    return format[basetype-spirv_cross::SPIRType::SByte][vecsize-1];
 }
 VK_NAMESPACE_END
