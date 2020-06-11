@@ -70,6 +70,8 @@ namespace
     #define PVRTC_FORMAT_DEFINE(level,bpp)      COMPRESS_FORMAT_DEFINE(FMT_PVRTC##level##_##bpp##UN,"PVRTC" #level "_" #bpp "UN",PVRTC,UNORM),    \
                                                 COMPRESS_FORMAT_DEFINE(FMT_PVRTC##level##_##bpp##s,"PVRTC" #level "_" #bpp "s",PVRTC,SRGB)
 
+    #define ASTC_SFLOAT_FORMAT_DEFINE(mat)      COMPRESS_FORMAT_DEFINE(FMT_ASTC_##mat##UN,"ASTC" #mat "F",ASTC,SFLOAT)  
+
     constexpr VulkanFormat vulkan_color_format_list[]=
     {
         COLOR_FORMAT_DEFINE(UNDEFINED,     0,UNORM),
@@ -170,21 +172,37 @@ namespace
         PVRTC_FORMAT_DEFINE(1,2),
         PVRTC_FORMAT_DEFINE(1,4),
         PVRTC_FORMAT_DEFINE(2,2),
-        PVRTC_FORMAT_DEFINE(2,4)
+        PVRTC_FORMAT_DEFINE(2,4),
+        
+        ASTC_SFLOAT_FORMAT_DEFINE(4x4),
+        ASTC_SFLOAT_FORMAT_DEFINE(5x4),
+        ASTC_SFLOAT_FORMAT_DEFINE(5x5),
+        ASTC_SFLOAT_FORMAT_DEFINE(6x5),
+        ASTC_SFLOAT_FORMAT_DEFINE(6x6),
+        ASTC_SFLOAT_FORMAT_DEFINE(8x5),
+        ASTC_SFLOAT_FORMAT_DEFINE(8x6),
+        ASTC_SFLOAT_FORMAT_DEFINE(8x8),
+        ASTC_SFLOAT_FORMAT_DEFINE(10x5),
+        ASTC_SFLOAT_FORMAT_DEFINE(10x6),
+        ASTC_SFLOAT_FORMAT_DEFINE(10x8),
+        ASTC_SFLOAT_FORMAT_DEFINE(10x10),
+        ASTC_SFLOAT_FORMAT_DEFINE(12x10),
+        ASTC_SFLOAT_FORMAT_DEFINE(12x12)
     };
 
-    const VulkanFormat *vulkan_yuv_format_list=vulkan_color_format_list+FMT_RANGE_SIZE;
-    const VulkanFormat *vulkan_pvrtc_format_list=vulkan_color_format_list+FMT_RANGE_SIZE+FMT_YUV_RANGE_SIZE;
+    const VulkanFormat *vulkan_yuv_format_list          =vulkan_color_format_list+FMT_RANGE_SIZE;
+    const VulkanFormat *vulkan_pvrtc_format_list        =vulkan_color_format_list+FMT_RANGE_SIZE+FMT_YUV_RANGE_SIZE;
+    const VulkanFormat *vulkan_astc_sfloat_format_list  =vulkan_color_format_list+FMT_RANGE_SIZE+FMT_YUV_RANGE_SIZE+FMT_PVRTC_RANGE_SIZE;
     
     constexpr size_t TEXTURE_FORMAT_COUNT=sizeof(vulkan_color_format_list)/sizeof(VulkanFormat);
 
 #ifdef _DEBUG
     uint32_t GetStrideBytesByFormat(const VkFormat &format)
     {
-        if(format<=VK_FORMAT_UNDEFINED)
+        if(format<=FMT_BEGIN_RANGE)
             return 0;
         
-        if(format>VK_FORMAT_END_RANGE)
+        if(format>FMT_END_RANGE)
         {
             if(format==VK_FORMAT_R10X6_UNORM_PACK16)return 2;
             if(format==VK_FORMAT_R10X6G10X6_UNORM_2PACK16)return 4;
@@ -235,7 +253,7 @@ bool CheckStrideBytesByFormat()
 {
     const VulkanFormat *vcf=vulkan_color_format_list;
 
-    for(uint32_t i=VK_FORMAT_BEGIN_RANGE;i<=VK_FORMAT_END_RANGE;i++)
+    for(uint32_t i=FMT_BEGIN_RANGE;i<=FMT_END_RANGE;i++)
     {
         if(vcf->format!=i)return(false);
         if(vcf->bytes!=GetStrideBytesByFormat((VkFormat)i))return(false);
@@ -256,9 +274,9 @@ const VulkanFormat *GetVulkanFormatList(uint32_t &count)
 
 const VulkanFormat *GetVulkanFormat(const VkFormat &format)
 {
-    if(format<=VK_FORMAT_BEGIN_RANGE)return(nullptr);
+    if(format<=FMT_BEGIN_RANGE)return(nullptr);
 
-    if(format<=VK_FORMAT_END_RANGE)
+    if(format<=FMT_END_RANGE)
         return vulkan_color_format_list+format;
         
     if(format>=FMT_YUV_BEGIN_RANGE&&format<=FMT_YUV_END_RANGE)
@@ -266,6 +284,9 @@ const VulkanFormat *GetVulkanFormat(const VkFormat &format)
 
     if(format>=FMT_PVRTC_BEGIN_RANGE&&format<=FMT_PVRTC_END_RANGE)
         return vulkan_pvrtc_format_list+format-FMT_PVRTC_BEGIN_RANGE;
+
+    if(format>=FMT_ASTC_SFLOAT_BEGIN_RANGE&&format<=FMT_ASTC_SFLOAT_END_RANGE)
+        return vulkan_astc_sfloat_format_list+format-FMT_ASTC_SFLOAT_BEGIN_RANGE;
 
     return nullptr;
 }
@@ -276,7 +297,7 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name)
     
     const VulkanFormat *vcf=vulkan_color_format_list;
 
-    for(uint32_t i=VK_FORMAT_BEGIN_RANGE;i<=VK_FORMAT_END_RANGE;i++)
+    for(uint32_t i=FMT_BEGIN_RANGE;i<=FMT_END_RANGE;i++)
     {
         if(hgl::strcmp(fmt_name,vcf->name)==0)
             return vcf;
