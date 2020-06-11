@@ -49,8 +49,10 @@ namespace hgl
             matrix.ortho=ortho(width,height);
 
             matrix.view_pos=eye;
-            matrix.resolution.x=width;
-            matrix.resolution.y=height;
+            matrix.canvas_resolution.x=width;
+            matrix.canvas_resolution.y=height;
+            matrix.viewport_resolution.x=vp_width;
+            matrix.viewport_resolution.y=vp_height;
 
             frustum.SetVerticalFovAndAspectRatio(DegToRad(fov),width/height);
             frustum.SetViewPlaneDistances(znear,zfar);

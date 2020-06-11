@@ -22,8 +22,11 @@ namespace hgl
         {
             CameraType type=CameraType::Perspective;
 
-            float width;                ///<视图宽
-            float height;               ///<视图高
+            float width;                ///<画布宽
+            float height;               ///<画布高
+
+            uint vp_width;              ///<视图宽
+            uint vp_height;             ///<视图高
 
             float fov=60;               ///<水平FOV
             float znear=16,zfar=256;    ///<Z轴上离眼睛的距离(注：因znear会参与计算，请不要使用0或过于接近0的值)
