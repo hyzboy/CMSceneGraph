@@ -1,4 +1,4 @@
-#ifndef HGL_GRAPH_WORLD_MATRIX_INCLUDE
+﻿#ifndef HGL_GRAPH_WORLD_MATRIX_INCLUDE
 #define HGL_GRAPH_WORLD_MATRIX_INCLUDE
 
 #include<hgl/math/Math.h>
