@@ -20,8 +20,7 @@ namespace hgl
          *                  X                   | Y                                          X
          */
 
-        const Matrix4f GetOpenGL2VulkanMatrix();              //OpenGL坐标系数据到我方坐标系数据变换用矩阵
-
-        }//namespace graph
+        const Matrix4f gl2vk(const Matrix4f &ogl_matrix);               //将OpenGL坐标系矩阵变换到Vulkan坐标系
+    }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_COORDINATE_INCLUDE
