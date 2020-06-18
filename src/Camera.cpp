@@ -48,7 +48,7 @@ namespace hgl
 
             matrix.ortho=ortho(width,height);
 
-            matrix.view_pos=eye;
+            matrix.camera_pos=eye;
             matrix.canvas_resolution.x=width;
             matrix.canvas_resolution.y=height;
             matrix.viewport_resolution.x=vp_width;
