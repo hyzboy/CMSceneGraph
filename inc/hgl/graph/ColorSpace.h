@@ -26,30 +26,30 @@ namespace hgl
         inline const T sRGB2Linear(const T &in)
         {
             if(in<=0.4045)
-                return in/12.92;
+                return (double)in/12.92;
             else
-                return pow((in+SRGB_ALPHA)/(1+SRGB_ALPHA),2.4);
+                return pow((double(in)+SRGB_ALPHA)/(1.0f+SRGB_ALPHA),2.4f);
         }
 
         template<typename T>
         inline const T Linear2sRGB(const T &in)
         {
             if(in<=0.0031308f)
-                return in*12.92f;
+                return double(in)*12.92f;
             else
-                return (1+SRGB_ALPHA)*pow(in,1.0f/2.4f)-SRGB_ALPHA;
+                return (1.0f+SRGB_ALPHA)*pow(double(in),1.0f/2.4f)-SRGB_ALPHA;
         }
 
         template<typename T>
         inline const T sRGB2LinearApprox(const T &in)
         {
-            return pow(in,T(SRGB_INVERSE_GAMMA));
+            return (T)pow(double(in),SRGB_INVERSE_GAMMA);
         }
 
         template<typename T>
         inline const T Linear2sRGBApprox(const T &in)
         {
-            return pow(in,SRGB_GAMMA);
+            return (T)pow((double)in,SRGB_GAMMA);
         }
 
         template<typename T>
