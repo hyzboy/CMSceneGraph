@@ -308,7 +308,7 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name)
     return(nullptr);
 }
 
-const VkFormat GetVulkanFormat(const uint32_t &basetype,const uint32_t vecsize)
+const VkFormat GetVulkanFormat(const uint32_t basetype,const uint32_t vecsize)
 {
     constexpr VkFormat format[][4]=
     {
