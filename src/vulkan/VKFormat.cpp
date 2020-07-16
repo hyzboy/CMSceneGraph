@@ -308,9 +308,9 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name)
     return(nullptr);
 }
 
-const VkFormat GetVulkanFormat(const uint32_t basetype,const uint32_t vecsize)
+namespace
 {
-    constexpr VkFormat format[][4]=
+    constexpr VkFormat vk_format_by_spirtype[][4]=
     {
         {FMT_R8I,FMT_RG8I,VK_FORMAT_UNDEFINED,FMT_RGBA8I},    //sbyte
         {FMT_R8U,FMT_RG8U,VK_FORMAT_UNDEFINED,FMT_RGBA8U},    //ubyte
@@ -326,13 +326,55 @@ const VkFormat GetVulkanFormat(const uint32_t basetype,const uint32_t vecsize)
         {FMT_R64F,FMT_RG64F,FMT_RGB64F,FMT_RGBA64F} //double
     };
 
-    if(basetype< spirv_cross::SPIRType::SByte
-     ||basetype> spirv_cross::SPIRType::Double
-     ||basetype==spirv_cross::SPIRType::AtomicCounter
-     ||vecsize<1
-     ||vecsize>4)
+    constexpr uint32_t stride_by_spirtype[]=
+    {
+		1,  //SByte,
+		1,  //UByte,
+		2,  //Short,
+		2,  //UShort,
+		4,  //Int,
+		4,  //UInt,
+		8,  //Int64,
+		8,  //UInt64,
+		0,  //AtomicCounter,
+		2,  //Half,
+		4,  //Float,
+		8,  //Double,
+    };
+
+    inline bool CheckSPIRType(const uint32_t basetype,const uint32_t vecsize)
+    {
+        if(basetype< spirv_cross::SPIRType::SByte
+         ||basetype> spirv_cross::SPIRType::Double
+         ||basetype==spirv_cross::SPIRType::AtomicCounter
+         ||vecsize<1
+         ||vecsize>4)
+            return(false);
+
+        return(true);
+    }
+}//namespace
+
+const VkFormat GetVulkanFormatBySPIRType(const uint32_t basetype,const uint32_t vecsize)
+{
+    if(!CheckSPIRType(basetype,vecsize))
         return VK_FORMAT_UNDEFINED;
 
-    return format[basetype-spirv_cross::SPIRType::SByte][vecsize-1];
+    return vk_format_by_spirtype[basetype-spirv_cross::SPIRType::SByte][vecsize-1];
+}
+
+bool GetVulkanFormatStrideBySPIRType(VkFormat &fmt,uint32_t &stride,const uint32_t basetype,const uint32_t vecsize)
+{
+    if(!CheckSPIRType(basetype,vecsize))
+        return(false);
+        
+    fmt=vk_format_by_spirtype[basetype-spirv_cross::SPIRType::SByte][vecsize-1];
+
+    if(fmt==VK_FORMAT_UNDEFINED)
+        return(false);
+
+    stride=stride_by_spirtype[basetype-spirv_cross::SPIRType::SByte]*vecsize;
+
+    return(true);    
 }
 VK_NAMESPACE_END

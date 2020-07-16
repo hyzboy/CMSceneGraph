@@ -437,6 +437,11 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name);
 /**
  * 根据spirv_cross::SPIRType类型获取vulkan类型
  */
-const VkFormat GetVulkanFormat(const uint32_t basetype,const uint32_t vecsize);
+const VkFormat GetVulkanFormatBySPIRType(const uint32_t basetype,const uint32_t vecsize);
+
+/**
+ * 根据spirv_cross::SPIRType类型获取vulkan类型与其对应的长度(字节数)
+ */
+bool GetVulkanFormatStrideBySPIRType(VkFormat &,uint32_t &,const uint32_t basetype,const uint32_t vecsize);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_FORMAT_INCLUDE
