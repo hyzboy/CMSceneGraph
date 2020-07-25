@@ -341,11 +341,11 @@ namespace
 		8,  //Double,
     };
 
-    inline bool CheckSPIRType(const SPIRBaseType basetype,const uint32_t vecsize)
+    inline bool CheckSPIRType(const BaseType basetype,const uint32_t vecsize)
     {
-        if(basetype< SPIRBaseType::SByte
-         ||basetype> SPIRBaseType::Double
-         ||basetype==SPIRBaseType::AtomicCounter
+        if(basetype< BaseType::SByte
+         ||basetype> BaseType::Double
+         ||basetype==BaseType::AtomicCounter
          ||vecsize<1
          ||vecsize>4)
             return(false);
@@ -354,22 +354,22 @@ namespace
     }
 }//namespace
 
-const VkFormat GetVulkanFormatBySPIRType(const SPIRBaseType basetype,const uint32_t vecsize)
+const VkFormat GetVulkanFormat(const BaseType basetype,const uint32_t vecsize)
 {
     if(!CheckSPIRType(basetype,vecsize))
         return VK_FORMAT_UNDEFINED;
         
-    const int type=int(basetype)-int(SPIRBaseType::SByte);
+    const int type=int(basetype)-int(BaseType::SByte);
 
     return vk_format_by_spirtype[type][vecsize-1];
 }
 
-bool GetVulkanFormatStrideBySPIRType(VkFormat &fmt,uint32_t &stride,const SPIRBaseType basetype,const uint32_t vecsize)
+bool GetVulkanFormatStride(VkFormat &fmt,uint32_t &stride,const BaseType basetype,const uint32_t vecsize)
 {
     if(!CheckSPIRType(basetype,vecsize))
         return(false);
 
-    const int type=int(basetype)-int(SPIRBaseType::SByte);
+    const int type=int(basetype)-int(BaseType::SByte);
         
     fmt=vk_format_by_spirtype[type][vecsize-1];
 
