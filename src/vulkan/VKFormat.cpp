@@ -1,6 +1,5 @@
 ﻿#include<hgl/graph/vulkan/VKFormat.h>
 #include<hgl/type/StrChar.h>
-#include<spirv_cross/spirv_common.hpp>
 
 VK_NAMESPACE_BEGIN
 namespace
@@ -342,11 +341,11 @@ namespace
 		8,  //Double,
     };
 
-    inline bool CheckSPIRType(const uint32_t basetype,const uint32_t vecsize)
+    inline bool CheckSPIRType(const SPIRBaseType basetype,const uint32_t vecsize)
     {
-        if(basetype< spirv_cross::SPIRType::SByte
-         ||basetype> spirv_cross::SPIRType::Double
-         ||basetype==spirv_cross::SPIRType::AtomicCounter
+        if(basetype< SPIRBaseType::SByte
+         ||basetype> SPIRBaseType::Double
+         ||basetype==SPIRBaseType::AtomicCounter
          ||vecsize<1
          ||vecsize>4)
             return(false);
@@ -355,25 +354,29 @@ namespace
     }
 }//namespace
 
-const VkFormat GetVulkanFormatBySPIRType(const uint32_t basetype,const uint32_t vecsize)
+const VkFormat GetVulkanFormatBySPIRType(const SPIRBaseType basetype,const uint32_t vecsize)
 {
     if(!CheckSPIRType(basetype,vecsize))
         return VK_FORMAT_UNDEFINED;
+        
+    const int type=int(basetype)-int(SPIRBaseType::SByte);
 
-    return vk_format_by_spirtype[basetype-spirv_cross::SPIRType::SByte][vecsize-1];
+    return vk_format_by_spirtype[type][vecsize-1];
 }
 
-bool GetVulkanFormatStrideBySPIRType(VkFormat &fmt,uint32_t &stride,const uint32_t basetype,const uint32_t vecsize)
+bool GetVulkanFormatStrideBySPIRType(VkFormat &fmt,uint32_t &stride,const SPIRBaseType basetype,const uint32_t vecsize)
 {
     if(!CheckSPIRType(basetype,vecsize))
         return(false);
+
+    const int type=int(basetype)-int(SPIRBaseType::SByte);
         
-    fmt=vk_format_by_spirtype[basetype-spirv_cross::SPIRType::SByte][vecsize-1];
+    fmt=vk_format_by_spirtype[type][vecsize-1];
 
     if(fmt==VK_FORMAT_UNDEFINED)
         return(false);
 
-    stride=stride_by_spirtype[basetype-spirv_cross::SPIRType::SByte]*vecsize;
+    stride=stride_by_spirtype[type]*vecsize;
 
     return(true);    
 }

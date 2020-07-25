@@ -435,13 +435,46 @@ inline const char *GetVulkanFormatName(const VkFormat &format)
 const VulkanFormat *GetVulkanFormat(const char *fmt_name);
 
 /**
+ * SPIR-V Cross 基本类型<br>
+ * 等同于SPIRType::BaseType枚举,参见spirv_cross/spirv_common.hpp中的spirv_cross::SPIRType
+ */
+enum class SPIRBaseType:int
+{
+	Unknown,
+	Void,
+	Boolean,
+	SByte,
+	UByte,
+	Short,
+	UShort,
+	Int,
+	UInt,
+	Int64,
+	UInt64,
+	AtomicCounter,
+	Half,
+	Float,
+	Double,
+	Struct,
+	Image,
+	SampledImage,
+	Sampler,
+	AccelerationStructure,
+	RayQuery,
+
+	// Keep internal types at the end.
+	ControlPointArray,
+	Char
+};
+
+/**
  * 根据spirv_cross::SPIRType类型获取vulkan类型
  */
-const VkFormat GetVulkanFormatBySPIRType(const uint32_t basetype,const uint32_t vecsize);
+const VkFormat GetVulkanFormatBySPIRType(const SPIRBaseType basetype,const uint32_t vecsize);
 
 /**
  * 根据spirv_cross::SPIRType类型获取vulkan类型与其对应的长度(字节数)
  */
-bool GetVulkanFormatStrideBySPIRType(VkFormat &,uint32_t &,const uint32_t basetype,const uint32_t vecsize);
+bool GetVulkanFormatStrideBySPIRType(VkFormat &,uint32_t &,const SPIRBaseType basetype,const uint32_t vecsize);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_FORMAT_INCLUDE
