@@ -1,7 +1,7 @@
 #ifndef HGL_GRAPH_BITMAP_INCLUDE
 #define HGL_GRAPH_BITMAP_INCLUDE
 
-#include<hgl/type/graph/vulkan/VKFormat.h>
+#include<hgl/type/DataType.h>
 namespace hgl
 {
     namespace graph
