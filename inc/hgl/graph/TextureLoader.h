@@ -37,11 +37,15 @@ namespace hgl
 
             Tex2DFileHeader file_header;
 
-        protected:
-        
+        protected:        
+
             virtual void *OnBegin(uint32)=0;
             virtual void  OnEnd()=0;
             virtual void  OnError(){}
+
+        public:
+
+            const Tex2DFileHeader *GetFileHeader()const{return &file_header;}
 
         public:
 
