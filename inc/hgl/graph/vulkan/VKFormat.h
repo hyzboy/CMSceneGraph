@@ -367,6 +367,22 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define UFMT_RGBA32F    FMT_RGBA32F
 #define UFMT_B10GR11UF  FMT_B10GR11UF
 
+//顶点用格式
+#define VAF_VEC1    FMT_R32F
+#define VAF_VEC2    FMT_RG32F
+#define VAF_VEC3    FMT_RGB32F
+#define VAF_VEC4    FMT_RGBA32F
+
+#define VAF_IVEC1   FMT_R32I
+#define VAF_IVEC2   FMT_RG32I
+#define VAF_IVEC3   FMT_RGB32I
+#define VAF_IVEC4   FMT_RGBA32I
+
+#define VAF_UVEC1   FMT_R32U
+#define VAF_UVEC2   FMT_RG32U
+#define VAF_UVEC3   FMT_RGB32U
+#define VAF_UVEC4   FMT_RGBA32U
+
 enum class TextureCompressType
 {
     NONE=0,
