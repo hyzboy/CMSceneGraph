@@ -22,6 +22,12 @@ namespace hgl
                 delete[] data;
             }
         };//struct BitmapData
+
+        struct ImageRegion
+        {
+            int left,top,width,height;
+            uint bytes;
+        };//struct ImageRegion
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_BITMAP_INCLUDE
