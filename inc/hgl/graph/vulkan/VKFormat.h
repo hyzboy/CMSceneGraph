@@ -456,31 +456,31 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name);
  */
 enum class BaseType:int
 {
-	Unknown,
-	Void,
-	Boolean,
-	SByte,
-	UByte,
-	Short,
-	UShort,
-	Int,
-	UInt,
-	Int64,
-	UInt64,
-	AtomicCounter,
-	Half,
-	Float,
-	Double,
-	Struct,
-	Image,
-	SampledImage,
-	Sampler,
-	AccelerationStructure,
-	RayQuery,
+    Unknown,
+    Void,
+    Boolean,
+    SByte,
+    UByte,
+    Short,
+    UShort,
+    Int,
+    UInt,
+    Int64,
+    UInt64,
+    AtomicCounter,
+    Half,
+    Float,
+    Double,
+    Struct,
+    Image,
+    SampledImage,
+    Sampler,
+    AccelerationStructure,
+    RayQuery,
 
-	// Keep internal types at the end.
-	ControlPointArray,
-	Char
+    // Keep internal types at the end.
+    ControlPointArray,
+    Char
 };
 
 /**
