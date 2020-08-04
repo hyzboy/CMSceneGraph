@@ -383,6 +383,11 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define VAF_UVEC3   FMT_RGB32U
 #define VAF_UVEC4   FMT_RGBA32U
 
+#define VAF_DVEC1   FMT_R64U
+#define VAF_DVEC2   FMT_RG64U
+#define VAF_DVEC3   FMT_RGB64U
+#define VAF_DVEC4   FMT_RGBA64U
+
 enum class TextureCompressType
 {
     NONE=0,
