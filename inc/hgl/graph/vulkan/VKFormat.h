@@ -446,6 +446,26 @@ inline uint32_t GetStrideByFormat(const VkFormat &format)
     return (vcf?vcf->bytes:0);
 }
 
+inline uint32_t GetImageBytes(const VkFormat &format,const uint32_t pixel_total)
+{
+    const VulkanFormat *vcf=GetVulkanFormat(format);
+
+    if(vcf&&vcf->bytes)
+        return vcf->bytes*pixel_total;
+        
+    if(format>=FMT_BC1_RGBUN
+     &&format<=FMT_BC7s)
+    {
+        if(format<=FMT_BC1_RGBAs
+         ||format==FMT_BC4UN
+         ||format==FMT_BC4SN)return(pixel_total>>1);
+
+        return pixel_total;
+    }
+
+    return 0;
+}
+
 inline const char *GetVulkanFormatName(const VkFormat &format)
 {
     const VulkanFormat *vcf=GetVulkanFormat(format);
