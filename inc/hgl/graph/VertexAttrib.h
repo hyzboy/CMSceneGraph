@@ -46,6 +46,8 @@ namespace hgl
          * 根据字符串解晰顶点属性类型
          */
         bool ParseVertexAttribType(VertexAttribType *,const char *);
+
+        const char *GetVertexAttribName(const VertexAttribType *type);
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_VERTEX_ATTRIB_INCLUDE

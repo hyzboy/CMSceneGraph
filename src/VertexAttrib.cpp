@@ -36,5 +36,21 @@ namespace hgl
 
             return(true);
         }
+
+        constexpr char vertex_attrib_vec_name[size_t(VertexAttribBaseType::RANGE_SIZE)][4][8]=
+        {
+            {"bool",  "bvec2","bvec3","bvec4"},
+            {"int",   "ivec2","ivec3","ivec4"},
+            {"uint",  "uvec2","uvec3","uvec4"},
+            {"float",  "vec2", "vec3", "vec4"},
+            {"double","dvec2","dvec3","dvec4"}
+        };
+
+        const char *GetVertexAttribName(const VertexAttribType *type)
+        {
+            if(!type||!type->Check())return(nullptr);            
+
+            return vertex_attrib_vec_name[size_t(type->basetype)][type->vec_size-1];
+        }
     }//namespace graph
 }//namespace hgl
