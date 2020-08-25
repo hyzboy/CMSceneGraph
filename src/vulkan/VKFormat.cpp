@@ -309,75 +309,21 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name)
 
 namespace
 {
-    constexpr VkFormat vk_format_by_spirtype[][4]=
+    constexpr VkFormat vk_format_by_basetype[][4]=
     {
-        {FMT_R8I,FMT_RG8I,VK_FORMAT_UNDEFINED,FMT_RGBA8I},    //sbyte
         {FMT_R8U,FMT_RG8U,VK_FORMAT_UNDEFINED,FMT_RGBA8U},    //ubyte
-        {FMT_R16I,FMT_RG16I,VK_FORMAT_UNDEFINED,FMT_RGBA16I},//short
-        {FMT_R16U,FMT_RG16U,VK_FORMAT_UNDEFINED,FMT_RGBA16U},//ushort
         {FMT_R32I,FMT_RG32I,FMT_RGB32I,FMT_RGBA32I},//int
         {FMT_R32U,FMT_RG32U,FMT_RGB32U,FMT_RGBA32U},//uint
-        {FMT_R64I,FMT_RG64I,FMT_RGB64I,FMT_RGBA64I},//int64
-        {FMT_R64U,FMT_RG64U,FMT_RGB64U,FMT_RGBA64U},//uint64
-        {}, //atomic
-        {FMT_R16F,FMT_RG16F,VK_FORMAT_UNDEFINED,FMT_RGBA16F},//half
         {FMT_R32F,FMT_RG32F,FMT_RGB32F,FMT_RGBA32F},//float
         {FMT_R64F,FMT_RG64F,FMT_RGB64F,FMT_RGBA64F} //double
     };
-
-    constexpr uint32_t stride_by_spirtype[]=
-    {
-		1,  //SByte,
-		1,  //UByte,
-		2,  //Short,
-		2,  //UShort,
-		4,  //Int,
-		4,  //UInt,
-		8,  //Int64,
-		8,  //UInt64,
-		0,  //AtomicCounter,
-		2,  //Half,
-		4,  //Float,
-		8,  //Double,
-    };
-
-    inline bool CheckSPIRType(const BaseType basetype,const uint32_t vecsize)
-    {
-        if(basetype< BaseType::SByte
-         ||basetype> BaseType::Double
-         ||basetype==BaseType::AtomicCounter
-         ||vecsize<1
-         ||vecsize>4)
-            return(false);
-
-        return(true);
-    }
 }//namespace
 
-const VkFormat GetVulkanFormat(const BaseType basetype,const uint32_t vecsize)
+const VkFormat GetVulkanFormat(const VertexAttribType *type)
 {
-    if(!CheckSPIRType(basetype,vecsize))
+    if(!type||!type->Check())
         return VK_FORMAT_UNDEFINED;
         
-    const int type=int(basetype)-int(BaseType::SByte);
-
-    return vk_format_by_spirtype[type][vecsize-1];
-}
-
-bool GetVulkanFormatStride(VkFormat &fmt,uint32_t &stride,const BaseType basetype,const uint32_t vecsize)
-{
-    if(!CheckSPIRType(basetype,vecsize))
-        return(false);
-
-    const int type=int(basetype)-int(BaseType::SByte);
-        
-    fmt=vk_format_by_spirtype[type][vecsize-1];
-
-    if(fmt==VK_FORMAT_UNDEFINED)
-        return(false);
-
-    stride=stride_by_spirtype[type]*vecsize;
-
-    return(true);    
+    return vk_format_by_basetype[size_t(type->basetype)][type->vec_size-1];
 }
 VK_NAMESPACE_END
