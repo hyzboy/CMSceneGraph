@@ -9,7 +9,6 @@ namespace hgl
     {
         /**
          * 世界矩阵数据
-         * @see res/shader/UBO_WorldMatrix.glsl
          */
         struct WorldMatrix
         {
