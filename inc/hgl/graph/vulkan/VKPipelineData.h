@@ -60,8 +60,8 @@ struct VKPipelineData
 
 public:
 
-    VKPipelineData(const uint32_t color_attachment_count=1);
-    VKPipelineData(uchar *data,uint size);
+    VKPipelineData(const uint32_t color_attachment_count);
+    VKPipelineData();
     ~VKPipelineData()=default;
 
     void InitVertexInputState(const uint32_t stage_count,const VkPipelineShaderStageCreateInfo *stages);    

@@ -114,23 +114,10 @@ VKPipelineData::VKPipelineData(const uint32_t color_attachment_count)
     }
 }
 
-VKPipelineData::VKPipelineData(uchar *data,uint size)
+VKPipelineData::VKPipelineData()
 {
-    LoadFromMemory(data,size);
-
-    pipelineInfo.pInputAssemblyState=&inputAssembly;
-    pipelineInfo.pTessellationState =&tessellation;
-    pipelineInfo.pRasterizationState=&rasterizer;
-    pipelineInfo.pMultisampleState  =&multisample;
-    pipelineInfo.pDepthStencilState =&depthStencilState;
-    pipelineInfo.pColorBlendState   =&colorBlending;
-
-    InitDynamicState();
-
-    {
-        pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
-        pipelineInfo.basePipelineIndex = -1;
-    }
+    pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+    pipelineInfo.basePipelineIndex = -1;
 }
 
 void VKPipelineData::InitVertexInputState(const uint32_t stage_count,const VkPipelineShaderStageCreateInfo *stages)

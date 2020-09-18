@@ -113,6 +113,15 @@ bool VKPipelineData::LoadFromMemory(uchar *data,uint size)
     }
 
     CHECK_SIZE_AND_COPY(alpha_test,float);
+    
+    pipelineInfo.pInputAssemblyState=&inputAssembly;
+    pipelineInfo.pTessellationState =&tessellation;
+    pipelineInfo.pRasterizationState=&rasterizer;
+    pipelineInfo.pMultisampleState  =&multisample;
+    pipelineInfo.pDepthStencilState =&depthStencilState;
+    pipelineInfo.pColorBlendState   =&colorBlending;
+
+    InitDynamicState();
 
     return(true);
 }
