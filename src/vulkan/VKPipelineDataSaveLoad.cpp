@@ -57,13 +57,13 @@ bool VKPipelineData::SaveToStream(io::DataOutputStream *dos)
 
 bool VKPipelineData::LoadFromMemory(uchar *data,uint size)
 {
-    uint16 ver=*(uint16 *)data;
-
     if(memcmp(data,PipelineFileHeader,PipelineFileHeaderLength)!=0)
         return(false);
 
     data+=PipelineFileHeaderLength;
     size-=PipelineFileHeaderLength;
+
+    uint16 ver=*(uint16 *)data;
 
     if(ver!=1)
         return(false);
