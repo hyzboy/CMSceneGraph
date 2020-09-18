@@ -4,6 +4,7 @@
 #include<hgl/graph/vulkan/VKNamespace.h>
 #include<hgl/graph/vulkan/VKPrimivate.h>
 #include<hgl/type/List.h>
+#include<hgl/type/String.h>
 
 namespace hgl
 {
@@ -54,8 +55,8 @@ struct VKPipelineData
     VkDynamicState                              dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
     VkPipelineDynamicStateCreateInfo            dynamicState;
 
-    float alpha_test=0;
-    bool alpha_blend=false;
+    float alpha_test;
+    bool alpha_blend;
 
 public:
 
@@ -133,5 +134,8 @@ public:
     bool SaveToStream(io::DataOutputStream *dos);
     bool LoadFromMemory(uchar *,uint);
 };//struct VKPipelineData
+
+bool SaveToFile(const OSString &filename,VKPipelineData *);
+bool LoadFromFile(const OSString &filename,VKPipelineData *);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE

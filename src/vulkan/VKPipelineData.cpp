@@ -4,6 +4,20 @@ VK_NAMESPACE_BEGIN
 VKPipelineData::VKPipelineData(const uint32_t color_attachment_count)
 {
     hgl_zero(pipelineInfo);
+    //hgl_zero(vis_create_info);
+    //hgl_zero(inputAssembly);
+    //hgl_zero(tessellation);
+    //hgl_zero(viewport);
+    //hgl_zero(scissor);
+    //hgl_zero(viewportState);
+    //hgl_zero(rasterizer);    
+    //hgl_zero(sample_mask);
+    //hgl_zero(multisample);
+    //hgl_zero(depthStencilState);    
+    //hgl_zero(colorBlending);
+    //hgl_zero(dynamicStateEnables);
+    //hgl_zero(dynamicState);
+
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 
     tessellation.sType=VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
@@ -75,6 +89,7 @@ VKPipelineData::VKPipelineData(const uint32_t color_attachment_count)
 
     colorBlendAttachments.Add(cba,color_attachment_count);     //这个需要和subpass中的color attachment数量相等，所以添加多份
 
+    alpha_test=0;
     alpha_blend=false;
 
     colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
