@@ -116,6 +116,8 @@ VKPipelineData::VKPipelineData(const uint32_t color_attachment_count)
 
 VKPipelineData::VKPipelineData()
 {
+    hgl_zero(pipelineInfo);
+
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
     pipelineInfo.basePipelineIndex = -1;
 }

@@ -10,36 +10,40 @@ using namespace hgl;
 
 VK_NAMESPACE_BEGIN
 
+constexpr u8char PipelineFileHeader[]=u8"Pipeline\x1A";
+constexpr size_t PipelineFileHeaderLength=sizeof(PipelineFileHeader)-1;
+
 #define WRITE_AND_CHECK_SIZE(ptr,type)  if(dos->Write(ptr,sizeof(type))!=sizeof(type))return(false);
 
 bool VKPipelineData::SaveToStream(io::DataOutputStream *dos)
 {
     if(!dos)return(false);
 
+    if(dos->Write(PipelineFileHeader,PipelineFileHeaderLength)!=PipelineFileHeaderLength)return(false);
     if(!dos->WriteUint16(1))return(false);     //file ver
 
-    WRITE_AND_CHECK_SIZE(&pipelineInfo,VkGraphicsPipelineCreateInfo);
-    WRITE_AND_CHECK_SIZE(pipelineInfo.pInputAssemblyState,  VkPipelineInputAssemblyStateCreateInfo  );
-    WRITE_AND_CHECK_SIZE(pipelineInfo.pTessellationState,   VkPipelineTessellationStateCreateInfo   );
-    WRITE_AND_CHECK_SIZE(pipelineInfo.pRasterizationState,  VkPipelineRasterizationStateCreateInfo  );
+    if(!dos->WriteUint32(pipelineInfo.stageCount))return(false);
+    WRITE_AND_CHECK_SIZE(&tessellation, VkPipelineTessellationStateCreateInfo   );
+    WRITE_AND_CHECK_SIZE(&rasterizer,   VkPipelineRasterizationStateCreateInfo  );
 
-    WRITE_AND_CHECK_SIZE(pipelineInfo.pMultisampleState,    VkPipelineMultisampleStateCreateInfo    );
-    if(pipelineInfo.pMultisampleState->pSampleMask)
+    WRITE_AND_CHECK_SIZE(&multisample,  VkPipelineMultisampleStateCreateInfo    );
+    if(multisample.pSampleMask)
     {
         const uint count=(pipelineInfo.pMultisampleState->rasterizationSamples+31)/32;
         if(!dos->WriteUint8(count))return(false);
-        if(dos->WriteUint32(pipelineInfo.pMultisampleState->pSampleMask,count)!=count)return(false);
+        if(dos->WriteUint32(sample_mask,count)!=count)return(false);
     }
     else
     {
         if(!dos->WriteUint8(0))return(false);
     }
 
-    WRITE_AND_CHECK_SIZE(pipelineInfo.pDepthStencilState,   VkPipelineDepthStencilStateCreateInfo);
+    WRITE_AND_CHECK_SIZE(&depthStencilState,   VkPipelineDepthStencilStateCreateInfo);
 
-    WRITE_AND_CHECK_SIZE(pipelineInfo.pColorBlendState,     VkPipelineColorBlendStateCreateInfo);
-    for(uint32_t i=0;i<pipelineInfo.pColorBlendState->attachmentCount;i++)
-        WRITE_AND_CHECK_SIZE(pipelineInfo.pColorBlendState->pAttachments+i,VkPipelineColorBlendAttachmentState);
+    WRITE_AND_CHECK_SIZE(&colorBlending,     VkPipelineColorBlendStateCreateInfo);
+
+    for(uint32_t i=0;i<colorBlending.attachmentCount;i++)
+        WRITE_AND_CHECK_SIZE(colorBlending.pAttachments+i,VkPipelineColorBlendAttachmentState);
 
     if(!dos->WriteFloat(alpha_test))return(false);
 
@@ -55,14 +59,19 @@ bool VKPipelineData::LoadFromMemory(uchar *data,uint size)
 {
     uint16 ver=*(uint16 *)data;
 
+    if(memcmp(data,PipelineFileHeader,PipelineFileHeaderLength)!=0)
+        return(false);
+
+    data+=PipelineFileHeaderLength;
+    size-=PipelineFileHeaderLength;
+
     if(ver!=1)
         return(false);
 
     data+=sizeof(uint16);
     size-=sizeof(uint16);
-
-    CHECK_SIZE_AND_COPY(pipelineInfo,VkGraphicsPipelineCreateInfo);
-    CHECK_SIZE_AND_COPY(inputAssembly,VkPipelineInputAssemblyStateCreateInfo);
+    
+    CHECK_SIZE_AND_COPY(pipelineInfo.stageCount,uint32_t);
     CHECK_SIZE_AND_COPY(tessellation,VkPipelineTessellationStateCreateInfo);
     CHECK_SIZE_AND_COPY(rasterizer,VkPipelineRasterizationStateCreateInfo);
 
