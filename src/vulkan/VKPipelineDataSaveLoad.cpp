@@ -192,4 +192,28 @@ bool LoadFromFile(const OSString &filename,PipelineData *pd)
 
     return result;
 }
+
+PipelineData *LoadPipelineFromFile(const OSString &filename)
+{
+    if(filename.IsEmpty())
+        return(nullptr);
+
+    char *data;
+    uint size=filesystem::LoadFileToMemory(filename,(void **)&data);
+
+    if(!data)
+        return(nullptr);
+
+    PipelineData *pd=new PipelineData;
+
+    bool result=pd->LoadFromMemory((uchar *)data,size);
+
+    if(!result)
+    {
+        delete[] data;
+        return(nullptr);
+    }
+
+    return pd;
+}
 VK_NAMESPACE_END

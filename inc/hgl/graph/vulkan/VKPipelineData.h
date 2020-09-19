@@ -141,7 +141,10 @@ public:
     bool LoadFromMemory(uchar *,uint);
 };//struct PipelineData
 
-bool SaveToFile(const OSString &filename,PipelineData *);
-bool LoadFromFile(const OSString &filename,PipelineData *);
+/**
+ * 根据文件名获取PipelineData
+ * @param filename 文件名(注意不包含扩展名)
+ */
+PipelineData *GetPipelineData(const OSString &filename);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
