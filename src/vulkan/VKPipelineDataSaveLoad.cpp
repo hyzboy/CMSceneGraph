@@ -9,27 +9,47 @@
 using namespace hgl;
 
 VK_NAMESPACE_BEGIN
+PipelineData::~PipelineData()
+{
+    if(file_data)
+    {
+        delete[] file_data;
+        return;
+    }
+
+    SAFE_CLEAR_ARRAY(color_blend_attachments);
+    SAFE_CLEAR      (color_blend);
+
+    SAFE_CLEAR      (depth_stencil);
+
+    SAFE_CLEAR      (multi_sample);
+    SAFE_CLEAR_ARRAY(sample_mask);
+
+    SAFE_CLEAR      (rasterization);
+
+    SAFE_CLEAR      (tessellation);
+}
 
 constexpr u8char PipelineFileHeader[]=u8"Pipeline\x1A";
 constexpr size_t PipelineFileHeaderLength=sizeof(PipelineFileHeader)-1;
 
 #define WRITE_AND_CHECK_SIZE(ptr,type)  if(dos->Write(ptr,sizeof(type))!=sizeof(type))return(false);
 
-bool VKPipelineData::SaveToStream(io::DataOutputStream *dos)
+bool PipelineData::SaveToStream(io::DataOutputStream *dos)
 {
     if(!dos)return(false);
 
     if(dos->Write(PipelineFileHeader,PipelineFileHeaderLength)!=PipelineFileHeaderLength)return(false);
     if(!dos->WriteUint16(1))return(false);     //file ver
 
-    if(!dos->WriteUint32(pipelineInfo.stageCount))return(false);
+    if(!dos->WriteUint32(pipeline_info.stageCount))return(false);
     WRITE_AND_CHECK_SIZE(&tessellation, VkPipelineTessellationStateCreateInfo   );
-    WRITE_AND_CHECK_SIZE(&rasterizer,   VkPipelineRasterizationStateCreateInfo  );
+    WRITE_AND_CHECK_SIZE(&rasterization,VkPipelineRasterizationStateCreateInfo  );
+    WRITE_AND_CHECK_SIZE(&multi_sample, VkPipelineMultisampleStateCreateInfo    );
 
-    WRITE_AND_CHECK_SIZE(&multisample,  VkPipelineMultisampleStateCreateInfo    );
-    if(multisample.pSampleMask)
+    if(multi_sample->pSampleMask)
     {
-        const uint count=(pipelineInfo.pMultisampleState->rasterizationSamples+31)/32;
+        const uint count=(pipeline_info.pMultisampleState->rasterizationSamples+31)/32;
         if(!dos->WriteUint8(count))return(false);
         if(dos->WriteUint32(sample_mask,count)!=count)return(false);
     }
@@ -38,104 +58,109 @@ bool VKPipelineData::SaveToStream(io::DataOutputStream *dos)
         if(!dos->WriteUint8(0))return(false);
     }
 
-    WRITE_AND_CHECK_SIZE(&depthStencilState,   VkPipelineDepthStencilStateCreateInfo);
+    WRITE_AND_CHECK_SIZE(&depth_stencil,   VkPipelineDepthStencilStateCreateInfo);
 
-    WRITE_AND_CHECK_SIZE(&colorBlending,     VkPipelineColorBlendStateCreateInfo);
+    WRITE_AND_CHECK_SIZE(&color_blend,     VkPipelineColorBlendStateCreateInfo);
 
-    for(uint32_t i=0;i<colorBlending.attachmentCount;i++)
-        WRITE_AND_CHECK_SIZE(colorBlending.pAttachments+i,VkPipelineColorBlendAttachmentState);
+    if(dos->WriteArrays<VkPipelineColorBlendAttachmentState>(color_blend_attachments,color_blend->attachmentCount)!=color_blend->attachmentCount)
+        return(false);
 
     if(!dos->WriteFloat(alpha_test))return(false);
 
     return(true);
 }
 
-#define CHECK_SIZE_AND_COPY(ptr,type)   if(size<sizeof(type))return(false); \
-                                        memcpy(&ptr,data,sizeof(type));  \
+constexpr uint PIPELINE_FILE_MIN_LENGTH=PipelineFileHeaderLength+   //file header
+                                        sizeof(uint16_t)+           //version
+                                        sizeof(uint32_t)+           //stageCount
+                                        sizeof(VkPipelineTessellationStateCreateInfo)+
+                                        sizeof(VkPipelineRasterizationStateCreateInfo)+
+                                        sizeof(VkPipelineMultisampleStateCreateInfo)+
+                                        sizeof(uint8)+              //sample mask count
+                                        sizeof(VkPipelineDepthStencilStateCreateInfo)+
+                                        sizeof(VkPipelineColorBlendStateCreateInfo)+
+                                        sizeof(float);              //alpha test
+
+#define CHECK_SIZE_AND_EQUAL(val,type)  val=*(type *)data;  \
                                         data+=sizeof(type); \
                                         size-=sizeof(type);
 
-bool VKPipelineData::LoadFromMemory(uchar *data,uint size)
+#define CHECK_SIZE_AND_MAP(ptr,type)    ptr=(type *)data;\
+                                        data+=sizeof(type); \
+                                        size-=sizeof(type);
+
+#define CHECK_SIZE_AND_MAP_ARRAY(ptr,type,count)    ptr=(type *)data;\
+                                                    data+=sizeof(type)*count; \
+                                                    size-=sizeof(type)*count;
+
+bool PipelineData::LoadFromMemory(uchar *origin_data,uint size)
 {
+    uint8 *data=origin_data;
+
+    if(size<PIPELINE_FILE_MIN_LENGTH)
+        return(false);
+
     if(memcmp(data,PipelineFileHeader,PipelineFileHeaderLength)!=0)
         return(false);
 
     data+=PipelineFileHeaderLength;
     size-=PipelineFileHeaderLength;
 
-    uint16 ver=*(uint16 *)data;
+    uint16_t ver;
+    
+    CHECK_SIZE_AND_EQUAL(ver,uint16_t)
 
     if(ver!=1)
         return(false);
-
-    data+=sizeof(uint16);
-    size-=sizeof(uint16);
     
-    CHECK_SIZE_AND_COPY(pipelineInfo.stageCount,uint32_t);
-    CHECK_SIZE_AND_COPY(tessellation,VkPipelineTessellationStateCreateInfo);
-    CHECK_SIZE_AND_COPY(rasterizer,VkPipelineRasterizationStateCreateInfo);
+    CHECK_SIZE_AND_EQUAL(pipeline_info.stageCount,uint32_t);
+    CHECK_SIZE_AND_MAP(tessellation,VkPipelineTessellationStateCreateInfo);
+    CHECK_SIZE_AND_MAP(rasterization,VkPipelineRasterizationStateCreateInfo);
 
-    CHECK_SIZE_AND_COPY(multisample,VkPipelineMultisampleStateCreateInfo);
+    CHECK_SIZE_AND_MAP(multi_sample,VkPipelineMultisampleStateCreateInfo);
 
     const uint8 count=*(uint8 *)data;
     ++data;
 
     if(count>0)
     {
-        memcpy(sample_mask,data,count);
-        multisample.pSampleMask=sample_mask;
-        data+=count;
-        size=count;
+        CHECK_SIZE_AND_MAP_ARRAY(sample_mask,VkSampleMask,count);
+        multi_sample->pSampleMask=sample_mask;
+    }
+    else
+        multi_sample->pSampleMask=nullptr;
+
+    CHECK_SIZE_AND_MAP(depth_stencil,VkPipelineDepthStencilStateCreateInfo);
+    CHECK_SIZE_AND_MAP(color_blend,VkPipelineColorBlendStateCreateInfo);
+
+    if(color_blend->attachmentCount>0)
+    {
+        CHECK_SIZE_AND_MAP_ARRAY(color_blend_attachments,VkPipelineColorBlendAttachmentState,color_blend->attachmentCount);
+
+        color_blend->pAttachments=color_blend_attachments;
     }
     else
     {
-        multisample.pSampleMask=nullptr;
-    }
-
-    CHECK_SIZE_AND_COPY(depthStencilState,VkPipelineDepthStencilStateCreateInfo);
-    CHECK_SIZE_AND_COPY(colorBlending,VkPipelineColorBlendStateCreateInfo);
-
-    if(colorBlending.attachmentCount>0)
-    {
-        if(size<colorBlending.attachmentCount*sizeof(VkPipelineColorBlendAttachmentState))
-            return(false);
-
-        VkPipelineColorBlendAttachmentState *cba=(VkPipelineColorBlendAttachmentState *)data;
-
-        colorBlendAttachments.SetCount(colorBlending.attachmentCount);
-        memcpy(colorBlendAttachments.GetData(),data,colorBlending.attachmentCount*sizeof(VkPipelineColorBlendAttachmentState));
-
-        colorBlending.pAttachments=colorBlendAttachments.GetData();
-
-        for(uint i=0;i<colorBlending.attachmentCount;i++)
-        {
-            if(cba->blendEnable)
-                alpha_blend=true;
-
-            ++cba;
-        }
-    }
-    else
-    {
-        colorBlending.pAttachments=nullptr;
+        color_blend->pAttachments=nullptr;
         alpha_blend=false;
     }
 
-    CHECK_SIZE_AND_COPY(alpha_test,float);
+    CHECK_SIZE_AND_EQUAL(alpha_test,float);
     
-    pipelineInfo.pInputAssemblyState=&inputAssembly;
-    pipelineInfo.pTessellationState =&tessellation;
-    pipelineInfo.pRasterizationState=&rasterizer;
-    pipelineInfo.pMultisampleState  =&multisample;
-    pipelineInfo.pDepthStencilState =&depthStencilState;
-    pipelineInfo.pColorBlendState   =&colorBlending;
+    pipeline_info.pInputAssemblyState=&input_assembly;
+    pipeline_info.pTessellationState =tessellation;
+    pipeline_info.pRasterizationState=rasterization;
+    pipeline_info.pMultisampleState  =multi_sample;
+    pipeline_info.pDepthStencilState =depth_stencil;
+    pipeline_info.pColorBlendState   =color_blend;
 
     InitDynamicState();
 
+    file_data=origin_data;
     return(true);
 }
 
-bool SaveToFile(const OSString &filename,VKPipelineData *pd)
+bool SaveToFile(const OSString &filename,PipelineData *pd)
 {
     if(filename.IsEmpty()||!pd)
         return(false);
@@ -152,7 +177,7 @@ bool SaveToFile(const OSString &filename,VKPipelineData *pd)
     return(true);
 }
 
-bool LoadFromFile(const OSString &filename,VKPipelineData *pd)
+bool LoadFromFile(const OSString &filename,PipelineData *pd)
 {
     if(filename.IsEmpty()||!pd)
         return(false);
@@ -162,7 +187,9 @@ bool LoadFromFile(const OSString &filename,VKPipelineData *pd)
 
     bool result=pd->LoadFromMemory((uchar *)data,size);
 
-    delete[] data;
+    if(!result)
+        delete[] data;
+
     return result;
 }
 VK_NAMESPACE_END

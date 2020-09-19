@@ -30,39 +30,45 @@ constexpr size_t VK_DYNAMIC_STATE_END_RANGE=VK_DYNAMIC_STATE_STENCIL_REFERENCE;
 constexpr size_t VK_DYNAMIC_STATE_RANGE_SIZE=VK_DYNAMIC_STATE_END_RANGE-VK_DYNAMIC_STATE_BEGIN_RANGE+1;
 #endif//VK_DYNAMIC_STATE_RANGE_SIZE
 
-struct VKPipelineData
+struct PipelineData
 {
-    VkGraphicsPipelineCreateInfo                pipelineInfo;
+private:
+
+    uchar *file_data;
+
+public:
+
+    VkGraphicsPipelineCreateInfo                pipeline_info;
 
     VkPipelineVertexInputStateCreateInfo        vis_create_info;
-    VkPipelineInputAssemblyStateCreateInfo      inputAssembly;
-    VkPipelineTessellationStateCreateInfo       tessellation;
+    VkPipelineInputAssemblyStateCreateInfo      input_assembly;
+    VkPipelineTessellationStateCreateInfo *     tessellation;
 
     VkViewport viewport;
     VkRect2D scissor;
-    VkPipelineViewportStateCreateInfo           viewportState;
+    VkPipelineViewportStateCreateInfo           viewport_state;
 
-    VkPipelineRasterizationStateCreateInfo      rasterizer;
+    VkPipelineRasterizationStateCreateInfo *    rasterization;
     
-    VkSampleMask                                sample_mask[MAX_SAMPLE_MASK_COUNT];
-    VkPipelineMultisampleStateCreateInfo        multisample;
+    VkSampleMask *                              sample_mask;
+    VkPipelineMultisampleStateCreateInfo *      multi_sample;
 
-    VkPipelineDepthStencilStateCreateInfo       depthStencilState;
+    VkPipelineDepthStencilStateCreateInfo *     depth_stencil;
     
-    List<VkPipelineColorBlendAttachmentState>   colorBlendAttachments;
-    VkPipelineColorBlendStateCreateInfo         colorBlending;
+    VkPipelineColorBlendAttachmentState *       color_blend_attachments;
+    VkPipelineColorBlendStateCreateInfo *       color_blend;
 
-    VkDynamicState                              dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
-    VkPipelineDynamicStateCreateInfo            dynamicState;
+    VkDynamicState                              dynamic_state_enables[VK_DYNAMIC_STATE_RANGE_SIZE];
+    VkPipelineDynamicStateCreateInfo            dynamic_state;
 
     float alpha_test;
     bool alpha_blend;
 
 public:
 
-    VKPipelineData(const uint32_t color_attachment_count);
-    VKPipelineData();
-    ~VKPipelineData()=default;
+    PipelineData(const uint32_t color_attachment_count);
+    PipelineData();
+    ~PipelineData();
 
     void InitVertexInputState(const uint32_t stage_count,const VkPipelineShaderStageCreateInfo *stages);    
     void InitViewportState(const VkExtent2D &extent);
@@ -78,64 +84,64 @@ public:
 
     void SetAlphaTest(      const float at)                 {alpha_test=at;}
 
-    void SetDepthTest(      bool                dt)         {depthStencilState.depthTestEnable=dt;}
-    void SetDepthWrite(     bool                dw)         {depthStencilState.depthWriteEnable=dw;}
-    void SetDepthCompareOp( VkCompareOp         op)         {depthStencilState.depthCompareOp=op;}
-    void SetDepthBoundsTest(bool                dbt)        {depthStencilState.depthBoundsTestEnable=dbt;}
+    void SetDepthTest(      bool                dt)         {depth_stencil->depthTestEnable=dt;}
+    void SetDepthWrite(     bool                dw)         {depth_stencil->depthWriteEnable=dw;}
+    void SetDepthCompareOp( VkCompareOp         op)         {depth_stencil->depthCompareOp=op;}
+    void SetDepthBoundsTest(bool                dbt)        {depth_stencil->depthBoundsTestEnable=dbt;}
     void SetDepthBounds(    float               min_depth,
-                            float               max_depth)  {depthStencilState.depthBoundsTestEnable=VK_TRUE;
-                                                             depthStencilState.minDepthBounds=min_depth;
-                                                             depthStencilState.maxDepthBounds=max_depth;}
-    void SetStencilTest(    bool                st)         {depthStencilState.stencilTestEnable=st;}
+                            float               max_depth)  {depth_stencil->depthBoundsTestEnable=VK_TRUE;
+                                                             depth_stencil->minDepthBounds=min_depth;
+                                                             depth_stencil->maxDepthBounds=max_depth;}
+    void SetStencilTest(    bool                st)         {depth_stencil->stencilTestEnable=st;}
 
-    void SetDepthClamp(     bool                dc)         {rasterizer.depthClampEnable=dc;}
-    void SetDiscard(        bool                discard)    {rasterizer.rasterizerDiscardEnable=discard;}
-    void SetPolygonMode(    VkPolygonMode       pm)         {rasterizer.polygonMode =pm;}
-    void SetCullMode(       VkCullModeFlagBits  cm)         {rasterizer.cullMode    =cm;}
-    void CloseCullFace()                                    {rasterizer.cullMode    =VK_CULL_MODE_NONE;}
-    void SetFrontFace(      VkFrontFace         ff)         {rasterizer.frontFace   =ff;}
+    void SetDepthClamp(     bool                dc)         {rasterization->depthClampEnable=dc;}
+    void SetDiscard(        bool                discard)    {rasterization->rasterizerDiscardEnable=discard;}
+    void SetPolygonMode(    VkPolygonMode       pm)         {rasterization->polygonMode =pm;}
+    void SetCullMode(       VkCullModeFlagBits  cm)         {rasterization->cullMode    =cm;}
+    void CloseCullFace()                                    {rasterization->cullMode    =VK_CULL_MODE_NONE;}
+    void SetFrontFace(      VkFrontFace         ff)         {rasterization->frontFace   =ff;}
     void SetDepthBias(      float               ConstantFactor,
                             float               Clamp,
                             float               SlopeFactor)
     {
-        rasterizer.depthBiasEnable          =VK_TRUE;
-        rasterizer.depthBiasConstantFactor  =ConstantFactor;
-        rasterizer.depthBiasClamp           =Clamp;
-        rasterizer.depthBiasSlopeFactor     =SlopeFactor;
+        rasterization->depthBiasEnable          =VK_TRUE;
+        rasterization->depthBiasConstantFactor  =ConstantFactor;
+        rasterization->depthBiasClamp           =Clamp;
+        rasterization->depthBiasSlopeFactor     =SlopeFactor;
     }
-    void DisableDepthBias()                                 {rasterizer.depthBiasEnable=VK_FALSE;}
-    void SetLineWidth(      float               line_width) {rasterizer.lineWidth   =line_width;}
+    void DisableDepthBias()                                 {rasterization->depthBiasEnable=VK_FALSE;}
+    void SetLineWidth(      float               line_width) {rasterization->lineWidth   =line_width;}
 
     void SetSamleCount(     VkSampleCountFlagBits sc)
     {
-        multisample.sampleShadingEnable=(sc==VK_SAMPLE_COUNT_1_BIT?VK_FALSE:VK_TRUE);
-        multisample.rasterizationSamples=sc;
+        multi_sample->sampleShadingEnable=(sc==VK_SAMPLE_COUNT_1_BIT?VK_FALSE:VK_TRUE);
+        multi_sample->rasterizationSamples=sc;
     }
 
     bool SetColorWriteMask(uint index,bool r,bool g,bool b,bool a);
-    void AddColorBlendAttachment(const VkPipelineColorBlendAttachmentState *cba);
-    bool SetBlend(uint index,bool blend);
+    bool OpenBlend(uint index);
+    bool CloseBlend(uint index);
 
-    void SetLogicOp(VkLogicOp logic_op) {colorBlending.logicOpEnable=VK_TRUE;colorBlending.logicOp=logic_op;}
-    void DisableLogicOp()               {colorBlending.logicOpEnable=VK_FALSE;}
+    void SetLogicOp(VkLogicOp logic_op) {color_blend->logicOpEnable=VK_TRUE;color_blend->logicOp=logic_op;}
+    void DisableLogicOp()               {color_blend->logicOpEnable=VK_FALSE;}
 
     void SetBlendConstans(float r,float g,float b,float a)
     {
-        colorBlending.blendConstants[0] = r;
-        colorBlending.blendConstants[1] = g;
-        colorBlending.blendConstants[2] = b;
-        colorBlending.blendConstants[3] = a;
+        color_blend->blendConstants[0] = r;
+        color_blend->blendConstants[1] = g;
+        color_blend->blendConstants[2] = b;
+        color_blend->blendConstants[3] = a;
     }
 
-    void SetBlendConstans(float *blend_constans)        {hgl_typecpy(colorBlending.blendConstants,blend_constans,4);}
+    void SetBlendConstans(float *blend_constans)        {hgl_typecpy(color_blend->blendConstants,blend_constans,4);}
 
 public:
 
     bool SaveToStream(io::DataOutputStream *dos);
     bool LoadFromMemory(uchar *,uint);
-};//struct VKPipelineData
+};//struct PipelineData
 
-bool SaveToFile(const OSString &filename,VKPipelineData *);
-bool LoadFromFile(const OSString &filename,VKPipelineData *);
+bool SaveToFile(const OSString &filename,PipelineData *);
+bool LoadFromFile(const OSString &filename,PipelineData *);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
