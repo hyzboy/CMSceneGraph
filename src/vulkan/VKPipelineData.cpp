@@ -144,7 +144,11 @@ PipelineData::PipelineData()
     pipeline_info.basePipelineIndex = -1;
 }
 
-void PipelineData::InitVertexInputState(const uint32_t stage_count,const VkPipelineShaderStageCreateInfo *stages)
+void PipelineData::InitVertexInputState(const uint32_t stage_count,
+                                        const VkPipelineShaderStageCreateInfo *stages,
+                                        const uint32_t attr_count,
+                                        const VkVertexInputBindingDescription *binding_list,
+                                        const VkVertexInputAttributeDescription *attribute_list)
 {
     pipeline_info.stageCount = stage_count;
     pipeline_info.pStages = stages;
@@ -152,6 +156,10 @@ void PipelineData::InitVertexInputState(const uint32_t stage_count,const VkPipel
     vis_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     vis_create_info.pNext = nullptr;
     vis_create_info.flags = 0;
+    vis_create_info.vertexBindingDescriptionCount   = attr_count;
+    vis_create_info.pVertexBindingDescriptions      = binding_list;
+    vis_create_info.vertexAttributeDescriptionCount = attr_count;
+    vis_create_info.pVertexAttributeDescriptions    = attribute_list;
     
     pipeline_info.pVertexInputState  = &vis_create_info;
 }

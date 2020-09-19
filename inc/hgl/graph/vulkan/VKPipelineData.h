@@ -70,7 +70,11 @@ public:
     PipelineData();
     ~PipelineData();
 
-    void InitVertexInputState(const uint32_t stage_count,const VkPipelineShaderStageCreateInfo *stages);
+    void InitVertexInputState(  const uint32_t stage_count,
+                                const VkPipelineShaderStageCreateInfo *stages,
+                                const uint32_t attr_count,
+                                const VkVertexInputBindingDescription *bind_list,
+                                const VkVertexInputAttributeDescription *attr_list);
     void InitViewportState(const VkExtent2D &extent);
     void InitDynamicState();
 
