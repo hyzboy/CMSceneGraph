@@ -34,11 +34,11 @@ namespace hgl
                 return(true);
             }
 
-            const size_t GetStride()const
+            const uint32 GetStride()const
             {
-                constexpr size_t stride[5]={1,4,4,4,8};
+                constexpr uint32 stride[5]={1,4,4,4,8};
 
-                return stride[size_t(basetype)]*vec_size;
+                return stride[uint32(basetype)]*vec_size;
             }
         };//struct VertexAttribType
 
