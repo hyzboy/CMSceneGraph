@@ -43,9 +43,9 @@ bool PipelineData::SaveToStream(io::DataOutputStream *dos)
     if(!dos->WriteUint16(1))return(false);     //file ver
 
     if(!dos->WriteUint32(pipeline_info.stageCount))return(false);
-    WRITE_AND_CHECK_SIZE(&tessellation, VkPipelineTessellationStateCreateInfo   );
-    WRITE_AND_CHECK_SIZE(&rasterization,VkPipelineRasterizationStateCreateInfo  );
-    WRITE_AND_CHECK_SIZE(&multi_sample, VkPipelineMultisampleStateCreateInfo    );
+    WRITE_AND_CHECK_SIZE(tessellation, VkPipelineTessellationStateCreateInfo   );
+    WRITE_AND_CHECK_SIZE(rasterization,VkPipelineRasterizationStateCreateInfo  );
+    WRITE_AND_CHECK_SIZE(multi_sample, VkPipelineMultisampleStateCreateInfo    );
 
     if(multi_sample->pSampleMask)
     {
@@ -58,9 +58,9 @@ bool PipelineData::SaveToStream(io::DataOutputStream *dos)
         if(!dos->WriteUint8(0))return(false);
     }
 
-    WRITE_AND_CHECK_SIZE(&depth_stencil,   VkPipelineDepthStencilStateCreateInfo);
+    WRITE_AND_CHECK_SIZE(depth_stencil,   VkPipelineDepthStencilStateCreateInfo);
 
-    WRITE_AND_CHECK_SIZE(&color_blend,     VkPipelineColorBlendStateCreateInfo);
+    WRITE_AND_CHECK_SIZE(color_blend,     VkPipelineColorBlendStateCreateInfo);
 
     if(dos->WriteArrays<VkPipelineColorBlendAttachmentState>(color_blend_attachments,color_blend->attachmentCount)!=color_blend->attachmentCount)
         return(false);

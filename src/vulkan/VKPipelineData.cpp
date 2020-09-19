@@ -1,6 +1,19 @@
 #include<hgl/graph/vulkan/VKPipelineData.h>
 
 VK_NAMESPACE_BEGIN
+
+void SetDefault(VkPipelineColorBlendAttachmentState *cba)
+{    
+    cba->colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+    cba->blendEnable = VK_FALSE;
+    cba->alphaBlendOp = VK_BLEND_OP_ADD;
+    cba->colorBlendOp = VK_BLEND_OP_ADD;
+    cba->srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+    cba->dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+    cba->srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+    cba->dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+}
+
 PipelineData::PipelineData(const uint32_t color_attachment_count)
 {
     file_data=nullptr;
@@ -88,16 +101,7 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     //这个需要和subpass中的color attachment数量相等，所以添加多份
     color_blend_attachments=new VkPipelineColorBlendAttachmentState[color_attachment_count];
     VkPipelineColorBlendAttachmentState *cba=color_blend_attachments;
-    {
-        cba->colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-        cba->blendEnable = VK_FALSE;
-        cba->alphaBlendOp = VK_BLEND_OP_ADD;
-        cba->colorBlendOp = VK_BLEND_OP_ADD;
-        cba->srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-        cba->dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-        cba->srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-        cba->dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-    }
+    SetDefault(cba);
 
     for(int i=1;i<color_attachment_count;i++)
     {

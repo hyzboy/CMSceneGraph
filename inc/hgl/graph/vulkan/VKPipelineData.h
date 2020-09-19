@@ -1,4 +1,4 @@
-#ifndef HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
+﻿#ifndef HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
 #define HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
 
 #include<hgl/graph/vulkan/VKNamespace.h>
@@ -49,12 +49,12 @@ public:
     VkPipelineViewportStateCreateInfo           viewport_state;
 
     VkPipelineRasterizationStateCreateInfo *    rasterization;
-    
+
     VkSampleMask *                              sample_mask;
     VkPipelineMultisampleStateCreateInfo *      multi_sample;
 
     VkPipelineDepthStencilStateCreateInfo *     depth_stencil;
-    
+
     VkPipelineColorBlendAttachmentState *       color_blend_attachments;
     VkPipelineColorBlendStateCreateInfo *       color_blend;
 
@@ -70,7 +70,7 @@ public:
     PipelineData();
     ~PipelineData();
 
-    void InitVertexInputState(const uint32_t stage_count,const VkPipelineShaderStageCreateInfo *stages);    
+    void InitVertexInputState(const uint32_t stage_count,const VkPipelineShaderStageCreateInfo *stages);
     void InitViewportState(const VkExtent2D &extent);
     void InitDynamicState();
 
@@ -117,7 +117,7 @@ public:
         multi_sample->sampleShadingEnable=(sc==VK_SAMPLE_COUNT_1_BIT?VK_FALSE:VK_TRUE);
         multi_sample->rasterizationSamples=sc;
     }
-
+    
     bool SetColorWriteMask(uint index,bool r,bool g,bool b,bool a);
     bool OpenBlend(uint index);
     bool CloseBlend(uint index);
