@@ -44,6 +44,18 @@ public:
 #define VKS_DEFINE_KHR(name,value)  using name=vkstruct<Vk##name##KHR,value>;
 #define VKSF_DEFINE_KHR(name,value)  using name=vkstruct_flag<Vk##name##KHR,value>;
 
+VKS_DEFINE(     ApplicationInfo,                VK_STRUCTURE_TYPE_APPLICATION_INFO)
+
+struct InstanceCreateInfo:public vkstruct_flag<VkInstanceCreateInfo,VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO>
+{
+public:
+
+    InstanceCreateInfo(VkApplicationInfo *ai)
+    {
+        this->pApplicationInfo=ai;
+    }
+};
+
 VKSF_DEFINE(    FramebufferCreateInfo,          VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO)
 
 VKS_DEFINE(     WriteDescriptorSet,             VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET)
