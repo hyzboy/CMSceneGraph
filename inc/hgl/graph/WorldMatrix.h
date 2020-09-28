@@ -19,9 +19,10 @@ namespace hgl
 
             Matrix4f modelview;
             Matrix4f inverse_modelview;
-
+            Matrix3x4f normal;              // normal=transpose(inverse(modelview)),normal是3X3，但glsl中都是4对齐，所以用4x3
+                                            // 虽然这里被写成了3x4，但因为AVX加速计算会以256位对齐，所以依然占用4x4的空间。需在shader中进行标记
             Matrix4f mvp;
-            Matrix4f inverse_map;
+            Matrix4f inverse_mvp;
 
             Vector4f camera_pos;            ///<摄像机坐标
             Vector2f canvas_resolution;     ///<画布尺寸(绘图用尺寸)

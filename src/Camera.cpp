@@ -39,12 +39,14 @@ namespace hgl
             matrix.modelview=hgl::graph::LookAt(eye,center,up_vector);
             //matrix.modelview=Matrix4f::LookAt(eye.xyz(),center.xyz(),forward_vector.xyz(),up_vector.xyz(),up_vector.xyz());
             matrix.inverse_modelview=matrix.modelview.Inverted();
+            matrix.normal=matrix.inverse_modelview.Transposed().Float3x4Part();
 
             matrix.mvp=matrix.projection*matrix.modelview;
-            matrix.inverse_map=matrix.mvp.Inverted();
+            matrix.inverse_mvp=matrix.mvp.Inverted();
 
             //注意： C++中要 projection * model_view * local_to_world * position
-            //而GLSL中要 position * local_to_world * model_view * projection
+            //如果glsl中被标记为row_major，顺序同C++，否则为反方向：
+            //              position * local_to_world * model_view * projection
 
             matrix.ortho=ortho(width,height);
 
