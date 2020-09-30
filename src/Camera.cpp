@@ -39,7 +39,7 @@ namespace hgl
             matrix.modelview=hgl::graph::LookAt(eye,center,up_vector);
             //matrix.modelview=Matrix4f::LookAt(eye.xyz(),center.xyz(),forward_vector.xyz(),up_vector.xyz(),up_vector.xyz());
             matrix.inverse_modelview=matrix.modelview.Inverted();
-            matrix.normal=matrix.inverse_modelview.Transposed().Float3x4Part();
+            matrix.normal=matrix.inverse_modelview.Transposed();
 
             matrix.mvp=matrix.projection*matrix.modelview;
             matrix.inverse_mvp=matrix.mvp.Inverted();
