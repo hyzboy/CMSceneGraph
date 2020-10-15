@@ -163,6 +163,31 @@ VK_NAMESPACE_BEGIN
 #define FMT_D24UN_S8U   VK_FORMAT_D24_UNORM_S8_UINT
 #define FMT_D32F_S8U    VK_FORMAT_D32_SFLOAT_S8_UINT
 
+inline bool IsDepthFormat(const VkFormat fmt)
+{
+    return(fmt==FMT_D16UN
+         ||fmt==FMT_X8_D24UN
+         ||fmt==FMT_D32F
+         ||fmt==FMT_D16UN_S8U
+         ||fmt==FMT_D24UN_S8U
+         ||fmt==FMT_D32F_S8U);
+}
+
+inline bool IsStencilFormat(const VkFormat fmt)
+{
+    return(fmt==FMT_S8U
+         ||fmt==FMT_D16UN_S8U
+         ||fmt==FMT_D24UN_S8U
+         ||fmt==FMT_D32F_S8U);
+}
+
+inline bool IsDepthStencilFormat(const VkFormat fmt)
+{
+    return(fmt==FMT_D16UN_S8U
+         ||fmt==FMT_D24UN_S8U
+         ||fmt==FMT_D32F_S8U);
+}
+
 /**
  *                  Type of data      bytes/pixel     Palette size       Line Segments       User For                    Compressed components/Description
  * ---------------+----------------+---------------+-----------------+-------------------+-----------------------------+--------------------------------------
@@ -339,20 +364,26 @@ inline const bool CheckVulkanFormat(const VkFormat format)
     return(false);
 }
 
-//以下为AMD/NVIDIA/INTEL/QUALCOMM/ARM/POWERVR全部可用的通用格式
+//以下为AMD/NVIDIA/INTEL/QUALCOMM/ARM/POWERVR全部可用Optimal模式的格式
 #define UFMT_BGRA4      FMT_BGRA4
 #define UFMT_RGB565     FMT_RGB565
 #define UFMT_A1RGB5     FMT_A1RGB5
 #define UFMT_R8         FMT_R8UN
 #define UFMT_RG8        FMT_RG8UN
 #define UFMT_RGBA8      FMT_RGBA8UN
+#define UFMT_RGBA8S     FMT_RGBA8SN
+#define UFMT_RGBA8U     FMT_RGBA8U
+#define UFMT_RGBA8I     FMT_RGBA8I
 #define UFMT_ABGR8      FMT_ABGR8UN
 #define UFMT_A2BGR10    FMT_A2BGR10UN
 #define UFMT_R16        FMT_R16UN
 #define UFMT_R16F       FMT_R16F
 #define UFMT_RG16       FMT_RG16UN
 #define UFMT_RG16F      FMT_RG16F
-#define UFMT_RGBA16     FMT_RGBA16UN
+//#define UFMT_RGBA16     FMT_RGBA16UN      //Adreno 500系不支持，600系可以
+//#define UFMT_RGBA16S    FMT_RGBA16SN
+#define UFMT_RGBA16U    FMT_RGBA16U
+#define UFMT_RGBA16I    FMT_RGBA16I
 #define UFMT_RGBA16F    FMT_RGBA16F
 #define UFMT_R32U       FMT_R32U
 #define UFMT_R32I       FMT_R32I
@@ -360,9 +391,6 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define UFMT_RG32U      FMT_RG32U
 #define UFMT_RG32I      FMT_RG32I
 #define UFMT_RG32F      FMT_RG32F
-#define UFMT_RGB32U     FMT_RGB32U
-#define UFMT_RGB32I     FMT_RGB32I
-#define UFMT_RGB32F     FMT_RGB32F
 #define UFMT_RGBA32U    FMT_RGBA32U
 #define UFMT_RGBA32I    FMT_RGBA32I
 #define UFMT_RGBA32F    FMT_RGBA32F
@@ -383,11 +411,6 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define VAF_UVEC2   FMT_RG32U
 #define VAF_UVEC3   FMT_RGB32U
 #define VAF_UVEC4   FMT_RGBA32U
-
-#define VAF_DVEC1   FMT_R64U
-#define VAF_DVEC2   FMT_RG64U
-#define VAF_DVEC3   FMT_RGB64U
-#define VAF_DVEC4   FMT_RGBA64U
 
 enum class TextureCompressType
 {
