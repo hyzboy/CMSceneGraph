@@ -79,5 +79,34 @@ VKSF_DEFINE(    BufferCreateInfo,               VK_STRUCTURE_TYPE_BUFFER_CREATE_
 VKSF_DEFINE(    ImageViewCreateInfo,            VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO)
 
 VKS_DEFINE(     ImageMemoryBarrier,             VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER)
+
+struct SubpassDescription:public VkSubpassDescription
+{
+public:
+
+    SubpassDescription(const VkAttachmentReference *color_ref_list,const uint32_t color_count,const VkAttachmentReference *depth_ref=nullptr)
+    {
+        flags                    =0;
+        pipelineBindPoint        =VK_PIPELINE_BIND_POINT_GRAPHICS;
+        inputAttachmentCount     =0;
+        pInputAttachments        =nullptr;
+
+	    pColorAttachments        =color_ref_list;
+        colorAttachmentCount     =color_count;
+
+        pDepthStencilAttachment  =depth_ref;
+
+        pResolveAttachments      =nullptr;
+        preserveAttachmentCount  =0;
+        pPreserveAttachments     =nullptr;
+    }
+
+    SubpassDescription(const VkAttachmentReference *color_ref,const VkAttachmentReference *depth_ref=nullptr)
+    {
+        SubpassDescription(color_ref,1,depth_ref);
+    }
+
+    ~SubpassDescription()=default;
+};//
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_STRUCT_INCLUDE
