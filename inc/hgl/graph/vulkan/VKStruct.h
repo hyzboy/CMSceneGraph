@@ -101,11 +101,7 @@ public:
         pPreserveAttachments     =nullptr;
     }
 
-    SubpassDescription(const VkAttachmentReference *color_ref,const VkAttachmentReference *depth_ref=nullptr)
-    {
-        SubpassDescription(color_ref,1,depth_ref);
-    }
-
+    SubpassDescription(const VkAttachmentReference *color_ref,const VkAttachmentReference *depth_ref=nullptr):SubpassDescription(color_ref,1,depth_ref){}
     ~SubpassDescription()=default;
 };//
 VK_NAMESPACE_END
