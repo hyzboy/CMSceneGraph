@@ -121,10 +121,12 @@ public:
         multi_sample->sampleShadingEnable=(sc==VK_SAMPLE_COUNT_1_BIT?VK_FALSE:VK_TRUE);
         multi_sample->rasterizationSamples=sc;
     }
-    
+
     bool SetColorWriteMask(uint index,bool r,bool g,bool b,bool a);
     bool OpenBlend(uint index);
     bool CloseBlend(uint index);
+    bool SetColorBlend(uint index,VkBlendOp,VkBlendFactor,VkBlendFactor);
+    bool SetAlphaBlend(uint index,VkBlendOp,VkBlendFactor,VkBlendFactor);
 
     void SetLogicOp(VkLogicOp logic_op) {color_blend->logicOpEnable=VK_TRUE;color_blend->logicOp=logic_op;}
     void DisableLogicOp()               {color_blend->logicOpEnable=VK_FALSE;}

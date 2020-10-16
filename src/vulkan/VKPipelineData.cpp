@@ -225,8 +225,6 @@ bool PipelineData::SetColorWriteMask(uint index,bool r,bool g,bool b,bool a)
         return(false);
 
     VkPipelineColorBlendAttachmentState *cba=color_blend_attachments+index;
-        
-    if(!cba)return(false);
 
     cba->colorWriteMask=0;
 
@@ -254,6 +252,34 @@ bool PipelineData::CloseBlend(uint index)
         return(false);
 
     color_blend_attachments[index].blendEnable=false;
+
+    return(true);
+}
+
+bool PipelineData::SetColorBlend(uint index,VkBlendOp op,VkBlendFactor src,VkBlendFactor dst)
+{
+    if(index>=color_blend->attachmentCount)
+        return(false);
+        
+    VkPipelineColorBlendAttachmentState *cba=color_blend_attachments+index;
+
+    cba->colorBlendOp=op;
+    cba->srcColorBlendFactor=src;
+    cba->dstColorBlendFactor=dst;
+
+    return(true);
+}
+
+bool PipelineData::SetAlphaBlend(uint index,VkBlendOp op,VkBlendFactor src,VkBlendFactor dst)
+{
+    if(index>=color_blend->attachmentCount)
+        return(false);
+        
+    VkPipelineColorBlendAttachmentState *cba=color_blend_attachments+index;
+
+    cba->colorBlendOp=op;
+    cba->srcAlphaBlendFactor=src;
+    cba->dstAlphaBlendFactor=dst;
 
     return(true);
 }
