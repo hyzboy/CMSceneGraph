@@ -45,8 +45,7 @@ namespace hgl
             matrix.inverse_mvp=matrix.mvp.Inverted();
 
             //注意： C++中要 projection * model_view * local_to_world * position
-            //如果glsl中被标记为row_major，顺序同C++，否则为反方向：
-            //              position * local_to_world * model_view * projection
+            //现在glsl中被标记为row_major，顺序同C++
 
             matrix.ortho=ortho(width,height);
 

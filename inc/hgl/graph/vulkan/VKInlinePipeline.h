@@ -15,6 +15,8 @@ enum class InlinePipeline
     Mask2D,
     Alpha2D,
 
+    Sky,
+
     ENUM_CLASS_RANGE(Solid3D,Alpha2D)
 };//enum class InlinePipeline
 

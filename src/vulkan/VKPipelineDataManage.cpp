@@ -61,6 +61,12 @@ namespace
             pd->SetAlphaBlend(0,VK_BLEND_OP_ADD,VK_BLEND_FACTOR_ONE,VK_BLEND_FACTOR_ZERO);
             inline_pipeline_data.Add(InlinePipeline::Alpha2D,pd);
         }
+
+        {
+            pd=new PipelineData(1);
+            pd->CloseCullFace();
+            inline_pipeline_data.Add(InlinePipeline::Sky,pd);
+        }
     }
 }//namespace
 
