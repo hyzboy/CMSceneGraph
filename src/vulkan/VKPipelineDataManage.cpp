@@ -22,12 +22,6 @@ namespace
 
         {
             pd=new PipelineData(1);
-            pd->SetDiscard(true);
-            inline_pipeline_data.Add(InlinePipeline::Mask3D,pd);
-        }
-
-        {
-            pd=new PipelineData(1);
             pd->OpenBlend(0);
             pd->SetColorBlend(0,VK_BLEND_OP_ADD,VK_BLEND_FACTOR_SRC_ALPHA,VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA);
             pd->SetAlphaBlend(0,VK_BLEND_OP_ADD,VK_BLEND_FACTOR_ONE,VK_BLEND_FACTOR_ZERO);
@@ -40,15 +34,6 @@ namespace
             pd->SetDepthTest(false);
             pd->SetDepthWrite(false);
             inline_pipeline_data.Add(InlinePipeline::Solid2D,pd);
-        }
-
-        {
-            pd=new PipelineData(1);
-            pd->SetDiscard(true);
-            pd->CloseCullFace();
-            pd->SetDepthTest(false);
-            pd->SetDepthWrite(false);
-            inline_pipeline_data.Add(InlinePipeline::Mask2D,pd);
         }
 
         {

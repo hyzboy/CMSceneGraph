@@ -8,11 +8,9 @@ VK_NAMESPACE_BEGIN
 enum class InlinePipeline
 {
     Solid3D=0,
-    Mask3D,
     Alpha3D,
 
     Solid2D,
-    Mask2D,
     Alpha2D,
 
     Sky,
