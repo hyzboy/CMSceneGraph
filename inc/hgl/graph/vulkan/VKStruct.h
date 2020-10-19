@@ -104,5 +104,18 @@ public:
     SubpassDescription(const VkAttachmentReference *color_ref,const VkAttachmentReference *depth_ref=nullptr):SubpassDescription(color_ref,1,depth_ref){}
     ~SubpassDescription()=default;
 };//
+
+struct PipelineShaderStageCreateInfo:public vkstruct_flag<VkPipelineShaderStageCreateInfo,VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO>
+{
+public:
+
+    PipelineShaderStageCreateInfo(VkShaderStageFlagBits bits)
+    {    
+        pSpecializationInfo =nullptr;
+        stage               =bits;
+        module              =nullptr;
+        pName               ="main";
+    }
+};
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_STRUCT_INCLUDE
