@@ -33,6 +33,7 @@ namespace
             pd->CloseCullFace();
             pd->SetDepthTest(false);
             pd->SetDepthWrite(false);
+            pd->SetDepthCompareOp(VK_COMPARE_OP_ALWAYS);
             inline_pipeline_data.Add(InlinePipeline::Solid2D,pd);
         }
 
@@ -41,6 +42,7 @@ namespace
             pd->CloseCullFace();
             pd->SetDepthTest(false);
             pd->SetDepthWrite(false);
+            pd->SetDepthCompareOp(VK_COMPARE_OP_ALWAYS);
             pd->OpenBlend(0);
             pd->SetColorBlend(0,VK_BLEND_OP_ADD,VK_BLEND_FACTOR_SRC_ALPHA,VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA);
             pd->SetAlphaBlend(0,VK_BLEND_OP_ADD,VK_BLEND_FACTOR_ONE,VK_BLEND_FACTOR_ZERO);
