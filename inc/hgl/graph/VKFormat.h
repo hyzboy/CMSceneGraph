@@ -2,7 +2,7 @@
 #define HGL_GRAPH_VULKAN_FORMAT_INCLUDE
 
 #include<hgl/graph/VertexAttrib.h>
-#include<hgl/graph/vulkan/VKNamespace.h>
+#include<hgl/graph/VKNamespace.h>
 
 VK_NAMESPACE_BEGIN
 

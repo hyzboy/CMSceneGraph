@@ -1,7 +1,7 @@
 ﻿#ifndef HGL_GRAPH_VULKAN_IMAGE_CREATE_INFO_INCLUDE
 #define HGL_GRAPH_VULKAN_IMAGE_CREATE_INFO_INCLUDE
 
-#include<hgl/graph/vulkan/VKStruct.h>
+#include<hgl/graph/VKStruct.h>
 
 VK_NAMESPACE_BEGIN
 struct ImageCreateInfo:public vkstruct_flag<VkImageCreateInfo,VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO>

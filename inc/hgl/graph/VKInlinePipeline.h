@@ -2,7 +2,7 @@
 #define HGL_GRAPH_VULKAN_INLINE_PIPELINE_INCLUDE
 
 #include<hgl/TypeFunc.h>
-#include<hgl/graph/vulkan/VKNamespace.h>
+#include<hgl/graph/VKNamespace.h>
 
 VK_NAMESPACE_BEGIN
 enum class InlinePipeline

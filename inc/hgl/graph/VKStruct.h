@@ -1,7 +1,7 @@
 ﻿#ifndef HGL_GRAPH_VULKAN_STRUCT_INCLUDE
 #define HGL_GRAPH_VULKAN_STRUCT_INCLUDE
 
-#include<hgl/graph/vulkan/VKNamespace.h>
+#include<hgl/graph/VKNamespace.h>
 
 VK_NAMESPACE_BEGIN
 template<typename T,VkStructureType ST> struct vkstruct:public T

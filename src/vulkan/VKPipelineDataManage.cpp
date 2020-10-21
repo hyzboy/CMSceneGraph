@@ -1,5 +1,5 @@
-#include<hgl/graph/vulkan/VKPipelineData.h>
-#include<hgl/graph/vulkan/VKInlinePipeline.h>
+#include<hgl/graph/VKPipelineData.h>
+#include<hgl/graph/VKInlinePipeline.h>
 #include<hgl/type/Map.h>
 
 VK_NAMESPACE_BEGIN
