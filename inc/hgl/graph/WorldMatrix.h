@@ -19,6 +19,7 @@ namespace hgl
 
             Matrix4f modelview;
             Matrix4f inverse_modelview;
+            Matrix4f normal;                ///<transpose(inverse(mat3(modelview)));
 
             Matrix4f mvp;
             Matrix4f inverse_mvp;
