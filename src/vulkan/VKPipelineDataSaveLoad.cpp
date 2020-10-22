@@ -17,7 +17,9 @@ PipelineData::~PipelineData()
         return;
     }
 
-    SAFE_CLEAR_ARRAY(color_blend_attachments);
+    if(color_blend_attachments)
+            hgl_free(color_blend_attachments);
+
     SAFE_CLEAR      (color_blend);
 
     SAFE_CLEAR      (depth_stencil);
@@ -135,9 +137,9 @@ bool PipelineData::LoadFromMemory(uchar *origin_data,uint size)
 
     if(color_blend->attachmentCount>0)
     {
-        CHECK_SIZE_AND_MAP_ARRAY(color_blend_attachments,VkPipelineColorBlendAttachmentState,color_blend->attachmentCount);
+        SetColorAttachments(color_blend->attachmentCount);
 
-        color_blend->pAttachments=color_blend_attachments;
+        CHECK_SIZE_AND_MAP_ARRAY(color_blend_attachments,VkPipelineColorBlendAttachmentState,color_blend->attachmentCount);
     }
     else
     {

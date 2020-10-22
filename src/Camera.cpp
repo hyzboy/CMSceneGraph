@@ -36,12 +36,12 @@ namespace hgl
 
             matrix.inverse_projection=matrix.projection.Inverted();
 
-            matrix.modelview=hgl::graph::LookAt(eye,center,up_vector);
-            //matrix.modelview=Matrix4f::LookAt(eye.xyz(),center.xyz(),forward_vector.xyz(),up_vector.xyz(),up_vector.xyz());
-            matrix.inverse_modelview=matrix.modelview.Inverted();
-            matrix.normal=matrix.inverse_modelview.Transposed();
+            matrix.view=hgl::graph::LookAt(eye,center,up_vector);
+            //matrix.view=Matrix4f::LookAt(eye.xyz(),center.xyz(),forward_vector.xyz(),up_vector.xyz(),up_vector.xyz());
+            matrix.inverse_view=matrix.view.Inverted();
+            matrix.normal=matrix.inverse_view.Transposed();
 
-            matrix.mvp=matrix.projection*matrix.modelview;
+            matrix.mvp=matrix.projection*matrix.view;
             matrix.inverse_mvp=matrix.mvp.Inverted();
 
             //注意： C++中要 projection * model_view * local_to_world * position
