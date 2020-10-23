@@ -8,12 +8,12 @@ struct ImageCreateInfo:public vkstruct_flag<VkImageCreateInfo,VK_STRUCTURE_TYPE_
 {
 public:
 
-    ImageCreateInfo(const VkImageCreateFlags f,const uint32_t &u,const uint32_t &t)
+    ImageCreateInfo(const VkImageCreateFlags f,const uint32_t &ml,const uint32_t &u,const uint32_t &t)
     {
         this->sType                 = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
         this->pNext                 = nullptr;
         this->flags                 = f;
-        this->mipLevels             = 1;
+        this->mipLevels             = ml;
         this->samples               = VK_SAMPLE_COUNT_1_BIT;
         this->tiling                = VkImageTiling(t);
         this->usage                 = VkImageUsageFlags(u);
@@ -23,15 +23,16 @@ public:
         this->initialLayout         = VK_IMAGE_LAYOUT_UNDEFINED;
     }
 
-    ImageCreateInfo(const uint32_t &u,const uint32_t &t):ImageCreateInfo(0,u,t){}
-    ~ImageCreateInfo()=default;
+    ImageCreateInfo(const uint32_t &u,const uint32_t &t):ImageCreateInfo(0,1,u,t){}
+    ImageCreateInfo(const uint32_t &ml,const uint32_t &u,const uint32_t &t):ImageCreateInfo(0,ml,u,t){}
+    virtual ~ImageCreateInfo()=default;
 };
 
 struct Image1DCreateInfo:public ImageCreateInfo
 {
 public:
 
-    Image1DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t length):ImageCreateInfo(u,t)
+    Image1DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t &length,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_1D;
@@ -48,7 +49,7 @@ struct Image1DArrayCreateInfo:public ImageCreateInfo
 {
 public:
 
-    Image1DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t length,const uint32_t layers):ImageCreateInfo(u,t)
+    Image1DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t length,const uint32_t layers,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_1D;
@@ -65,7 +66,7 @@ struct Image2DCreateInfo:public ImageCreateInfo
 {
 public:
 
-    Image2DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h):ImageCreateInfo(u,t)
+    Image2DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
@@ -75,7 +76,7 @@ public:
         this->arrayLayers   =1;
     }
 
-    Image2DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent):ImageCreateInfo(u,t)
+    Image2DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
@@ -90,7 +91,7 @@ struct Image2DArrayCreateInfo:public ImageCreateInfo
 {
 public:
 
-    Image2DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h,const uint32_t layers):ImageCreateInfo(u,t)
+    Image2DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h,const uint32_t layers,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
@@ -100,7 +101,7 @@ public:
         this->arrayLayers   =layers;
     }
 
-    Image2DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t layers):ImageCreateInfo(u,t)
+    Image2DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t layers,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
@@ -115,7 +116,7 @@ struct Image3DCreateInfo:public ImageCreateInfo
 {
 public:
 
-    Image3DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent):ImageCreateInfo(u,t)
+    Image3DCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_3D;
@@ -130,7 +131,7 @@ struct ImageCubemapCreateInfo:public ImageCreateInfo
 {
 public:
 
-    ImageCubemapCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,u,t)
+    ImageCubemapCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
@@ -140,7 +141,7 @@ public:
         this->arrayLayers   =6;
     }
 
-    ImageCubemapCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,u,t)
+    ImageCubemapCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
