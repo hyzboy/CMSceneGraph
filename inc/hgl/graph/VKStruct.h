@@ -78,7 +78,15 @@ VKSF_DEFINE(    SamplerCreateInfo,              VK_STRUCTURE_TYPE_SAMPLER_CREATE
 VKSF_DEFINE(    BufferCreateInfo,               VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO)
 VKSF_DEFINE(    ImageViewCreateInfo,            VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO)
 
-VKS_DEFINE(     ImageMemoryBarrier,             VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER)
+struct ImageMemoryBarrier:public vkstruct<VkImageMemoryBarrier,VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER>
+{
+public:
+
+    ImageMemoryBarrier(VkImage img)
+    {
+        this->image=img;
+    }
+};//struct ImageMemoryBarrier:public vkstruct<VkImageMemoryBarrier,VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER>
 
 struct SubpassDescription:public VkSubpassDescription
 {
