@@ -12,7 +12,7 @@ namespace hgl
          */
         struct WorldMatrix
         {
-            Matrix4f ortho;                 //2D正角视图矩阵
+            Matrix4f ortho;                 ///<2D正角视图矩阵
 
             Matrix4f projection;
             Matrix4f inverse_projection;
