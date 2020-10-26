@@ -99,8 +99,8 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     pipeline_info.pDepthStencilState=depth_stencil;
 
     //这个需要和subpass中的color attachment数量相等，所以添加多份
-    color_blend_attachments=nullptr;
-    SetColorAttachments(color_attachment_count);
+    color_blend_attachments=hgl_align_malloc<VkPipelineColorBlendAttachmentState>(color_attachment_count);
+    SetDefault(color_blend_attachments);
 
     alpha_test=0;
     alpha_blend=false;
