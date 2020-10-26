@@ -27,6 +27,7 @@ namespace hgl
             Vector4f camera_pos;            ///<摄像机坐标
             Vector2f canvas_resolution;     ///<画布尺寸(绘图用尺寸)
             Vector2f viewport_resolution;   ///<视图尺寸(显示的实际尺寸,glFragCoord之类用)
+            Vector2f inv_viewport_resolution;
         };//struct WorldMatrix
     }//namespace graph
 }//namespace hgl

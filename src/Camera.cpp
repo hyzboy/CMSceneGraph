@@ -54,6 +54,7 @@ namespace hgl
             matrix.canvas_resolution.y=height;
             matrix.viewport_resolution.x=vp_width;
             matrix.viewport_resolution.y=vp_height;
+            matrix.inv_viewport_resolution=Vector2f(1.0f/vp_width,1.0f/vp_height);
 
             frustum.SetVerticalFovAndAspectRatio(DegToRad(fov),width/height);
             frustum.SetViewPlaneDistances(znear,zfar);
