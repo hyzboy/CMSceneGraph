@@ -164,6 +164,8 @@ PipelineData::PipelineData()
 
     pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
     pipeline_info.basePipelineIndex = -1;
+
+    sample_mask=nullptr;
 }
 
 void PipelineData::InitVertexInputState(const uint32_t stage_count,
