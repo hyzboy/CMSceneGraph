@@ -99,15 +99,8 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     pipeline_info.pDepthStencilState=depth_stencil;
 
     //这个需要和subpass中的color attachment数量相等，所以添加多份
-    color_blend_attachments=hgl_align_malloc<VkPipelineColorBlendAttachmentState>(color_attachment_count);
-    VkPipelineColorBlendAttachmentState *cba=color_blend_attachments;
-    SetDefault(cba);
-
-    for(int i=1;i<color_attachment_count;i++)
-    {
-        ++cba;
-        memcpy(cba,color_blend_attachments,sizeof(VkPipelineColorBlendAttachmentState));
-    }
+    color_blend_attachments=nullptr;
+    SetColorAttachments(color_attachment_count);
 
     alpha_test=0;
     alpha_blend=false;
@@ -137,10 +130,18 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
 
 void PipelineData::SetColorAttachments(const uint32_t count)
 {
-    if(color_blend_attachments)
+    if(!color_blend_attachments)
+    {
+        color_blend->attachmentCount=0;
+        color_blend_attachments=hgl_align_malloc<VkPipelineColorBlendAttachmentState>(count);
+        SetDefault(color_blend_attachments);
+    }
+    else
+    {
         if(color_blend->attachmentCount==count)return;
 
-    color_blend_attachments=hgl_align_realloc<VkPipelineColorBlendAttachmentState>(color_blend_attachments,count);
+        color_blend_attachments=hgl_align_realloc<VkPipelineColorBlendAttachmentState>(color_blend_attachments,count);
+    }
 
     if(count>color_blend->attachmentCount)
     {        
@@ -166,6 +167,7 @@ PipelineData::PipelineData()
     pipeline_info.basePipelineIndex = -1;
 
     sample_mask=nullptr;
+    color_blend_attachments=nullptr;
 }
 
 void PipelineData::InitVertexInputState(const uint32_t stage_count,

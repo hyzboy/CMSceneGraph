@@ -137,9 +137,9 @@ bool PipelineData::LoadFromMemory(uchar *origin_data,uint size)
 
     if(color_blend->attachmentCount>0)
     {
-        SetColorAttachments(color_blend->attachmentCount);
-
         CHECK_SIZE_AND_MAP_ARRAY(color_blend_attachments,VkPipelineColorBlendAttachmentState,color_blend->attachmentCount);
+
+        color_blend->pAttachments=color_blend_attachments;
     }
     else
     {
