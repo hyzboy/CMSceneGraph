@@ -7,6 +7,17 @@ namespace hgl
     namespace graph
     {
         /**
+         * 曝光控制
+         */
+        struct ExposureControl
+        {
+            float aperture      =1.0f;          ///<光圈
+            float shutter       =1.0f/8.0f;     ///<快门时间(秒)
+            float iso           =800.0f;
+            float exposure      =0.0f;
+        };
+
+        /**
          * 摄像机类型
          */
         enum class CameraType
@@ -16,8 +27,8 @@ namespace hgl
         };//enum class CameraType
 
         /**
-        * 摄像机数据结构
-        */
+         * 摄像机数据结构
+         */
         struct Camera
         {
             CameraType type=CameraType::Perspective;
@@ -35,7 +46,7 @@ namespace hgl
             Vector4f center;            ///<视点坐标
             Vector4f up_vector      =Vector4f(0,0,1,0); ///<向上量(默认0,0,1)
             Vector4f forward_vector =Vector4f(0,1,0,0); ///<向前量(默认0,1,0)
-            Vector4f right_vector   =Vector4f(1,0,0,0); ///<向右量(默认0,0,1)
+            Vector4f right_vector   =Vector4f(1,0,0,0); ///<向右量(默认1,0,0)
 
         public:
 
@@ -66,6 +77,32 @@ namespace hgl
                 frustum         =cam.frustum;
             }
         };//struct Camera
+
+        /**
+         * 相机极地操作模式
+         */
+        struct PolarCameraControl
+        {
+            Camera *camera;
+
+        public:
+
+            PolarCameraControl(Camera *cam):camera(cam){}
+
+            void Update(float yaw,float pitch,float x,float y,float distance)
+            {
+                if(!camera)return;
+
+                camera->eye+=camera->right_vector   *x*distance/10.0f;
+                camera->eye+=camera->up_vector      *y*distance/10.0f;
+
+                Vector4f dir=camera->forward_vector;
+                Vector4f pol=PolarToVector4f(yaw,pitch);
+
+                camera->center=camera->eye-dir*distance;
+                camera->eye=camera->center+pol*distance;
+            }
+        };//
 
         /**
         * 简单可控像机
