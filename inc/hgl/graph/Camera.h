@@ -40,13 +40,19 @@ namespace hgl
             uint vp_height;             ///<视图高
 
             float fov=60;               ///<水平FOV
-            float znear=1,zfar=10240;   ///<Z轴上离眼睛的距离(注：因znear会参与计算，请不要使用0或过于接近0的值)
+            float znear=1,zfar=10240;   ///<Z轴上离摄像机的距离(注：因znear会参与计算，请不要使用0或过于接近0的值)
 
-            Vector4f eye;               ///<眼睛坐标
-            Vector4f center;            ///<视点坐标
-            Vector4f up_vector      =Vector4f(0,0,1,0); ///<向上量(默认0,0,1)
-            Vector4f forward_vector =Vector4f(0,1,0,0); ///<向前量(默认0,1,0)
-            Vector4f right_vector   =Vector4f(1,0,0,0); ///<向右量(默认1,0,0)
+            Vector4f pos;               ///<摄像机坐标
+            Vector4f target;            ///<目标点坐标
+            Vector4f world_up      =Vector4f(0,0,1,0); ///<向上量(默认0,0,1)
+            Vector4f world_forward =Vector4f(0,1,0,0); ///<向前量(默认0,1,0)
+            Vector4f world_right   =Vector4f(1,0,0,0); ///<向右量(默认1,0,0)
+            
+            Vector4f view_line;         ///<视线(eye-target)
+            Vector4f camera_direction;
+            Vector4f camera_right;
+            Vector4f camera_up;
+            Vector4f view_distance;     ///<视距,x/y/z对应direction/right/up,w对应view_line
 
         public:
 
@@ -67,49 +73,21 @@ namespace hgl
                 znear           =cam.znear;
                 zfar            =cam.zfar;
 
-                eye             =cam.eye;
-                center          =cam.center;
-                up_vector       =cam.up_vector;
-                forward_vector  =cam.forward_vector;
-                right_vector    =cam.right_vector;
+                pos             =cam.pos;
+                target          =cam.target;
+                world_up        =cam.world_up;
+                world_forward   =cam.world_forward;
+                world_right     =cam.world_right;
+
+                camera_direction=cam.camera_direction;
+                camera_right    =cam.camera_right;
+                camera_up       =cam.camera_up;
 
                 matrix          =cam.matrix;
                 frustum         =cam.frustum;
             }
-        };//struct Camera
-
-        /**
-         * 相机极地操作模式
-         */
-        struct PolarCameraControl
-        {
-            Camera *camera;
 
         public:
-
-            PolarCameraControl(Camera *cam):camera(cam){}
-
-            void Update(float yaw,float pitch,float x,float y,float distance)
-            {
-                if(!camera)return;
-
-                camera->eye+=camera->right_vector   *x*distance/10.0f;
-                camera->eye+=camera->up_vector      *y*distance/10.0f;
-
-                Vector4f dir=camera->forward_vector;
-                Vector4f pol=PolarToVector4f(yaw,pitch);
-
-                camera->center=camera->eye-dir*distance;
-                camera->eye=camera->center+pol*distance;
-            }
-        };//
-
-        /**
-        * 简单可控像机
-        */
-        struct ControlCamera:public Camera
-        {
-        protected:
 
             /**
             * 向指定向量移动
@@ -117,8 +95,8 @@ namespace hgl
             */
             void Move(const Vector4f &move_dist)
             {
-                eye+=move_dist;
-                center+=move_dist;
+                pos+=move_dist;
+                target+=move_dist;
             }
 
             /**
@@ -129,7 +107,7 @@ namespace hgl
             void Rotate(double ang,Vector4f axis)
             {
                 normalize(axis);
-                center=eye+(center-eye)*rotate(hgl_ang2rad(ang),axis);
+                target=pos+(target-pos)*rotate(hgl_ang2rad(ang),axis);
             }
 
             /**
@@ -140,39 +118,80 @@ namespace hgl
             void WrapRotate(double ang,Vector4f axis)
             {
                 normalize(axis);
-                eye=center+(eye-center)*rotate(hgl_ang2rad(ang),axis);
+
+                pos=target+(pos-target)*rotate(hgl_ang2rad(ang),axis);
             }
-
-        public: //方法
-
-            virtual void Backward(float step=0.01){Move((eye-center)*step/length(eye,center));}     ///<向后
-            virtual void Forward(float step=0.01){Backward(-step);}                                 ///<向前
-
-            virtual void Up(float step=0.01){Move(step*up_vector);}                                 ///<向上
-            virtual void Down(float step=0.01){Up(-step);}                                          ///<向下
-
-            virtual void Right(float step=0.01){Move(normalized(cross(center-eye,up_vector))*step);}///<向右
-            virtual void Left(float step=0.01){Right(-step);}                                       ///<向左
-
-        public: //以自身为中心旋转
-
-            virtual void VertRotate(float ang=5){Rotate(ang,cross(center-eye,up_vector));}          ///<垂直方向前后旋转
-            virtual void HorzRotate(float ang=5){Rotate(ang,up_vector);}                            ///<水平方向左右旋转
-
-        public: //以目标点为中心旋转
-
-            virtual void WrapVertRotate(float ang=5){WrapRotate(ang,cross(center-eye,up_vector));}  ///<以目标点为中心上下旋转
-            virtual void WrapHorzRotate(float ang=5){WrapRotate(ang,up_vector);}                    ///<以目标点为中心左右旋转
 
         public: //距离
 
-            virtual void Distance(float pos)                                                        ///<调整距离
+            /**
+             * 调整距离
+             * @param rate 新距离与原距离的比例
+             */
+            void Distance(float rate)                                                                ///<调整距离
             {
-                if(pos==1.0)return;
+                if(rate==1.0)return;
 
-                eye=center+(eye-center)*pos;
+                pos=target+(pos-target)*rate;
             }
-        };//struct ControlCamera
+        };//struct Camera
+
+        /**
+         * 相机控制
+         */
+        class CameraControl
+        {
+        protected:
+
+            Camera *camera;
+
+        public:
+
+            CameraControl(Camera *c):camera(c){}
+            virtual ~CameraControl()=default;
+        };//class CameraControl
+
+        class FreeCameraControl:public CameraControl
+        {
+        public:
+
+            using CameraControl::CameraControl;
+
+        public:
+
+            /**
+             * 向前移动指定距离(延视线)
+             */
+            virtual void Backward(const float move_length)
+            {
+                camera->Move(camera->camera_direction*move_length/camera->view_distance.y);
+            }
+
+            /**
+             * 向后移动指定距离(延视线)
+             */
+            virtual void Forward(const float move_length){Backward(-move_length);}
+
+            /**
+             * 向上移动指定距离(和视线垂直90度)
+             */
+            virtual void Up(const float move_length)
+            {
+                camera->Move(camera->camera_up*move_length/camera->view_distance.z);
+            }
+            
+            /**
+             * 向下移动指定距离(和视线垂直90度)
+             */
+            virtual void Down(const float move_length){Up(-move_length);}
+
+            virtual void Right(const float move_length)
+            {
+                camera->Move(camera->camera_right*move_length/camera->view_distance.x);
+            }
+
+            virtual void Left(const float move_length){Right(-move_length);}
+        };//class FreeCameraControl:public CameraControl
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_CAMERA_INCLUDE
