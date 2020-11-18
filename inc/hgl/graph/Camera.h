@@ -136,10 +136,7 @@ namespace hgl
             }
         };//struct Camera
 
-        /**
-         * 相机控制
-         */
-        class CameraControl
+        class FreeCameraControl
         {
         protected:
 
@@ -147,15 +144,8 @@ namespace hgl
 
         public:
 
-            CameraControl(Camera *c):camera(c){}
-            virtual ~CameraControl()=default;
-        };//class CameraControl
-
-        class FreeCameraControl:public CameraControl
-        {
-        public:
-
-            using CameraControl::CameraControl;
+            FreeCameraControl(Camera *c):camera(c){}
+            virtual ~FreeCameraControl()=default;
 
         public:
 
@@ -191,7 +181,7 @@ namespace hgl
             }
 
             virtual void Left(const float move_length){Right(-move_length);}
-        };//class FreeCameraControl:public CameraControl
+        };//class FreeCameraControl
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_CAMERA_INCLUDE
