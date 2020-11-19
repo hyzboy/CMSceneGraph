@@ -7,8 +7,8 @@ namespace hgl
         {
             view_line       =pos-target;
             camera_direction=normalized(view_line);
-            camera_right    =normalized(cross(world_up,camera_direction));
-            camera_up       =cross(camera_direction,camera_right);
+            camera_right    =normalized(cross(world_up,     camera_direction));
+            camera_up       =normalized(cross(camera_right, camera_direction));
 
             view_distance.x =length(camera_right);
             view_distance.y =length(camera_direction);
@@ -24,12 +24,13 @@ namespace hgl
 
             matrix.inverse_projection   =matrix.projection.Inverted();
 
-            matrix.view                 =lookat(pos,target,world_up);
+            ComputeViewMatrix();        // pure virtual function
+
             matrix.inverse_view         =matrix.view.Inverted();
             matrix.normal               =matrix.inverse_view.Transposed();
 
-            matrix.viewproj             =matrix.projection*matrix.view;
-            matrix.inverse_viewproj     =matrix.viewproj.Inverted();
+            matrix.vp             =matrix.projection*matrix.view;
+            matrix.inverse_vp     =matrix.vp.Inverted();
 
             //注意： C++中要 projection * model_view * local_to_world * position
             //现在glsl中被标记为row_major，顺序同C++
@@ -37,8 +38,6 @@ namespace hgl
             matrix.pos              =pos;
             matrix.target           =target;
 
-            matrix.world_forward    =world_forward;
-            matrix.world_right      =world_right;
             matrix.world_up         =world_up;
 
             matrix.view_line        =view_line;

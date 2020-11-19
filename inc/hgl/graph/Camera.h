@@ -44,14 +44,15 @@ namespace hgl
 
             Vector4f pos;               ///<摄像机坐标
             Vector4f target;            ///<目标点坐标
-            Vector4f world_up      =Vector4f(0,0,1,0); ///<向上量(默认0,0,1)
-            Vector4f world_forward =Vector4f(0,1,0,0); ///<向前量(默认0,1,0)
-            Vector4f world_right   =Vector4f(1,0,0,0); ///<向右量(默认1,0,0)
+
+            Vector4f world_up           =Vector4f(0,0,1,0); ///<向上量(默认0,0,1)
+            Vector4f world_forward      =Vector4f(0,1,0,0); ///<向前量(默认0,1,0)
+            Vector4f world_right        =Vector4f(1,0,0,0); ///<向右量(默认1,0,0)
             
             Vector4f view_line;         ///<视线(eye-target)
             Vector4f camera_direction;
-            Vector4f camera_right;
-            Vector4f camera_up;
+            Vector4f camera_right       =Vector4f(1,0,0,0); ///<向右量(默认1,0,0);
+            Vector4f camera_up          =Vector4f(0,0,1,0); ///<向上量(默认0,0,1);
             Vector4f view_distance;     ///<视距,x/y/z对应direction/right/up,w对应view_line
 
         public:
@@ -60,6 +61,8 @@ namespace hgl
 
         public:
 
+            virtual void ComputeViewMatrix()=0;
+
             void Refresh();
 
             void operator = (const Camera &cam)
@@ -67,7 +70,7 @@ namespace hgl
                 type            =cam.type;
                 width           =cam.width;
                 height          =cam.height;
-                Yfov             =cam.Yfov;
+                Yfov            =cam.Yfov;
                 znear           =cam.znear;
                 zfar            =cam.zfar;
 
@@ -85,6 +88,13 @@ namespace hgl
             }
 
         public:
+
+            void Transform(const Matrix4f &mat)
+            {
+                camera_direction=camera_direction*mat;
+                camera_up=camera_up*mat;
+                camera_right=camera_right*mat;
+            }
 
             /**
             * 向指定向量移动
@@ -104,7 +114,10 @@ namespace hgl
             void Rotate(double ang,Vector4f axis)
             {
                 normalize(axis);
-                target=pos+(target-pos)*rotate(hgl_ang2rad(ang),axis);
+
+                const Matrix4f mat=rotate(hgl_ang2rad(ang),axis);
+                
+                target=pos+(target-pos)*mat;
             }
 
             /**
@@ -116,10 +129,14 @@ namespace hgl
             {
                 normalize(axis);
 
-                pos=target+(pos-target)*rotate(hgl_ang2rad(ang),axis);
+                const Matrix4f mat=rotate(hgl_ang2rad(ang),axis);
+
+                pos=target+(pos-target)*mat;
             }
 
         public: //距离
+
+            const float GetDistance()const{return view_distance.w;}
 
             /**
              * 调整距离
@@ -132,53 +149,6 @@ namespace hgl
                 pos=target+(pos-target)*rate;
             }
         };//struct Camera
-
-        class FreeCameraControl
-        {
-        protected:
-
-            Camera *camera;
-
-        public:
-
-            FreeCameraControl(Camera *c):camera(c){}
-            virtual ~FreeCameraControl()=default;
-
-        public:
-
-            /**
-             * 向前移动指定距离(延视线)
-             */
-            virtual void Backward(const float move_length)
-            {
-                camera->Move(camera->camera_direction*move_length/camera->view_distance.y);
-            }
-
-            /**
-             * 向后移动指定距离(延视线)
-             */
-            virtual void Forward(const float move_length){Backward(-move_length);}
-
-            /**
-             * 向上移动指定距离(和视线垂直90度)
-             */
-            virtual void Up(const float move_length)
-            {
-                camera->Move(camera->camera_up*move_length/camera->view_distance.z);
-            }
-            
-            /**
-             * 向下移动指定距离(和视线垂直90度)
-             */
-            virtual void Down(const float move_length){Up(-move_length);}
-
-            virtual void Right(const float move_length)
-            {
-                camera->Move(camera->camera_right*move_length/camera->view_distance.x);
-            }
-
-            virtual void Left(const float move_length){Right(-move_length);}
-        };//class FreeCameraControl
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_CAMERA_INCLUDE
