@@ -39,8 +39,8 @@ namespace hgl
             uint vp_width;              ///<视图宽
             uint vp_height;             ///<视图高
 
-            float fov=60;               ///<水平FOV
-            float znear=1,zfar=10240;   ///<Z轴上离摄像机的距离(注：因znear会参与计算，请不要使用0或过于接近0的值)
+            float Yfov=45;              ///<水平FOV
+            float znear=10,zfar=15000;  ///<Z轴上离摄像机的距离(注：因znear会参与计算，请不要使用0或过于接近0的值)
 
             Vector4f pos;               ///<摄像机坐标
             Vector4f target;            ///<目标点坐标
@@ -58,8 +58,6 @@ namespace hgl
 
             WorldMatrix matrix;
 
-            Frustum frustum;
-
         public:
 
             void Refresh();
@@ -69,7 +67,7 @@ namespace hgl
                 type            =cam.type;
                 width           =cam.width;
                 height          =cam.height;
-                fov             =cam.fov;
+                Yfov             =cam.Yfov;
                 znear           =cam.znear;
                 zfar            =cam.zfar;
 
@@ -84,7 +82,6 @@ namespace hgl
                 camera_up       =cam.camera_up;
 
                 matrix          =cam.matrix;
-                frustum         =cam.frustum;
             }
 
         public:

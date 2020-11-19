@@ -21,8 +21,8 @@ namespace hgl
             Matrix4f inverse_view;
             Matrix4f normal;                ///<transpose(inverse(mat3(view)));
 
-            Matrix4f mvp;
-            Matrix4f inverse_mvp;
+            Matrix4f viewproj;
+            Matrix4f inverse_viewproj;
 
             Vector4f pos;                   ///<摄像机坐标
             Vector4f target;                ///<摄像机目标点
