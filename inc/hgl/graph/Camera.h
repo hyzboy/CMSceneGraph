@@ -46,13 +46,11 @@ namespace hgl
             Vector4f target;            ///<目标点坐标
 
             Vector4f world_up           =Vector4f(0,0,1,0); ///<向上量(默认0,0,1)
-            Vector4f world_forward      =Vector4f(0,1,0,0); ///<向前量(默认0,1,0)
-            Vector4f world_right        =Vector4f(1,0,0,0); ///<向右量(默认1,0,0)
             
             Vector4f view_line;         ///<视线(eye-target)
             Vector4f camera_direction;
-            Vector4f camera_right       =Vector4f(1,0,0,0); ///<向右量(默认1,0,0);
-            Vector4f camera_up          =Vector4f(0,0,1,0); ///<向上量(默认0,0,1);
+            Vector4f camera_right;
+            Vector4f camera_up;
             Vector4f view_distance;     ///<视距,x/y/z对应direction/right/up,w对应view_line
 
         public:
@@ -77,8 +75,6 @@ namespace hgl
                 pos             =cam.pos;
                 target          =cam.target;
                 world_up        =cam.world_up;
-                world_forward   =cam.world_forward;
-                world_right     =cam.world_right;
 
                 camera_direction=cam.camera_direction;
                 camera_right    =cam.camera_right;
