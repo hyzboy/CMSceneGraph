@@ -59,8 +59,6 @@ namespace hgl
 
         public:
 
-            virtual void ComputeViewMatrix()=0;
-
             void Refresh();
 
             void operator = (const Camera &cam)
@@ -88,8 +86,8 @@ namespace hgl
             void Transform(const Matrix4f &mat)
             {
                 camera_direction=camera_direction*mat;
-                camera_up=camera_up*mat;
-                camera_right=camera_right*mat;
+                camera_up       =camera_up*mat;
+                camera_right    =camera_right*mat;
             }
 
             /**
@@ -132,19 +130,82 @@ namespace hgl
 
         public: //距离
 
-            const float GetDistance()const{return view_distance.w;}
+            const float GetDistance()const{return view_distance.w;}                                 ///<获取视线长度(摄像机到目标点)
 
             /**
              * 调整距离
              * @param rate 新距离与原距离的比例
              */
-            void Distance(float rate)                                                                ///<调整距离
+            void Distance(float rate)                                                               ///<调整距离
             {
                 if(rate==1.0)return;
 
                 pos=target+(pos-target)*rate;
             }
         };//struct Camera
+        
+        class WalkerCamera:public Camera
+        {
+        public:
+
+            using Camera::Camera;
+            virtual ~WalkerCamera()=default;
+
+        public:
+
+            /**
+             * 向前移动指定距离(延视线)
+             */
+            virtual void Backward(const float move_length)
+            {
+                Move(camera_direction*move_length/view_distance.y);
+            }
+
+            /**
+             * 向后移动指定距离(延视线)
+             */
+            virtual void Forward(const float move_length){Backward(-move_length);}
+
+            /**
+             * 向上移动指定距离(和视线垂直90度)
+             */
+            virtual void Up(const float move_length)
+            {
+                Move(camera_up*move_length/view_distance.z);
+            }
+            
+            /**
+             * 向下移动指定距离(和视线垂直90度)
+             */
+            virtual void Down(const float move_length){Up(-move_length);}
+
+            virtual void Left(const float move_length)
+            {
+                Move(camera_right*move_length/view_distance.x);
+            }
+
+            virtual void Right(const float move_length){Left(-move_length);}
+
+            virtual void HoriRotate(const float ang)
+            {
+                Rotate(ang,camera_up);
+            }
+
+            virtual void VertRotate(const float ang)
+            {
+                Rotate(ang,camera_right);
+            }
+
+            virtual void WrapHoriRotate(const float ang)
+            {
+                WrapRotate(ang,camera_up);
+            }
+
+            virtual void WrapVertRotate(const float ang)
+            {
+                WrapRotate(ang,camera_right);
+            }
+        };//class WalkerCamera:public Camera
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_CAMERA_INCLUDE
