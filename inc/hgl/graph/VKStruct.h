@@ -56,6 +56,17 @@ public:
     }
 };
 
+struct MemoryAllocateInfo:public vkstruct<VkMemoryAllocateInfo,VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO>
+{
+public:
+
+    MemoryAllocateInfo(const uint32_t index,const VkDeviceSize size)
+    {
+        memoryTypeIndex  =index;
+        allocationSize   =size;
+    }
+};
+
 VKSF_DEFINE(    FramebufferCreateInfo,          VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO)
 
 VKSF_DEFINE(    DescriptorSetLayoutCreateInfo,  VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO)
