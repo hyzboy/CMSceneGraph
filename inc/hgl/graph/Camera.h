@@ -40,7 +40,7 @@ namespace hgl
             uint vp_height;             ///<视图高
 
             float Yfov=45;              ///<水平FOV
-            float znear=10,zfar=15000;  ///<Z轴上离摄像机的距离(注：因znear会参与计算，请不要使用0或过于接近0的值)
+            float znear=10,zfar=15000;  ///<Z轴上离摄像机的距离(注：因znear会参与计算，为避免除0操作，请不要使用0或过于接近0的值)
 
             Vector4f pos;               ///<摄像机坐标
             Vector4f target;            ///<目标点坐标
