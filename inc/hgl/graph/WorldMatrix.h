@@ -1,5 +1,5 @@
-﻿#ifndef HGL_GRAPH_WORLD_MATRIX_INCLUDE
-#define HGL_GRAPH_WORLD_MATRIX_INCLUDE
+﻿#ifndef HGL_GRAPH_CAMERA_MATRIX_INCLUDE
+#define HGL_GRAPH_CAMERA_MATRIX_INCLUDE
 
 #include<hgl/math/Math.h>
 
@@ -10,7 +10,7 @@ namespace hgl
         /**
          * 世界矩阵数据
          */
-        struct WorldMatrix
+        struct CameraMatrix
         {
             Matrix4f ortho;                 ///<2D正角视图矩阵
 
@@ -38,9 +38,9 @@ namespace hgl
             Vector2f canvas_resolution;     ///<画布尺寸(绘图用尺寸)
             Vector2f viewport_resolution;   ///<视图尺寸(显示的实际尺寸,glFragCoord之类用)
             Vector2f inv_viewport_resolution;
-        };//struct WorldMatrix
+        };//struct CameraMatrix
 
-        constexpr size_t WorldMatrixBytes=sizeof(WorldMatrix);
+        constexpr size_t CameraMatrixBytes=sizeof(CameraMatrix);
     }//namespace graph
 }//namespace hgl
-#endif//HGL_GRAPH_WORLD_MATRIX_INCLUDE
+#endif//HGL_GRAPH_CAMERA_MATRIX_INCLUDE
