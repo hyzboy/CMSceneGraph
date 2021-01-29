@@ -8,7 +8,7 @@ namespace hgl
     namespace graph
     {
         /**
-         * 世界矩阵数据
+         * 摄相机矩阵数据
          */
         struct CameraMatrix
         {
@@ -21,7 +21,7 @@ namespace hgl
             Matrix4f inverse_view;
             Matrix4f normal;                ///<transpose(inverse(mat3(view)));
 
-            Matrix4f vp;
+            Matrix4f vp;                    ///< projection * view
             Matrix4f inverse_vp;
 
             Vector4f pos;                   ///<摄像机坐标
