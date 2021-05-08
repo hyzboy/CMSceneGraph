@@ -1,5 +1,5 @@
-﻿#ifndef HGL_GRAPH_CAMERA_MATRIX_INCLUDE
-#define HGL_GRAPH_CAMERA_MATRIX_INCLUDE
+﻿#ifndef HGL_GRAPH_CAMERA_INFO_INCLUDE
+#define HGL_GRAPH_CAMERA_INFO_INCLUDE
 
 #include<hgl/math/Math.h>
 
@@ -10,7 +10,7 @@ namespace hgl
         /**
          * 摄相机矩阵数据
          */
-        struct CameraMatrix
+        struct CameraInfo
         {
             Matrix4f ortho;                 ///<2D正角视图矩阵
 
@@ -35,12 +35,14 @@ namespace hgl
             Vector4f view_distance;         //x,y,z分别对应right,direction,up
                                             //w对应view_line
 
+            float znear,zfar;
+
             Vector2f canvas_resolution;     ///<画布尺寸(绘图用尺寸)
             Vector2f viewport_resolution;   ///<视图尺寸(显示的实际尺寸,glFragCoord之类用)
             Vector2f inv_viewport_resolution;
-        };//struct CameraMatrix
+        };//struct CameraInfo
 
-        constexpr size_t CameraMatrixBytes=sizeof(CameraMatrix);
+        constexpr size_t CameraInfoBytes=sizeof(CameraInfo);
     }//namespace graph
 }//namespace hgl
-#endif//HGL_GRAPH_CAMERA_MATRIX_INCLUDE
+#endif//HGL_GRAPH_CAMERA_INFO_INCLUDE

@@ -45,6 +45,9 @@ namespace hgl
             matrix.camera_right             =camera_right;
             matrix.camera_up                =camera_up;
 
+            matrix.znear                    =znear;
+            matrix.zfar                     =zfar;
+
             matrix.canvas_resolution.x      =width;
             matrix.canvas_resolution.y      =height;
             matrix.viewport_resolution.x    =vp_width;

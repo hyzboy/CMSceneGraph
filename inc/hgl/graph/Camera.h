@@ -1,7 +1,7 @@
 ﻿#ifndef HGL_GRAPH_CAMERA_INCLUDE
 #define HGL_GRAPH_CAMERA_INCLUDE
 
-#include<hgl/graph/CameraMatrix.h>
+#include<hgl/graph/CameraInfo.h>
 namespace hgl
 {
     namespace graph
@@ -55,7 +55,7 @@ namespace hgl
 
         public:
 
-            CameraMatrix matrix;
+            CameraInfo matrix;
 
         public:
 
