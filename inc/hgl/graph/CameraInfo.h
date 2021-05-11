@@ -28,12 +28,10 @@ namespace hgl
             Vector4f target;                ///<摄像机目标点
             Vector4f world_up;
 
-            Vector4f view_line;
-            Vector4f camera_direction;
-            Vector4f camera_right;
-            Vector4f camera_up;
-            Vector4f view_distance;         //x,y,z分别对应right,direction,up
-                                            //w对应view_line
+            Vector4f view_line;             ///<pos-target, .w=length(.xyz)
+            Vector4f camera_direction;      ///<.w is length(.xyz)
+            Vector4f camera_right;          ///<.w is length(.xyz)
+            Vector4f camera_up;             ///<.w is length(.xyz)
 
             float znear,zfar;
 

@@ -6,14 +6,15 @@ namespace hgl
         void Camera::Refresh()
         {
             view_line                       =pos-target;
+            view_line.w                     =length(view_line);
+
             camera_direction                =normalized(view_line);
             camera_right                    =normalized(cross(world_up,     camera_direction));
             camera_up                       =normalized(cross(camera_right, camera_direction));
 
-            view_distance.x                 =length(camera_right);
-            view_distance.y                 =length(camera_direction);
-            view_distance.z                 =length(camera_up);
-            view_distance.w                 =length(view_line);
+            camera_right.w                  =length(camera_right);
+            camera_direction.w              =length(camera_direction);
+            camera_up.w                     =length(camera_up);
 
             matrix.ortho                    =ortho(width,height);
 
