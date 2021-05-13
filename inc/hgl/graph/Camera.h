@@ -55,7 +55,7 @@ namespace hgl
 
         public:
 
-            CameraInfo matrix;
+            CameraInfo info;
 
         public:
 
@@ -78,7 +78,7 @@ namespace hgl
                 camera_right    =cam.camera_right;
                 camera_up       =cam.camera_up;
 
-                matrix          =cam.matrix;
+                info            =cam.info;
             }
 
         public:
