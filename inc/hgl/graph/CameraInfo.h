@@ -8,7 +8,7 @@ namespace hgl
     namespace graph
     {
         /**
-         * 摄相机矩阵数据
+         * 摄相机信息
          */
         struct CameraInfo
         {
