@@ -12,7 +12,7 @@ namespace
 
     #define VULKAN_FORMAT_DEFINE(id,size,name,compress,color,depth,stencil) {id,size,name,TextureCompressType::compress,VulkanDataType::color,VulkanDataType::depth,VulkanDataType::stencil}
 
-    #define COLOR_FORMAT_DEFINE(name,size,color)            VULKAN_FORMAT_DEFINE(FMT_##name,size,#name,NONE,    color,NONE,NONE)
+    #define COLOR_FORMAT_DEFINE(name,size,color)            VULKAN_FORMAT_DEFINE(PF_##name,size,#name,NONE,    color,NONE,NONE)
 
     #define COLOR_6_FORMAT_DEFINE(type,byte)                COLOR_FORMAT_DEFINE(type##UN,          byte,UNORM), \
                                                             COLOR_FORMAT_DEFINE(type##SN,          byte,SNORM), \
@@ -33,30 +33,30 @@ namespace
 
     #define COMPRESS_FORMAT_DEFINE(id,name,compress,color)  VULKAN_FORMAT_DEFINE(id,0,name,compress,color,NONE,NONE)
     
-    #define DEPTH_FORMAT_DEFINE(name,size,type)             VULKAN_FORMAT_DEFINE(FMT_##name,size,#name,NONE,NONE,type,  NONE)
-    #define STENCIL_FORMAT_DEFINE(name,size,type)           VULKAN_FORMAT_DEFINE(FMT_##name,size,#name,NONE,NONE,NONE,  type)
-    #define DEPTH_STENCIL_FORMAT_DEFINE(name,size,dt,st)    VULKAN_FORMAT_DEFINE(FMT_##name,size,#name,NONE,NONE,dt,    st  )
+    #define DEPTH_FORMAT_DEFINE(name,size,type)             VULKAN_FORMAT_DEFINE(PF_##name,size,#name,NONE,NONE,type,  NONE)
+    #define STENCIL_FORMAT_DEFINE(name,size,type)           VULKAN_FORMAT_DEFINE(PF_##name,size,#name,NONE,NONE,NONE,  type)
+    #define DEPTH_STENCIL_FORMAT_DEFINE(name,size,dt,st)    VULKAN_FORMAT_DEFINE(PF_##name,size,#name,NONE,NONE,dt,    st  )
 
 
-    #define S3TC_Us_FORMAT_DEFINE(name)         COMPRESS_FORMAT_DEFINE(FMT_##name##UN,#name "UN",S3TC,UNORM),   \
-                                                COMPRESS_FORMAT_DEFINE(FMT_##name##s,#name "s",S3TC,SRGB)
+    #define S3TC_Us_FORMAT_DEFINE(name)         COMPRESS_FORMAT_DEFINE(PF_##name##UN,#name "UN",S3TC,UNORM),   \
+                                                COMPRESS_FORMAT_DEFINE(PF_##name##s,#name "s",S3TC,SRGB)
 
-    #define S3TC_NORM_FORMAT_DEFINE(name)       COMPRESS_FORMAT_DEFINE(FMT_##name##UN,#name "UN",S3TC,UNORM),   \
-                                                COMPRESS_FORMAT_DEFINE(FMT_##name##SN,#name "SN",S3TC,SNORM)
+    #define S3TC_NORM_FORMAT_DEFINE(name)       COMPRESS_FORMAT_DEFINE(PF_##name##UN,#name "UN",S3TC,UNORM),   \
+                                                COMPRESS_FORMAT_DEFINE(PF_##name##SN,#name "SN",S3TC,SNORM)
 
-    #define S3TC_FLOAT_FORMAT_DEFINE(name)      COMPRESS_FORMAT_DEFINE(FMT_##name##UF,#name "UF",S3TC,UFLOAT),   \
-                                                COMPRESS_FORMAT_DEFINE(FMT_##name##SF,#name "SF",S3TC,SFLOAT)
+    #define S3TC_FLOAT_FORMAT_DEFINE(name)      COMPRESS_FORMAT_DEFINE(PF_##name##UF,#name "UF",S3TC,UFLOAT),   \
+                                                COMPRESS_FORMAT_DEFINE(PF_##name##SF,#name "SF",S3TC,SFLOAT)
 
-    #define ETC2_FORMAT_DEFINE(name)            COMPRESS_FORMAT_DEFINE(FMT_ETC2_##name##UN,"ETC2" #name "UN",ETC2,UNORM),   \
-                                                COMPRESS_FORMAT_DEFINE(FMT_ETC2_##name##s,"ETC2" #name "s",ETC2,SRGB)
+    #define ETC2_FORMAT_DEFINE(name)            COMPRESS_FORMAT_DEFINE(PF_ETC2_##name##UN,"ETC2" #name "UN",ETC2,UNORM),   \
+                                                COMPRESS_FORMAT_DEFINE(PF_ETC2_##name##s,"ETC2" #name "s",ETC2,SRGB)
 
-    #define EAC_FORMAT_DEFINE(name)             COMPRESS_FORMAT_DEFINE(FMT_EAC_##name##UN,"EAC" #name "UN",EAC,UNORM),   \
-                                                COMPRESS_FORMAT_DEFINE(FMT_EAC_##name##SN,"EAC" #name "SN",EAC,SNORM)
+    #define EAC_FORMAT_DEFINE(name)             COMPRESS_FORMAT_DEFINE(PF_EAC_##name##UN,"EAC" #name "UN",EAC,UNORM),   \
+                                                COMPRESS_FORMAT_DEFINE(PF_EAC_##name##SN,"EAC" #name "SN",EAC,SNORM)
 
-    #define ASTC_FORMAT_DEFINE(mat)             COMPRESS_FORMAT_DEFINE(FMT_ASTC_##mat##UN,"ASTC" #mat "UN",ASTC,UNORM),  \
-                                                COMPRESS_FORMAT_DEFINE(FMT_ASTC_##mat##s,"ASTC" #mat "s",ASTC,SRGB)
+    #define ASTC_FORMAT_DEFINE(mat)             COMPRESS_FORMAT_DEFINE(PF_ASTC_##mat##UN,"ASTC" #mat "UN",ASTC,UNORM),  \
+                                                COMPRESS_FORMAT_DEFINE(PF_ASTC_##mat##s,"ASTC" #mat "s",ASTC,SRGB)
 
-    #define YUV_FORMAT_DEFINE(name)             COMPRESS_FORMAT_DEFINE(FMT_##name,#name,YUV,UNORM)
+    #define YUV_FORMAT_DEFINE(name)             COMPRESS_FORMAT_DEFINE(PF_##name,#name,YUV,UNORM)
     
     #define YUV_FORMAT_COMBO(bit)               YUV_FORMAT_DEFINE(YUYV##bit##_422),   \
                                                 YUV_FORMAT_DEFINE(UYVY##bit##_422),   \
@@ -66,10 +66,10 @@ namespace
                                                 YUV_FORMAT_DEFINE(Y##bit##_UV##bit##_422),  \
                                                 YUV_FORMAT_DEFINE(YUV##bit##_444)
 
-    #define PVRTC_FORMAT_DEFINE(level,bpp)      COMPRESS_FORMAT_DEFINE(FMT_PVRTC##level##_##bpp##UN,"PVRTC" #level "_" #bpp "UN",PVRTC,UNORM),    \
-                                                COMPRESS_FORMAT_DEFINE(FMT_PVRTC##level##_##bpp##s,"PVRTC" #level "_" #bpp "s",PVRTC,SRGB)
+    #define PVRTC_FORMAT_DEFINE(level,bpp)      COMPRESS_FORMAT_DEFINE(PF_PVRTC##level##_##bpp##UN,"PVRTC" #level "_" #bpp "UN",PVRTC,UNORM),    \
+                                                COMPRESS_FORMAT_DEFINE(PF_PVRTC##level##_##bpp##s,"PVRTC" #level "_" #bpp "s",PVRTC,SRGB)
 
-    #define ASTC_SFLOAT_FORMAT_DEFINE(mat)      COMPRESS_FORMAT_DEFINE(FMT_ASTC_##mat##UN,"ASTC" #mat "F",ASTC,SFLOAT)  
+    #define ASTC_SFLOAT_FORMAT_DEFINE(mat)      COMPRESS_FORMAT_DEFINE(PF_ASTC_##mat##UN,"ASTC" #mat "F",ASTC,SFLOAT)  
 
     constexpr VulkanFormat vulkan_color_format_list[]=
     {
@@ -189,19 +189,19 @@ namespace
         ASTC_SFLOAT_FORMAT_DEFINE(12x12)
     };
 
-    const VulkanFormat *vulkan_yuv_format_list          =vulkan_color_format_list+FMT_RANGE_SIZE;
-    const VulkanFormat *vulkan_pvrtc_format_list        =vulkan_color_format_list+FMT_RANGE_SIZE+FMT_YUV_RANGE_SIZE;
-    const VulkanFormat *vulkan_astc_sfloat_format_list  =vulkan_color_format_list+FMT_RANGE_SIZE+FMT_YUV_RANGE_SIZE+FMT_PVRTC_RANGE_SIZE;
+    const VulkanFormat *vulkan_yuv_format_list          =vulkan_color_format_list+PF_RANGE_SIZE;
+    const VulkanFormat *vulkan_pvrtc_format_list        =vulkan_color_format_list+PF_RANGE_SIZE+PF_YUV_RANGE_SIZE;
+    const VulkanFormat *vulkan_astc_sfloat_format_list  =vulkan_color_format_list+PF_RANGE_SIZE+PF_YUV_RANGE_SIZE+PF_PVRTC_RANGE_SIZE;
     
     constexpr size_t TEXTURE_FORMAT_COUNT=sizeof(vulkan_color_format_list)/sizeof(VulkanFormat);
 
 #ifdef _DEBUG
     uint32_t GetStrideBytesByFormat(const VkFormat &format)
     {
-        if(format<=FMT_BEGIN_RANGE)
+        if(format<=PF_BEGIN_RANGE)
             return 0;
         
-        if(format>FMT_END_RANGE)
+        if(format>PF_END_RANGE)
         {
             if(format==VK_FORMAT_R10X6_UNORM_PACK16)return 2;
             if(format==VK_FORMAT_R10X6G10X6_UNORM_2PACK16)return 4;
@@ -252,7 +252,7 @@ bool CheckStrideBytesByFormat()
 {
     const VulkanFormat *vcf=vulkan_color_format_list;
 
-    for(uint32_t i=FMT_BEGIN_RANGE;i<=FMT_END_RANGE;i++)
+    for(uint32_t i=PF_BEGIN_RANGE;i<=PF_END_RANGE;i++)
     {
         if(vcf->format!=i)return(false);
         if(vcf->bytes!=GetStrideBytesByFormat((VkFormat)i))return(false);
@@ -273,19 +273,19 @@ const VulkanFormat *GetVulkanFormatList(uint32_t &count)
 
 const VulkanFormat *GetVulkanFormat(const VkFormat &format)
 {
-    if(format<=FMT_BEGIN_RANGE)return(nullptr);
+    if(format<=PF_BEGIN_RANGE)return(nullptr);
 
-    if(format<=FMT_END_RANGE)
+    if(format<=PF_END_RANGE)
         return vulkan_color_format_list+format;
         
-    if(format>=FMT_YUV_BEGIN_RANGE&&format<=FMT_YUV_END_RANGE)
-        return vulkan_yuv_format_list+format-FMT_YUV_BEGIN_RANGE;
+    if(format>=PF_YUV_BEGIN_RANGE&&format<=PF_YUV_END_RANGE)
+        return vulkan_yuv_format_list+format-PF_YUV_BEGIN_RANGE;
 
-    if(format>=FMT_PVRTC_BEGIN_RANGE&&format<=FMT_PVRTC_END_RANGE)
-        return vulkan_pvrtc_format_list+format-FMT_PVRTC_BEGIN_RANGE;
+    if(format>=PF_PVRTC_BEGIN_RANGE&&format<=PF_PVRTC_END_RANGE)
+        return vulkan_pvrtc_format_list+format-PF_PVRTC_BEGIN_RANGE;
 
-    if(format>=FMT_ASTC_SFLOAT_BEGIN_RANGE&&format<=FMT_ASTC_SFLOAT_END_RANGE)
-        return vulkan_astc_sfloat_format_list+format-FMT_ASTC_SFLOAT_BEGIN_RANGE;
+    if(format>=PF_ASTC_SFLOAT_BEGIN_RANGE&&format<=PF_ASTC_SFLOAT_END_RANGE)
+        return vulkan_astc_sfloat_format_list+format-PF_ASTC_SFLOAT_BEGIN_RANGE;
 
     return nullptr;
 }
@@ -296,7 +296,7 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name)
     
     const VulkanFormat *vcf=vulkan_color_format_list;
 
-    for(uint32_t i=FMT_BEGIN_RANGE;i<=FMT_END_RANGE;i++)
+    for(uint32_t i=PF_BEGIN_RANGE;i<=PF_END_RANGE;i++)
     {
         if(hgl::strcmp(fmt_name,vcf->name)==0)
             return vcf;
@@ -311,11 +311,11 @@ namespace
 {
     constexpr VkFormat vk_format_by_basetype[][4]=
     {
-        {FMT_R8U,FMT_RG8U,VK_FORMAT_UNDEFINED,FMT_RGBA8U},    //ubyte
-        {FMT_R32I,FMT_RG32I,FMT_RGB32I,FMT_RGBA32I},//int
-        {FMT_R32U,FMT_RG32U,FMT_RGB32U,FMT_RGBA32U},//uint
-        {FMT_R32F,FMT_RG32F,FMT_RGB32F,FMT_RGBA32F},//float
-        {FMT_R64F,FMT_RG64F,FMT_RGB64F,FMT_RGBA64F} //double
+        {PF_R8U,PF_RG8U,VK_FORMAT_UNDEFINED,PF_RGBA8U},    //ubyte
+        {PF_R32I,PF_RG32I,PF_RGB32I,PF_RGBA32I},//int
+        {PF_R32U,PF_RG32U,PF_RGB32U,PF_RGBA32U},//uint
+        {PF_R32F,PF_RG32F,PF_RGB32F,PF_RGBA32F},//float
+        {PF_R64F,PF_RG64F,PF_RGB64F,PF_RGBA64F} //double
     };
 }//namespace
 

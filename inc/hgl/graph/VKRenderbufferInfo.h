@@ -137,7 +137,7 @@ public:
 
     void ClearDepthStencil()
     {        
-        depth_stencil_format=FMT_UNDEFINED;
+        depth_stencil_format=PF_UNDEFINED;
         _depth=_stencil=_depth_stencil=false;
     }
 
@@ -155,7 +155,7 @@ public:
 
     const uint32_t  GetAttachmentCount()const
     {
-        return(depth_stencil_format==FMT_UNDEFINED
+        return(depth_stencil_format==PF_UNDEFINED
                 ?color_format_list.GetCount()
                 :color_format_list.GetCount()+1);
     }
