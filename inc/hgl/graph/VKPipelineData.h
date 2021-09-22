@@ -48,6 +48,8 @@ public:
     VkRect2D scissor;
     VkPipelineViewportStateCreateInfo           viewport_state;
 
+    void InitViewportState();
+
     VkPipelineRasterizationStateCreateInfo *    rasterization;
 
     VkSampleMask *                              sample_mask;
@@ -75,7 +77,6 @@ public:
                                 const uint32_t attr_count,
                                 const VkVertexInputBindingDescription *bind_list,
                                 const VkVertexInputAttributeDescription *attr_list);
-    void InitViewportState(const VkExtent2D &extent);
     void InitDynamicState();
 
 public:

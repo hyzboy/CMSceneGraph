@@ -34,6 +34,8 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     //hgl_zero(dynamic_state);
 
     pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+
+    InitViewportState();
     
     tessellation=new VkPipelineTessellationStateCreateInfo;
     tessellation->sType=VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
@@ -205,17 +207,17 @@ bool PipelineData::Set(const Prim topology,bool restart)
     return(true);
 }
     
-void PipelineData::InitViewportState(const VkExtent2D &extent)
+void PipelineData::InitViewportState()
 {
     viewport.x = 0.0f;
     viewport.y = 0.0f;
-    viewport.width = extent.width;
-    viewport.height = extent.height;
+    viewport.width = 0.0f;
+    viewport.height = 0.0f;
     viewport.minDepth = 0.0f;
     viewport.maxDepth = 1.0f;
 
     scissor.offset = {0, 0};
-    scissor.extent = extent;
+    scissor.extent = {0, 0};
 
     viewport_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     viewport_state.pNext = nullptr;
