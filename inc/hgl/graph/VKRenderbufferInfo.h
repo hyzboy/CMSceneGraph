@@ -160,10 +160,10 @@ public:
                 :color_format_list.GetCount()+1);
     }
 
-    const bool              HasDepth()const{return _depth;}
-    const bool              HasStencil()const{return _stencil;}
-    const bool              HasDepthStencil()const{return _depth_stencil;}
-    const bool              HasDepthOrStencil()const{return(_depth||_stencil);}
+            const bool      HasDepth()const{return _depth;}
+            const bool      HasStencil()const{return _stencil;}
+            const bool      HasDepthStencil()const{return _depth_stencil;}
+            const bool      HasDepthOrStencil()const{return(_depth||_stencil);}
     virtual const bool      IsSwapchain()const{return false;}
 
     const uint32_t          GetColorCount ()const{return color_format_list.GetCount();}
