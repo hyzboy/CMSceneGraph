@@ -23,15 +23,15 @@ namespace hgl
             else
                 info.projection         =ortho(width,height,znear,zfar);               //这个算的不对
 
-            info.inverse_projection     =info.projection.Inverted();
+            info.inverse_projection     =inverse(info.projection);
 
             info.view                   =lookat(pos,target,world_up);
 
-            info.inverse_view           =info.view.Inverted();
-            info.normal                 =info.inverse_view.Transposed();
+            info.inverse_view           =inverse(info.view);
+            info.normal                 =transpose(info.inverse_view);
 
             info.vp                     =info.projection*info.view;
-            info.inverse_vp             =info.vp.Inverted();
+            info.inverse_vp             =inverse(info.vp);
 
             //注意： C++中要 projection * model_view * local_to_world * position
             //现在glsl中被标记为row_major，顺序同C++
