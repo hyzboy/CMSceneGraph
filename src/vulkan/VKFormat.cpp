@@ -326,4 +326,36 @@ const VkFormat GetVulkanFormat(const VertexAttribType *type)
         
     return vk_format_by_basetype[size_t(type->basetype)][type->vec_size-1];
 }
+
+namespace
+{
+    constexpr VulkanColorSpace vk_color_space_list[]=
+    {
+        {VK_COLOR_SPACE_SRGB_NONLINEAR_KHR,         "sRGB Nonlinear",           false},
+        {VK_COLOR_SPACE_DISPLAY_P3_NONLINEAR_EXT,   "Display P3 Nonlinear",     false},
+        {VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT,   "Extended sRGB Linear",     true},
+        {VK_COLOR_SPACE_DISPLAY_P3_LINEAR_EXT,      "Display P3 Linear",        true},
+        {VK_COLOR_SPACE_DCI_P3_NONLINEAR_EXT,       "DCI P3 Nonlinear",         false},
+        {VK_COLOR_SPACE_BT709_LINEAR_EXT,           "BT709 Linear",             true},
+        {VK_COLOR_SPACE_BT709_NONLINEAR_EXT,        "BT709 Nonlinear",          false},
+        {VK_COLOR_SPACE_BT2020_LINEAR_EXT,          "BT2020 Linear",            true},
+        {VK_COLOR_SPACE_HDR10_ST2084_EXT,           "HDR10 ST2084",             false},
+        {VK_COLOR_SPACE_DOLBYVISION_EXT,            "Dolby Vision",             false},
+        {VK_COLOR_SPACE_HDR10_HLG_EXT,              "HDR10 HLG",                false},
+        {VK_COLOR_SPACE_ADOBERGB_LINEAR_EXT,        "Adobe RGB Linear",         true},
+        {VK_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT,     "Adobe RGB Nonlinear",      false},
+        {VK_COLOR_SPACE_PASS_THROUGH_EXT,           "Pass through",             false},
+        {VK_COLOR_SPACE_EXTENDED_SRGB_NONLINEAR_EXT,"Extended sRGB Nonlinear",  false},
+        {VK_COLOR_SPACE_DISPLAY_NATIVE_AMD,         "Display Native AMD",       false}
+    };
+}//namespace
+
+const VulkanColorSpace *GetVulkanColorSpace(const VkColorSpaceKHR &cs)
+{
+    for(const VulkanColorSpace &vcs:vk_color_space_list)
+        if(vcs.cs==cs)
+            return &vcs;
+
+    return nullptr;
+}
 VK_NAMESPACE_END

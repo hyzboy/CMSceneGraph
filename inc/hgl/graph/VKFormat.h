@@ -503,5 +503,15 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name);
  * 根据基本类型获取vulkan类型
  */
 const VkFormat GetVulkanFormat(const VertexAttribType *);
+
+struct VulkanColorSpace
+{
+    VkColorSpaceKHR cs;
+    char name[32];
+
+    bool linear;
+};
+
+const VulkanColorSpace *GetVulkanColorSpace(const VkColorSpaceKHR &cs);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_FORMAT_INCLUDE
