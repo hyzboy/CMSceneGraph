@@ -1,8 +1,8 @@
 #ifndef HGL_GRAPH_FRUSTUM_INCLUDE
 #define HGL_GRAPH_FRUSTUM_INCLUDE
 
-#include<hgl/graph/AABox.h>
-#include<hgl/graph/ClipPlane.h>
+#include<hgl/graph/AABB.h>
+#include<hgl/graph/Plane.h>
 namespace hgl
 {
     namespace graph
@@ -12,7 +12,7 @@ namespace hgl
         */
         class Frustum
         {
-            ClipPlane pl[6];
+            Plane pl[6];
 
         public:
 
@@ -27,11 +27,11 @@ namespace hgl
 
             Frustum();
 
-            void SetMatrix(const Matrix4f &,const Matrix4f &);
+            void SetMatrix(const Matrix4f &);
 
             int PointIn(const Vector3f &)const;
             int SphereIn(const Vector3f &,float radius)const;
-            int BoxIn(const AABox &)const;
+            int BoxIn(const AABB &)const;
         };//class Frustum
     }//namespace graph
 }//namespace hgl

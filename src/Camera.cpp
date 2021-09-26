@@ -33,9 +33,6 @@ namespace hgl
             info.vp                     =info.projection*info.view;
             info.inverse_vp             =inverse(info.vp);
 
-            //注意： C++中要 projection * model_view * local_to_world * position
-            //现在glsl中被标记为row_major，顺序同C++
-
             info.pos                    =pos;
             info.target                 =target;
 

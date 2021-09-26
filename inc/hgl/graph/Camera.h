@@ -109,7 +109,7 @@ namespace hgl
             {
                 normalize(axis);
 
-                const Matrix4f mat=rotate(hgl_ang2rad(ang),axis);
+                const Matrix4f mat=rotate(hgl_deg2rad(ang),axis);
                 
                 target=pos+(target-pos)*mat;
             }
@@ -123,7 +123,7 @@ namespace hgl
             {
                 normalize(axis);
 
-                const Matrix4f mat=rotate(hgl_ang2rad(ang),axis);
+                const Matrix4f mat=rotate(hgl_deg2rad(ang),axis);
 
                 pos=target+(pos-target)*mat;
             }

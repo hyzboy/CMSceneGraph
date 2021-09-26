@@ -1,8 +1,7 @@
 #ifndef HGL_GRAPH_RAY_INCLUDE
 #define HGL_GRAPH_RAY_INCLUDE
 
-#include<hgl/VectorMath.h>
-#include<hgl/graph/AABox.h>
+#include<hgl/graph/AABB.h>
 namespace hgl
 {
     namespace graph
@@ -19,8 +18,8 @@ namespace hgl
 
             Ray()
             {
-                origin.set(0.0f,0.0f,0.0f);
-                direction.set(0.0f,0.0f,0.0f);
+                origin=Vector3f(0.0f,0.0f,0.0f);
+                direction=Vector3f(0.0f,0.0f,0.0f);
             }
 
             Ray(const Vector3f &o,const Vector3f &d)
@@ -95,9 +94,9 @@ namespace hgl
             /**
             * 求指定box是否与射线交汇
             */
-            bool CrossBox(const AABox &box)const
+            bool CrossBox(const AABB &box)const
             {
-                return CrossBox(box.corner,box.corner_max);
+                return CrossBox(box.minPoint,box.maxPoint);
             }
         };//class Ray
     }//namespace graph

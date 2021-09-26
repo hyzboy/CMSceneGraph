@@ -8,11 +8,14 @@ namespace hgl
         {
         }
 
-        void Frustum::SetMatrix(const Matrix4f &projection,const Matrix4f &modelview)
+        void Frustum::SetMatrix(const Matrix4f &mvp)
         {
-            float planes[6][4];
+            //引用自cml
+            {
+                float planes[6][4];
 
-            cml::extract_frustum_planes(modelview,projection,planes,cml::z_clip_zero);
+            
+            }
 
             for(int i=0;i<6;i++)
                 pl[i].Set(planes[i]);
