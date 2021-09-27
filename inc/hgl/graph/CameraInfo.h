@@ -19,7 +19,8 @@ namespace hgl
 
             Matrix4f view;
             Matrix4f inverse_view;
-            Matrix4f normal;                ///<transpose(inverse(mat3(view)));
+            //Matrix4f normal;                ///<transpose(inverse(mat3(view)));
+            Matrix3x4f normal;              ///<这里用3x4，在Shader中是3x3(但实际它是3x4保存)
 
             Matrix4f vp;                    ///< projection * view
             Matrix4f inverse_vp;
