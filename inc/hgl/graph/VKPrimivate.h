@@ -20,7 +20,10 @@ enum class Prim
     TriangleStripAdj,                   ///<4+2N个Vertices代表N个Primitive,其中1,3,5,7,9...代表原本的Triangle strip形成Triangle,而2,4,6,8,10...代表邻近提供信息的点.(由1起算)
     Patchs,
 
-    Rectangles=0x100,                   ///<矩形(并非原生支持。以画点形式在每个点的Position中传递Left,Top,Width,Height。在Geometry Shader中转换为2个三角形。用于2D游戏或UI)
+    SolidRectangles=0x100,              ///<实心矩形(并非原生支持。以画点形式在每个点的Position中传递Left,Top,Width,Height。在Geometry Shader中转换为2个三角形。用于2D游戏或UI)
+    WireRectangles,                     ///<线框矩形
+    SolidCube,                          ///<立方体(以画线形式在第一个点中指定一个顶点，在第二个点中指定长宽高)
+    WireCube,                           ///<线框立方体
 
     ENUM_CLASS_RANGE(Points,Patchs)
 };//

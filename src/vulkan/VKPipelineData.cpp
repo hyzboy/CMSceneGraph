@@ -191,16 +191,38 @@ void PipelineData::InitVertexInputState(const uint32_t stage_count,
     
     pipeline_info.pVertexInputState  = &vis_create_info;
 }
+namespace
+{
+    constexpr VkPrimitiveTopology ComplexPrimitiveTopologyToOrigin[]=
+    {
+        VK_PRIMITIVE_TOPOLOGY_POINT_LIST,
+        VK_PRIMITIVE_TOPOLOGY_POINT_LIST,
+        VK_PRIMITIVE_TOPOLOGY_LINE_LIST,
+        VK_PRIMITIVE_TOPOLOGY_LINE_LIST,
+    };
+}//namespace
 
 bool PipelineData::Set(const Prim topology,bool restart)
 {
+    VkPrimitiveTopology prim;
+
     if(topology<Prim::BEGIN_RANGE||topology>Prim::END_RANGE)
-        if(topology!=Prim::Rectangles)return(false);
+    {
+        if(topology<Prim::SolidRectangles
+         ||topology>Prim::WireCube)
+            return(false);
+        else
+            prim=ComplexPrimitiveTopologyToOrigin[uint(topology)-uint(Prim::SolidRectangles)];
+    }
+    else
+    {
+        prim=VkPrimitiveTopology(topology);
+    }    
 
     input_assembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     input_assembly.pNext = nullptr;
     input_assembly.flags = 0;
-    input_assembly.topology = VkPrimitiveTopology(topology==Prim::Rectangles?Prim::Points:topology);
+    input_assembly.topology = prim;
     input_assembly.primitiveRestartEnable = restart;
 
     pipeline_info.pInputAssemblyState = &input_assembly;
