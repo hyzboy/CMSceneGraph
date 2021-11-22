@@ -106,15 +106,17 @@ public:
     {
         flags                    =0;
         pipelineBindPoint        =VK_PIPELINE_BIND_POINT_GRAPHICS;
+
         inputAttachmentCount     =0;
         pInputAttachments        =nullptr;
 
-	    pColorAttachments        =color_ref_list;
         colorAttachmentCount     =color_count;
+	    pColorAttachments        =color_ref_list;
+
+        pResolveAttachments      =nullptr;
 
         pDepthStencilAttachment  =depth_ref;
 
-        pResolveAttachments      =nullptr;
         preserveAttachmentCount  =0;
         pPreserveAttachments     =nullptr;
     }
