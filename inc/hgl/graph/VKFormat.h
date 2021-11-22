@@ -377,8 +377,12 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define UPF_ABGR8      PF_ABGR8UN
 #define UPF_A2BGR10    PF_A2BGR10UN
 #define UPF_R16        PF_R16UN
+#define UPF_R16U       PF_R16U
+#define UPF_R16I       PF_R16I
 #define UPF_R16F       PF_R16F
 #define UPF_RG16       PF_RG16UN
+#define UPF_RG16U      PF_RG16U
+#define UPF_RG16I      PF_RG16I
 #define UPF_RG16F      PF_RG16F
 //#define UPF_RGBA16     PF_RGBA16UN      //Adreno 500系不支持，600系可以
 //#define UPF_RGBA16S    PF_RGBA16SN
