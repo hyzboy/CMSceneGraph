@@ -365,7 +365,6 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 }
 
 //以下为AMD/NVIDIA/INTEL/QUALCOMM/ARM/POWERVR全部可用Optimal模式的格式
-#define UPF_BGRA4      PF_BGRA4
 #define UPF_RGB565     PF_RGB565
 #define UPF_A1RGB5     PF_A1RGB5
 #define UPF_R8         PF_R8UN
