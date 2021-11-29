@@ -1,60 +1,39 @@
 ﻿#include<hgl/graph/VKVertexAttributeBinding.h>
 
 VK_NAMESPACE_BEGIN
-VertexAttributeBinding::VertexAttributeBinding(const uint32_t count,const VkVertexInputBindingDescription *bind_list,const VkVertexInputAttributeDescription *attr_list)
+VertexAttributeBinding::VertexAttributeBinding(const int count,const AnsiString **nl,const VertexAttribType *vat,VkVertexInputBindingDescription *bind_list,VkVertexInputAttributeDescription *attr_list)
 {
     attr_count=count;
+    name_list=nl;
 
     if(attr_count<=0)
     {
         binding_list=nullptr;
         attribute_list=nullptr;
+        type_list=nullptr;
         return;
     }
 
-    binding_list=hgl_copy_new(attr_count,bind_list);
-    attribute_list=hgl_copy_new(attr_count,attr_list);
+    binding_list=bind_list;
+    attribute_list=attr_list;
+    type_list=vat;
 }
 
 VertexAttributeBinding::~VertexAttributeBinding()
 {
-    delete[] attribute_list;
-    delete[] binding_list;
+    SAFE_CLEAR_ARRAY(binding_list);
+    SAFE_CLEAR_ARRAY(attribute_list);
 }
 
-bool VertexAttributeBinding::SetInstance(const uint index,bool instance)
+const int VertexAttributeBinding::GetIndex(const AnsiString &name)const
 {
-    if(index>=attr_count)return(false);
+    if(name.IsEmpty())return(-1);
 
-    binding_list[index].inputRate=instance?VK_VERTEX_INPUT_RATE_INSTANCE:VK_VERTEX_INPUT_RATE_VERTEX;
+    for(int i=0;i<attr_count;i++)
+        if(name==*(name_list[i]))
+            return(i);
 
-    return(true);
+    return -1;
 }
 
-bool VertexAttributeBinding::SetStride(const uint index,const uint32_t &stride)
-{
-    if(index>=attr_count)return(false);
-
-    binding_list[index].stride=stride;
-
-    return(true);
-}
-
-bool VertexAttributeBinding::SetFormat(const uint index,const VkFormat &format)
-{
-    if(index>=attr_count)return(false);
-
-    attribute_list[index].format=format;
-
-    return(true);
-}
-
-bool VertexAttributeBinding::SetOffset(const uint index,const uint32_t offset)
-{
-    if(index>=attr_count)return(false);
-
-    attribute_list[index].offset=offset;
-
-    return(true);
-}
 VK_NAMESPACE_END

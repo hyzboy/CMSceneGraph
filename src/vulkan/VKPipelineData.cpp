@@ -179,11 +179,13 @@ void PipelineData::InitShaderStage(const ShaderStageCreateInfoList &ssl)
     pipeline_info.pStages = ssl.GetData();
 }
 
-void PipelineData::InitVertexInputState(const VAB *vab)
+void PipelineData::InitVertexInputState(const VAB *_vab)
 {
     vertex_input_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     vertex_input_state.pNext = nullptr;
     vertex_input_state.flags = 0;
+
+    vab=_vab;
 
     vertex_input_state.vertexBindingDescriptionCount   = 
     vertex_input_state.vertexAttributeDescriptionCount = vab->GetVertexAttrCount();

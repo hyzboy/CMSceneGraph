@@ -38,6 +38,7 @@ struct PipelineData
 private:
 
     uchar *file_data;
+    const VAB *vab;
 
 public:
 
@@ -78,6 +79,8 @@ public:
     void InitShaderStage(const ShaderStageCreateInfoList &);
     void InitVertexInputState(const VAB *);
     void InitDynamicState();
+
+    const VAB *GetVAB()const{return vab;}
 
 public:
 
