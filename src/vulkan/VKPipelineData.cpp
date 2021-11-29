@@ -1,4 +1,5 @@
 #include<hgl/graph/VKPipelineData.h>
+#include<hgl/graph/VKVertexAttributeBinding.h>
 
 VK_NAMESPACE_BEGIN
 
@@ -172,24 +173,24 @@ PipelineData::PipelineData()
     color_blend_attachments=nullptr;
 }
 
-void PipelineData::InitVertexInputState(const uint32_t stage_count,
-                                        const VkPipelineShaderStageCreateInfo *stages,
-                                        const uint32_t attr_count,
-                                        const VkVertexInputBindingDescription *binding_list,
-                                        const VkVertexInputAttributeDescription *attribute_list)
+void PipelineData::InitShaderStage(const ShaderStageCreateInfoList &ssl)
 {
-    pipeline_info.stageCount = stage_count;
-    pipeline_info.pStages = stages;
+    pipeline_info.stageCount = ssl.GetCount();
+    pipeline_info.pStages = ssl.GetData();
+}
 
-    vis_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    vis_create_info.pNext = nullptr;
-    vis_create_info.flags = 0;
-    vis_create_info.vertexBindingDescriptionCount   = attr_count;
-    vis_create_info.pVertexBindingDescriptions      = binding_list;
-    vis_create_info.vertexAttributeDescriptionCount = attr_count;
-    vis_create_info.pVertexAttributeDescriptions    = attribute_list;
+void PipelineData::InitVertexInputState(const VAB *vab)
+{
+    vertex_input_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+    vertex_input_state.pNext = nullptr;
+    vertex_input_state.flags = 0;
+
+    vertex_input_state.vertexBindingDescriptionCount   = 
+    vertex_input_state.vertexAttributeDescriptionCount = vab->GetVertexAttrCount();
+    vertex_input_state.pVertexBindingDescriptions      = vab->GetVertexBindingList();
+    vertex_input_state.pVertexAttributeDescriptions    = vab->GetVertexAttributeList();
     
-    pipeline_info.pVertexInputState  = &vis_create_info;
+    pipeline_info.pVertexInputState  = &vertex_input_state;
 }
 namespace
 {

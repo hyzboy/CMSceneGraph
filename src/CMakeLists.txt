@@ -16,7 +16,8 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKPipelineData.h
                             ${CM_SG_INCLUDE_PATH}/VKPrimivate.h
                             ${CM_SG_INCLUDE_PATH}/VKRenderbufferInfo.h
-                            ${CM_SG_INCLUDE_PATH}/VKStruct.h)
+                            ${CM_SG_INCLUDE_PATH}/VKStruct.h
+                            ${CM_SG_INCLUDE_PATH}/VKVertexAttributeBinding.h)
 
 SET(CM_SG_SOURCE    AABB.cpp
                     Camera.cpp
@@ -25,6 +26,7 @@ SET(CM_SG_SOURCE    AABB.cpp
                     VertexAttrib.cpp)
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
+                        vulkan/VKVertexAttributeBinding.cpp
                         vulkan/VKPipelineData.cpp
                         vulkan/VKPipelineDataManage.cpp
                         vulkan/VKPipelineDataSaveLoad.cpp)

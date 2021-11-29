@@ -3,6 +3,7 @@
 
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/graph/VKPrimivate.h>
+#include<hgl/graph/VKVertexAttributeBinding.h>
 #include<hgl/type/List.h>
 #include<hgl/type/String.h>
 
@@ -30,6 +31,8 @@ constexpr size_t VK_DYNAMIC_STATE_END_RANGE=VK_DYNAMIC_STATE_STENCIL_REFERENCE;
 constexpr size_t VK_DYNAMIC_STATE_RANGE_SIZE=VK_DYNAMIC_STATE_END_RANGE-VK_DYNAMIC_STATE_BEGIN_RANGE+1;
 #endif//VK_DYNAMIC_STATE_RANGE_SIZE
 
+using ShaderStageCreateInfoList=List<VkPipelineShaderStageCreateInfo>;
+
 struct PipelineData
 {
 private:
@@ -40,7 +43,7 @@ public:
 
     VkGraphicsPipelineCreateInfo                pipeline_info;
 
-    VkPipelineVertexInputStateCreateInfo        vis_create_info;
+    VkPipelineVertexInputStateCreateInfo        vertex_input_state;
     VkPipelineInputAssemblyStateCreateInfo      input_assembly;
     VkPipelineTessellationStateCreateInfo *     tessellation;
 
@@ -72,11 +75,8 @@ public:
     PipelineData();
     ~PipelineData();
 
-    void InitVertexInputState(  const uint32_t stage_count,
-                                const VkPipelineShaderStageCreateInfo *stages,
-                                const uint32_t attr_count,
-                                const VkVertexInputBindingDescription *bind_list,
-                                const VkVertexInputAttributeDescription *attr_list);
+    void InitShaderStage(const ShaderStageCreateInfoList &);
+    void InitVertexInputState(const VAB *);
     void InitDynamicState();
 
 public:
