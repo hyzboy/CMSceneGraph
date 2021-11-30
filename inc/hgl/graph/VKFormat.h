@@ -400,20 +400,45 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define UPF_B10GR11UF  PF_B10GR11UF
 
 //顶点用格式
-#define VF_VEC1    PF_R32F
-#define VF_VEC2    PF_RG32F
-#define VF_VEC3    PF_RGB32F
-#define VF_VEC4    PF_RGBA32F
+#define VF_V1F      PF_R32F
+#define VF_V2F      PF_RG32F
+#define VF_V3F      PF_RGB32F
+#define VF_V4F      PF_RGBA32F
 
-#define VF_IVEC1   PF_R32I
-#define VF_IVEC2   PF_RG32I
-#define VF_IVEC3   PF_RGB32I
-#define VF_IVEC4   PF_RGBA32I
+#define VF_V1F16    PF_R16F
+#define VF_V2F16    PF_RG16F
+#define VF_V3F16    PF_RGB16F
+#define VF_V4F16    PF_RGBA16F
 
-#define VF_UVEC1   PF_R32U
-#define VF_UVEC2   PF_RG32U
-#define VF_UVEC3   PF_RGB32U
-#define VF_UVEC4   PF_RGBA32U
+#define VF_V1I      PF_R32I
+#define VF_V2I      PF_RG32I
+#define VF_V3I      PF_RGB32I
+#define VF_V4I      PF_RGBA32I
+
+#define VF_V1I16    PF_R16I
+#define VF_V2I16    PF_RG16I
+#define VF_V3I16    PF_RGB16I
+#define VF_V4I16    PF_RGBA16I
+
+#define VF_V1I8     PF_R8I
+#define VF_V2I8     PF_RG8I
+#define VF_V3I8     PF_RGB8I
+#define VF_V4I8     PF_RGBA8I
+
+#define VF_V1U      PF_R32U
+#define VF_V2U      PF_RG32U
+#define VF_V3U      PF_RGB32U
+#define VF_V4U      PF_RGBA32U
+
+#define VF_V1U16    PF_R16U
+#define VF_V2U16    PF_RG16U
+#define VF_V3U16    PF_RGB16U
+#define VF_V4U16    PF_RGBA16U
+
+#define VF_V1U8     PF_R8U
+#define VF_V2U8     PF_RG8U
+#define VF_V3U8     PF_RGB8U
+#define VF_V4U8     PF_RGBA8U
 
 enum class TextureCompressType
 {
