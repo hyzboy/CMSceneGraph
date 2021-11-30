@@ -17,10 +17,24 @@ VertexAttributeBinding::VertexAttributeBinding(const int count,const AnsiString 
     binding_list=bind_list;
     attribute_list=attr_list;
     type_list=vat;
+
+    va_list=new VertexAttribute[attr_count];
+    VertexAttribute *va=va_list;
+
+    for(int i=0;i<attr_count;i++)
+    {
+        va->format  =attribute_list[i].format;
+        va->binding =attribute_list[i].binding;
+        va->vec_size=vat[i].vec_size;
+        va->stride  =binding_list[i].stride;
+
+        ++va;
+    }
 }
 
 VertexAttributeBinding::~VertexAttributeBinding()
 {
+    delete[] va_list;
     SAFE_CLEAR_ARRAY(binding_list);
     SAFE_CLEAR_ARRAY(attribute_list);
 }
