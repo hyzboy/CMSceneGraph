@@ -171,6 +171,8 @@ PipelineData::PipelineData()
 
     sample_mask=nullptr;
     color_blend_attachments=nullptr;
+   
+    InitViewportState();
 }
 
 void PipelineData::InitShaderStage(const ShaderStageCreateInfoList &ssl)
