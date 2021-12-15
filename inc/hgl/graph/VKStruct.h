@@ -88,6 +88,20 @@ VKSF_DEFINE(    SamplerCreateInfo,              VK_STRUCTURE_TYPE_SAMPLER_CREATE
 VKSF_DEFINE(    BufferCreateInfo,               VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO)
 VKSF_DEFINE(    ImageViewCreateInfo,            VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO)
 
+struct ImageSubresourceRange:public VkImageSubresourceRange
+{
+public:
+
+    ImageSubresourceRange(VkImageAspectFlags aspect_mask,const uint32_t level_count=1)
+    {
+        this->aspectMask    =aspect_mask;
+        this->baseMipLevel  =0;
+        this->levelCount    =level_count;
+        this->baseArrayLayer=0;
+        this->layerCount    =1;
+    }
+};//struct ImageSubresourceRange:public VkImageSubresourceRange
+
 struct ImageMemoryBarrier:public vkstruct<VkImageMemoryBarrier,VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER>
 {
 public:
@@ -95,6 +109,8 @@ public:
     ImageMemoryBarrier(VkImage img)
     {
         this->image=img;
+        this->srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        this->dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
     }
 };//struct ImageMemoryBarrier:public vkstruct<VkImageMemoryBarrier,VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER>
 
