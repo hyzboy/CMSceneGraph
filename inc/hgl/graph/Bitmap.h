@@ -23,7 +23,7 @@ namespace hgl
             }
         };//struct BitmapData
 
-        struct ImageRegion
+        struct Image2DRegion
         {
             int left,top,width,height;
             uint bytes;
