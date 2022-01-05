@@ -80,7 +80,9 @@ public:
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
-        this->extent        =extent;
+        this->extent.width  =extent.width;
+        this->extent.height =extent.height;
+        this->extent.depth  =1;
         this->arrayLayers   =1;
     }
 
@@ -127,11 +129,11 @@ public:
     ~Image3DCreateInfo()=default;
 };//
 
-struct ImageCubemapCreateInfo:public ImageCreateInfo
+struct ImageCubeCreateInfo:public ImageCreateInfo
 {
 public:
 
-    ImageCubemapCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
+    ImageCubeCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
@@ -141,15 +143,44 @@ public:
         this->arrayLayers   =6;
     }
 
-    ImageCubemapCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
+    ImageCubeCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
-        this->extent        =extent;
+        this->extent.width  =extent.width;
+        this->extent.height =extent.height;
+        this->extent.depth  =1;
         this->arrayLayers   =6;
     }
 
-    ~ImageCubemapCreateInfo()=default;
+    ~ImageCubeCreateInfo()=default;
+};//
+
+struct ImageCubeArrayCreateInfo:public ImageCreateInfo
+{
+public:
+
+    ImageCubeArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const uint32_t w,const uint32_t h,const uint32 c,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
+    {
+        this->format        =fmt;
+        this->imageType     =VK_IMAGE_TYPE_2D;
+        this->extent.width  =w;
+        this->extent.height =h;
+        this->extent.depth  =1;
+        this->arrayLayers   =6*c;
+    }
+
+    ImageCubeArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t &ml):ImageCreateInfo(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT,ml,u,t)
+    {
+        this->format        =fmt;
+        this->imageType     =VK_IMAGE_TYPE_2D;
+        this->extent.width  =extent.width;
+        this->extent.height =extent.height;
+        this->extent.depth  =1;
+        this->arrayLayers   =6*extent.depth;
+    }
+
+    ~ImageCubeArrayCreateInfo()=default;
 };//
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_IMAGE_CREATE_INFO_INCLUDE
