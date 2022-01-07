@@ -92,13 +92,13 @@ struct ImageSubresourceRange:public VkImageSubresourceRange
 {
 public:
 
-    ImageSubresourceRange(VkImageAspectFlags aspect_mask,const uint32_t level_count=1)
+    ImageSubresourceRange(VkImageAspectFlags aspect_mask,const uint32_t level_count=1,const uint32_t layer_count=1)
     {
         this->aspectMask    =aspect_mask;
         this->baseMipLevel  =0;
         this->levelCount    =level_count;
         this->baseArrayLayer=0;
-        this->layerCount    =1;
+        this->layerCount    =layer_count;
     }
 };//struct ImageSubresourceRange:public VkImageSubresourceRange
 
