@@ -57,7 +57,7 @@ namespace
     }
 }//namespace
 
-PipelineData *GetPipelineData(const OSString &filename)
+const PipelineData *GetPipelineData(const OSString &filename)
 {
     const OSString fn=filename+OS_TEXT(".pipeline");
     
@@ -75,7 +75,7 @@ PipelineData *GetPipelineData(const OSString &filename)
     return pd;
 }
 
-PipelineData *GetPipelineData(const InlinePipeline &ip)
+const PipelineData *GetPipelineData(const InlinePipeline &ip)
 {
     if(inline_pipeline_data.GetCount()<=0)
         InitInlinePipelineData();

@@ -38,13 +38,16 @@ struct PipelineData
 private:
 
     uchar *file_data;
-    const VAB *vab;
 
 public:
 
     VkGraphicsPipelineCreateInfo                pipeline_info;
 
+    VkVertexInputBindingDescription *           vertex_input_binding_description;
+    VkVertexInputAttributeDescription *         vertex_input_attribute_description;
+
     VkPipelineVertexInputStateCreateInfo        vertex_input_state;
+
     VkPipelineInputAssemblyStateCreateInfo      input_assembly;
     VkPipelineTessellationStateCreateInfo *     tessellation;
 
@@ -64,6 +67,8 @@ public:
     VkPipelineColorBlendAttachmentState *       color_blend_attachments;
     VkPipelineColorBlendStateCreateInfo *       color_blend;
 
+    void InitColorBlend(const uint32_t);
+
     VkDynamicState                              dynamic_state_enables[VK_DYNAMIC_STATE_RANGE_SIZE];
     VkPipelineDynamicStateCreateInfo            dynamic_state;
 
@@ -72,6 +77,7 @@ public:
 
 public:
 
+    PipelineData(const PipelineData *);
     PipelineData(const uint32_t color_attachment_count);
     PipelineData();
     ~PipelineData();
@@ -79,8 +85,6 @@ public:
     void InitShaderStage(const ShaderStageCreateInfoList &);
     void InitVertexInputState(const VAB *);
     void InitDynamicState();
-
-    const VAB *GetVAB()const{return vab;}
 
 public:
 
@@ -157,6 +161,6 @@ public:
  * 根据文件名获取PipelineData
  * @param filename 文件名(注意不包含扩展名)
  */
-PipelineData *GetPipelineData(const OSString &filename);
+const PipelineData *GetPipelineData(const OSString &filename);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE

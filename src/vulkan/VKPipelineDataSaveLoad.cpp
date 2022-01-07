@@ -17,8 +17,11 @@ PipelineData::~PipelineData()
         return;
     }
 
+    SAFE_CLEAR_ARRAY(vertex_input_attribute_description);
+    SAFE_CLEAR_ARRAY(vertex_input_binding_description);
+
     if(color_blend_attachments)
-            hgl_free(color_blend_attachments);
+        hgl_free(color_blend_attachments);
 
     SAFE_CLEAR      (color_blend);
 

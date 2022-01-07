@@ -23,6 +23,6 @@ struct PipelineData;
 /**
  * 获取内置管线数据
  */
-PipelineData *GetPipelineData(const InlinePipeline &);
+const PipelineData *GetPipelineData(const InlinePipeline &);
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_INLINE_PIPELINE_INCLUDE

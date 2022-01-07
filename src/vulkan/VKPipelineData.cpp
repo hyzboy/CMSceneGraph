@@ -15,6 +15,55 @@ void SetDefault(VkPipelineColorBlendAttachmentState *cba)
     cba->dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 }
 
+PipelineData::PipelineData(const PipelineData *pd)
+{
+    file_data=nullptr;
+
+    hgl_zero(pipeline_info);
+
+    pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+
+    vertex_input_binding_description=nullptr;
+    vertex_input_attribute_description=nullptr;
+
+    viewport=pd->viewport;
+    scissor=pd->scissor;
+
+    viewport_state=pd->viewport_state;
+
+    viewport_state.pScissors=&scissor;
+    viewport_state.pViewports=&viewport;
+
+    pipeline_info.pViewportState     = &viewport_state;
+
+#define PIPELINE_STRUCT_NEW_COPY(pname,name)  pipeline_info.pname=name=hgl_new_copy(pd->name);
+
+    PIPELINE_STRUCT_NEW_COPY(pTessellationState,tessellation);
+    PIPELINE_STRUCT_NEW_COPY(pRasterizationState,rasterization);
+
+    sample_mask=nullptr;
+    PIPELINE_STRUCT_NEW_COPY(pMultisampleState,multi_sample);
+
+    PIPELINE_STRUCT_NEW_COPY(pDepthStencilState,depth_stencil);
+    
+#undef PIPELINE_STRUCT_COPY
+
+    InitColorBlend(pd->color_blend->attachmentCount);
+
+    hgl_cpy(dynamic_state_enables,pd->dynamic_state_enables,VK_DYNAMIC_STATE_RANGE_SIZE);    
+    hgl_cpy(dynamic_state,pd->dynamic_state);
+    dynamic_state.pDynamicStates=dynamic_state_enables;
+    pipeline_info.pDynamicState      = &dynamic_state;
+
+    alpha_test=pd->alpha_test;
+    alpha_blend=pd->alpha_blend;
+
+    {
+        pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
+        pipeline_info.basePipelineIndex = -1;
+    }
+}
+
 PipelineData::PipelineData(const uint32_t color_attachment_count)
 {
     file_data=nullptr;
@@ -35,6 +84,9 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     //hgl_zero(dynamic_state);
 
     pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+
+    vertex_input_binding_description=nullptr;
+    vertex_input_attribute_description=nullptr;
 
     InitViewportState();
     
@@ -102,12 +154,24 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     pipeline_info.pDepthStencilState=depth_stencil;
 
     //这个需要和subpass中的color attachment数量相等，所以添加多份
-    color_blend_attachments=hgl_align_malloc<VkPipelineColorBlendAttachmentState>(color_attachment_count);
-    SetDefault(color_blend_attachments);
+    InitColorBlend(color_attachment_count);
+
+    InitDynamicState();
 
     alpha_test=0;
     alpha_blend=false;
-    
+
+    {
+        pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
+        pipeline_info.basePipelineIndex = -1;
+    }
+}
+
+void PipelineData::InitColorBlend(const uint32_t color_attachment_count)
+{
+    color_blend_attachments=hgl_align_malloc<VkPipelineColorBlendAttachmentState>(color_attachment_count);
+    SetDefault(color_blend_attachments);
+
     color_blend=new VkPipelineColorBlendStateCreateInfo;
     color_blend->sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
     color_blend->pNext = nullptr;
@@ -122,13 +186,6 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     color_blend->blendConstants[3] = 0.0f;
 
     pipeline_info.pColorBlendState=color_blend;
-
-    InitDynamicState();
-
-    {
-        pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
-        pipeline_info.basePipelineIndex = -1;
-    }
 }
 
 void PipelineData::SetColorAttachments(const uint32_t count)
@@ -181,18 +238,20 @@ void PipelineData::InitShaderStage(const ShaderStageCreateInfoList &ssl)
     pipeline_info.pStages = ssl.GetData();
 }
 
-void PipelineData::InitVertexInputState(const VAB *_vab)
+void PipelineData::InitVertexInputState(const VAB *vab)
 {
     vertex_input_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     vertex_input_state.pNext = nullptr;
     vertex_input_state.flags = 0;
 
-    vab=_vab;
-
     vertex_input_state.vertexBindingDescriptionCount   = 
     vertex_input_state.vertexAttributeDescriptionCount = vab->GetVertexAttrCount();
-    vertex_input_state.pVertexBindingDescriptions      = vab->GetVertexBindingList();
-    vertex_input_state.pVertexAttributeDescriptions    = vab->GetVertexAttributeList();
+
+    vertex_input_binding_description    =hgl_new_copy(vab->GetVertexBindingList(),vertex_input_state.vertexBindingDescriptionCount);
+    vertex_input_attribute_description  =hgl_new_copy(vab->GetVertexAttributeList(),vertex_input_state.vertexBindingDescriptionCount);
+
+    vertex_input_state.pVertexBindingDescriptions      = vertex_input_binding_description;
+    vertex_input_state.pVertexAttributeDescriptions    = vertex_input_attribute_description;
     
     pipeline_info.pVertexInputState  = &vertex_input_state;
 }
