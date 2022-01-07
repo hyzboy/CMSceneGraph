@@ -25,6 +25,8 @@ namespace hgl
             Matrix4f vp;                    ///< projection * view
             Matrix4f inverse_vp;
 
+            Matrix4f sky;                   ///<天空盒用矩阵
+
             Vector4f pos;                   ///<摄像机坐标
             Vector4f target;                ///<摄像机目标点
             Vector4f world_up;

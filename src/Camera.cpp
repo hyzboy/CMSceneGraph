@@ -33,6 +33,13 @@ namespace hgl
             info.vp                     =info.projection*info.view;
             info.inverse_vp             =inverse(info.vp);
 
+            {
+                glm::mat4 tmp=info.view;
+                tmp[3]=glm::vec4(0,0,0,1);
+
+                info.sky=info.projection*tmp;
+            }
+
             info.pos                    =pos;
             info.target                 =target;
 
