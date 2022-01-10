@@ -51,7 +51,9 @@ namespace
 
         {
             pd=new PipelineData(1);
-            pd->CloseCullFace();
+            pd->SetCullMode(VK_CULL_MODE_FRONT_BIT);
+            pd->SetDepthWrite(false);
+            pd->SetDepthCompareOp(VK_COMPARE_OP_LESS);
             inline_pipeline_data.Add(InlinePipeline::Sky,pd);
         }
     }
