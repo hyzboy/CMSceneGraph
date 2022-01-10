@@ -39,13 +39,13 @@ namespace hgl
             uint vp_width;              ///<视图宽
             uint vp_height;             ///<视图高
 
-            float Yfov=45;              ///<水平FOV
-            float znear=0.0015f,zfar=15000;   ///<Z轴上离摄像机的距离(注：因znear会参与计算，为避免除0操作，请不要使用0或过于接近0的值)
+            float Yfov;                 ///<水平FOV
+            float znear,zfar;           ///<Z轴上离摄像机的距离(注：因znear会参与计算，为避免除0操作，请不要使用0或过于接近0的值)
 
             Vector4f pos;               ///<摄像机坐标
             Vector4f target;            ///<目标点坐标
 
-            Vector4f world_up           =Vector4f(0,0,1,0); ///<向上量(默认0,0,1)
+            Vector4f world_up;          ///<向上量(默认0,0,1)
             
             Vector4f view_line;         ///<视线(eye-target)
             Vector4f camera_direction;
@@ -57,29 +57,19 @@ namespace hgl
 
             CameraInfo info;
 
+            Camera()
+            {
+                hgl_zero(*this);
+
+                Yfov        =45;
+                znear       =1.0f;
+                zfar        =15000;
+                world_up.z  =1.0f;
+            }
+
         public:
 
             void Refresh();
-
-            void operator = (const Camera &cam)
-            {
-                type            =cam.type;
-                width           =cam.width;
-                height          =cam.height;
-                Yfov            =cam.Yfov;
-                znear           =cam.znear;
-                zfar            =cam.zfar;
-
-                pos             =cam.pos;
-                target          =cam.target;
-                world_up        =cam.world_up;
-
-                camera_direction=cam.camera_direction;
-                camera_right    =cam.camera_right;
-                camera_up       =cam.camera_up;
-
-                info            =cam.info;
-            }
 
         public:
 
