@@ -28,7 +28,6 @@ namespace hgl
             info.view                   =lookat(pos,target,world_up);
 
             info.inverse_view           =inverse(info.view);
-            info.normal                 =Matrix3x4f(transpose(info.inverse_view));
 
             info.vp                     =info.projection*info.view;
             info.inverse_vp             =inverse(info.vp);
