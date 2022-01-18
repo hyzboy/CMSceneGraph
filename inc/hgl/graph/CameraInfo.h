@@ -25,14 +25,14 @@ namespace hgl
 
             Matrix4f sky;                   ///<天空盒用矩阵
 
-            Vector4f pos;                   ///<摄像机坐标
-            Vector4f target;                ///<摄像机目标点
-            Vector4f world_up;
+            alignas(16) Vector3f pos;                   ///<摄像机坐标
+            alignas(16) Vector3f target;                ///<摄像机目标点
+            alignas(16) Vector3f world_up;
 
-            Vector4f view_line;             ///<pos-target, .w=length(.xyz)
-            Vector4f camera_direction;      ///<.w is length(.xyz)
-            Vector4f camera_right;          ///<.w is length(.xyz)
-            Vector4f camera_up;             ///<.w is length(.xyz)
+            alignas(16) Vector3f view_line;             ///<pos-target
+            alignas(16) Vector3f camera_direction;
+            alignas(16) Vector3f camera_right;
+            alignas(16) Vector3f camera_up;
 
             float znear,zfar;
 

@@ -18,21 +18,10 @@ namespace hgl
         };
 
         /**
-         * 摄像机类型
-         */
-        enum class CameraType
-        {
-            Perspective,
-            Ortho
-        };//enum class CameraType
-
-        /**
          * 摄像机数据结构
          */
         struct Camera
         {
-            CameraType type=CameraType::Perspective;
-
             float width;                ///<画布宽
             float height;               ///<画布高
 
@@ -42,16 +31,15 @@ namespace hgl
             float Yfov;                 ///<水平FOV
             float znear,zfar;           ///<Z轴上离摄像机的距离(注：因znear会参与计算，为避免除0操作，请不要使用0或过于接近0的值)
 
-            Vector4f pos;               ///<摄像机坐标
-            Vector4f target;            ///<目标点坐标
+            Vector3f pos;               ///<摄像机坐标
+            Vector3f target;            ///<目标点坐标
 
-            Vector4f world_up;          ///<向上量(默认0,0,1)
+            Vector3f world_up;          ///<向上量(默认0,0,1)
             
-            Vector4f view_line;         ///<视线(eye-target)
-            Vector4f camera_direction;
-            Vector4f camera_right;
-            Vector4f camera_up;
-            Vector4f view_distance;     ///<视距,x/y/z对应direction/right/up,w对应view_line
+            Vector3f view_line;         ///<视线(eye-target)
+            Vector3f camera_direction;
+            Vector3f camera_right;
+            Vector3f camera_up;
 
         public:
 
@@ -73,18 +61,18 @@ namespace hgl
 
         public:
 
-            void Transform(const Matrix4f &mat)
+            void Transform(const Matrix3f &mat)
             {
-                camera_direction=camera_direction*mat;
-                camera_up       =camera_up*mat;
-                camera_right    =camera_right*mat;
+                camera_direction=mat*camera_direction;
+                camera_up       =mat*camera_up;
+                camera_right    =mat*camera_right;
             }
 
             /**
-            * 向指定向量移动
-            * @param move_dist 移动距离
-            */
-            void Move(const Vector4f &move_dist)
+             * 向指定向量移动
+             * @param move_dist 移动距离
+             */
+            void Move(const Vector3f &move_dist)
             {
                 pos+=move_dist;
                 target+=move_dist;
@@ -95,13 +83,13 @@ namespace hgl
              * @param ang 角度
              * @param axis 旋转轴
              */
-            void Rotate(double ang,Vector4f axis)
+            void Rotate(double ang,const Vector3f &axis)
             {
                 normalize(axis);
 
-                const Matrix4f mat=rotate(hgl_deg2rad(ang),axis);
+                const Matrix3f mat=rotate(hgl_deg2rad(ang),axis);
                 
-                target=pos+(target-pos)*mat;
+                target=pos+mat*(target-pos);
             }
 
             /**
@@ -109,18 +97,18 @@ namespace hgl
              * @param ang 角度
              * @param axis 旋转轴
              */
-            void WrapRotate(double ang,Vector4f axis)
+            void WrapRotate(double ang,const Vector3f &axis)
             {
                 normalize(axis);
 
-                const Matrix4f mat=rotate(hgl_deg2rad(ang),axis);
+                const Matrix3f mat=rotate(hgl_deg2rad(ang),axis);
 
-                pos=target+(pos-target)*mat;
+                pos=target+mat*(pos-target);
             }
 
         public: //距离
 
-            const float GetDistance()const{return view_distance.w;}                                 ///<获取视线长度(摄像机到目标点)
+            const float GetDistance()const{return length(pos-target);}                                 ///<获取视线长度(摄像机到目标点)
 
             /**
              * 调整距离
@@ -148,7 +136,9 @@ namespace hgl
              */
             virtual void Backward(const float move_length)
             {
-                Move(camera_direction*move_length/view_distance.y);
+                const Vector3f dir=camera_direction-camera_direction*world_up;      //减去世界向上向量，变成2D坐标
+
+                Move(dir*move_length);
             }
 
             /**
@@ -161,7 +151,7 @@ namespace hgl
              */
             virtual void Up(const float move_length)
             {
-                Move(camera_up*move_length/view_distance.z);
+                Move(camera_up*move_length);
             }
             
             /**
@@ -171,7 +161,7 @@ namespace hgl
 
             virtual void Left(const float move_length)
             {
-                Move(camera_right*move_length/view_distance.x);
+                Move(camera_right*move_length);
             }
 
             virtual void Right(const float move_length){Left(-move_length);}

@@ -6,27 +6,18 @@ namespace hgl
         void Camera::Refresh()
         {
             view_line                   =pos-target;
-            view_line.w                 =length(view_line);
 
             camera_direction            =normalized(view_line);
             camera_right                =normalized(cross(world_up,     camera_direction));
             camera_up                   =normalized(cross(camera_right, camera_direction));
 
-            camera_right.w              =length(camera_right);
-            camera_direction.w          =length(camera_direction);
-            camera_up.w                 =length(camera_up);
-
             info.ortho                  =ortho(width,height);
 
-            if(type==CameraType::Perspective)
-                info.projection         =perspective(Yfov,width/height,znear,zfar);
-            else
-                info.projection         =ortho(width,height,znear,zfar);               //这个算的不对
+            info.projection             =perspective(Yfov,width/height,znear,zfar);
 
             info.inverse_projection     =inverse(info.projection);
 
             info.view                   =lookat(pos,target,world_up);
-
             info.inverse_view           =inverse(info.view);
 
             info.vp                     =info.projection*info.view;
