@@ -50,7 +50,7 @@ PipelineData::PipelineData(const PipelineData *pd)
 
     InitColorBlend(pd->color_blend->attachmentCount);
 
-    hgl_cpy(dynamic_state_enables,pd->dynamic_state_enables,VK_DYNAMIC_STATE_RANGE_SIZE);    
+    hgl_cpy(dynamic_state_enables,pd->dynamic_state_enables,VK_DYNAMIC_STATE_RANGE_SIZE);
     hgl_cpy(dynamic_state,pd->dynamic_state);
     dynamic_state.pDynamicStates=dynamic_state_enables;
     pipeline_info.pDynamicState      = &dynamic_state;
