@@ -3,21 +3,14 @@ namespace hgl
 {
     namespace graph
     {
-        void Camera::Refresh()
+        void Camera::RefreshCameraInfo()
         {
-            view_line                   =pos-target;
-
-            camera_direction            =normalized(view_line);
-            camera_right                =normalized(cross(world_up,     camera_direction));
-            camera_up                   =normalized(cross(camera_right, camera_direction));
-
             info.ortho                  =ortho(width,height);
 
             info.projection             =perspective(Yfov,width/height,znear,zfar);
 
             info.inverse_projection     =inverse(info.projection);
 
-            info.view                   =lookat(pos,target,world_up);
             info.inverse_view           =inverse(info.view);
 
             info.vp                     =info.projection*info.view;
@@ -31,14 +24,8 @@ namespace hgl
             }
 
             info.pos                    =pos;
-            info.target                 =target;
-
-            info.world_up               =world_up;
-
             info.view_line              =view_line;
-            info.camera_direction       =camera_direction;
-            info.camera_right           =camera_right;
-            info.camera_up              =camera_up;
+            info.world_up               =world_up;
 
             info.znear                  =znear;
             info.zfar                   =zfar;

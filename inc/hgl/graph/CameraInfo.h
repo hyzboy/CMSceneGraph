@@ -26,13 +26,8 @@ namespace hgl
             Matrix4f sky;                   ///<天空盒用矩阵
 
             alignas(16) Vector3f pos;                   ///<摄像机坐标
-            alignas(16) Vector3f target;                ///<摄像机目标点
-            alignas(16) Vector3f world_up;
-
             alignas(16) Vector3f view_line;             ///<pos-target
-            alignas(16) Vector3f camera_direction;
-            alignas(16) Vector3f camera_right;
-            alignas(16) Vector3f camera_up;
+            alignas(16) Vector3f world_up;
 
             float znear,zfar;
 
