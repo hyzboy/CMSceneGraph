@@ -10,9 +10,9 @@ namespace hgl
         {
         protected:
 
-            Vector3f camera_direction;
-            Vector3f camera_right;
-            Vector3f camera_up;
+            Vector3f direction;
+            Vector3f right;
+            Vector3f up;
 
         public:
 
@@ -27,12 +27,12 @@ namespace hgl
             {
                 if(!camera)return;
 
-                camera->info.view_line      =camera->pos-target;
-                camera->info.view           =lookat(camera->pos,target,camera->world_up);
+                camera->info.view_line  =camera->pos-target;
+                camera->info.view       =lookat(camera->pos,target,camera->world_up);
 
-                camera_direction            =normalized(camera->view_line);
-                camera_right                =normalized(cross(camera->world_up, camera_direction));
-                camera_up                   =normalized(cross(camera_right,     camera_direction));
+                direction               =normalized(camera->view_line);
+                right                   =normalized(cross(camera->world_up, direction));
+                up                      =normalized(cross(right,            direction));
 
                 camera->RefreshCameraInfo();
             }
@@ -58,7 +58,7 @@ namespace hgl
             {
                 normalize(axis);
 
-                const Matrix3f mat=rotate(hgl_deg2rad(ang),axis);
+                const Matrix3f mat=rotate(deg2rad(ang),axis);
                 
                 target=camera->pos+mat*(target-camera->pos);
             }
@@ -72,7 +72,7 @@ namespace hgl
             {
                 normalize(axis);
 
-                const Matrix3f mat=rotate(hgl_deg2rad(ang),axis);
+                const Matrix3f mat=rotate(deg2rad(ang),axis);
 
                 camera->pos=target+mat*(camera->pos-target);
             }

@@ -1,10 +1,9 @@
-#ifndef HGL_GRAPH_FIRST_PERSON_CAMERA_CONTROL_INCLUDE
+﻿#ifndef HGL_GRAPH_FIRST_PERSON_CAMERA_CONTROL_INCLUDE
 #define HGL_GRAPH_FIRST_PERSON_CAMERA_CONTROL_INCLUDE
 
 /**
- * @see https://github.com/SaschaWillems/Vulkan/blob/master/base/camera.hpp
- * Author: Sascha Willems
- * License: MIT
+ * thank for LearnOpenGL
+ * link: https://learnopengl.com/Getting-started/Camera
  */
 
 #include<hgl/graph/CameraControl.h>
@@ -14,88 +13,106 @@ namespace hgl
     {
         class FirstPersonCameraControl:public CameraControl
         {
-            Vector3f rotation=Vector3f(0.0f);
+            float pitch;        ///<抬头角度(绕X轴旋转角度(X轴左右))
+            float yaw;          ///<左右角度(绕Z轴旋转角度(Z轴向上))
+            float roll;         ///<歪头角度(绕Y轴旋转角度(Y轴向前))
 
-            Vector3f camera_front;
-            Vector3f camera_right;
+            Vector3f front;
+            Vector3f right;
+            Vector3f up;
+
+            Vector3f target;            ///<目标点坐标
 
         public:
 
             FirstPersonCameraControl(Camera *c):CameraControl(c)
             {
-                Rotate(Vector2f(0.0f,-90.0f),1.0f);
+                target=Vector3f(0.0f);
 
-                UpdateCameraFront();
+                pitch=0;
+                yaw  =-90;
+                roll =0;
+
+                UpdateCameraVector();
             }
             virtual ~FirstPersonCameraControl()=default;
 
             void Refresh() override
             {
-                Matrix4f rotM=Matrix4f(1.0f);
-                Matrix4f transM;
+                target=camera->pos+front;
 
-                rotM=glm::rotate(rotM,glm::radians(rotation.x),Vector3f(1.0f,0.0f,0.0f));
-                rotM=glm::rotate(rotM,glm::radians(rotation.y),Vector3f(0.0f,1.0f,0.0f));
-                rotM=glm::rotate(rotM,glm::radians(rotation.z),Vector3f(0.0f,0.0f,1.0f));
-
-                transM=glm::translate(glm::mat4(1.0f),camera->pos);
-
-                camera->info.view=rotM*transM;
+                camera->info.view_line      =front;
+                camera->info.view           =lookat(camera->pos,target,up);
 
                 camera->RefreshCameraInfo();
             }
 
-        public: //�ƶ�
+        public: //移动
 
-            void UpdateCameraFront()
+            void UpdateCameraVector()
             {
-                camera_front.x=cos(glm::radians(rotation.x))*sin(glm::radians(rotation.y));
-                camera_front.y=sin(glm::radians(rotation.x));
-                camera_front.z=cos(glm::radians(rotation.x))*cos(glm::radians(rotation.y));
+                const double _yaw=deg2rad(yaw);
+                const double _pitch=deg2rad(pitch);
 
-                camera_right=normalize(cross(camera_front,camera->world_up));
+                front.x=cos(_yaw  )*cos(_pitch);
+                front.y=sin(_yaw  )*cos(_pitch);
+                front.z=sin(_pitch);
+
+                normalize(front);
+
+                right   =normalize(cross(front,camera->world_up));
+                up      =normalize(cross(right,front));
             }
 
             void Forward(float move_step)
             {
-                camera->pos+=camera_front*move_step;
+                camera->pos+=front*move_step;
             }
 
             void Backward(float move_step)
             {
-                camera->pos-=camera_front*move_step;
+                camera->pos-=front*move_step;
             }
 
             void Left(float move_step)
             {
-                camera->pos-=camera_right*move_step;
+                camera->pos+=right*move_step;
             }
 
             void Right(float move_step)
             {
-                camera->pos+=camera_right*move_step;
+                camera->pos-=right*move_step;
             }
 
-        public: //��ת
+        public: //旋转
 
             void Rotate(const Vector2f &axis,const float move_step)
             {
                 constexpr float deadZone=0.0015f;
                 constexpr float range=1.0f-deadZone;
 
-                if(fabsf(axis.x)>deadZone)
-                {
-                    float pos=(fabsf(axis.x)-deadZone)/range;
-                    rotation.z+=pos*((axis.x<0.0f)?-1.0f:1.0f)*move_step;
-                }
+                yaw     -=axis.x;
+                pitch   -=axis.y;
 
-                if(fabsf(axis.y)>deadZone)
-                {
-                    float pos=(fabsf(axis.y)-deadZone)/range;
-                    rotation.x+=pos*((axis.y<0.0f)?-1.0f:1.0f)*move_step;
-                }
+                if(pitch> 89.0f)pitch= 89.0f;
+                if(pitch<-89.0f)pitch=-89.0f;
             
-                UpdateCameraFront();
+                UpdateCameraVector();
+            }
+
+        public: //距离
+
+            const float GetDistance()const{return length(camera->pos-target);}                      ///<获取视线长度(摄像机到目标点)
+
+            /**
+             * 调整距离
+             * @param rate 新距离与原距离的比例
+             */
+            void Distance(float rate)                                                               ///<调整距离
+            {
+                if(rate==1.0)return;
+
+                camera->pos=target+(camera->pos-target)*rate;
             }
         };//class FirstPersonCameraControl:public CameraControl
     }//namespace graph
