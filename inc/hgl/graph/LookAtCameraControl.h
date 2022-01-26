@@ -14,8 +14,6 @@ namespace hgl
             Vector3f right;
             Vector3f up;
 
-        public:
-
             Vector3f target;            ///<目标点坐标
 
         public:
@@ -35,6 +33,11 @@ namespace hgl
                 up                      =normalized(cross(right,            direction));
 
                 camera->RefreshCameraInfo();
+            }
+
+            void SetTarget(const Vector3f &t)
+            {
+                target=t;
             }
             
         public:

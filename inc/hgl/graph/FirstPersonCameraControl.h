@@ -36,13 +36,25 @@ namespace hgl
                 UpdateCameraVector();
             }
             virtual ~FirstPersonCameraControl()=default;
+            
+            void SetTarget(const Vector3f &t)
+            {
+                front   =normalize(t-camera->pos);
+                right   =normalize(cross(front,camera->world_up));
+                up      =normalize(cross(right,front));
+
+                pitch   =rad2deg(asin(front.z));
+                yaw     =rad2deg(atan2(front.x,front.y));
+
+                UpdateCameraVector();
+            }
 
             void Refresh() override
             {
                 target=camera->pos+front;
-
-                camera->info.view_line      =front;
-                camera->info.view           =lookat(camera->pos,target,up);
+                
+                camera->info.view_line  =front;
+                camera->info.view       =lookat(camera->pos,target,up);
 
                 camera->RefreshCameraInfo();
             }
@@ -88,9 +100,6 @@ namespace hgl
 
             void Rotate(const Vector2f &axis,const float move_step)
             {
-                constexpr float deadZone=0.0015f;
-                constexpr float range=1.0f-deadZone;
-
                 yaw     -=axis.x;
                 pitch   -=axis.y;
 
