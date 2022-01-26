@@ -1,4 +1,5 @@
 #include<hgl/graph/Ray.h>
+#include<hgl/graph/CameraInfo.h>
 
 namespace hgl
 {
@@ -20,15 +21,21 @@ namespace hgl
         }
 
         /**
-        * 设置鼠标坐标产生拾取射线
+        * 设置屏幕坐标产生拾取射线
         * @param x 屏幕点坐标X
         * @param y 屏幕点坐标Y
-        * @param projection projection矩阵
-        * @param modelview modelview矩阵
+        * @param ci 摄像机信息
         */
-        void Ray::Set(int x,int y,const Matrix4f &projection,const Matrix4f &modelview,const Matrix4f &viewport)
+        void Ray::Set(int x,int y,const CameraInfo *ci)
         {
-            cml::make_pick_ray(float(x),float(y),modelview,projection,viewport,origin,direction);
+            Vector3f pos(x,y,0);
+            Vector4i vp(0,0,ci->viewport_resolution.x,ci->viewport_resolution.y);
+
+            origin      =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最近点
+
+            pos.z=1.0f;
+
+            direction   =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最远点
         }
 
         /**
