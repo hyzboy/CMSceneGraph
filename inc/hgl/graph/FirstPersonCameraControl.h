@@ -108,21 +108,6 @@ namespace hgl
             
                 UpdateCameraVector();
             }
-
-        public: //距离
-
-            const float GetDistance()const{return length(camera->pos-target);}                      ///<获取视线长度(摄像机到目标点)
-
-            /**
-             * 调整距离
-             * @param rate 新距离与原距离的比例
-             */
-            void Distance(float rate)                                                               ///<调整距离
-            {
-                if(rate==1.0)return;
-
-                camera->pos=target+(camera->pos-target)*rate;
-            }
         };//class FirstPersonCameraControl:public CameraControl
     }//namespace graph
 }//namespace hgl
