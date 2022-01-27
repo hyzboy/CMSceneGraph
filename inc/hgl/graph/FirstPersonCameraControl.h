@@ -30,7 +30,7 @@ namespace hgl
                 target=Vector3f(0.0f);
 
                 pitch=0;
-                yaw  =-90;
+                yaw  =deg2rad(-90.0f);
                 roll =0;
 
                 UpdateCameraVector();
@@ -43,8 +43,8 @@ namespace hgl
                 right   =normalize(cross(front,camera->world_up));
                 up      =normalize(cross(right,front));
 
-                pitch   =rad2deg(asin(front.z));
-                yaw     =rad2deg(atan2(front.x,front.y));
+                pitch   =asin(front.z);
+                yaw     =atan2(front.x,front.y);
 
                 UpdateCameraVector();
             }
@@ -63,12 +63,9 @@ namespace hgl
 
             void UpdateCameraVector()
             {
-                const double _yaw=deg2rad(yaw);
-                const double _pitch=deg2rad(pitch);
-
-                front.x=cos(_yaw  )*cos(_pitch);
-                front.y=sin(_yaw  )*cos(_pitch);
-                front.z=sin(_pitch);
+                front.x=cos(yaw  )*cos(pitch);
+                front.y=sin(yaw  )*cos(pitch);
+                front.z=sin(pitch);
 
                 normalize(front);
 
@@ -100,11 +97,14 @@ namespace hgl
 
             void Rotate(const Vector2f &axis,const float move_step)
             {
+                constexpr double top_limit      =deg2rad( 89.0f);
+                constexpr double bottom_limit   =deg2rad(-89.0f);
+
                 yaw     -=axis.x;
                 pitch   -=axis.y;
 
-                if(pitch> 89.0f)pitch= 89.0f;
-                if(pitch<-89.0f)pitch=-89.0f;
+                if(pitch>top_limit      )pitch=top_limit;
+                if(pitch<bottom_limit   )pitch=bottom_limit;
             
                 UpdateCameraVector();
             }
