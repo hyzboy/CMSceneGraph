@@ -63,11 +63,7 @@ namespace hgl
 
             void UpdateCameraVector()
             {
-                front.x=cos(yaw  )*cos(pitch);
-                front.y=sin(yaw  )*cos(pitch);
-                front.z=sin(pitch);
-
-                normalize(front);
+                front   =PolarToVector(yaw,pitch);
 
                 right   =normalize(cross(front,camera->world_up));
                 up      =normalize(cross(right,front));
