@@ -30,7 +30,7 @@ namespace hgl
                 direction=d;
             }
 
-            void Set(int,int,const CameraInfo *);
+            void Set(const Vector2f &,const CameraInfo *);
 
             /**
             * 求射线上距离指定点最近的点

@@ -22,13 +22,12 @@ namespace hgl
 
         /**
         * 设置屏幕坐标产生拾取射线
-        * @param x 屏幕点坐标X
-        * @param y 屏幕点坐标Y
+        * @param mp 屏幕点坐标
         * @param ci 摄像机信息
         */
-        void Ray::Set(int x,int y,const CameraInfo *ci)
+        void Ray::Set(const Vector2f &mp,const CameraInfo *ci)
         {
-            Vector3f pos(x,y,0);
+            Vector3f pos(mp.x,mp.y,0);
             Vector4i vp(0,0,ci->viewport_resolution.x,ci->viewport_resolution.y);
 
             origin      =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最近点
