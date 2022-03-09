@@ -26,7 +26,7 @@ namespace hgl
                 if(!camera)return;
 
                 camera->info.view_line  =camera->pos-target;
-                camera->info.view       =lookat(camera->pos,target,camera->world_up);
+                camera->info.view       =glm::lookAtRH(camera->pos,target,camera->world_up);
 
                 direction               =normalized(camera->view_line);
                 right                   =normalized(cross(camera->world_up, direction));
