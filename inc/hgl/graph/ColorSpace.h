@@ -2,6 +2,7 @@
 #define HGL_GRAPH_COLOR_SPACE_INCLUDE
 
 #include<math.h>
+#include<hgl/TypeFunc.h>
 
 namespace hgl
 {
@@ -13,9 +14,7 @@ namespace hgl
             sRGB,
             YCbCr,
 
-            BEGIN_RANGE =Linear,
-            END_RANGE   =YCbCr,
-            RANGE_SIZE  =(END_RANGE-BEGIN_RANGE)+1
+            ENUM_CLASS_RANGE(Linear,YCbCr)
         };//enum class ColorSpace
 
         constexpr double SRGB_GAMMA         =1.0f/2.2f;
@@ -23,7 +22,7 @@ namespace hgl
         constexpr double SRGB_ALPHA         =0.055f;
 
         template<typename T>
-        inline const T sRGB2Linear(const T &in)
+        inline constexpr T sRGB2Linear(const T &in)
         {
             if(in<=0.4045)
                 return (double)in/12.92;
@@ -32,7 +31,7 @@ namespace hgl
         }
 
         template<typename T>
-        inline const T Linear2sRGB(const T &in)
+        inline constexpr T Linear2sRGB(const T &in)
         {
             if(in<=0.0031308f)
                 return double(in)*12.92f;
@@ -41,13 +40,13 @@ namespace hgl
         }
 
         template<typename T>
-        inline const T sRGB2LinearApprox(const T &in)
+        inline constexpr T sRGB2LinearApprox(const T &in)
         {
             return (T)pow(double(in),SRGB_INVERSE_GAMMA);
         }
 
         template<typename T>
-        inline const T Linear2sRGBApprox(const T &in)
+        inline constexpr T Linear2sRGBApprox(const T &in)
         {
             return (T)pow((double)in,SRGB_GAMMA);
         }
@@ -69,7 +68,7 @@ namespace hgl
         }
 
         template<typename T>
-        inline T Clamp(const T &value,const T &min_value,const T &max_value)
+        inline constexpr T Clamp(const T &value,const T &min_value,const T &max_value)
         {
             if(value<min_value)return min_value;
             if(value>max_value)return max_value;
@@ -78,12 +77,12 @@ namespace hgl
         }
 
         template<typename T>
-        inline T Clamp(const T &value)
+        inline constexpr T Clamp(const T &value)
         {
             return Clamp<T>(value,T(0),T(1));
         }
 
-        template<> inline uint8 Clamp<uint8>(const uint8 &value)
+        template<> inline constexpr uint8 Clamp<uint8>(const uint8 &value)
         {
             return Clamp<uint8>(value,0,255);
         }
