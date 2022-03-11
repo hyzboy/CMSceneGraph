@@ -104,6 +104,11 @@ namespace hgl
             
                 UpdateCameraVector();
             }
+
+            void Move(const Vector3f &delta)
+            {
+                camera->pos+=delta;
+            }
         };//class FirstPersonCameraControl:public CameraControl
     }//namespace graph
 }//namespace hgl
