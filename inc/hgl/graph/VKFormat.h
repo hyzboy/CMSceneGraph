@@ -454,16 +454,16 @@ enum class TextureCompressType
     YUV,
 };//
 
-enum class VulkanDataType
+enum class VulkanNumberType
 {
     NONE=0,
-
+    
+    UINT,
+    SINT,
     UNORM,
     SNORM,
     USCALED,
     SSCALED,
-    UINT,
-    SINT,
     UFLOAT,
     SFLOAT,
     SRGB,
@@ -480,8 +480,8 @@ struct VulkanFormat
     char                name[16];       ///<名称
 
     TextureCompressType compress_type;  ///<压缩类型
-    VulkanDataType      color;          ///<颜色数据类型
-    VulkanDataType      depth,stencil;  ///<是否含有depth,stencil数据
+    VulkanNumberType    color;          ///<颜色数据类型
+    VulkanNumberType    depth,stencil;  ///<是否含有depth,stencil数据
 };
 
 #ifdef _DEBUG

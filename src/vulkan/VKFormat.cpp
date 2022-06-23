@@ -10,7 +10,7 @@ namespace
     //    R,G,B,A,DEPTH,STENCIL
     //};
 
-    #define VULKAN_FORMAT_DEFINE(id,size,name,compress,color,depth,stencil) {id,size,name,TextureCompressType::compress,VulkanDataType::color,VulkanDataType::depth,VulkanDataType::stencil}
+    #define VULKAN_FORMAT_DEFINE(id,size,name,compress,color,depth,stencil) {id,size,name,TextureCompressType::compress,VulkanNumberType::color,VulkanNumberType::depth,VulkanNumberType::stencil}
 
     #define COLOR_FORMAT_DEFINE(name,size,color)            VULKAN_FORMAT_DEFINE(PF_##name,size,#name,NONE,    color,NONE,NONE)
 
@@ -342,8 +342,8 @@ namespace
         {VK_COLOR_SPACE_HDR10_ST2084_EXT,           "HDR10 ST2084",             false},
         {VK_COLOR_SPACE_DOLBYVISION_EXT,            "Dolby Vision",             false},
         {VK_COLOR_SPACE_HDR10_HLG_EXT,              "HDR10 HLG",                false},
-        {VK_COLOR_SPACE_ADOBERGB_LINEAR_EXT,        "Adobe RGB Linear",         true},
-        {VK_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT,     "Adobe RGB Nonlinear",      false},
+        {VK_COLOR_SPACE_ADOBERGB_LINEAR_EXT,        "AdobeRGB Linear",          true},
+        {VK_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT,     "AdobeRGB Nonlinear",       false},
         {VK_COLOR_SPACE_PASS_THROUGH_EXT,           "Pass through",             false},
         {VK_COLOR_SPACE_EXTENDED_SRGB_NONLINEAR_EXT,"Extended sRGB Nonlinear",  false},
         {VK_COLOR_SPACE_DISPLAY_NATIVE_AMD,         "Display Native AMD",       false}
