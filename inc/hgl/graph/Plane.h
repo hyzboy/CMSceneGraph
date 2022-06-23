@@ -28,12 +28,10 @@ namespace hgl
                 d=dot(face_center_point,face_normal);
             }
 
-            void Set(const float *p)
+            void Set(const Vector4f &p)
             {
-                normal.x=*p;++p;
-                normal.y=*p;++p;
-                normal.z=*p;++p;
-                d=*p;
+                normal=p;
+                d=p.w;
             }
 
             float Distance(const Vector3f &p)const

@@ -15,6 +15,16 @@ namespace hgl
             Plane pl[6];
 
         public:
+            
+		    enum class Side 
+            { 
+                Left=0,
+                Right,
+                Front,
+                Back,
+                Top,
+                Bottom
+            };
 
             enum
             {
@@ -24,8 +34,6 @@ namespace hgl
             };
 
         public:
-
-            Frustum();
 
             void SetMatrix(const Matrix4f &);
 

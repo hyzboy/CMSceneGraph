@@ -4,21 +4,50 @@ namespace hgl
 {
     namespace graph
     {
-        Frustum::Frustum()
-        {
-        }
-
         void Frustum::SetMatrix(const Matrix4f &mvp)
         {
-            //引用自cml
-            {
-                float planes[6][4];
-
+            //@see https://github.com/SaschaWillems/Vulkan/base/frustum.hpp
             
-            }
+            Vector4f planes[6];
+
+            planes[size_t(Side::Left    )].x = mvp[0].w + mvp[0].x;
+			planes[size_t(Side::Left    )].y = mvp[1].w + mvp[1].x;
+			planes[size_t(Side::Left    )].z = mvp[2].w + mvp[2].x;
+			planes[size_t(Side::Left    )].w = mvp[3].w + mvp[3].x;
+
+			planes[size_t(Side::Right   )].x = mvp[0].w - mvp[0].x;
+			planes[size_t(Side::Right   )].y = mvp[1].w - mvp[1].x;
+			planes[size_t(Side::Right   )].z = mvp[2].w - mvp[2].x;
+			planes[size_t(Side::Right   )].w = mvp[3].w - mvp[3].x;
+
+			planes[size_t(Side::Front   )].x = mvp[0].w - mvp[0].y;
+			planes[size_t(Side::Front   )].y = mvp[1].w - mvp[1].y;
+			planes[size_t(Side::Front   )].z = mvp[2].w - mvp[2].y;
+			planes[size_t(Side::Front   )].w = mvp[3].w - mvp[3].y;
+
+			planes[size_t(Side::Back    )].x = mvp[0].w + mvp[0].y;
+			planes[size_t(Side::Back    )].y = mvp[1].w + mvp[1].y;
+			planes[size_t(Side::Back    )].z = mvp[2].w + mvp[2].y;
+			planes[size_t(Side::Back    )].w = mvp[3].w + mvp[3].y;
+
+			planes[size_t(Side::Top     )].x = mvp[0].w + mvp[0].z;
+			planes[size_t(Side::Top     )].y = mvp[1].w + mvp[1].z;
+			planes[size_t(Side::Top     )].z = mvp[2].w + mvp[2].z;
+			planes[size_t(Side::Top     )].w = mvp[3].w + mvp[3].z;
+
+			planes[size_t(Side::Bottom  )].x = mvp[0].w - mvp[0].z;
+			planes[size_t(Side::Bottom  )].y = mvp[1].w - mvp[1].z;
+			planes[size_t(Side::Bottom  )].z = mvp[2].w - mvp[2].z;
+			planes[size_t(Side::Bottom  )].w = mvp[3].w - mvp[3].z;
 
             for(int i=0;i<6;i++)
+            {
+				float length = sqrtf(planes[i].x * planes[i].x + planes[i].y * planes[i].y + planes[i].z * planes[i].z);
+				
+                planes[i] /= length;
+
                 pl[i].Set(planes[i]);
+            }
         }
 
         int Frustum::PointIn(const Vector3f &p) const
@@ -32,7 +61,7 @@ namespace hgl
             return(result);
         }
 
-        int Frustum::SphereIn(const Vector3f &p, float raio) const
+        int Frustum::SphereIn(const Vector3f &p, float radius) const
         {
             int result = INSIDE;
             float distance;
@@ -41,17 +70,17 @@ namespace hgl
             {
                 distance = pl[i].Distance(p);
 
-                if (distance < -raio)
+                if (distance < -radius)
                     return OUTSIDE;
                 else
-                if (distance < raio)
+                if (distance < radius)
                     result =  INTERSECT;
             }
 
             return(result);
         }
 
-        int Frustum::BoxIn(const AABox &b) const
+        int Frustum::BoxIn(const AABB &b) const
         {
             int result = INSIDE;
 
@@ -59,7 +88,8 @@ namespace hgl
             {
                 if (pl[i].Distance(b.GetVertexP(pl[i].normal)) < 0)
                     return OUTSIDE;
-                else if (pl[i].Distance(b.GetVertexN(pl[i].normal)) < 0)
+                else 
+                if (pl[i].Distance(b.GetVertexN(pl[i].normal)) < 0)
                     result =  INTERSECT;
             }
 
