@@ -37,10 +37,9 @@ namespace hgl
 
         public:
 
-            AABB();
-            AABB(const Vector3f &c,const Vector3f &l)
+            AABB()
             {
-                SetCornerLength(c,l);
+                SetCornerLength(Vector3f(0,0,0),Vector3f(1,1,1));
             }
 
             void SetCornerLength(const Vector3f &c,const Vector3f &l)           ///<按顶角和长度设置盒子范围

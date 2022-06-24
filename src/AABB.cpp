@@ -3,11 +3,6 @@ namespace hgl
 {
     namespace graph
     {
-        AABB::AABB(void)
-        {
-            SetCornerLength(Vector3f(0,0,0),Vector3f(1,1,1));
-        }
-
         Vector3f AABB::GetVertexP(const Vector3f &normal) const
         {
             Vector3f res = minPoint;
