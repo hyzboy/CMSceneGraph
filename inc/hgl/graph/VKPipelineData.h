@@ -2,7 +2,7 @@
 #define HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
 
 #include<hgl/graph/VKNamespace.h>
-#include<hgl/graph/VKPrimivate.h>
+#include<hgl/graph/VKPrimitiveType.h>
 #include<hgl/graph/VKVertexAttributeBinding.h>
 #include<hgl/type/List.h>
 #include<hgl/type/String.h>
