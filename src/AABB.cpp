@@ -38,6 +38,8 @@ namespace hgl
             length=maxPoint-minPoint;
 
             center=(minPoint+maxPoint)/2.0f;
+
+            ComputeCenterPoint();
         }
 
         void AABB::ComputeCenterPoint()
