@@ -29,6 +29,8 @@ namespace hgl
 
             Vector3f face_center_point[6];
 
+            Plane planes[6];
+
         private:
 
             void ComputeCenterPoint();
@@ -68,7 +70,7 @@ namespace hgl
                          ,MaxVector(maxPoint,box.maxPoint));
             }
 
-            void GetFacePlanes(Plane *)const;
+            const Plane &GetFacePlanes(int i)const{return planes[i];}
 
         public:
 

@@ -53,14 +53,9 @@ namespace hgl
 	        face_center_point[3]=Vector3f(center.x, maxPoint.y, center.z);
 	        face_center_point[4]=Vector3f(center.x, center.y, minPoint.z);
 	        face_center_point[5]=Vector3f(center.x, center.y, maxPoint.z);
-        }
-        
-        void AABB::GetFacePlanes(Plane *p)const
-        {
-            if(!p)return;
 
             for(uint i=0;i<6;i++)
-                p[i].Set(face_center_point[i],AABBFaceNormal[i]);
+                planes[i].Set(face_center_point[i],AABBFaceNormal[i]);
         }
     }//namespace graph
 }//namespace hgl
