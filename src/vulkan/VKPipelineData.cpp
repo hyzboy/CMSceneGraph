@@ -48,7 +48,7 @@ PipelineData::PipelineData(const PipelineData *pd)
     
 #undef PIPELINE_STRUCT_COPY
 
-    InitColorBlend(pd->color_blend->attachmentCount);
+    InitColorBlend(pd->color_blend->attachmentCount,pd->color_blend_attachments);
 
     hgl_cpy(dynamic_state_enables,pd->dynamic_state_enables,VK_DYNAMIC_STATE_RANGE_SIZE);
     hgl_cpy(dynamic_state,pd->dynamic_state);
@@ -167,10 +167,18 @@ PipelineData::PipelineData(const uint32_t color_attachment_count)
     }
 }
 
-void PipelineData::InitColorBlend(const uint32_t color_attachment_count)
+void PipelineData::InitColorBlend(const uint32_t color_attachment_count,const VkPipelineColorBlendAttachmentState *pcbas)
 {
     color_blend_attachments=hgl_align_malloc<VkPipelineColorBlendAttachmentState>(color_attachment_count);
-    SetDefault(color_blend_attachments);
+
+    if(pcbas)
+        hgl_cpy(color_blend_attachments,pcbas,color_attachment_count);
+    else
+    {
+        SetDefault(color_blend_attachments);
+
+        hgl_set(color_blend_attachments+1,color_blend_attachments,color_attachment_count-1);
+    }
 
     color_blend=new VkPipelineColorBlendStateCreateInfo;
     color_blend->sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;

@@ -57,7 +57,7 @@ public:
     VkPipelineColorBlendAttachmentState *       color_blend_attachments;
     VkPipelineColorBlendStateCreateInfo *       color_blend;
 
-    void InitColorBlend(const uint32_t);
+    void InitColorBlend(const uint32_t,const VkPipelineColorBlendAttachmentState *pcbas=nullptr);
 
     VkDynamicState                              dynamic_state_enables[VK_DYNAMIC_STATE_RANGE_SIZE];
     VkPipelineDynamicStateCreateInfo            dynamic_state;
