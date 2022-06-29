@@ -52,8 +52,9 @@ PipelineData::PipelineData(const PipelineData *pd)
 
     hgl_cpy(dynamic_state_enables,pd->dynamic_state_enables,VK_DYNAMIC_STATE_RANGE_SIZE);
     hgl_cpy(dynamic_state,pd->dynamic_state);
+
     dynamic_state.pDynamicStates=dynamic_state_enables;
-    pipeline_info.pDynamicState      = &dynamic_state;
+    pipeline_info.pDynamicState =&dynamic_state;
 
     alpha_test=pd->alpha_test;
     alpha_blend=pd->alpha_blend;
