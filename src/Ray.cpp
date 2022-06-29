@@ -51,9 +51,7 @@ namespace hgl
         {
             //新方案
 
-            const Matrix4f inv_mp=inverse(ci->projection * ci->view);
-
-            unProjectZO(origin,direction,mp,inv_mp,ci->viewport_resolution);
+            unProjectZO(origin,direction,mp,ci->inverse_vp,ci->viewport_resolution);
 
             //旧标准方案
 
