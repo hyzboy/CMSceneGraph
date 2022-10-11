@@ -3,7 +3,7 @@
 
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/graph/VKPrimitiveType.h>
-#include<hgl/graph/VKVertexAttributeBinding.h>
+#include<hgl/graph/VKVertexInputLayout.h>
 #include<hgl/type/List.h>
 #include<hgl/type/String.h>
 
@@ -73,7 +73,7 @@ public:
     ~PipelineData();
 
     void InitShaderStage(const ShaderStageCreateInfoList &);
-    void InitVertexInputState(const VAB *);
+    void InitVertexInputState(const VIL *);
     void InitDynamicState();
 
 public:

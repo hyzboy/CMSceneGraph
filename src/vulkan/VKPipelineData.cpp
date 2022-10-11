@@ -1,5 +1,5 @@
 #include<hgl/graph/VKPipelineData.h>
-#include<hgl/graph/VKVertexAttributeBinding.h>
+#include<hgl/graph/VKVertexInputLayout.h>
 
 VK_NAMESPACE_BEGIN
 
@@ -247,17 +247,17 @@ void PipelineData::InitShaderStage(const ShaderStageCreateInfoList &ssl)
     pipeline_info.pStages = ssl.GetData();
 }
 
-void PipelineData::InitVertexInputState(const VAB *vab)
+void PipelineData::InitVertexInputState(const VIL *vil)
 {
     vertex_input_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     vertex_input_state.pNext = nullptr;
     vertex_input_state.flags = 0;
 
     vertex_input_state.vertexBindingDescriptionCount   = 
-    vertex_input_state.vertexAttributeDescriptionCount = vab->GetVertexAttrCount();
+    vertex_input_state.vertexAttributeDescriptionCount = vil->GetAttrCount();
 
-    vertex_input_binding_description    =hgl_new_copy(vab->GetVertexBindingList(),vertex_input_state.vertexBindingDescriptionCount);
-    vertex_input_attribute_description  =hgl_new_copy(vab->GetVertexAttributeList(),vertex_input_state.vertexBindingDescriptionCount);
+    vertex_input_binding_description    =hgl_new_copy(vil->GetBindingList(),vertex_input_state.vertexBindingDescriptionCount);
+    vertex_input_attribute_description  =hgl_new_copy(vil->GetAttributeList(),vertex_input_state.vertexBindingDescriptionCount);
 
     vertex_input_state.pVertexBindingDescriptions      = vertex_input_binding_description;
     vertex_input_state.pVertexAttributeDescriptions    = vertex_input_attribute_description;

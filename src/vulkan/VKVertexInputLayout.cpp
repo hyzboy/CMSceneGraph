@@ -1,7 +1,7 @@
-﻿#include<hgl/graph/VKVertexAttributeBinding.h>
+﻿#include<hgl/graph/VKVertexInputLayout.h>
 
 VK_NAMESPACE_BEGIN
-VertexAttributeBinding::VertexAttributeBinding(const int count,const AnsiString **nl,const VertexAttribType *vat,VkVertexInputBindingDescription *bind_list,VkVertexInputAttributeDescription *attr_list)
+VertexInputLayout::VertexInputLayout(const int count,const AnsiString **nl,const VertexAttribType *vat,VkVertexInputBindingDescription *bind_list,VkVertexInputAttributeDescription *attr_list)
 {
     attr_count=count;
     name_list=nl;
@@ -18,8 +18,8 @@ VertexAttributeBinding::VertexAttributeBinding(const int count,const AnsiString 
     attribute_list=attr_list;
     type_list=vat;
 
-    va_list=new VertexAttribute[attr_count];
-    VertexAttribute *va=va_list;
+    vic_list=new VertexInputConfig[attr_count];
+    VertexInputConfig *va=vic_list;
 
     for(int i=0;i<attr_count;i++)
     {
@@ -32,14 +32,14 @@ VertexAttributeBinding::VertexAttributeBinding(const int count,const AnsiString 
     }
 }
 
-VertexAttributeBinding::~VertexAttributeBinding()
+VertexInputLayout::~VertexInputLayout()
 {
-    delete[] va_list;
+    delete[] vic_list;
     SAFE_CLEAR_ARRAY(binding_list);
     SAFE_CLEAR_ARRAY(attribute_list);
 }
 
-const int VertexAttributeBinding::GetIndex(const AnsiString &name)const
+const int VertexInputLayout::GetIndex(const AnsiString &name)const
 {
     if(name.IsEmpty())return(-1);
 
