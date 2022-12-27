@@ -2,8 +2,8 @@
 #define HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
 
 #include<hgl/graph/VKNamespace.h>
-#include<hgl/graph/VKPrimivate.h>
-#include<hgl/graph/VKVertexAttributeBinding.h>
+#include<hgl/graph/VKPrimitiveType.h>
+#include<hgl/graph/VKVertexInputLayout.h>
 #include<hgl/type/List.h>
 #include<hgl/type/String.h>
 
@@ -57,7 +57,7 @@ public:
     VkPipelineColorBlendAttachmentState *       color_blend_attachments;
     VkPipelineColorBlendStateCreateInfo *       color_blend;
 
-    void InitColorBlend(const uint32_t);
+    void InitColorBlend(const uint32_t,const VkPipelineColorBlendAttachmentState *pcbas=nullptr);
 
     VkDynamicState                              dynamic_state_enables[VK_DYNAMIC_STATE_RANGE_SIZE];
     VkPipelineDynamicStateCreateInfo            dynamic_state;
@@ -73,7 +73,7 @@ public:
     ~PipelineData();
 
     void InitShaderStage(const ShaderStageCreateInfoList &);
-    void InitVertexInputState(const VAB *);
+    void InitVertexInputState(const VIL *);
     void InitDynamicState();
 
 public:

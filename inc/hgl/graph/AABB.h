@@ -29,16 +29,17 @@ namespace hgl
 
             Vector3f face_center_point[6];
 
+            Plane planes[6];
+
         private:
 
             void ComputeCenterPoint();
 
         public:
 
-            AABB();
-            AABB(const Vector3f &c,const Vector3f &l)
+            AABB()
             {
-                SetCornerLength(c,l);
+                SetCornerLength(Vector3f(0,0,0),Vector3f(1,1,1));
             }
 
             void SetCornerLength(const Vector3f &c,const Vector3f &l)           ///<按顶角和长度设置盒子范围
@@ -68,7 +69,7 @@ namespace hgl
                          ,MaxVector(maxPoint,box.maxPoint));
             }
 
-            void GetFacePlanes(Plane *)const;
+            const Plane &GetFacePlanes(int i)const{return planes[i];}
 
         public:
 

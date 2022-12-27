@@ -19,6 +19,28 @@ namespace hgl
             else
                 return origin+direction*length;
         }
+        
+        void unProjectZO(Vector3f &near_point,Vector3f &far_point,const Vector2f &win, const Matrix4f &Inverse, const Vector2f &viewport)
+        {
+            Vector4f tmp;
+
+            tmp.x = win.x / viewport.x;
+            tmp.y = win.y / viewport.y;
+            tmp.x = tmp.x + tmp.x - 1.0;
+            tmp.y = tmp.y + tmp.y - 1.0;
+
+            tmp.z=0.0;
+            tmp.w=1.0;
+
+            near_point = Inverse * tmp;
+
+            tmp.z=1.0;
+
+            tmp = Inverse * tmp;
+            tmp /= tmp.w;
+
+            far_point=tmp;
+        }
 
         /**
         * 设置屏幕坐标产生拾取射线
@@ -27,14 +49,20 @@ namespace hgl
         */
         void Ray::Set(const Vector2f &mp,const CameraInfo *ci)
         {
-            Vector3f pos(mp.x,mp.y,0);
-            Vector4i vp(0,0,ci->viewport_resolution.x,ci->viewport_resolution.y);
+            //新方案
 
-            origin      =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最近点
+            unProjectZO(origin,direction,mp,ci->inverse_vp,ci->viewport_resolution);
 
-            pos.z=1.0f;
+            //旧标准方案
 
-            direction   =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最远点
+            //Vector3f pos(mp.x,mp.y,0);
+            //Vector4i vp(0,0,ci->viewport_resolution.x,ci->viewport_resolution.y);
+
+            //origin      =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最近点
+
+            //pos.z=1.0f;
+
+            //direction   =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最远点
         }
 
         /**

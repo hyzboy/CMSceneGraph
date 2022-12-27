@@ -3,11 +3,6 @@ namespace hgl
 {
     namespace graph
     {
-        AABB::AABB(void)
-        {
-            SetCornerLength(Vector3f(0,0,0),Vector3f(1,1,1));
-        }
-
         Vector3f AABB::GetVertexP(const Vector3f &normal) const
         {
             Vector3f res = minPoint;
@@ -43,6 +38,8 @@ namespace hgl
             length=maxPoint-minPoint;
 
             center=(minPoint+maxPoint)/2.0f;
+
+            ComputeCenterPoint();
         }
 
         void AABB::ComputeCenterPoint()
@@ -53,14 +50,9 @@ namespace hgl
 	        face_center_point[3]=Vector3f(center.x, maxPoint.y, center.z);
 	        face_center_point[4]=Vector3f(center.x, center.y, minPoint.z);
 	        face_center_point[5]=Vector3f(center.x, center.y, maxPoint.z);
-        }
-        
-        void AABB::GetFacePlanes(Plane *p)const
-        {
-            if(!p)return;
 
             for(uint i=0;i<6;i++)
-                p[i].Set(face_center_point[i],AABBFaceNormal[i]);
+                planes[i].Set(face_center_point[i],AABBFaceNormal[i]);
         }
     }//namespace graph
 }//namespace hgl

@@ -13,10 +13,10 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKInlinePipeline.h
                             ${CM_SG_INCLUDE_PATH}/VKNamespace.h
                             ${CM_SG_INCLUDE_PATH}/VKPipelineData.h
-                            ${CM_SG_INCLUDE_PATH}/VKPrimivate.h
+                            ${CM_SG_INCLUDE_PATH}/VKPrimitiveType.h
                             ${CM_SG_INCLUDE_PATH}/VKRenderbufferInfo.h
                             ${CM_SG_INCLUDE_PATH}/VKStruct.h
-                            ${CM_SG_INCLUDE_PATH}/VKVertexAttributeBinding.h)
+                            ${CM_SG_INCLUDE_PATH}/VKVertexInputLayout.h)
 
 SET(CM_SG_SOURCE    AABB.cpp
                     Coordinate.cpp
@@ -35,7 +35,7 @@ SET(CM_CAMERA_SOURCE    ${CM_SG_INCLUDE_PATH}/Camera.h
 SOURCE_GROUP("SceneGraph\\Camera" FILES ${CM_CAMERA_SOURCE})
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
-                        vulkan/VKVertexAttributeBinding.cpp
+                        vulkan/VKVertexInputLayout.cpp
                         vulkan/VKPipelineData.cpp
                         vulkan/VKPipelineDataManage.cpp
                         vulkan/VKPipelineDataSaveLoad.cpp)

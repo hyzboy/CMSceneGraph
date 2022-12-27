@@ -468,7 +468,7 @@ enum class VulkanNumberType
     SFLOAT,
     SRGB,
 
-    END
+    ENUM_CLASS_RANGE(UINT,SRGB)
 };//
 
 struct VulkanFormat
