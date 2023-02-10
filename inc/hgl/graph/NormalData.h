@@ -20,6 +20,17 @@ namespace hgl
     }
 
     /**
+    * 将float3型法线数据压缩为float2型
+    */
+    inline Vector2f Normal3to2(const float *input)
+    {
+        float f=sqrt(8.0f*input[2]+8.0f);
+
+        return Vector2f(input[0]/f+0.5f,
+                        input[1]/f+0.5f);
+    }
+
+    /**
     * 解压float2型法线数据
     */
     inline Vector3f Normal2to3(const Vector2f &input)
@@ -104,6 +115,18 @@ namespace hgl
             input+=2;
         }
     }
+
+    /*
+    * 批量将float3型法线数据压缩成2字节数据
+    */
+    void Normal3to2(uint8 *output,const float *input,const uint count)
+    {
+        for(uint i=0;i<count;i++)
+        {
+            output=normal_vec2(output,Normal3to2(input));
+
+            input+=3;
+        }
+    }
 }//namespace hgl
 #endif//HGL_NORMAL_DATA_INCLUDE
-
