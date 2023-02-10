@@ -2,6 +2,7 @@ SET(CM_SG_INCLUDE_PATH  ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/graph)
 
 SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/Bitmap.h
+                    ${CM_SG_INCLUDE_PATH}/NormalData.h
                     ${CM_SG_INCLUDE_PATH}/Coordinate.h
                     ${CM_SG_INCLUDE_PATH}/Ray.h
                     ${CM_SG_INCLUDE_PATH}/Plane.h

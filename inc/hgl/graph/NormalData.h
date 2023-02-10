@@ -1,7 +1,7 @@
 #ifndef HGL_NORMAL_DATA_INCLUDE
 #define HGL_NORMAL_DATA_INCLUDE
 
-#include<hgl/math/Vector.h>
+#include<hgl/math/Math.h>
 
 namespace hgl
 {
@@ -34,116 +34,75 @@ namespace hgl
                         1.0f-f/2.0f);
     }
 
-    inline Vector2u8 Normal3to2(const Vector3u8 &input)
+    inline constexpr float normal_u8_to_float(const uint8 value)
     {
-        Vector3f fenc(  input.x/255.0f*2.0f-1.0f,
-                        input.y/255.0f*2.0f-1.0f,
-                        input.z/255.0f*2.0f-1.0f);
-
-        float f=dot(fenc,fenc);
-        float g=sqrt(1.0f-f/4.0f);
-
-        return Vector2u8(   uint8((fenc.x*g+1.0f)*127.5f),
-                            uint8((fenc.y*g+1.0f)*127.5f));
+        return float(value)/127.5f-1.0f;
     }
 
-    inline Vector3u8 Normal2to3(const Vector2u8 &input)
+    inline constexpr uint8 normal_float_to_u8(const float value)
     {
-        Vector2f fenc(  (input.x/127.5f-1.0f)*2.0f,
-                        (input.y/127.5f-1.0f)*2.0f);
-
-        float f=dot(fenc,fenc);
-        float g=sqrt(1.0f-f/4.0f);
-
-        return Vector3u8(   uint8((fenc.x*g+1.0f)*127.5f),
-                            uint8((fenc.y*g+1.0f)*127.5f),
-                            uint8((1.0f-f/2.0f)*127.5f));
+        return ClampU8((value+1.0f)*127.5f);
     }
 
-    inline Vector2u16 Normal3to2(const Vector3u16 &input)
+    inline Vector3f normal_vec3(const uint8 *input)
     {
-        Vector3f fenc(  input.x/65535.0f*2.0f-1.0f,
-                        input.y/65535.0f*2.0f-1.0f,
-                        input.z/65535.0f*2.0f-1.0f);
-
-        float f=dot(fenc,fenc);
-        float g=sqrt(1.0f-f/4.0f);
-
-        return Vector2u16(  uint16((fenc.x*g+1.0f)*32767.5f),
-                            uint16((fenc.y*g+1.0f)*32767.5f));
+        return Vector3f(normal_u8_to_float(input[0]),
+                        normal_u8_to_float(input[1]),
+                        normal_u8_to_float(input[2]));
     }
 
-    inline Vector3u16 Normal2to3(const Vector2u16 &input)
+    inline Vector2f normal_vec2(const uint8 *input)
     {
-        Vector2f fenc(  (input.x/32767.5f-1.0f)*2.0f,
-                        (input.y/32767.5f-1.0f)*2.0f);
+        return Vector2f(normal_u8_to_float(input[0]),
+                        normal_u8_to_float(input[1]));
+    }
 
-        float f=dot(fenc,fenc);
-        float g=sqrt(1.0f-f/4.0f);
+    inline uint8 *normal_vec3(uint8 *output,const Vector3f &input)
+    {
+        *output=normal_float_to_u8(input.x);
+        ++output;
+        *output=normal_float_to_u8(input.y);
+        ++output;
+        *output=normal_float_to_u8(input.z);
+        ++output;
 
-        return Vector3u16(  uint16((fenc.x*g+1.0f)*32767.5f),
-                            uint16((fenc.y*g+1.0f)*32767.5f),
-                            uint16((1.0f-f/2.0f)*32767.5f));
+        return output;
+    }
+
+    inline uint8 *normal_vec2(uint8 *output,const Vector2f &input)
+    {
+        *output=normal_float_to_u8(input.x);
+        ++output;
+        *output=normal_float_to_u8(input.y);
+        ++output;
+
+        return output;
+    }
+
+    /*
+    * 批量将3字节法线数据压缩成2字节数据
+    */
+    void Normal3to2(uint8 *output,const uint8 *input,const uint count)
+    {
+        for(uint i=0;i<count;i++)
+        {
+            output=normal_vec2(output,Normal3to2(normal_vec3(input)));
+
+            input+=3;
+        }
     }
 
     /**
-    * 将float3型法线数据压缩为32位无符号整数(或两个16位无符号整数)
+    * 批量将2字节法线数据解压成3字节法线数据
     */
-    inline uint32 NormalToU32(const Vector3f &input)
+    void Normal2to3(uint8 *output,const uint8 *input,const uint count)
     {
-        float f=sqrt(8.0f*input.z+8.0f);
+        for(uint i=0;i<count;i++)
+        {
+            output=normal_vec3(output,Normal2to3(normal_vec2(input)));
 
-        float x=input.x/f+0.5f;
-        float y=input.y/f+0.5f;
-
-        return (uint32(x*65535.0f)<<16)
-             | (uint32(y*65535.0f));
-    }
-
-    /**
-    * 解压uint32型法线数据
-    */
-    inline Vector3f U32ToNormal(const uint32 &input)
-    {
-        float x=float(input>>16)/65535.0f;
-        float y=float(input&0xFFFF)/65535.0f;
-
-        Vector2f fenc((x-0.5f)*4.0f,
-                      (y-0.5f)*4.0f);
-
-        float f=dot(fenc,fenc);
-        float g=sqrt(1.0f-f/4.0f);
-
-        return Vector3f(fenc.x*g,
-                        fenc.y*g,
-                        1.0f-f/2.0f);
-    }
-
-    inline uint16 NormalToU16(const Vector3f &input)
-    {
-        float f=sqrt(8.0f*input.z+8.0f);
-
-        float x=input.x/f+0.5f;
-        float y=input.y/f+0.5f;
-
-        return (uint16(x*255.0f)<<8)
-             | (uint16(y*255.0f));
-    }
-
-    inline Vector3f U16ToNormal(const uint16 &input)
-    {
-        float x=float(input>>8)/255.0f;
-        float y=float(input&0xFF)/255.0f;
-
-        Vector2f fenc(  (x-0.5f)*4.0f,
-                        (y-0.5f)*4.0f);
-
-        float f=dot(fenc,fenc);
-        float g=sqrt(1.0f-f/4.0f);
-
-        return Vector3f(fenc.x*g,
-                        fenc.y*g,
-                        1.0f-f/2.0f);
+            input+=2;
+        }
     }
 }//namespace hgl
 #endif//HGL_NORMAL_DATA_INCLUDE
