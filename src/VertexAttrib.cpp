@@ -15,11 +15,11 @@ namespace hgl
             }
             else
             {
-                if(*str=='f')vat->basetype=VertexAttribBaseType::Bool;else
-                if(*str=='i')vat->basetype=VertexAttribBaseType::Bool;else
-                if(*str=='u')vat->basetype=VertexAttribBaseType::Bool;else
-                if(*str=='b')vat->basetype=VertexAttribBaseType::Bool;else
-                if(*str=='d')vat->basetype=VertexAttribBaseType::Bool;else
+                if(*str=='f')vat->basetype=VertexAttribBaseType::Float; else
+                if(*str=='i')vat->basetype=VertexAttribBaseType::Int;   else
+                if(*str=='u')vat->basetype=VertexAttribBaseType::UInt;  else
+                if(*str=='b')vat->basetype=VertexAttribBaseType::Bool;  else
+                if(*str=='d')vat->basetype=VertexAttribBaseType::Double;else
                     return(false);
 
                 if(str[1]!='v')

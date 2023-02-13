@@ -7,9 +7,9 @@ PipelineData *LoadPipelineFromFile(const OSString &filename);
 
 namespace
 {
-    MapObject<InlinePipeline,PipelineData> inline_pipeline_data;
+    ObjectMap<InlinePipeline,PipelineData> inline_pipeline_data;
 
-    MapObject<OSString,PipelineData> pipeline_data_by_filename;
+    ObjectMap<OSString,PipelineData> pipeline_data_by_filename;
 
     void InitInlinePipelineData()
     {
