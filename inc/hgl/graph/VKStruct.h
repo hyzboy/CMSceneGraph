@@ -128,7 +128,7 @@ public:
         pInputAttachments        =nullptr;
 
         colorAttachmentCount     =color_count;
-	    pColorAttachments        =color_ref_list;
+        pColorAttachments        =color_ref_list;
 
         pResolveAttachments      =nullptr;
 
