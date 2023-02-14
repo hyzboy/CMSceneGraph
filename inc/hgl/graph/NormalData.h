@@ -45,36 +45,36 @@ namespace hgl
                         1.0f-f/2.0f);
     }
 
-    inline constexpr float normal_u8_to_float(const uint8 value)
+    inline constexpr float normal_float(const uint8 value)
     {
         return float(value)/127.5f-1.0f;
     }
 
-    inline constexpr uint8 normal_float_to_u8(const float value)
+    inline constexpr uint8 normal_u8(const float value)
     {
         return ClampU8((value+1.0f)*127.5f);
     }
 
     inline Vector3f normal_vec3(const uint8 *input)
     {
-        return Vector3f(normal_u8_to_float(input[0]),
-                        normal_u8_to_float(input[1]),
-                        normal_u8_to_float(input[2]));
+        return Vector3f(normal_float(input[0]),
+                        normal_float(input[1]),
+                        normal_float(input[2]));
     }
 
     inline Vector2f normal_vec2(const uint8 *input)
     {
-        return Vector2f(normal_u8_to_float(input[0]),
-                        normal_u8_to_float(input[1]));
+        return Vector2f(normal_float(input[0]),
+                        normal_float(input[1]));
     }
 
     inline uint8 *normal_vec3(uint8 *output,const Vector3f &input)
     {
-        *output=normal_float_to_u8(input.x);
+        *output=normal_u8(input.x);
         ++output;
-        *output=normal_float_to_u8(input.y);
+        *output=normal_u8(input.y);
         ++output;
-        *output=normal_float_to_u8(input.z);
+        *output=normal_u8(input.z);
         ++output;
 
         return output;
@@ -82,9 +82,9 @@ namespace hgl
 
     inline uint8 *normal_vec2(uint8 *output,const Vector2f &input)
     {
-        *output=normal_float_to_u8(input.x);
+        *output=normal_u8(input.x);
         ++output;
-        *output=normal_float_to_u8(input.y);
+        *output=normal_u8(input.y);
         ++output;
 
         return output;
