@@ -440,16 +440,25 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define VF_V3U16    PF_RGB16U
 #define VF_V4U16    PF_RGBA16U
 
-#define VF_V1UN8     PF_R8UN
-#define VF_V2UN8     PF_RG8UN
-#define VF_V3UN8     PF_RGB8UN
-#define VF_V4UN8     PF_RGBA8UN
+#define VF_V1UN8    PF_R8UN
+#define VF_V2UN8    PF_RG8UN
+#define VF_V3UN8    PF_RGB8UN
+#define VF_V4UN8    PF_RGBA8UN
 
-#define VF_V1UN16    PF_R16UN
-#define VF_V2UN16    PF_RG16UN
-#define VF_V3UN16    PF_RGB16UN
-#define VF_V4UN16    PF_RGBA16UN
+#define VF_V1UN16   PF_R16UN
+#define VF_V2UN16   PF_RG16UN
+#define VF_V3UN16   PF_RGB16UN
+#define VF_V4UN16   PF_RGBA16UN
 
+#define VF_V1SN8    PF_R8SN
+#define VF_V2SN8    PF_RG8SN
+#define VF_V3SN8    PF_RGB8SN
+#define VF_V4SN8    PF_RGBA8SN
+
+#define VF_V1SN16   PF_R16SN
+#define VF_V2SN16   PF_RG16SN
+#define VF_V3SN16   PF_RGB16SN
+#define VF_V4SN16   PF_RGBA16SN
 
 enum class TextureCompressType
 {
