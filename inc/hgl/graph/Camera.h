@@ -1,6 +1,7 @@
 ﻿#ifndef HGL_GRAPH_CAMERA_INCLUDE
 #define HGL_GRAPH_CAMERA_INCLUDE
 
+#include<hgl/graph/ViewportInfo.h>
 #include<hgl/graph/CameraInfo.h>
 namespace hgl
 {
@@ -17,17 +18,13 @@ namespace hgl
             float exposure      =0.0f;
         };
 
+        CameraInfo info;
+
         /**
          * 摄像机数据结构
          */
         struct Camera
         {
-            float width;                ///<画布宽
-            float height;               ///<画布高
-
-            uint vp_width;              ///<视图宽
-            uint vp_height;             ///<视图高
-
             float Yfov;                 ///<水平FOV
             float znear,zfar;           ///<Z轴上离摄像机的距离(注：因znear会参与计算，为避免除0操作，请不要使用0或过于接近0的值)
 
@@ -39,8 +36,6 @@ namespace hgl
 
         public:
 
-            CameraInfo info;
-
             Camera()
             {
                 hgl_zero(*this);
@@ -50,11 +45,9 @@ namespace hgl
                 zfar        =15000;
                 world_up.z  =1.0f;
             }
-
-        public:
-
-            void RefreshCameraInfo();
         };//struct Camera
+
+        void RefreshCameraInfo(CameraInfo *,const ViewportInfo *,const Camera *);
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_CAMERA_INCLUDE

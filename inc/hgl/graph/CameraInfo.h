@@ -12,8 +12,6 @@ namespace hgl
          */
         struct CameraInfo
         {
-            Matrix4f ortho;                 ///<2D正角视图矩阵
-
             Matrix4f projection;
             Matrix4f inverse_projection;
 
@@ -30,10 +28,6 @@ namespace hgl
             alignas(16) Vector3f world_up;
 
             float znear,zfar;
-
-            Vector2f canvas_resolution;     ///<画布尺寸(绘图用尺寸)
-            Vector2f viewport_resolution;   ///<视图尺寸(显示的实际尺寸,glFragCoord之类用)
-            Vector2f inv_viewport_resolution;
         };//struct CameraInfo
 
         constexpr size_t CameraInfoBytes=sizeof(CameraInfo);

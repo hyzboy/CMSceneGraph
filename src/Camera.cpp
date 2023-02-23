@@ -3,38 +3,30 @@ namespace hgl
 {
     namespace graph
     {
-        void Camera::RefreshCameraInfo()
+        void RefreshCameraInfo(CameraInfo *ci,const ViewportInfo *vi,const Camera *cam)
         {
-            info.ortho                  =ortho(width,height);
+            ci->projection             =perspective(cam->Yfov,vi->canvas_resolution.x/vi->canvas_resolution.y,cam->znear,cam->zfar);
 
-            info.projection             =perspective(Yfov,width/height,znear,zfar);
+            ci->inverse_projection     =inverse(ci->projection);
 
-            info.inverse_projection     =inverse(info.projection);
+            ci->inverse_view           =inverse(ci->view);
 
-            info.inverse_view           =inverse(info.view);
-
-            info.vp                     =info.projection*info.view;
-            info.inverse_vp             =inverse(info.vp);
+            ci->vp                     =ci->projection*ci->view;
+            ci->inverse_vp             =inverse(ci->vp);
 
             {
-                glm::mat4 tmp=info.view;
+                glm::mat4 tmp=ci->view;
                 tmp[3]=glm::vec4(0,0,0,1);
 
-                info.sky=info.projection*tmp;
+                ci->sky=ci->projection*tmp;
             }
 
-            info.pos                    =pos;
-            info.view_line              =view_line;
-            info.world_up               =world_up;
+            ci->pos                    =cam->pos;
+            ci->view_line              =cam->view_line;
+            ci->world_up               =cam->world_up;
 
-            info.znear                  =znear;
-            info.zfar                   =zfar;
-
-            info.canvas_resolution.x    =width;
-            info.canvas_resolution.y    =height;
-            info.viewport_resolution.x  =vp_width;
-            info.viewport_resolution.y  =vp_height;
-            info.inv_viewport_resolution=Vector2f(1.0f/vp_width,1.0f/vp_height);
+            ci->znear                  =cam->znear;
+            ci->zfar                   =cam->zfar;
         }
     }//namespace graph
 }//namespace hgl
