@@ -50,4 +50,20 @@ const int VertexInputLayout::GetIndex(const AnsiString &name)const
     return -1;
 }
 
+const int VertexInputLayout::Comp(const VertexInputLayout *vil)const
+{
+    if(!vil)return(1);
+
+    int result;
+
+    result=attr_count-vil->attr_count;
+    if(!result)return result;
+
+    result=memcmp(binding_list,vil->binding_list,attr_count*sizeof(VkVertexInputBindingDescription));
+    if(!result)return result;
+
+    result=memcmp(attribute_list,vil->attribute_list,attr_count*sizeof(VkVertexInputAttributeDescription));
+    
+    return(result);
+}
 VK_NAMESPACE_END

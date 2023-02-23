@@ -60,6 +60,10 @@ public:
 
     const VertexInputConfig *GetConfig(const int index)const{return (index<0||index>=attr_count)?nullptr:vic_list+index;}
     const VertexInputConfig *GetConfig(const AnsiString &name)const{return GetConfig(GetIndex(name));}
+
+    const int Comp(const VertexInputLayout *vil)const;
+
+    CompOperator(const VertexInputLayout *,Comp)
 };//class VertexInputLayout
 
 using VIL=VertexInputLayout;
