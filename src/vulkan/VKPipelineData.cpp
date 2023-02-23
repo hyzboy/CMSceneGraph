@@ -275,7 +275,7 @@ namespace
     };
 }//namespace
 
-bool PipelineData::Set(const Prim topology,bool restart)
+bool PipelineData::SetPrim(const Prim topology,bool restart)
 {
     VkPrimitiveTopology prim;
 
