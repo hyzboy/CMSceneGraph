@@ -10,7 +10,7 @@ namespace
     //    R,G,B,A,DEPTH,STENCIL
     //};
 
-    #define VULKAN_FORMAT_DEFINE(id,size,name,compress,color,depth,stencil) {id,size,name,TextureCompressType::compress,VulkanNumberType::color,VulkanNumberType::depth,VulkanNumberType::stencil}
+    #define VULKAN_FORMAT_DEFINE(id,size,name,compress,color,depth,stencil) {id,size,name,TextureCompressType::compress,VulkanFormat::BaseType::color,VulkanFormat::BaseType::depth,VulkanFormat::BaseType::stencil}
 
     #define COLOR_FORMAT_DEFINE(name,size,color)            VULKAN_FORMAT_DEFINE(PF_##name,size,#name,NONE,    color,NONE,NONE)
 
