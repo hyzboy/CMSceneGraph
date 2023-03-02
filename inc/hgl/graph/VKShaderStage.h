@@ -12,7 +12,7 @@ namespace hgl
         const uint GetShaderCountByBits(const uint32_t bits);                   ///<根据ShaderStage位数据统计有多少个shader
         const char *GetShaderStageName(const VkShaderStageFlagBits &);          ///<获取指定ShaderStage位的名称
 
-        constexpr size_t SHADER_RESOURCE_NAME_MAX_LENGTH=32;
+        constexpr size_t SHADER_RESOURCE_NAME_MAX_LENGTH=128;
 
         struct ShaderStage
         {
