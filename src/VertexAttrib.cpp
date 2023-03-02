@@ -1,4 +1,5 @@
 #include<hgl/graph/VertexAttrib.h>
+#include<hgl/graph/VKFormat.h>
 
 namespace hgl
 {
@@ -10,16 +11,16 @@ namespace hgl
 
             if(*str=='v')
             {
-                vat->basetype=VertexAttribBaseType::Float;
+                vat->basetype=VertexAttribType::BaseType::Float;
                 vat->vec_size=str[3]-'0';
             }
             else
             {
-                if(*str=='f')vat->basetype=VertexAttribBaseType::Float; else
-                if(*str=='i')vat->basetype=VertexAttribBaseType::Int;   else
-                if(*str=='u')vat->basetype=VertexAttribBaseType::UInt;  else
-                if(*str=='b')vat->basetype=VertexAttribBaseType::Bool;  else
-                if(*str=='d')vat->basetype=VertexAttribBaseType::Double;else
+                if(*str=='f')vat->basetype=VertexAttribType::BaseType::Float; else
+                if(*str=='i')vat->basetype=VertexAttribType::BaseType::Int;   else
+                if(*str=='u')vat->basetype=VertexAttribType::BaseType::UInt;  else
+                if(*str=='b')vat->basetype=VertexAttribType::BaseType::Bool;  else
+                if(*str=='d')vat->basetype=VertexAttribType::BaseType::Double;else
                     return(false);
 
                 if(str[1]!='v')
@@ -37,7 +38,7 @@ namespace hgl
             return(true);
         }
 
-        constexpr char vertex_attrib_vec_name[size_t(VertexAttribBaseType::RANGE_SIZE)][4][8]=
+        constexpr char vertex_attrib_vec_name[size_t(VertexAttribType::BaseType::RANGE_SIZE)][4][8]=
         {
             {"bool",  "bvec2","bvec3","bvec4"},
             {"int",   "ivec2","ivec3","ivec4"},
@@ -51,6 +52,35 @@ namespace hgl
             if(!type||!type->Check())return(nullptr);            
 
             return vertex_attrib_vec_name[size_t(type->basetype)][type->vec_size-1];
+        }
+
+        namespace
+        {
+            constexpr VkFormat vk_format_by_basetype[][4]=
+            {
+                {PF_R8U,PF_RG8U,VK_FORMAT_UNDEFINED,PF_RGBA8U},    //ubyte
+                {PF_R32I,PF_RG32I,PF_RGB32I,PF_RGBA32I},//int
+                {PF_R32U,PF_RG32U,PF_RGB32U,PF_RGBA32U},//uint
+                {PF_R32F,PF_RG32F,PF_RGB32F,PF_RGBA32F},//float
+                {PF_R64F,PF_RG64F,PF_RGB64F,PF_RGBA64F} //double
+            };
+        }//namespace
+
+        const VkFormat GetVulkanFormat(const VertexAttribType::BaseType &base_type,const uint vec_size)
+        {
+            RANGE_CHECK_RETURN(base_type,VK_FORMAT_UNDEFINED)
+
+            if(vec_size<=0||vec_size>4)return VK_FORMAT_UNDEFINED;
+
+            return vk_format_by_basetype[size_t(base_type)][vec_size-1];
+        }
+
+        const VkFormat GetVulkanFormat(const VertexAttribType *type)
+        {
+            if(!type||!type->Check())
+                return VK_FORMAT_UNDEFINED;
+        
+            return vk_format_by_basetype[size_t(type->basetype)][type->vec_size-1];
         }
     }//namespace graph
 }//namespace hgl

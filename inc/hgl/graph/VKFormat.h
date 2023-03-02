@@ -474,25 +474,25 @@ enum class TextureCompressType
     YUV,
 };//
 
+enum class VulkanBaseType
+{
+    NONE=0,
+    
+    UINT,
+    SINT,
+    UNORM,
+    SNORM,
+    USCALED,
+    SSCALED,
+    UFLOAT,
+    SFLOAT,
+    SRGB,
+
+    ENUM_CLASS_RANGE(UINT,SRGB)
+};//
+
 struct VulkanFormat
 {
-    enum class BaseType
-    {
-        NONE=0,
-    
-        UINT,
-        SINT,
-        UNORM,
-        SNORM,
-        USCALED,
-        SSCALED,
-        UFLOAT,
-        SFLOAT,
-        SRGB,
-
-        ENUM_CLASS_RANGE(UINT,SRGB)
-    };//
-
     VkFormat            format;         ///<Vulkan格式，此值保留仅为参考
 
     uint32_t            bytes;          ///<每象素字节数
@@ -500,8 +500,8 @@ struct VulkanFormat
     char                name[16];       ///<名称
 
     TextureCompressType compress_type;  ///<压缩类型
-    BaseType            color;          ///<颜色数据类型
-    BaseType            depth,stencil;  ///<是否含有depth,stencil数据
+    VulkanBaseType      color;          ///<颜色数据类型
+    VulkanBaseType      depth,stencil;  ///<是否含有depth,stencil数据
 };
 
 #ifdef _DEBUG
@@ -546,11 +546,6 @@ inline const char *GetVulkanFormatName(const VkFormat &format)
 }
 
 const VulkanFormat *GetVulkanFormat(const char *fmt_name);
-
-/**
- * 根据基本类型获取vulkan类型
- */
-const VkFormat GetVulkanFormat(const VertexAttribType *);
 
 struct VulkanColorSpace
 {

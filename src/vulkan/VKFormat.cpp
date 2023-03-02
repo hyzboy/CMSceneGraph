@@ -10,7 +10,7 @@ namespace
     //    R,G,B,A,DEPTH,STENCIL
     //};
 
-    #define VULKAN_FORMAT_DEFINE(id,size,name,compress,color,depth,stencil) {id,size,name,TextureCompressType::compress,VulkanFormat::BaseType::color,VulkanFormat::BaseType::depth,VulkanFormat::BaseType::stencil}
+    #define VULKAN_FORMAT_DEFINE(id,size,name,compress,color,depth,stencil) {id,size,name,TextureCompressType::compress,VulkanBaseType::color,VulkanBaseType::depth,VulkanBaseType::stencil}
 
     #define COLOR_FORMAT_DEFINE(name,size,color)            VULKAN_FORMAT_DEFINE(PF_##name,size,#name,NONE,    color,NONE,NONE)
 
@@ -305,26 +305,6 @@ const VulkanFormat *GetVulkanFormat(const char *fmt_name)
     }
 
     return(nullptr);
-}
-
-namespace
-{
-    constexpr VkFormat vk_format_by_basetype[][4]=
-    {
-        {PF_R8U,PF_RG8U,VK_FORMAT_UNDEFINED,PF_RGBA8U},    //ubyte
-        {PF_R32I,PF_RG32I,PF_RGB32I,PF_RGBA32I},//int
-        {PF_R32U,PF_RG32U,PF_RGB32U,PF_RGBA32U},//uint
-        {PF_R32F,PF_RG32F,PF_RGB32F,PF_RGBA32F},//float
-        {PF_R64F,PF_RG64F,PF_RGB64F,PF_RGBA64F} //double
-    };
-}//namespace
-
-const VkFormat GetVulkanFormat(const VertexAttribType *type)
-{
-    if(!type||!type->Check())
-        return VK_FORMAT_UNDEFINED;
-        
-    return vk_format_by_basetype[size_t(type->basetype)][type->vec_size-1];
 }
 
 namespace

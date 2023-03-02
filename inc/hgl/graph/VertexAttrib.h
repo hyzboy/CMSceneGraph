@@ -6,28 +6,28 @@ namespace hgl
 {
     namespace graph
     {
-        enum class VertexAttribBaseType
-        {
-            Bool=0,
-            Int,
-            UInt,
-            Float,
-            Double,
-
-            ENUM_CLASS_RANGE(Bool,Double)
-        };//enum class VertexAttribBaseType
-
         struct VertexAttribType
         {
-            VertexAttribBaseType basetype;
+            enum class BaseType
+            {
+                Bool=0,
+                Int,
+                UInt,
+                Float,
+                Double,
+
+                ENUM_CLASS_RANGE(Bool,Double)
+            };//enum class VertexAttribType::BaseType
+
+            BaseType basetype;
             uint vec_size;
 
         public:
 
             const bool Check()const
             {
-                if(basetype<VertexAttribBaseType::Bool
-                 ||basetype>VertexAttribBaseType::Double)return(false);
+                if(basetype<BaseType::Bool
+                 ||basetype>BaseType::Double)return(false);
 
                 if(vec_size<=0||vec_size>4)return(false);
 
