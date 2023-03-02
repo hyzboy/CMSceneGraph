@@ -1,5 +1,6 @@
 #include<hgl/graph/Ray.h>
 #include<hgl/graph/CameraInfo.h>
+#include<hgl/graph/ViewportInfo.h>
 
 namespace hgl
 {
@@ -47,11 +48,11 @@ namespace hgl
         * @param mp 屏幕点坐标
         * @param ci 摄像机信息
         */
-        void Ray::Set(const Vector2f &mp,const CameraInfo *ci)
+        void Ray::Set(const Vector2f &mp,const CameraInfo *ci,const ViewportInfo *vi)
         {
             //新方案
 
-            unProjectZO(origin,direction,mp,ci->inverse_vp,ci->viewport_resolution);
+            unProjectZO(origin,direction,mp,ci->inverse_vp,vi->viewport_resolution);
 
             //旧标准方案
 

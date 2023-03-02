@@ -7,6 +7,7 @@ namespace hgl
     namespace graph
     {
         struct CameraInfo;
+        struct ViewportInfo;
 
         /**
         * 射线类
@@ -30,7 +31,7 @@ namespace hgl
                 direction=d;
             }
 
-            void Set(const Vector2f &,const CameraInfo *);
+            void Set(const Vector2f &,const CameraInfo *,const ViewportInfo *);
 
             /**
             * 求射线上距离指定点最近的点
