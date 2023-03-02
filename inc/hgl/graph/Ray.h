@@ -7,7 +7,7 @@ namespace hgl
     namespace graph
     {
         struct CameraInfo;
-        struct ViewportInfo;
+        class ViewportInfo;
 
         /**
         * 射线类
