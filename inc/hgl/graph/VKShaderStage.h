@@ -26,6 +26,11 @@ namespace hgl
             uint8_t vec_size;
         };//struct ShaderStage
 
+        inline const char *GetShaderStageTypeName(ShaderStage *ss)
+        {
+            return GetVertexAttribName((VertexAttribType::BaseType)ss->basetype,ss->vec_size);
+        }
+
         using ShaderStageList=ObjectList<ShaderStage>;
     
         struct ShaderStageIO

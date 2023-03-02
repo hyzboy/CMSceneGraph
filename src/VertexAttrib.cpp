@@ -47,6 +47,15 @@ namespace hgl
             {"double","dvec2","dvec3","dvec4"}
         };
 
+        const char *GetVertexAttribName(const VertexAttribType::BaseType &base_type,const uint vec_size)
+        {
+            RANGE_CHECK_RETURN_NULLPTR(base_type)
+
+            if(vec_size<=0||vec_size>4)return nullptr;
+
+            return vertex_attrib_vec_name[size_t(base_type)][vec_size-1];
+        }
+
         const char *GetVertexAttribName(const VertexAttribType *type)
         {
             if(!type||!type->Check())return(nullptr);            

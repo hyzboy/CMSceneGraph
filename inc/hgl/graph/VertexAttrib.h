@@ -47,6 +47,7 @@ namespace hgl
          */
         bool ParseVertexAttribType(VertexAttribType *,const char *);
 
+        const char *GetVertexAttribName(const VertexAttribType::BaseType &base_type,const uint vec_size);
         const char *GetVertexAttribName(const VertexAttribType *type);
     }//namespace graph
 }//namespace hgl

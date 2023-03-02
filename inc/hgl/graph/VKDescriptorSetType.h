@@ -20,7 +20,7 @@ enum class DescriptorSetType
     ENUM_CLASS_RANGE(Global,Skeleton)
 };//
 
-constexpr char *DescriptSetsTypeName[]=
+constexpr char *DescriptSetTypeName[]=
 {
     "Global","PerFrame","PerMaterialInstance","PerObject","Instance","Skeleton"
 };
@@ -29,7 +29,7 @@ inline const char *GetDescriptorSetTypeName(const enum class DescriptorSetType &
 {
     RANGE_CHECK_RETURN_NULLPTR(type);
 
-    return DescriptSetsTypeName[(size_t)type];
+    return DescriptSetTypeName[(size_t)type];
 }
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_DESCRIPTOR_SET_TYPE_INCLUDE
