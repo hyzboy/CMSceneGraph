@@ -27,7 +27,7 @@ public:
 private:
 
     int attr_count;
-    const AnsiString **name_list;
+    const char **name_list;
     const VertexAttribType *type_list;
     VkVertexInputBindingDescription *binding_list;
     VkVertexInputAttributeDescription *attribute_list;
@@ -38,7 +38,7 @@ private:
 
     friend class VertexShaderModule;
 
-    VertexInputLayout(const int,const AnsiString **,const VertexAttribType *,VkVertexInputBindingDescription *,VkVertexInputAttributeDescription *);
+    VertexInputLayout(const int,const char **,const VertexAttribType *,VkVertexInputBindingDescription *,VkVertexInputAttributeDescription *);
 
 public:
 
@@ -47,7 +47,7 @@ public:
     const int                                   GetIndex          (const AnsiString &name)const;
 
     const int                                   GetAttrCount      ()const{return attr_count;}
-    const AnsiString **                         GetNameList       ()const{return name_list;}
+    const char **                               GetNameList       ()const{return name_list;}
     const VkVertexInputBindingDescription *     GetBindingList    ()const{return binding_list;}
     const VkVertexInputAttributeDescription *   GetAttributeList  ()const{return attribute_list;}
 

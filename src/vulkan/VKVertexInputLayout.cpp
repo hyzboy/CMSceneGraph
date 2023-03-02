@@ -1,7 +1,7 @@
 ﻿#include<hgl/graph/VKVertexInputLayout.h>
 
 VK_NAMESPACE_BEGIN
-VertexInputLayout::VertexInputLayout(const int count,const AnsiString **nl,const VertexAttribType *vat,VkVertexInputBindingDescription *bind_list,VkVertexInputAttributeDescription *attr_list)
+VertexInputLayout::VertexInputLayout(const int count,const char **nl,const VertexAttribType *vat,VkVertexInputBindingDescription *bind_list,VkVertexInputAttributeDescription *attr_list)
 {
     attr_count=count;
     name_list=nl;
@@ -44,7 +44,7 @@ const int VertexInputLayout::GetIndex(const AnsiString &name)const
     if(name.IsEmpty())return(-1);
 
     for(int i=0;i<attr_count;i++)
-        if(name==*(name_list[i]))
+        if(name.Comp(name_list[i])==0)
             return(i);
 
     return -1;
