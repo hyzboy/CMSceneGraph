@@ -46,24 +46,24 @@ namespace hgl
         /**
         * 设置屏幕坐标产生拾取射线
         * @param mp 屏幕点坐标
-        * @param ci 摄像机信息
+        * @param camera_info 摄像机信息
         */
         void Ray::Set(const Vector2f &mp,const CameraInfo *ci,const ViewportInfo *vi)
         {
             //新方案
 
-            unProjectZO(origin,direction,mp,ci->inverse_vp,vi->viewport_resolution);
+            unProjectZO(origin,direction,mp,ci->inverse_vp,vi->GetViewport());
 
             //旧标准方案
 
             //Vector3f pos(mp.x,mp.y,0);
-            //Vector4i vp(0,0,ci->viewport_resolution.x,ci->viewport_resolution.y);
+            //Vector4i vp(0,0,camera_info->viewport_resolution.x,camera_info->viewport_resolution.y);
 
-            //origin      =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最近点
+            //origin      =glm::unProject(pos,camera_info->view,camera_info->projection,vp);        //射线最近点
 
             //pos.z=1.0f;
 
-            //direction   =glm::unProject(pos,ci->view,ci->projection,vp);        //射线最远点
+            //direction   =glm::unProject(pos,camera_info->view,camera_info->projection,vp);        //射线最远点
         }
 
         /**

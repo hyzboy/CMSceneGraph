@@ -10,13 +10,21 @@ namespace hgl
         {
         protected:
 
+            ViewportInfo *vi;
             Camera *camera;
+            CameraInfo camera_info;
 
         public:
 
-            CameraControl(Camera *c)
+            CameraControl(ViewportInfo *v,Camera *c)
             {
+                vi=v;
                 camera=c;
+            }
+
+            void SetViewport(ViewportInfo *i)
+            {
+                vi=i;
             }
 
             void SetCamera(Camera *c)
@@ -34,6 +42,8 @@ namespace hgl
                 if(adjust<0&&camera->Yfov<MinFOV)camera->Yfov=MinFOV;else
                 if(adjust>0&&camera->Yfov>MaxFOV)camera->Yfov=MaxFOV;
             }
+
+            CameraInfo &GetCameraInfo(){return camera_info;}
 
             virtual void Refresh()=0;
         };//class CameraControl

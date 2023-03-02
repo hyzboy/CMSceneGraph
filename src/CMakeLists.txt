@@ -10,6 +10,10 @@ SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/VertexAttrib.h)
 
 SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
+                            ${CM_SG_INCLUDE_PATH}/VKInterpolation.h
+                            ${CM_SG_INCLUDE_PATH}/VKDescriptorSetType.h
+                            ${CM_SG_INCLUDE_PATH}/VKShaderDescriptor.h
+                            ${CM_SG_INCLUDE_PATH}/VKShaderStage.h
                             ${CM_SG_INCLUDE_PATH}/VKImageCreateInfo.h
                             ${CM_SG_INCLUDE_PATH}/VKInlinePipeline.h
                             ${CM_SG_INCLUDE_PATH}/VKNamespace.h
@@ -28,14 +32,17 @@ SET(CM_SG_SOURCE    AABB.cpp
 
 SET(CM_CAMERA_SOURCE    ${CM_SG_INCLUDE_PATH}/Camera.h
                         ${CM_SG_INCLUDE_PATH}/CameraInfo.h
+                        ${CM_SG_INCLUDE_PATH}/ViewportInfo.h
                         ${CM_SG_INCLUDE_PATH}/CameraControl.h
                         ${CM_SG_INCLUDE_PATH}/LookAtCameraControl.h
                         ${CM_SG_INCLUDE_PATH}/FirstPersonCameraControl.h
-                        Camera.cpp)
+                        Camera.cpp
+                        ViewportInfo.cpp)
 
 SOURCE_GROUP("SceneGraph\\Camera" FILES ${CM_CAMERA_SOURCE})
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
+                        vulkan/VKShaderStage.cpp
                         vulkan/VKVertexInputLayout.cpp
                         vulkan/VKPipelineData.cpp
                         vulkan/VKPipelineDataManage.cpp

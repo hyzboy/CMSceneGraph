@@ -25,7 +25,7 @@ namespace hgl
 
         public:
 
-            FirstPersonCameraControl(Camera *c):CameraControl(c)
+            FirstPersonCameraControl(ViewportInfo *v,Camera *c):CameraControl(v,c)
             {
                 target=Vector3f(0.0f);
 
@@ -53,10 +53,10 @@ namespace hgl
             {
                 target=camera->pos+front;
                 
-                camera->info.view_line  =front;
-                camera->info.view       =glm::lookAtRH(camera->pos,target,up);
+                camera_info.view_line  =front;
+                camera_info.view       =glm::lookAtRH(camera->pos,target,up);
 
-                camera->RefreshCameraInfo();
+                RefreshCameraInfo(&camera_info,vi,camera);
             }
 
         public: //移动

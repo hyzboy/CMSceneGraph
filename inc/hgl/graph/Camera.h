@@ -18,8 +18,6 @@ namespace hgl
             float exposure      =0.0f;
         };
 
-        CameraInfo info;
-
         /**
          * 摄像机数据结构
          */

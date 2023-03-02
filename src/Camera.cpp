@@ -5,7 +5,7 @@ namespace hgl
     {
         void RefreshCameraInfo(CameraInfo *ci,const ViewportInfo *vi,const Camera *cam)
         {
-            ci->projection             =perspective(cam->Yfov,vi->canvas_resolution.x/vi->canvas_resolution.y,cam->znear,cam->zfar);
+            ci->projection             =perspective(cam->Yfov,vi->GetAspectRatio(),cam->znear,cam->zfar);
 
             ci->inverse_projection     =inverse(ci->projection);
 

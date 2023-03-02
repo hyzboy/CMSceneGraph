@@ -1,4 +1,4 @@
-#ifndef HGL_GRAPH_VIEWPORT_INFO_INCLUDE
+Ôªø#ifndef HGL_GRAPH_VIEWPORT_INFO_INCLUDE
 #define HGL_GRAPH_VIEWPORT_INFO_INCLUDE
 
 #include<hgl/math/Math.h>
@@ -8,20 +8,40 @@ namespace hgl
     namespace graph
     {
         /**
-         *  ”ø⁄–≈œ¢
+         * ËßÜÂè£‰ø°ÊÅØ
          */
-        struct ViewportInfo
+        class ViewportInfo
         {
-            Matrix4f ortho;                 ///<2D’˝Ω« ”Õºæÿ’Û
+            Matrix4f ortho_matrix;              ///<64 2DÊ≠£ËßíËßÜÂõæÁü©Èòµ
 
-            Vector2f canvas_resolution;     ///<ª≠≤º≥ﬂ¥Á(ªÊÕº”√≥ﬂ¥Á)
-            Vector2f viewport_resolution;   ///< ”Õº≥ﬂ¥Á(œ‘ æµƒ µº ≥ﬂ¥Á,glFragCoord÷Æ¿‡”√)
-            Vector2f inv_viewport_resolution;
-        };//struct ViewportInfo
+            Vector2f canvas_resolution;         ///< 8 ÁîªÂ∏ÉÂ∞∫ÂØ∏(ÁªòÂõæÁî®Â∞∫ÂØ∏)
+            Vector2f viewport_resolution;       ///< 8 ËßÜÂõæÂ∞∫ÂØ∏(ÊòæÁ§∫ÁöÑÂÆûÈôÖÂ∞∫ÂØ∏,glFragCoord‰πãÁ±ªÁî®)
+            Vector2f inv_viewport_resolution;   ///< 8 ËßÜÂõæÂ∞∫ÂØ∏ÁöÑÂÄíÊï∞
+
+        public:
+
+            void SetViewport(int,int);
+            void SetCanvas(float,float);
+            void Set(int w,int h)
+            {
+                SetViewport(w,h);
+                SetCanvas(w,h);
+            }
+
+        public:
+
+            const float GetAspectRatio()const
+            {
+                return canvas_resolution.x/canvas_resolution.y;
+            }
+
+            const Vector2f GetViewport()const
+            {
+                return viewport_resolution;
+            }
+        };//class ViewportInfo
 
         constexpr size_t ViewportInfoBytes=sizeof(ViewportInfo);
-
-        void RefreshViewportInfo(ViewportInfo *);
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_VIEWPORT_INFO_INCLUDE
