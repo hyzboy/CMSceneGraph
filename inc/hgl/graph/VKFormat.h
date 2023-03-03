@@ -556,5 +556,6 @@ struct VulkanColorSpace
 };
 
 const VulkanColorSpace *GetVulkanColorSpace(const VkColorSpaceKHR &cs);
+
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_FORMAT_INCLUDE
