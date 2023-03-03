@@ -3,10 +3,13 @@
 
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/TypeFunc.h>
+#include<hgl/type/StrChar.h>
 
 VK_NAMESPACE_BEGIN
 enum class SamplerType
 {
+    Error,
+
     Sampler1D,
     Sampler2D,
     Sampler3D,
@@ -30,8 +33,10 @@ enum class SamplerType
     ENUM_CLASS_RANGE(Sampler1D,SamplerCubeArrayShadow)
 };
 
-constexpr const char *SamplerTypeName[32]=
+constexpr const char *SamplerTypeName[]=
 {
+    "samplerError",
+
     "sampler1D",
     "sampler2D",
     "sampler3D",
@@ -56,6 +61,16 @@ constexpr const char *SamplerTypeName[32]=
 inline constexpr const char *GetSamplerTypeName(const SamplerType st)
 {
     return SamplerTypeName[static_cast<int>(st)];
+}
+
+inline const SamplerType ParseSamplerType(const char *name)
+{
+    int result=hgl::find_str_in_array<char>((int)SamplerType::RANGE_SIZE,(const char **)SamplerTypeName,name);
+
+    if(result<=0||result>(int)SamplerType::END_RANGE)
+        return SamplerType::Error;
+
+    return (SamplerType)result;
 }
 
 constexpr const VkImageViewType SamplerImageViewType[]=
