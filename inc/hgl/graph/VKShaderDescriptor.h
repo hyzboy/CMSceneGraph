@@ -57,19 +57,28 @@ namespace hgl
 
         using ShaderDescriptorList=List<ShaderDescriptor *>;
 
-        struct ShaderUBOData:public ShaderDescriptor
+        struct UBODescriptor:public ShaderDescriptor
         {
             AnsiString type;
             AnsiString name;
         };
 
+        struct SamplerDescriptor:public ShaderDescriptor
+        {
+            AnsiString type;
+            AnsiString name;
+        };
+
+        /**
+         * 未归类的描述符对象，暂没想好怎么命名
+         */
         struct ShaderObjectData:public ShaderDescriptor
         {
             AnsiString type;
             AnsiString name;
         };
 
-        struct ShaderConstValue
+        struct ConstValueDescriptor
         {
             int constant_id;
 
@@ -78,7 +87,7 @@ namespace hgl
             AnsiString value;
         };
 
-        struct ShaderSubpassInput
+        struct SubpassInputDescriptor
         {
             AnsiString name;
             uint8_t input_attachment_index;
