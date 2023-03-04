@@ -11,7 +11,7 @@ enum class DescriptorSetType
     
     Global=0,           ///<全局参数(如太阳光等)
     PerFrame,           ///<帧参数(如摄像机等)
-    PerMaterialInstance,///<材质实例参数(如纹理等)
+    PerMaterial,        ///<材质参数(如纹理等)
     PerObject,          ///<对象参数(如模型矩阵等)
 
     Instance,
@@ -22,7 +22,7 @@ enum class DescriptorSetType
 
 constexpr char *DescriptSetTypeName[]=
 {
-    "Global","PerFrame","PerMaterialInstance","PerObject","Instance","Skeleton"
+    "Global","PerFrame","PerMaterial","PerObject","Instance","Skeleton"
 };
 
 inline const char *GetDescriptorSetTypeName(const enum class DescriptorSetType &type)
