@@ -17,7 +17,7 @@ namespace hgl
                 Double,
 
                 ENUM_CLASS_RANGE(Bool,Double)
-            };//enum class VertexAttribType::BaseType
+            };//enum class BaseType
 
             BaseType basetype;
             uint vec_size;
@@ -40,15 +40,18 @@ namespace hgl
 
                 return stride[uint32(basetype)]*vec_size;
             }
-        };//struct VertexAttribType
+        };//struct VAT
+
+        using VAT=VertexAttribType;
+        using VATBaseType=VertexAttribType::BaseType;
 
         /**
          * 根据字符串解晰顶点属性类型
          */
-        bool ParseVertexAttribType(VertexAttribType *,const char *);
+        bool ParseVertexAttribType(VAT *,const char *);
 
-        const char *GetVertexAttribName(const VertexAttribType::BaseType &base_type,const uint vec_size);
-        const char *GetVertexAttribName(const VertexAttribType *type);
+        const char *GetVertexAttribName(const VATBaseType &base_type,const uint vec_size);
+        const char *GetVertexAttribName(const VAT *type);
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_VERTEX_ATTRIB_INCLUDE

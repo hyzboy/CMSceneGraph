@@ -21,14 +21,14 @@ namespace hgl
             char    name[SHADER_RESOURCE_NAME_MAX_LENGTH];
             uint8   location;
 
-            //对应hgl/graph/VertexAttrib.h中的enum class VertexAttribType::BaseType
+            //对应hgl/graph/VertexAttrib.h中的enum class VATBaseType
             uint8_t basetype;
             uint8_t vec_size;
         };//struct ShaderStage
 
         inline const char *GetShaderStageTypeName(ShaderStage *ss)
         {
-            return GetVertexAttribName((VertexAttribType::BaseType)ss->basetype,ss->vec_size);
+            return GetVertexAttribName((VATBaseType)ss->basetype,ss->vec_size);
         }
 
         using ShaderStageList=ObjectList<ShaderStage>;

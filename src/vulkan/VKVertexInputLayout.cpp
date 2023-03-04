@@ -1,7 +1,7 @@
 ﻿#include<hgl/graph/VKVertexInputLayout.h>
 
 VK_NAMESPACE_BEGIN
-VertexInputLayout::VertexInputLayout(const int count,const char **nl,const VertexAttribType *vat,VkVertexInputBindingDescription *bind_list,VkVertexInputAttributeDescription *attr_list)
+VertexInputLayout::VertexInputLayout(const int count,const char **nl,const VAT *vat,VkVertexInputBindingDescription *bind_list,VkVertexInputAttributeDescription *attr_list)
 {
     attr_count=count;
     name_list=nl;

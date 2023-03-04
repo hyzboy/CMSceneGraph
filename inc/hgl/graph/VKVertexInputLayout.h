@@ -28,7 +28,7 @@ private:
 
     int attr_count;
     const char **name_list;
-    const VertexAttribType *type_list;
+    const VAT *type_list;
     VkVertexInputBindingDescription *binding_list;
     VkVertexInputAttributeDescription *attribute_list;
 
@@ -38,7 +38,7 @@ private:
 
     friend class VertexShaderModule;
 
-    VertexInputLayout(const int,const char **,const VertexAttribType *,VkVertexInputBindingDescription *,VkVertexInputAttributeDescription *);
+    VertexInputLayout(const int,const char **,const VAT *,VkVertexInputBindingDescription *,VkVertexInputAttributeDescription *);
 
 public:
 

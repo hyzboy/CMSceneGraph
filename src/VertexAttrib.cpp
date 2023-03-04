@@ -5,22 +5,21 @@ namespace hgl
 {
     namespace graph
     {
-        bool ParseVertexAttribType(VertexAttribType *vat,const char *str)
+        bool ParseVertexAttribType(VAT *vat,const char *str)
         {
             if(!vat||!str||!*str)return(false);
 
             if(*str=='v')
             {
-                vat->basetype=VertexAttribType::BaseType::Float;
+                vat->basetype=VATBaseType::Float;
                 vat->vec_size=str[3]-'0';
             }
             else
             {
-                if(*str=='f')vat->basetype=VertexAttribType::BaseType::Float; else
-                if(*str=='i')vat->basetype=VertexAttribType::BaseType::Int;   else
-                if(*str=='u')vat->basetype=VertexAttribType::BaseType::UInt;  else
-                if(*str=='b')vat->basetype=VertexAttribType::BaseType::Bool;  else
-                if(*str=='d')vat->basetype=VertexAttribType::BaseType::Double;else
+                if(*str=='i')vat->basetype=VATBaseType::Int;   else
+                if(*str=='u')vat->basetype=VATBaseType::UInt;  else
+                if(*str=='b')vat->basetype=VATBaseType::Bool;  else
+                if(*str=='d')vat->basetype=VATBaseType::Double;else
                     return(false);
 
                 if(str[1]!='v')
@@ -38,7 +37,7 @@ namespace hgl
             return(true);
         }
 
-        constexpr char vertex_attrib_vec_name[size_t(VertexAttribType::BaseType::RANGE_SIZE)][4][8]=
+        constexpr char vertex_attrib_vec_name[size_t(VATBaseType::RANGE_SIZE)][4][8]=
         {
             {"bool",  "bvec2","bvec3","bvec4"},
             {"int",   "ivec2","ivec3","ivec4"},
@@ -47,7 +46,7 @@ namespace hgl
             {"double","dvec2","dvec3","dvec4"}
         };
 
-        const char *GetVertexAttribName(const VertexAttribType::BaseType &base_type,const uint vec_size)
+        const char *GetVertexAttribName(const VATBaseType &base_type,const uint vec_size)
         {
             RANGE_CHECK_RETURN_NULLPTR(base_type)
 
@@ -56,7 +55,7 @@ namespace hgl
             return vertex_attrib_vec_name[size_t(base_type)][vec_size-1];
         }
 
-        const char *GetVertexAttribName(const VertexAttribType *type)
+        const char *GetVertexAttribName(const VAT *type)
         {
             if(!type||!type->Check())return(nullptr);            
 
@@ -75,7 +74,7 @@ namespace hgl
             };
         }//namespace
 
-        const VkFormat GetVulkanFormat(const VertexAttribType::BaseType &base_type,const uint vec_size)
+        const VkFormat GetVulkanFormat(const VATBaseType &base_type,const uint vec_size)
         {
             RANGE_CHECK_RETURN(base_type,VK_FORMAT_UNDEFINED)
 
@@ -84,7 +83,7 @@ namespace hgl
             return vk_format_by_basetype[size_t(base_type)][vec_size-1];
         }
 
-        const VkFormat GetVulkanFormat(const VertexAttribType *type)
+        const VkFormat GetVulkanFormat(const VAT *type)
         {
             if(!type||!type->Check())
                 return VK_FORMAT_UNDEFINED;
