@@ -35,21 +35,7 @@ namespace hgl
     
         struct ShaderStageIO
         {
-            VkShaderStageFlagBits prev,cur,next;
             ShaderStageList input,output;
-
-        public:
-
-            ShaderStageIO()
-            {
-                prev=cur=next=(VkShaderStageFlagBits)0;
-            }
-
-            void Clear()
-            {
-                input.Clear();
-                output.Clear();
-            }
         };//struct ShaderStageIO
     }//namespace graph
 }//namespace hgl
