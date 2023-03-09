@@ -26,7 +26,7 @@ namespace hgl
             uint8_t vec_size;
         };//struct ShaderStage
 
-        inline const char *GetShaderStageTypeName(ShaderStage *ss)
+        inline const char *GetShaderStageTypeName(const ShaderStage *ss)
         {
             return GetVertexAttribName((VATBaseType)ss->basetype,ss->vec_size);
         }
