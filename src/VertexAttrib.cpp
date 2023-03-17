@@ -1,5 +1,6 @@
 #include<hgl/graph/VertexAttrib.h>
 #include<hgl/graph/VKFormat.h>
+#include<hgl/graph/VKShaderStage.h>
 
 namespace hgl
 {
@@ -89,6 +90,18 @@ namespace hgl
                 return VK_FORMAT_UNDEFINED;
         
             return vk_format_by_basetype[size_t(type->basetype)][type->vec_size-1];
+        }
+
+        const VkFormat GetVulkanFormat(const ShaderAttribute *sa)
+        {
+            if(!sa)return VK_FORMAT_UNDEFINED;
+
+            RANGE_CHECK_RETURN(VATBaseType(sa->basetype),VK_FORMAT_UNDEFINED)
+
+            if(sa->vec_size<=0||sa->vec_size>4)
+                return VK_FORMAT_UNDEFINED;
+
+            return vk_format_by_basetype[size_t(sa->basetype)][sa->vec_size-1];
         }
     }//namespace graph
 }//namespace hgl
