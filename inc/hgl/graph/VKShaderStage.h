@@ -14,7 +14,7 @@ namespace hgl
 
         constexpr size_t SHADER_RESOURCE_NAME_MAX_LENGTH=128;
 
-        struct ShaderStage
+        struct ShaderAttribute
         {
             //注：这个类要从GLSLCompiler动态链接库中直接传递，所以不可以使用AnsiString
 
@@ -24,18 +24,18 @@ namespace hgl
             //对应hgl/graph/VertexAttrib.h中的enum class VATBaseType
             uint8_t basetype;
             uint8_t vec_size;
-        };//struct ShaderStage
+        };//struct ShaderAttribute
 
-        inline const char *GetShaderStageTypeName(const ShaderStage *ss)
+        inline const char *GetShaderAttributeTypename(const ShaderAttribute *ss)
         {
             return GetVertexAttribName((VATBaseType)ss->basetype,ss->vec_size);
         }
 
-        using ShaderStageList=ObjectList<ShaderStage>;
+        using ShaderAttributeList=ObjectList<ShaderAttribute>;
     
         struct ShaderStageIO
         {
-            ShaderStageList input,output;
+            ShaderAttributeList input,output;
         };//struct ShaderStageIO
     }//namespace graph
 }//namespace hgl
