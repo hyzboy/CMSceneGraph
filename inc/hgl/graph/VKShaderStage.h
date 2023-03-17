@@ -26,9 +26,9 @@ namespace hgl
             uint8_t vec_size;
         };//struct ShaderAttribute
 
-        inline const char *GetShaderAttributeTypename(const ShaderAttribute *ss)
+        inline const AnsiString GetShaderAttributeTypename(const ShaderAttribute *ss)
         {
-            return GetVertexAttribName((VATBaseType)ss->basetype,ss->vec_size);
+            return AnsiString(GetVertexAttribName((VATBaseType)ss->basetype,ss->vec_size));
         }
 
         using ShaderAttributeList=ObjectList<ShaderAttribute>;
