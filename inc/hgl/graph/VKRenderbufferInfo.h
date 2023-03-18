@@ -222,5 +222,7 @@ public:
     const uint32_t GetWidth()const{return extent.width;}
     const uint32_t GetHeight()const{return extent.height;}
 };//class FramebufferInfo:public RenderbufferFormatInfo
+
+using FBOInfo=FramebufferInfo;
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_RENDER_BUFFER_INFO
