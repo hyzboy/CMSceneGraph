@@ -39,39 +39,47 @@ namespace hgl
             ShaderAttribute *items;
         };
 
-        inline void Init(ShaderAttributeArray &sad,const uint count=0)
+        inline void Init(ShaderAttributeArray *sad,const uint count=0)
         {
-            sad.count=count;
+            sad->count=count;
 
             if(count>0)
-                sad.items=array_alloc<ShaderAttribute>(count);
+                sad->items=array_alloc<ShaderAttribute>(count);
             else
-                sad.items=nullptr;
+                sad->items=nullptr;
         }
 
-        inline void Clear(ShaderAttributeArray &sad)
+        inline void Clear(ShaderAttributeArray *sad)
         {
-            if(sad.items)
-                array_free(sad.items);
+            if(sad->items)
+                array_free(sad->items);
 
-            sad.count=0;
-            sad.items=nullptr;
+            sad->count=0;
+            sad->items=nullptr;
         }
 
-        inline void Append(ShaderAttributeArray &sad,ShaderAttribute *sa)
+        inline void Copy(ShaderAttributeArray *dst,const ShaderAttributeArray *src)
         {
-            if(!sad.items)
+            Init(dst,src->count);
+
+            if(src->count>0)
+                hgl_cpy(dst->items,src->items,src->count);
+        }
+
+        inline void Append(ShaderAttributeArray *sad,ShaderAttribute *sa)
+        {
+            if(!sad->items)
             {
-                sad.items=array_alloc<ShaderAttribute>(1);
-                sad.count=1;
+                sad->items=array_alloc<ShaderAttribute>(1);
+                sad->count=1;
             }
             else
             {
-                sad.items=array_realloc(sad.items,sad.count+1);
-                sad.count++;
+                sad->items=array_realloc(sad->items,sad->count+1);
+                sad->count++;
             }
 
-            memcpy(sad.items+sad.count-1,sa,sizeof(ShaderAttribute));
+            memcpy(sad->items+sad->count-1,sa,sizeof(ShaderAttribute));
         }
 
         struct ShaderStageIO
@@ -81,14 +89,20 @@ namespace hgl
 
         inline void Init(ShaderStageIO &io)
         {
-            Init(io.input);
-            Init(io.output);
+            Init(&io.input);
+            Init(&io.output);
         }
 
         inline void Clear(ShaderStageIO &io)
         {
-            Clear(io.input);
-            Clear(io.output);
+            Clear(&io.input);
+            Clear(&io.output);
+        }
+
+        inline void Copy(ShaderStageIO *dst,const ShaderStageIO *src)
+        {
+            Copy(&(dst->input),&(src->input));
+            Copy(&(dst->output),&(src->output));
         }
     }//namespace graph
 }//namespace hgl
