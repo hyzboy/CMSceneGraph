@@ -21,6 +21,8 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKPrimitiveType.h
                             ${CM_SG_INCLUDE_PATH}/VKRenderbufferInfo.h
                             ${CM_SG_INCLUDE_PATH}/VKStruct.h
+                            ${CM_SG_INCLUDE_PATH}/VKVertexInputConfig.h
+                            ${CM_SG_INCLUDE_PATH}/VKVertexInput.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputLayout.h
                             ${CM_SG_INCLUDE_PATH}/VKSamplerType.h)
 
@@ -44,6 +46,7 @@ SOURCE_GROUP("SceneGraph\\Camera" FILES ${CM_CAMERA_SOURCE})
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
                         vulkan/VKShaderStage.cpp
+                        vulkan/VKVertexInput.cpp
                         vulkan/VKVertexInputLayout.cpp
                         vulkan/VKPipelineData.cpp
                         vulkan/VKPipelineDataManage.cpp

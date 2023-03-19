@@ -36,7 +36,7 @@ private:
 
 private:
 
-    friend class VertexShaderModule;
+    friend class VertexInput;
 
     VertexInputLayout(const int,const char **,const VAT *,VkVertexInputBindingDescription *,VkVertexInputAttributeDescription *);
 
