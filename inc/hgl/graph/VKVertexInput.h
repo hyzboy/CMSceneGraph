@@ -23,6 +23,7 @@ private:
 public:
 
     VertexInput(const ShaderAttributeArray &);
+    VertexInput(const VertexInput &)=delete;
     ~VertexInput();
 
     VIL *           CreateVIL(const VILConfig *format_map=nullptr);

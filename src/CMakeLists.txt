@@ -13,6 +13,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKInterpolation.h
                             ${CM_SG_INCLUDE_PATH}/VKDescriptorSetType.h
                             ${CM_SG_INCLUDE_PATH}/VKShaderDescriptor.h
+                            ${CM_SG_INCLUDE_PATH}/VKShaderDescriptorSet.h
                             ${CM_SG_INCLUDE_PATH}/VKShaderStage.h
                             ${CM_SG_INCLUDE_PATH}/VKImageCreateInfo.h
                             ${CM_SG_INCLUDE_PATH}/VKInlinePipeline.h
@@ -46,6 +47,7 @@ SOURCE_GROUP("SceneGraph\\Camera" FILES ${CM_CAMERA_SOURCE})
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
                         vulkan/VKShaderStage.cpp
+                        vulkan/VKShaderDescriptorSet.cpp
                         vulkan/VKVertexInput.cpp
                         vulkan/VKVertexInputLayout.cpp
                         vulkan/VKPipelineData.cpp
