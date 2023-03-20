@@ -20,6 +20,8 @@ enum class DescriptorSetType
     ENUM_CLASS_RANGE(Global,Skeleton)
 };//
 
+constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE_SIZE);
+
 constexpr char *DescriptSetTypeName[]=
 {
     "Global","PerFrame","PerMaterial","PerObject","Instance","Skeleton"
