@@ -52,6 +52,31 @@ namespace hgl
 
         const char *GetVertexAttribName(const VATBaseType &base_type,const uint vec_size);
         const char *GetVertexAttribName(const VAT *type);
+
+        const VAT VAT_BOOL ={VATBaseType::Bool,1};
+        const VAT VAT_BVEC2={VATBaseType::Bool,2};
+        const VAT VAT_BVEC3={VATBaseType::Bool,3};
+        const VAT VAT_BVEC4={VATBaseType::Bool,4};
+
+        const VAT VAT_INT  ={VATBaseType::Int,1};
+        const VAT VAT_IVEC2={VATBaseType::Int,2};
+        const VAT VAT_IVEC3={VATBaseType::Int,3};
+        const VAT VAT_IVEC4={VATBaseType::Int,4};
+
+        const VAT VAT_UINT ={VATBaseType::UInt,1};
+        const VAT VAT_UVEC2={VATBaseType::UInt,2};
+        const VAT VAT_UVEC3={VATBaseType::UInt,3};
+        const VAT VAT_UVEC4={VATBaseType::UInt,4};
+
+        const VAT VAT_FLOAT={VATBaseType::Float,1};
+        const VAT VAT_VEC2 ={VATBaseType::Float,2};
+        const VAT VAT_VEC3 ={VATBaseType::Float,3};
+        const VAT VAT_VEC4 ={VATBaseType::Float,4};
+
+        const VAT VAT_DOUBLE={VATBaseType::Double,1};
+        const VAT VAT_DVEC2 ={VATBaseType::Double,2};
+        const VAT VAT_DVEC3 ={VATBaseType::Double,3};
+        const VAT VAT_DVEC4 ={VATBaseType::Double,4};
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_VERTEX_ATTRIB_INCLUDE
