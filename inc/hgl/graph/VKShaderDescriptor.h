@@ -9,7 +9,7 @@ namespace hgl
 {
     namespace graph
     {
-        constexpr size_t DESCRIPTOR_NAME_MAX_LENGTH=128;
+        constexpr size_t DESCRIPTOR_NAME_MAX_LENGTH=32;
 
         struct ShaderDescriptor
         {
