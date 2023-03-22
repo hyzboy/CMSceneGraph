@@ -60,13 +60,25 @@ namespace hgl
         struct UBODescriptor:public ShaderDescriptor
         {
             AnsiString type;
-            AnsiString name;
+
+        public:
+
+            UBODescriptor()
+            {
+                desc_type=VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            }
         };
 
         struct SamplerDescriptor:public ShaderDescriptor
         {
             AnsiString type;
-            AnsiString name;
+
+        public:
+
+            SamplerDescriptor()
+            {
+                desc_type=VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            }
         };
 
         /**
@@ -75,7 +87,6 @@ namespace hgl
         struct ShaderObjectData:public ShaderDescriptor
         {
             AnsiString type;
-            AnsiString name;
         };
 
         struct ConstValueDescriptor
