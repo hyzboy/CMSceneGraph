@@ -11,20 +11,22 @@ enum class DescriptorSetType
     
     Global=0,           ///<全局参数(如太阳光等)
     PerFrame,           ///<帧参数(如摄像机等)
-    PerMaterial,        ///<材质参数(如纹理等)
+    PerMaterial,        ///<材质参数
     PerObject,          ///<对象参数(如模型矩阵等)
 
     Instance,
-    Skeleton,
 
-    ENUM_CLASS_RANGE(Global,Skeleton)
+    // set 分类是为了减少每一次draw之前bind的数量
+    // 按照其它论文推荐，按更新频率将descriptor分类到不同的set
+
+    ENUM_CLASS_RANGE(Global,Instance)
 };//
 
 constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE_SIZE);
 
 constexpr char *DescriptSetTypeName[]=
 {
-    "Global","PerFrame","PerMaterial","PerObject","Instance","Skeleton"
+    "Global","PerFrame","PerMaterial","PerObject","Instance"
 };
 
 inline const char *GetDescriptorSetTypeName(const enum class DescriptorSetType &type)
