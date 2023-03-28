@@ -9,15 +9,20 @@ enum class DescriptorSetType
 {
     //设计使其对应shader中的set
     
-    Global=0,           ///<全局参数(如太阳光等)
-    PerFrame,           ///<帧参数(如摄像机等)
-    PerMaterial,        ///<材质参数
-    PerObject,          ///<对象参数(如模型矩阵等)
+    Global=0,           ///<全局参数，不确定什么意候更新，但一般不怎么更新(如太阳光等)
+
+    PerFrame,           ///<帧参数，固定每帧刷新一次(如摄像机等)
+
+    PerMaterial,        ///<材质参数，固定每个材质
+
+    PerObject,          ///<对象参数，每个渲染对像都会刷新的数据(如模型矩阵等)
 
     Instance,
 
-    // set 分类是为了减少每一次draw之前bind的数量
-    // 按照其它论文推荐，按更新频率将descriptor分类到不同的set
+    // 我们按更新频率将descriptor分类到不同的set
+    // 减少每一次draw之前bind的数量
+    // 
+    // 如果set标记错误会导致descriptor不会得到更新
 
     ENUM_CLASS_RANGE(Global,Instance)
 };//
