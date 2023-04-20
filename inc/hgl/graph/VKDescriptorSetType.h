@@ -15,8 +15,6 @@ enum class DescriptorSetType
 
     PerMaterial,        ///<材质参数，固定每个材质
 
-    PerObject,          ///<对象参数，每个渲染对像都会刷新的数据(如模型矩阵等)
-
     Instance,
 
     // 我们按更新频率将descriptor分类到不同的set
@@ -31,7 +29,7 @@ constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE
 
 constexpr char *DescriptSetTypeName[]=
 {
-    "Global","PerFrame","PerMaterial","PerObject","Instance"
+    "Global","PerFrame","PerMaterial","Instance"
 };
 
 inline const char *GetDescriptorSetTypeName(const enum class DescriptorSetType &type)
