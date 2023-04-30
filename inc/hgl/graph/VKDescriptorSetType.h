@@ -9,11 +9,11 @@ enum class DescriptorSetType
 {
     //设计使其对应shader中的set
     
-    Global=0,           ///<全局参数，不确定什么意候更新，但一般不怎么更新(如太阳光等)
+    Global=0,           ///<全局参数，不确定什么时候更新，但一般不怎么更新(如视窗大小，太阳光等), 不会在RenderList中处理刷新
 
-    PerFrame,           ///<帧参数，固定每帧刷新一次(如摄像机等)
+    PerFrame,           ///<帧参数，固定每帧刷新一次(如摄像机位置等)
 
-    PerMaterial,        ///<材质参数，固定每个材质
+    PerObject,          ///<对象参数，每个对象都要更新
 
     Instance,
 
@@ -29,7 +29,7 @@ constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE
 
 constexpr char *DescriptSetTypeName[]=
 {
-    "Global","PerFrame","PerMaterial","Instance"
+    "Global","PerFrame","PerObject","Instance"
 };
 
 inline const char *GetDescriptorSetTypeName(const enum class DescriptorSetType &type)

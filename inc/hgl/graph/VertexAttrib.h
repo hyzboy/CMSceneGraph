@@ -77,6 +77,78 @@ namespace hgl
         const VAT VAT_DVEC2 ={VATBaseType::Double,2};
         const VAT VAT_DVEC3 ={VATBaseType::Double,3};
         const VAT VAT_DVEC4 ={VATBaseType::Double,4};
+
+        /**
+         * 顶点输入流配置
+         */
+        union VertexInputStreamConfig
+        {
+            struct
+            {
+                bool Position       :1;
+                bool Normal         :1;
+                bool Tangnet        :1;
+                bool Bitangent      :1;
+
+                uint TexCoord       :4;
+                uint Color          :4;
+
+                bool Bone           :1;
+                bool LocalToWorld   :1;
+            };
+
+            uint32 config;
+        };
+
+        /**
+        * 计算指定配置下需要的流数量
+        */
+        const uint GetVertexInputStreamCount(const VertexInputStreamConfig &);
+
+        //enum class VertexInputAttrib
+        //{
+        //    Position=0,
+        //    Normal,
+        //    Tangnet,
+        //    Bitangent,
+
+        //    TexCoord,
+        //    Color,
+
+        //    BoneID,
+        //    BoneWeight,
+
+        //    LocalToWorld,
+
+        //    ENUM_CLASS_RANGE(Position,LocalToWorld)
+        //};
+
+        //struct VertexAttribDefine
+        //{
+        //    char *name;
+        //    VkFormat format;
+        //};
+
+        /**
+         * 预定义一些顶点属性名称，可用可不用。但一般默认shader会使用这些名称
+         */
+        namespace VertexAttribName
+        {
+            #define VAN_DEFINE(name)    constexpr char name[]=#name;
+            VAN_DEFINE(Position)
+            VAN_DEFINE(Normal)
+            VAN_DEFINE(Tangent)
+            VAN_DEFINE(Bitangent)
+            VAN_DEFINE(TexCoord)
+            VAN_DEFINE(Color)
+            VAN_DEFINE(BoneID)
+            VAN_DEFINE(BoneWeight)
+
+            VAN_DEFINE(LocalToWorld)
+            #undef VAN_DEFINE
+        }//namespace VertexAttribName
+
+        #define VAN VertexAttribName
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_VERTEX_ATTRIB_INCLUDE
