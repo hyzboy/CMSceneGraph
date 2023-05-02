@@ -105,30 +105,6 @@ namespace hgl
         */
         const uint GetVertexInputStreamCount(const VertexInputStreamConfig &);
 
-        //enum class VertexInputAttrib
-        //{
-        //    Position=0,
-        //    Normal,
-        //    Tangnet,
-        //    Bitangent,
-
-        //    TexCoord,
-        //    Color,
-
-        //    BoneID,
-        //    BoneWeight,
-
-        //    LocalToWorld,
-
-        //    ENUM_CLASS_RANGE(Position,LocalToWorld)
-        //};
-
-        //struct VertexAttribDefine
-        //{
-        //    char *name;
-        //    VkFormat format;
-        //};
-
         /**
          * 预定义一些顶点属性名称，可用可不用。但一般默认shader会使用这些名称
          */

@@ -1,4 +1,4 @@
-#include<hgl/graph/VKVertexInput.h>
+ï»¿#include<hgl/graph/VKVertexInput.h>
 #include<hgl/graph/VKVertexInputConfig.h>
 
 VK_NAMESPACE_BEGIN
@@ -25,7 +25,7 @@ VertexInput::~VertexInput()
 {
     if(vil_sets.GetCount()>0)
     {
-        //»¹ÓÐÔÚÓÃµÄ£¬ÕâÊÇ¸ö´íÎó
+        //è¿˜æœ‰åœ¨ç”¨çš„ï¼Œè¿™æ˜¯ä¸ªé”™è¯¯
     }
 
     Clear(&shader_attr_list);
@@ -47,27 +47,24 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
 
     for(uint i=0;i<shader_attr_list.count;i++)
     {
-        //binding¶ÔÓ¦µÄÊÇµÚ¼¸¸öÊý¾ÝÊäÈëÁ÷
-        //Êµ¼ÊÊ¹ÓÃÒ»¸öbinding¿ÉÒÔ°ó¶¨¶à¸öattrib
-        //±ÈÈçÔÚÒ»¸öÁ÷ÖÐ´«µÝ{pos,color}ÕâÑùÁ½¸öÊý¾Ý£¬¾ÍÐèÒªÁ½¸öattrib
-        //µ«ÔÚÎÒÃÇµÄÉè¼ÆÖÐ£¬½öÖ§³ÖÒ»¸öÁ÷´«µÝÒ»¸öattrib
+        //bindingå¯¹åº”çš„æ˜¯ç¬¬å‡ ä¸ªæ•°æ®è¾“å…¥æµ
+        //å®žé™…ä½¿ç”¨ä¸€ä¸ªbindingå¯ä»¥ç»‘å®šå¤šä¸ªattrib
+        //æ¯”å¦‚åœ¨ä¸€ä¸ªæµä¸­ä¼ é€’{pos,color}è¿™æ ·ä¸¤ä¸ªæ•°æ®ï¼Œå°±éœ€è¦ä¸¤ä¸ªattrib
+        //ä½†åœ¨æˆ‘ä»¬çš„è®¾è®¡ä¸­ï¼Œä»…æ”¯æŒä¸€ä¸ªæµä¼ é€’ä¸€ä¸ªattrib
 
         attr_desc->binding   =i;
-        attr_desc->location  =sa->location;                 //´ËÖµ¶ÔÓ¦shaderÖÐµÄlayout(location=
+        attr_desc->location  =sa->location;                 //æ­¤å€¼å¯¹åº”shaderä¸­çš„layout(location=
         
         attr_desc->offset    =0;
 
-        bind_desc->binding   =i;                            //binding¶ÔÓ¦ÔÚvkCmdBindVertexBufferÖÐÉèÖÃµÄ»º³åÇøµÄÐòÁÐºÅ£¬ËùÒÔÕâ¸öÊý×Ö±ØÐë´Ó0¿ªÊ¼£¬¶øÇÒ½ôÃÜÅÅÁÐ¡£
-                                                            //ÔÚRenderableÀàÖÐ£¬buffer_list±ØÐèÑÏ¸ñ°´ÕÕ±¾´ËbindingÎªÐòÁÐºÅÅÅÁÐ
+        bind_desc->binding   =i;                            //bindingå¯¹åº”åœ¨vkCmdBindVertexBufferä¸­è®¾ç½®çš„ç¼“å†²åŒºçš„åºåˆ—å·ï¼Œæ‰€ä»¥è¿™ä¸ªæ•°å­—å¿…é¡»ä»Ž0å¼€å§‹ï¼Œè€Œä¸”ç´§å¯†æŽ’åˆ—ã€‚
+                                                            //åœ¨Renderableç±»ä¸­ï¼Œbuffer_listå¿…éœ€ä¸¥æ ¼æŒ‰ç…§æœ¬æ­¤bindingä¸ºåºåˆ—å·æŽ’åˆ—
 
         if(!cfg||!cfg->Get(sa->name,vac))
         {
             attr_desc->format    =GetVulkanFormat(sa);
 
-            //if(memcmp((*sa)->name.c_str(),"Inst_",5)==0)                //²»¿ÉÒÔÊ¹ÓÃCaseComp("Inst_",5)»á±»ÈÏÎªÊÇ±È½ÏÒ»¸ö5×Ö³¤µÄ×Ö·û´®£¬¶ø²»ÊÇÖ»±È½Ï5¸ö×Ö·û
-            //    bind_desc->inputRate =VK_VERTEX_INPUT_RATE_INSTANCE;
-            //else
-                bind_desc->inputRate =VK_VERTEX_INPUT_RATE_VERTEX;
+            bind_desc->inputRate =VK_VERTEX_INPUT_RATE_VERTEX;
         }
         else
         {
