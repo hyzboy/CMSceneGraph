@@ -6,6 +6,16 @@ namespace hgl
 {
     namespace graph
     {
+        enum class VertexInputGroup:uint8
+        {
+            Basic,
+
+            Bone,
+            LocalToWorld,
+
+            ENUM_CLASS_RANGE(Basic,LocalToWorld)
+        };
+
         struct VertexAttribType
         {
             enum class BaseType
@@ -32,13 +42,6 @@ namespace hgl
                 if(vec_size<=0||vec_size>4)return(false);
 
                 return(true);
-            }
-
-            const uint32 GetStride()const
-            {
-                constexpr uint32 stride[5]={1,4,4,4,8};
-
-                return stride[uint32(basetype)]*vec_size;
             }
         };//struct VAT
 
@@ -77,33 +80,6 @@ namespace hgl
         const VAT VAT_DVEC2 ={VATBaseType::Double,2};
         const VAT VAT_DVEC3 ={VATBaseType::Double,3};
         const VAT VAT_DVEC4 ={VATBaseType::Double,4};
-
-        /**
-         * 顶点输入流配置
-         */
-        union VertexInputStreamConfig
-        {
-            struct
-            {
-                bool Position       :1;
-                bool Normal         :1;
-                bool Tangnet        :1;
-                bool Bitangent      :1;
-
-                uint TexCoord       :4;
-                uint Color          :4;
-
-                bool Bone           :1;
-                bool LocalToWorld   :1;
-            };
-
-            uint32 config;
-        };
-
-        /**
-        * 计算指定配置下需要的流数量
-        */
-        const uint GetVertexInputStreamCount(const VertexInputStreamConfig &);
 
         /**
          * 预定义一些顶点属性名称，可用可不用。但一般默认shader会使用这些名称

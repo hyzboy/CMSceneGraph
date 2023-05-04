@@ -103,28 +103,5 @@ namespace hgl
 
             return vk_format_by_basetype[size_t(sa->basetype)][sa->vec_size-1];
         }
-        
-        /**
-        * 计算指定配置下需要的流数量
-        */
-        const uint GetVertexInputStreamCount(const VertexInputStreamConfig &vic)
-        {
-            if(vic.config==0)return 0;
-
-            uint count=0;
-
-            if(vic.Position)++count;
-            if(vic.Normal)++count;
-            if(vic.Tangnet)++count;
-            if(vic.Bitangent)++count;
-
-            if(vic.TexCoord)count+=vic.TexCoord;
-            if(vic.Color)count+=vic.Color;
-    
-            if(vic.Bone)count+=2;
-            if(vic.LocalToWorld)count+=4;
-
-            return count;
-        }
     }//namespace graph
 }//namespace hgl

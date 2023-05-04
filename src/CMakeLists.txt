@@ -25,6 +25,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputConfig.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInput.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputLayout.h
+                            ${CM_SG_INCLUDE_PATH}/VKVertexInputLayoutHash.h
                             ${CM_SG_INCLUDE_PATH}/VKSamplerType.h)
 
 SET(CM_SG_SOURCE    AABB.cpp
@@ -50,6 +51,7 @@ SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
                         vulkan/VKShaderDescriptorSet.cpp
                         vulkan/VKVertexInput.cpp
                         vulkan/VKVertexInputLayout.cpp
+                        vulkan/VKVertexInputLayoutHash.cpp
                         vulkan/VKPipelineData.cpp
                         vulkan/VKPipelineDataManage.cpp
                         vulkan/VKPipelineDataSaveLoad.cpp)
