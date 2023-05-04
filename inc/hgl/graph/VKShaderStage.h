@@ -14,14 +14,6 @@ namespace hgl
 
         constexpr size_t SHADER_RESOURCE_NAME_MAX_LENGTH=32;
 
-        enum class ShaderAttributeGroup
-        {
-            Basic,
-
-            Bone,
-            LocalToWorld,
-        };
-
         struct ShaderAttribute
         {
             //注：这个类要从GLSLCompiler动态链接库中直接传递，所以不可以使用AnsiString
@@ -33,8 +25,8 @@ namespace hgl
             uint8_t basetype;
             uint8_t vec_size;
 
-            bool    instance;
-            ShaderAttributeGroup group;                        
+            uint8   input_rate;     //输入频率
+            VertexInputGroup   group;          //分组
         };//struct ShaderAttribute
 
         inline const AnsiString GetShaderAttributeTypename(const ShaderAttribute *ss)

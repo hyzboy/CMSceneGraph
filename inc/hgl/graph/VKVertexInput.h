@@ -16,6 +16,8 @@ class VertexInput
     VAT *type_list;
     const char **name_list;
 
+    uint count_by_group[size_t(VertexInputGroup::RANGE_SIZE)];
+
 private:
     
     SortedSets<VIL *> vil_sets;

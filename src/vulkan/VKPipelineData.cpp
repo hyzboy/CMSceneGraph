@@ -254,10 +254,10 @@ void PipelineData::InitVertexInputState(const VIL *vil)
     vertex_input_state.flags = 0;
 
     vertex_input_state.vertexBindingDescriptionCount   = 
-    vertex_input_state.vertexAttributeDescriptionCount = vil->GetAttrCount();
+    vertex_input_state.vertexAttributeDescriptionCount = vil->GetCount();
 
-    vertex_input_binding_description    =hgl_new_copy(vil->GetBindingList(),vertex_input_state.vertexBindingDescriptionCount);
-    vertex_input_attribute_description  =hgl_new_copy(vil->GetAttributeList(),vertex_input_state.vertexAttributeDescriptionCount);
+    vertex_input_binding_description    =vil->NewBindListCopy();
+    vertex_input_attribute_description  =vil->NewAttrListCopy();
 
     vertex_input_state.pVertexBindingDescriptions      = vertex_input_binding_description;
     vertex_input_state.pVertexAttributeDescriptions    = vertex_input_attribute_description;

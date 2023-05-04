@@ -6,6 +6,17 @@
 #include<hgl/type/String.h>
 #include<hgl/type/List.h>
 VK_NAMESPACE_BEGIN
+struct VertexInputFormat
+{
+    VkFormat    format;
+    uint        vec_size;
+    uint        stride;
+
+    const char *        name;
+    int                 binding;
+    VkVertexInputRate   input_rate;
+    VertexInputGroup    group;
+};
 
 /**
 * 顶点输入布局<br>
@@ -13,53 +24,69 @@ VK_NAMESPACE_BEGIN
 */
 class VertexInputLayout
 {
-public:
+private:
 
-    struct VertexInputConfig
-    {
-        VkFormat    format;
-        uint        vec_size;
-        uint        stride;
+    uint32_t count;
 
-        int         binding;
-    };
+    const char **name_list;
+    const VAT *type_list;
+
+    VkVertexInputBindingDescription *bind_list;
+    VkVertexInputAttributeDescription *attr_list;
+    VertexInputFormat *vif_list;
+    VertexInputFormat *vif_list_by_group[size_t(VertexInputGroup::RANGE_SIZE)];
+
+    uint count_by_group[size_t(VertexInputGroup::RANGE_SIZE)];
+    uint first_binding[size_t(VertexInputGroup::RANGE_SIZE)];
 
 private:
 
-    int attr_count;
-    const char **name_list;
-    const VAT *type_list;
-    VkVertexInputBindingDescription *binding_list;
-    VkVertexInputAttributeDescription *attribute_list;
-
-    VertexInputConfig *vic_list;
+    const int                                   GetIndex            (const AnsiString &name)const;
 
 private:
 
     friend class VertexInput;
 
-    VertexInputLayout(const int,const char **,const VAT *,VkVertexInputBindingDescription *,VkVertexInputAttributeDescription *);
+    VertexInputLayout(const uint32_t,const char **,const VAT *);
 
 public:
 
     ~VertexInputLayout();
 
-    const int                                   GetIndex          (const AnsiString &name)const;
+    const uint32_t                              GetCount            ()const{return count;}
+    const uint32_t                              GetCount            (const VertexInputGroup &vig)const
+    {
+        RANGE_CHECK_RETURN(vig,0)
 
-    const int                                   GetAttrCount      ()const{return attr_count;}
-    const char **                               GetNameList       ()const{return name_list;}
-    const VkVertexInputBindingDescription *     GetBindingList    ()const{return binding_list;}
-    const VkVertexInputAttributeDescription *   GetAttributeList  ()const{return attribute_list;}
+        return count_by_group[size_t(vig)];
+    }
 
-    const VkFormat      GetFormat   (const AnsiString &name)const
+    const uint32_t                              GetFirstBinding     (const VertexInputGroup &vig)const
+    {
+        RANGE_CHECK_RETURN(vig,0)
+
+        return first_binding[size_t(vig)];
+    }
+
+    VkVertexInputBindingDescription *           NewBindListCopy()const{return hgl_new_copy(bind_list,count);}
+    VkVertexInputAttributeDescription *         NewAttrListCopy()const{return hgl_new_copy(attr_list,count);}
+
+    const VertexInputFormat *                   GetFormatList       (const VertexInputGroup &vig)const
+    {
+        RANGE_CHECK_RETURN_NULLPTR(vig)
+
+        return vif_list_by_group[size_t(vig)];
+    }
+
+    const VkFormat      GetVulkanFormat(const AnsiString &name)const
     {
         const int index=GetIndex(name);
 
-        return index==-1?VK_FORMAT_UNDEFINED:attribute_list[index].format;
+        return index==-1?VK_FORMAT_UNDEFINED:vif_list[index].format;
     }
 
-    const VertexInputConfig *GetConfig(const int index)const{return (index<0||index>=attr_count)?nullptr:vic_list+index;}
-    const VertexInputConfig *GetConfig(const AnsiString &name)const{return GetConfig(GetIndex(name));}
+    const VertexInputFormat *GetConfig(const uint index)const{return (index>=count)?nullptr:vif_list+index;}
+    const VertexInputFormat *GetConfig(const AnsiString &name)const{return GetConfig(GetIndex(name));}
 
     const int Comp(const VertexInputLayout *vil)const;
 

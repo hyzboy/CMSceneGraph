@@ -9,20 +9,20 @@ VK_NAMESPACE_BEGIN
 struct VAConfig
 {
     VkFormat format;
-    bool instance;
+    VkVertexInputRate input_rate;
 
 public:
 
     VAConfig()
     {
         format=PF_UNDEFINED;
-        instance=false;
+        input_rate=VK_VERTEX_INPUT_RATE_VERTEX;
     }
 
-    VAConfig(const VkFormat fmt,bool inst=false)
+    VAConfig(const VkFormat fmt,const VkVertexInputRate ir=VK_VERTEX_INPUT_RATE_VERTEX)
     {
         format=fmt;
-        instance=inst;
+        input_rate=ir;
     }
 
     CompOperatorMemcmp(const VAConfig &);
@@ -34,9 +34,9 @@ public:
 
     using Map<AnsiString,VAConfig>::Map;
 
-    bool Add(const AnsiString &name,const VkFormat fmt,const bool inst=false)
+    bool Add(const AnsiString &name,const VkFormat fmt,const VkVertexInputRate ir=VK_VERTEX_INPUT_RATE_VERTEX)
     {
-        return Map<AnsiString,VAConfig>::Add(name,VAConfig(fmt,inst));
+        return Map<AnsiString,VAConfig>::Add(name,VAConfig(fmt,ir));
     }
 };
 VK_NAMESPACE_END
