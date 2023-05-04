@@ -1,23 +1,10 @@
 ﻿#ifndef HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_INCLUDE
 #define HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_INCLUDE
 
-#include<hgl/graph/VKNamespace.h>
-#include<hgl/graph/VertexAttrib.h>
+#include<hgl/graph/VKVertexInputFormat.h>
 #include<hgl/type/String.h>
 #include<hgl/type/List.h>
 VK_NAMESPACE_BEGIN
-struct VertexInputFormat
-{
-    VkFormat    format;
-    uint        vec_size;
-    uint        stride;
-
-    const char *        name;
-    int                 binding;
-    VkVertexInputRate   input_rate;
-    VertexInputGroup    group;
-};
-
 /**
 * 顶点输入布局<br>
 * 本对象用于传递给Material,用于已经确定好顶点格式的情况下，依然可修改部分设定(如instance)。

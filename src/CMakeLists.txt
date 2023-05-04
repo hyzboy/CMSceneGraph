@@ -24,6 +24,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKStruct.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputConfig.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInput.h
+                            ${CM_SG_INCLUDE_PATH}/VKVertexInputFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputLayout.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputLayoutHash.h
                             ${CM_SG_INCLUDE_PATH}/VKSamplerType.h)
