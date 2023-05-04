@@ -28,6 +28,8 @@ public:
     VertexInput(const VertexInput &)=delete;
     ~VertexInput();
 
+    const uint      GetCount()const{return shader_attr_list.count;}
+
     VIL *           CreateVIL(const VILConfig *format_map=nullptr);
     bool            Release(VIL *);
     const uint32_t  GetInstanceCount()const{return vil_sets.GetCount();}
