@@ -61,7 +61,11 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
 
         for(uint i=0;i<shader_attr_list.count;i++)
         {
-            if(uint(sa->group)!=group)continue;
+            if(uint(sa->group)!=group)
+            {
+                ++sa;
+                continue;
+            }
 
             //binding对应的是第几个数据输入流
             //实际使用一个binding可以绑定多个attrib
