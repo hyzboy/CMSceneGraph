@@ -10,6 +10,7 @@ namespace hgl
         {
             Basic,
 
+            Material,
             Bone,
             LocalToWorld,
 
@@ -93,6 +94,9 @@ namespace hgl
             VAN_DEFINE(Bitangent)
             VAN_DEFINE(TexCoord)
             VAN_DEFINE(Color)
+
+            VAN_DEFINE(MaterialID)
+
             VAN_DEFINE(BoneID)
             VAN_DEFINE(BoneWeight)
 
