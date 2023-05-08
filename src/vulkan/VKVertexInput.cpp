@@ -82,7 +82,35 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
 
             ++binding;
 
-            if(group==(uint)VertexInputGroup::LocalToWorld)
+            if(group==uint(VertexInputGroup::Material))
+            {
+                attr_desc->format   =VK_FORMAT_R16_UINT;
+                bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
+                bind_desc->stride   =2;
+            }
+            else
+            if(group==uint(VertexInputGroup::Bone))
+            {
+                if(hgl::strcmp(sa->name,"BoneID")==0)
+                {
+                    attr_desc->format   =VK_FORMAT_R8G8B8A8_UINT;
+                }
+                else
+                if(hgl::strcmp(sa->name,"BoneWeight")==0)
+                {
+                    attr_desc->format   =VK_FORMAT_R8G8B8A8_UNORM;
+                }
+                else
+                {
+                    LOG_ERROR("Bone attr name error: "+UTF8String(sa->name));
+                    return(nullptr);
+                }
+
+                bind_desc->inputRate=VK_VERTEX_INPUT_RATE_VERTEX;
+                bind_desc->stride   =4;
+            }
+            else
+            if(group==uint(VertexInputGroup::LocalToWorld))
             {
                 attr_desc->format   =VK_FORMAT_R32G32B32A32_SFLOAT;
                 bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
