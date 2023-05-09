@@ -22,32 +22,38 @@ enum class DescriptorSetType
 
     PerFrame,           ///<帧参数，固定每帧刷新一次(如摄像机位置等)
 
-    /// <summary>
-    /// 材质参数配置在MaterialInstance中，此类信息会独立一个ubo struct，并成为一个结构。由RenderList归类整理一个MaterialInstanceID的数组走顶点流传入Shader。如
-    /// 
-    /// layout(location = ? ) in uint MaterialID;
-    /// 
-    /// struct MaterialInstance
-    /// {
-    ///     vec3 color;
-    ///     float metallic;
-    ///     float roughness;
-    ///     float ao;
-    ///     vec3 emissive;
-    /// };
-    /// 
-    /// uniform Material
-    /// {
-    ///     MaterialInstance mi[1024];
-    /// }mtl;
-    /// 
-    /// void main()
-    /// {
-    ///     MaterialInstance mi=mtl.mi[MaterialID];
-    ///     ...
-    /// }
-    /// 
-    /// </summary>
+/**
+* <summary>
+* 
+*    layout(location=?) in uint MaterialID
+*
+*    #define MI_MAX_COUNT ???                //该值由引擎根据 UBORange/sizeof(MaterialInstance) 计算出来
+*
+*    struct MaterialInstance                 //这部分数据，即为材质实例的具体数据，每一个材质实例类负责提供具体数据。由RenderList合并成一整个UBO
+*    {                                       //该类数据，由DescriptorSetType为PerMaterial的参数构成
+*        vec4 BaseColor;
+*        vec4 Emissive;
+*        vec4 ARM;
+*    };
+*
+*    layout(set=?,binding=?) uniform Material
+*    {
+*        MaterialInstance mi[MI_MAX_COUNT]
+*    }mtl;
+*
+*    void main()
+*    {
+*        MaterialInstance mi=mtl.mi[(MaterialID>=MI_MAX_COUNT)?:0:MaterialID];   //如果超出范围则使用0号材质实例数据
+*
+*        vec4 BaseColor  =mi.BaseColor;
+*        vec4 Emissive   =mi.Emissive;
+*
+*        float AO        =mi.ARM.x;
+*        float Roughness =mi.ARM.y;
+*        float Metallic  =mi.ARM.z;
+*
+* </summary>
+*/
     PerMaterial,        ///<材质参数
 
     Instance,

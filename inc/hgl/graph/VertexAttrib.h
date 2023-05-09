@@ -10,8 +10,9 @@ namespace hgl
         {
             Basic,
 
-            Material,
-            Bone,
+            MaterialID,
+            BoneID,
+            BoneWeight,
             LocalToWorld,
 
             ENUM_CLASS_RANGE(Basic,LocalToWorld)
