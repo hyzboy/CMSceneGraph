@@ -11,8 +11,8 @@ namespace hgl
             Basic,
 
             MaterialInstanceID,
-            BoneID,
-            BoneWeight,
+            JointID,
+            JointWeight,
             LocalToWorld,
 
             ENUM_CLASS_RANGE(Basic,LocalToWorld)
@@ -98,8 +98,8 @@ namespace hgl
 
             VAN_DEFINE(MaterialInstanceID)
 
-            VAN_DEFINE(BoneID)
-            VAN_DEFINE(BoneWeight)
+            VAN_DEFINE(JointID)
+            VAN_DEFINE(JointWeight)
 
             VAN_DEFINE(LocalToWorld)
             #undef VAN_DEFINE

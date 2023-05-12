@@ -89,7 +89,7 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
                 bind_desc->stride   =1;
             }
             else
-            if(group==uint(VertexInputGroup::BoneID))
+            if(group==uint(VertexInputGroup::JointID))
             {
                 attr_desc->format   =VK_FORMAT_R8G8B8A8_UINT;
 
@@ -97,7 +97,7 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
                 bind_desc->stride   =4;
             }
             else
-            if(group==uint(VertexInputGroup::BoneWeight))
+            if(group==uint(VertexInputGroup::JointWeight))
             {
                 attr_desc->format   =VK_FORMAT_R8G8B8A8_UNORM;
 
