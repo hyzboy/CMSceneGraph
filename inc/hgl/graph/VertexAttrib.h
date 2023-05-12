@@ -10,7 +10,7 @@ namespace hgl
         {
             Basic,
 
-            MaterialID,
+            MaterialInstanceID,
             BoneID,
             BoneWeight,
             LocalToWorld,
@@ -96,7 +96,7 @@ namespace hgl
             VAN_DEFINE(TexCoord)
             VAN_DEFINE(Color)
 
-            VAN_DEFINE(MaterialID)
+            VAN_DEFINE(MaterialInstanceID)
 
             VAN_DEFINE(BoneID)
             VAN_DEFINE(BoneWeight)

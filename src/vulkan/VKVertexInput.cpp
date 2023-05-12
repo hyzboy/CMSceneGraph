@@ -82,7 +82,7 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
 
             ++binding;
 
-            if(group==uint(VertexInputGroup::MaterialID))
+            if(group==uint(VertexInputGroup::MaterialInstanceID))
             {
                 attr_desc->format   =VK_FORMAT_R8_UINT;
                 bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
