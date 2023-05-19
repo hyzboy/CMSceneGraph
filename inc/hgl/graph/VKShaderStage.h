@@ -25,8 +25,10 @@ namespace hgl
             uint8_t basetype;
             uint8_t vec_size;
 
-            uint8   input_rate;     //输入频率
-            VertexInputGroup   group;          //分组
+            uint8               input_rate;     //输入频率
+            VertexInputGroup    group;          //分组
+
+            Interpolation       interpolation;  //插值方式
         };//struct ShaderAttribute
 
         inline const AnsiString GetShaderAttributeTypename(const ShaderAttribute *ss)
