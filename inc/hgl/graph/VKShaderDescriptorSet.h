@@ -18,7 +18,7 @@ struct ShaderDescriptorSet
 
 public:
 
-    ShaderDescriptor *AddDescriptor(VkShaderStageFlagBits ssb,ShaderDescriptor *new_sd);                       ///<添加一个描述符，如果它本身存在，则返回false
+    ShaderDescriptor *AddDescriptor(uint32_t shader_stage_flag_bits,ShaderDescriptor *new_sd);                       ///<添加一个描述符，如果它本身存在，则返回false
 };
 
 using ShaderDescriptorSetArray=ShaderDescriptorSet[DESCRIPTOR_SET_TYPE_COUNT];
