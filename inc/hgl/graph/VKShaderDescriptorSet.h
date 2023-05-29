@@ -18,7 +18,13 @@ struct ShaderDescriptorSet
 
 public:
 
-    ShaderDescriptor *AddDescriptor(uint32_t shader_stage_flag_bits,ShaderDescriptor *new_sd);                       ///<添加一个描述符，如果它本身存在，则返回false
+    /**
+    * 添加一个描述符
+    * @param shader_stage_flag_bits 着色器阶段标志
+    * @param new_sd 新的描述符
+    * @return 新的描述符(注: 正常操作一定要使用此返回值，new_sd有可能因为重复被删掉)
+    */
+    ShaderDescriptor *AddDescriptor(uint32_t shader_stage_flag_bits,ShaderDescriptor *new_sd);
 };
 
 using ShaderDescriptorSetArray=ShaderDescriptorSet[DESCRIPTOR_SET_TYPE_COUNT];

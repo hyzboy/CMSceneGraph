@@ -2,7 +2,7 @@
 
 VK_NAMESPACE_BEGIN
 /**
-* 添加一个描述符，如果它本身存在，则返回false
+* 添加一个描述符
 */
 ShaderDescriptor *ShaderDescriptorSet::AddDescriptor(uint32_t ssb,ShaderDescriptor *new_sd)
 {
