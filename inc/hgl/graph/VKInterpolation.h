@@ -15,9 +15,9 @@ enum class Interpolation
 
 constexpr const char *InterpolationName[]=
 {
-    "Smooth",
-    "NoPerspective",
-    "Flat",
+    "smooth",
+    "noperspective",
+    "flat",
 };//
 
 inline const char *GetInterpolationName(const Interpolation &i)
