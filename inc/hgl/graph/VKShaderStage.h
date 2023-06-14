@@ -42,6 +42,27 @@ namespace hgl
         {
             uint32_t count;
             ShaderAttribute *items;
+
+        public:
+
+            int Comp(const ShaderAttributeArray *saa)const
+            {
+                if(!saa)
+                    return 1;
+
+                int off=count-saa->count;
+                if(off)return off;
+
+                for(uint i=0;i<count;i++)
+                {
+                    off=items[i].location-saa->items[i].location;
+                    if(off)return off;
+                }
+
+                return 0;
+            }
+
+            CompOperator(const ShaderAttributeArray *,Comp)
         };
 
         inline void Init(ShaderAttributeArray *sad,const uint count=0)
