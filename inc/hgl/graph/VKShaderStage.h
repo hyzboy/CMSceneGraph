@@ -22,8 +22,8 @@ namespace hgl
             uint8   location;
 
             //对应hgl/graph/VertexAttrib.h中的enum class VATBaseType
-            uint8_t basetype;
-            uint8_t vec_size;
+            uint8   basetype;
+            uint8   vec_size;
 
             uint8               input_rate;     //输入频率
             VertexInputGroup    group;          //分组
@@ -55,8 +55,12 @@ namespace hgl
 
                 for(uint i=0;i<count;i++)
                 {
-                    off=items[i].location-saa->items[i].location;
-                    if(off)return off;
+                #define SAA_COMP_ITEM(name) off=items[i].name-saa->items[i].name;if(off)return off;
+                    SAA_COMP_ITEM(location)
+                    SAA_COMP_ITEM(basetype)
+                    SAA_COMP_ITEM(vec_size)
+                    SAA_COMP_ITEM(input_rate)
+                #undef SAA_COMP_ITEM
                 }
 
                 return 0;
