@@ -4,6 +4,7 @@
 #include<hgl/graph/VertexAttrib.h>
 #include<hgl/graph/VKInterpolation.h>
 #include<hgl/type/List.h>
+#include<hgl/type/String.h>
 
 namespace hgl
 {

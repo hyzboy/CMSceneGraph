@@ -1,5 +1,4 @@
-#ifndef HGL_GRAPH_BITMAP_INCLUDE
-#define HGL_GRAPH_BITMAP_INCLUDE
+#pragma once
 
 #include<hgl/type/DataType.h>
 namespace hgl
@@ -22,12 +21,5 @@ namespace hgl
                 delete[] data;
             }
         };//struct BitmapData
-
-        struct Image2DRegion
-        {
-            int left,top,width,height;
-            uint bytes;
-        };//struct ImageRegion
     }//namespace graph
 }//namespace hgl
-#endif//HGL_GRAPH_BITMAP_INCLUDE
