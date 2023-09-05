@@ -82,13 +82,6 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
 
             ++binding;
 
-            if(group==uint(VertexInputGroup::MaterialInstanceID))
-            {
-                attr_desc->format   =VK_FORMAT_R8_UINT;
-                bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
-                bind_desc->stride   =1;
-            }
-            else
             if(group==uint(VertexInputGroup::JointID))
             {
                 attr_desc->format   =VK_FORMAT_R8G8B8A8_UINT;
@@ -105,11 +98,11 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
                 bind_desc->stride   =4;
             }
             else
-            if(group==uint(VertexInputGroup::LocalToWorld))
+            if(group==uint(VertexInputGroup::Assign))
             {
-                attr_desc->format   =VK_FORMAT_R32G32B32A32_SFLOAT;
+                attr_desc->format   =VK_FORMAT_R16_UINT;
                 bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
-                bind_desc->stride   =16;
+                bind_desc->stride   =2;
             }
             else
             {

@@ -10,12 +10,11 @@ namespace hgl
         {
             Basic,
 
-            MaterialInstanceID,
             JointID,
             JointWeight,
-            LocalToWorld,
+            Assign,
 
-            ENUM_CLASS_RANGE(Basic,LocalToWorld)
+            ENUM_CLASS_RANGE(Basic,Assign)
         };
 
         struct VertexAttribType
