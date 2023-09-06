@@ -1,5 +1,6 @@
 ﻿#include<hgl/graph/VKVertexInput.h>
 #include<hgl/graph/VKVertexInputConfig.h>
+#include<hgl/graph/VKRenderAssign.h>
 
 VK_NAMESPACE_BEGIN
 VertexInput::VertexInput(const ShaderAttributeArray &sa_array)
@@ -100,9 +101,9 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
             else
             if(group==uint(VertexInputGroup::Assign))
             {
-                attr_desc->format   =VK_FORMAT_R16_UINT;
+                attr_desc->format   =ASSIGN_VBO_FMT;
                 bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
-                bind_desc->stride   =2;
+                bind_desc->stride   =ASSIGN_VBO_STIDE_BYTES;
             }
             else
             {
