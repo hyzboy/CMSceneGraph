@@ -103,7 +103,7 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
             {
                 attr_desc->format   =ASSIGN_VBO_FMT;
                 bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
-                bind_desc->stride   =ASSIGN_VBO_STIDE_BYTES;
+                bind_desc->stride   =ASSIGN_VBO_STRIDE_BYTES;
             }
             else
             {

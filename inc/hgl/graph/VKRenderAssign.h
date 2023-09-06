@@ -10,6 +10,6 @@ constexpr const VAT         ASSIGN_VAT_FMT          =VAT_UINT;
 
 constexpr const VkFormat    ASSIGN_VBO_FMT          =VF_V1U16;
 
-constexpr const uint        ASSIGN_VBO_STIDE_BYTES  =2;     ///<Assign VBO的每个节点的字节数
+constexpr const uint        ASSIGN_VBO_STRIDE_BYTES =2;     ///<Assign VBO的每个节点的字节数
 
 VK_NAMESPACE_END
