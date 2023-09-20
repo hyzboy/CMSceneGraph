@@ -89,10 +89,12 @@ namespace hgl
         inline void Clear(ShaderAttributeArray *sad)
         {
             if(sad->items)
+            {
                 array_free(sad->items);
+                sad->items=nullptr;
+            }
 
             sad->count=0;
-            sad->items=nullptr;
         }
 
         inline void Copy(ShaderAttributeArray *dst,const ShaderAttributeArray *src)
