@@ -154,6 +154,10 @@ bool VertexInput::Release(VIL *vil)
 namespace
 {
     ObjectManage<ShaderAttributeArray,VertexInput> vertex_input_manager;
+
+    //完全没必要的管理
+
+    //ShaderAttributeArray+VertexInput 就算有1024个，也没多少内存占用。完全没必要搞什么引用计数管理
 }//namespace
 
 VertexInput *GetVertexInput(const ShaderAttributeArray &saa)
