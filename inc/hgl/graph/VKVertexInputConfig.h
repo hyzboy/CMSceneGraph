@@ -38,6 +38,32 @@ public:
     {
         return Map<AnsiString,VAConfig>::Add(name,VAConfig(fmt,ir));
     }
-};
+
+    int Comp(const VILConfig &vc)const
+    {
+        int off;
+
+        off=GetCount()-vc.GetCount();
+        if(off)return(off);
+
+        auto **sp=GetDataList();
+        VAConfig vac;
+
+        for(int i=0;i<GetCount();i++)
+        {
+            if(!vc.Get((*sp)->key,vac))
+                return(1);
+
+            off=(*sp)->value._Comp(vac);
+            if(off)return(off);
+
+            ++sp;
+        }
+
+        return 0;
+    }
+
+    CompOperator(const VILConfig &,Comp)
+};//class VILConfig:public Map<AnsiString,VAConfig>
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE
