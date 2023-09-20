@@ -45,6 +45,8 @@ public:
 
     const uint      GetCount()const{return vic.GetCount();}
 
+
+    const   VIL *   GetDefaultVIL()const{return default_vil;}
     VIL *           CreateVIL(const VILConfig *format_map=nullptr);
     bool            Release(VIL *);
     const uint32_t  GetInstanceCount()const{return vil_sets.GetCount();}
