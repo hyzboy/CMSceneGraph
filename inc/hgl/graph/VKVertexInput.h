@@ -19,6 +19,8 @@ class VertexInput
     uint count_by_group[size_t(VertexInputGroup::RANGE_SIZE)];
 
 private:
+
+    VIL *default_vil;
     
     SortedSets<VIL *> vil_sets;
 

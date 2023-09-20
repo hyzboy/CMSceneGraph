@@ -25,10 +25,14 @@ VertexInput::VertexInput(const ShaderAttributeArray &sa_array)
 
         ++sa;
     }
+
+    default_vil=CreateVIL(nullptr);
 }
 
 VertexInput::~VertexInput()
 {
+    delete default_vil;
+
     if(vil_sets.GetCount()>0)
     {
         //还有在用的，这是个错误
@@ -42,6 +46,9 @@ VertexInput::~VertexInput()
 
 VIL *VertexInput::CreateVIL(const VILConfig *cfg)
 {
+    if(!cfg)
+        return(default_vil);
+
     VIL *vil=new VIL(shader_attr_list.count,name_list,type_list);
 
     VkVertexInputBindingDescription *bind_desc=vil->bind_list;
