@@ -1,6 +1,7 @@
 ﻿#include<hgl/graph/VKVertexInput.h>
 #include<hgl/graph/VKVertexInputConfig.h>
 #include<hgl/graph/VKRenderAssign.h>
+#include<hgl/type/ObjectManage.h>
 
 VK_NAMESPACE_BEGIN
 VertexInput::VertexInput(const ShaderAttributeArray &sa_array)
@@ -150,14 +151,29 @@ bool VertexInput::Release(VIL *vil)
     return vil_sets.Delete(vil);
 }
 
+namespace
+{
+    ObjectManage<ShaderAttributeArray,VertexInput> vertex_input_manager;
+}//namespace
+
 VertexInput *GetVertexInput(const ShaderAttributeArray &saa)
 {
-    return(new VertexInput(saa));
+    VertexInput *vi=vertex_input_manager.Get(saa);
+
+    if(!vi)
+    {
+        vi=new VertexInput(saa);
+
+        vertex_input_manager.Add(saa,vi);
+    }
+
+    return vi;
 }
 
 void ReleaseVertexInput(VertexInput *vi)
 {
-    if(vi)
-        delete vi;
+    if(!vi)return;
+
+    vertex_input_manager.Release(vi);
 }
 VK_NAMESPACE_END
