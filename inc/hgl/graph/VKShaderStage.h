@@ -67,7 +67,13 @@ namespace hgl
                 return 0;
             }
 
+            int Comp(const ShaderAttributeArray &saa)const
+            {
+                return Comp(&saa);
+            }
+
             CompOperator(const ShaderAttributeArray *,Comp)
+            CompOperator(const ShaderAttributeArray &,Comp)
         };
 
         inline void Init(ShaderAttributeArray *sad,const uint count=0)
