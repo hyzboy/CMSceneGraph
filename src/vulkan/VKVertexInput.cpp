@@ -4,8 +4,8 @@
 #include<hgl/type/ObjectManage.h>
 
 VK_NAMESPACE_BEGIN
-VertexInput::VertexInput(const ShaderAttributeArray &sa_array)
-{
+VertexInputConfig::VertexInputConfig(const ShaderAttributeArray &sa_array)
+{    
     Copy(&shader_attr_list,&sa_array);
 
     name_list=new const char *[shader_attr_list.count];
@@ -25,30 +25,18 @@ VertexInput::VertexInput(const ShaderAttributeArray &sa_array)
 
         ++sa;
     }
-
-    default_vil=CreateVIL(nullptr);
 }
 
-VertexInput::~VertexInput()
+VertexInputConfig::~VertexInputConfig()
 {
-    delete default_vil;
-
-    if(vil_sets.GetCount()>0)
-    {
-        //还有在用的，这是个错误
-    }
-
     Clear(&shader_attr_list);
 
     delete[] name_list;
     delete[] type_list;
 }
 
-VIL *VertexInput::CreateVIL(const VILConfig *cfg)
+VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
 {
-    if(!cfg)
-        return(default_vil);
-
     VIL *vil=new VIL(shader_attr_list.count,name_list,type_list);
 
     VkVertexInputBindingDescription *bind_desc=vil->bind_list;
@@ -148,9 +136,38 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
         }
     }
 
+    return(vil);
+}
+
+VertexInput::VertexInput(const ShaderAttributeArray &sa_array):vic(sa_array)
+{
+    default_vil=vic.CreateVIL(nullptr);
+}
+
+VertexInput::~VertexInput()
+{
+    delete default_vil;
+
+    if(vil_sets.GetCount()>0)
+    {
+        //还有在用的，这是个错误
+    }
+}
+
+VIL *VertexInput::CreateVIL(const VILConfig *cfg)
+{
+    if(!cfg)
+        return(default_vil);
+    
+    //原本是想在这里做根据VILConfig的Map缓冲管理，避免重复创建VIL。
+    //但VILConfig的复制与比较过于复杂，而且这种使用情况极少。所以放弃做这个事情，如未来真正产生这种需求时再做。
+
+
+    VIL *vil=vic.CreateVIL(cfg);
+
     vil_sets.Add(vil);
 
-    return(vil);
+    return vil;
 }
 
 bool VertexInput::Release(VIL *vil)

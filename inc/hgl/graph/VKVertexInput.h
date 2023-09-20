@@ -4,13 +4,12 @@
 #include<hgl/graph/VKFormat.h>
 #include<hgl/graph/VKVertexInputLayout.h>
 #include<hgl/type/SortedSets.h>
-#include<hgl/type/Map.h>
 #include<hgl/graph/VKShaderStage.h>
 
 VK_NAMESPACE_BEGIN
 class VILConfig;
 
-class VertexInput
+class VertexInputConfig
 {
     ShaderAttributeArray shader_attr_list;
     VAT *type_list;
@@ -18,7 +17,21 @@ class VertexInput
 
     uint count_by_group[size_t(VertexInputGroup::RANGE_SIZE)];
 
-private:
+public:
+
+    const uint      GetCount()const{return shader_attr_list.count;}
+
+public:
+
+    VertexInputConfig(const ShaderAttributeArray &sa_array);
+    ~VertexInputConfig();
+
+    VIL *CreateVIL(const VILConfig *format_map=nullptr);
+};
+
+class VertexInput
+{
+    VertexInputConfig vic;
 
     VIL *default_vil;
     
@@ -30,7 +43,7 @@ public:
     VertexInput(const VertexInput &)=delete;
     ~VertexInput();
 
-    const uint      GetCount()const{return shader_attr_list.count;}
+    const uint      GetCount()const{return vic.GetCount();}
 
     VIL *           CreateVIL(const VILConfig *format_map=nullptr);
     bool            Release(VIL *);

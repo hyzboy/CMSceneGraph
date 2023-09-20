@@ -32,7 +32,7 @@ private:
 
 private:
 
-    friend class VertexInput;
+    friend class VertexInputConfig;
 
     VertexInputLayout(const uint32_t,const char **,const VAT *);
 
