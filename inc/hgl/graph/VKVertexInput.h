@@ -34,5 +34,8 @@ public:
     bool            Release(VIL *);
     const uint32_t  GetInstanceCount()const{return vil_sets.GetCount();}
 };//class VertexInput
+
+VertexInput *GetVertexInput(const ShaderAttributeArray &);
+void ReleaseVertexInput(VertexInput *);
 VK_NAMESPACE_END
 #endif//HGL_VULKAN_VERTEX_INPUT_INCLUDE

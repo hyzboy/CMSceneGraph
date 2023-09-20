@@ -149,4 +149,15 @@ bool VertexInput::Release(VIL *vil)
 {
     return vil_sets.Delete(vil);
 }
+
+VertexInput *GetVertexInput(const ShaderAttributeArray &saa)
+{
+    return(new VertexInput(saa));
+}
+
+void ReleaseVertexInput(VertexInput *vi)
+{
+    if(vi)
+        delete vi;
+}
 VK_NAMESPACE_END
