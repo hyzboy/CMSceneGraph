@@ -55,6 +55,7 @@ enum class DescriptorSetType
 * </summary>
 */
     PerMaterial,        ///<材质参数
+    MaterialInstance,   ///<材质实例
 
     Instance,
 
@@ -68,6 +69,7 @@ constexpr char *DescriptSetTypeName[]=
     "Global",
     "PerFrame",
     "PerMaterial",
+    "MaterialInstance",
     "Instance"
 };
 
