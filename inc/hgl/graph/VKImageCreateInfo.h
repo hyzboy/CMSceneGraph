@@ -103,12 +103,14 @@ public:
         this->arrayLayers   =layers;
     }
 
-    Image2DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t layers,const uint32_t &ml):ImageCreateInfo(ml,u,t)
+    Image2DArrayCreateInfo(const uint32_t &u,const uint32_t &t,const VkFormat &fmt,const VkExtent3D &extent,const uint32_t &ml):ImageCreateInfo(ml,u,t)
     {
         this->format        =fmt;
         this->imageType     =VK_IMAGE_TYPE_2D;
-        this->extent        =extent;
-        this->arrayLayers   =layers;
+        this->extent.width  =extent.width;
+        this->extent.height =extent.height;
+        this->extent.depth  =1;
+        this->arrayLayers   =extent.depth;
     }
 
     ~Image2DArrayCreateInfo()=default;
