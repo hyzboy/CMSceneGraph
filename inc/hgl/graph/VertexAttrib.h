@@ -95,12 +95,8 @@ namespace hgl
             VAN_DEFINE(TexCoord)
             VAN_DEFINE(Color)
 
-            VAN_DEFINE(MaterialInstanceID)
-
             VAN_DEFINE(JointID)
             VAN_DEFINE(JointWeight)
-
-            VAN_DEFINE(LocalToWorld)
             #undef VAN_DEFINE
         }//namespace VertexAttribName
 
