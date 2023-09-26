@@ -17,7 +17,7 @@ VK_NAMESPACE_BEGIN
 *    {                                       //该类数据，由DescriptorSetType为PerMaterial的参数构成
 *        vec4 BaseColor;
 *        vec4 Emissive;
-*        vec4 ARM;
+*        uvec4 ARM;
 *    };
 *
 *    layout(set=?,binding=?) uniform Material
@@ -44,15 +44,9 @@ VK_NAMESPACE_BEGIN
 */
 enum class DescriptorSetType
 {
-    /**
-     * 根据Khronos/nvidia/valve等方建议，区分set用于代表不同的更新频率
-     * 原计划是根据更新频率定义为：长期不变化、每帧变化、每对象变化、特殊类四种
-     * 但经过实际开发，以及未来考虑到迁移至Indirect绘制，会导致根本无法做到每对象更新。所以删除此类。
-     */
-    
     Global=0,           ///<全局参数，不确定什么时候更新，但一般不怎么更新(如视窗大小，太阳光等), 不会在RenderList中处理刷新
 
-    PerFrame,           ///<帧参数，固定每帧刷新一次(如摄像机位置等)
+    PerFrame,           ///<固定每帧刷新一次(如摄像机位置等)
 
     PerMaterial,        ///<材质参数
 
@@ -68,7 +62,6 @@ constexpr char *DescriptSetTypeName[]=
     "Global",
     "PerFrame",
     "PerMaterial",
-    "MaterialInstance",
     "Instance"
 };
 
