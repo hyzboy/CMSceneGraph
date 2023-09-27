@@ -39,17 +39,17 @@ namespace hgl
 
             center=(minPoint+maxPoint)/2.0f;
 
-            ComputeCenterPoint();
+            Update();
         }
 
-        void AABB::ComputeCenterPoint()
+        void AABB::Update()
         {
             face_center_point[0]=Vector3f(minPoint.x, center.y, center.z);
-	        face_center_point[1]=Vector3f(maxPoint.x, center.y, center.z);
-	        face_center_point[2]=Vector3f(center.x, minPoint.y, center.z);
-	        face_center_point[3]=Vector3f(center.x, maxPoint.y, center.z);
-	        face_center_point[4]=Vector3f(center.x, center.y, minPoint.z);
-	        face_center_point[5]=Vector3f(center.x, center.y, maxPoint.z);
+            face_center_point[1]=Vector3f(maxPoint.x, center.y, center.z);
+            face_center_point[2]=Vector3f(center.x, minPoint.y, center.z);
+            face_center_point[3]=Vector3f(center.x, maxPoint.y, center.z);
+            face_center_point[4]=Vector3f(center.x, center.y, minPoint.z);
+            face_center_point[5]=Vector3f(center.x, center.y, maxPoint.z);
 
             for(uint i=0;i<6;i++)
                 planes[i].Set(face_center_point[i],AABBFaceNormal[i]);

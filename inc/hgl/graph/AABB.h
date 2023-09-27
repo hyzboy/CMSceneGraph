@@ -20,7 +20,7 @@ namespace hgl
         /**
         * AABB
         */
-        struct AABB
+        class AABB
         {
             Vector3f minPoint;
             Vector3f center;
@@ -33,7 +33,7 @@ namespace hgl
 
         private:
 
-            void ComputeCenterPoint();
+            void Update();
 
         public:
 
@@ -48,7 +48,7 @@ namespace hgl
                 length=l;
                 maxPoint=c+l;
                 center=(minPoint+maxPoint)/2.0f;
-                ComputeCenterPoint();
+                Update();
             }
 
             void SetMinMax(const Vector3f &min_v,const Vector3f &max_v)         ///<按最小最大值设置盒子范围
@@ -57,7 +57,7 @@ namespace hgl
                 maxPoint=max_v;
                 length=max_v-min_v;
                 center=(min_v+max_v)/2.0f;
-                ComputeCenterPoint();
+                Update();
             }
 
             Vector3f GetVertexP(const Vector3f &)const;
