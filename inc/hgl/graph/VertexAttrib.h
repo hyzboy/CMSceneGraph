@@ -94,6 +94,7 @@ namespace hgl
             VAN_DEFINE(Bitangent)
             VAN_DEFINE(TexCoord)
             VAN_DEFINE(Color)
+            VAN_DEFINE(Luminance)
 
             VAN_DEFINE(JointID)
             VAN_DEFINE(JointWeight)
