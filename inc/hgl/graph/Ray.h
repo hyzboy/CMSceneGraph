@@ -99,7 +99,7 @@ namespace hgl
             */
             bool CrossBox(const AABB &box)const
             {
-                return CrossBox(box.minPoint,box.maxPoint);
+                return CrossBox(box.GetMin(),box.GetMax());
             }
         };//class Ray
     }//namespace graph

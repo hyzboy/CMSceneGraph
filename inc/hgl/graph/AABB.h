@@ -60,6 +60,15 @@ namespace hgl
                 Update();
             }
 
+            void SetZero()
+            {
+                hgl_zero(minPoint);
+                hgl_zero(maxPoint);
+            }
+
+            const Vector3f &GetMin()const{return minPoint;}
+            const Vector3f &GetMax()const{return maxPoint;}
+
             Vector3f GetVertexP(const Vector3f &)const;
             Vector3f GetVertexN(const Vector3f &)const;
 
