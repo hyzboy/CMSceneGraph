@@ -37,7 +37,7 @@ VertexInputConfig::~VertexInputConfig()
 
 VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
 {
-    VIL *vil=new VIL(shader_attr_list.count,name_list,type_list);
+    VIL *vil=new VIL(shader_attr_list.count);
 
     VkVertexInputBindingDescription *bind_desc=vil->bind_list;
     VkVertexInputAttributeDescription *attr_desc=vil->attr_list;

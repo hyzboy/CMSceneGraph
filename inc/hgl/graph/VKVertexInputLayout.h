@@ -15,9 +15,6 @@ private:
 
     uint32_t count;
 
-    const char **name_list;
-    const VAT *type_list;
-
     VkVertexInputBindingDescription *bind_list;
     VkVertexInputAttributeDescription *attr_list;
     VertexInputFormat *vif_list;
@@ -34,7 +31,7 @@ private:
 
     friend class VertexInputConfig;
 
-    VertexInputLayout(const uint32_t,const char **,const VAT *);
+    VertexInputLayout(const uint32_t);
 
 public:
 
