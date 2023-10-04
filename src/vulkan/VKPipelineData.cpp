@@ -275,7 +275,7 @@ namespace
     };
 }//namespace
 
-bool PipelineData::SetPrim(const Prim topology,bool restart)
+bool PipelineData::SetPrim(const Prim topology,bool prim_restart)
 {
     VkPrimitiveTopology prim;
 
@@ -284,8 +284,8 @@ bool PipelineData::SetPrim(const Prim topology,bool restart)
         if(topology<Prim::SolidRectangles
          ||topology>Prim::WireCube)
             return(false);
-        else
-            prim=ComplexPrimitiveTopologyToOrigin[uint(topology)-uint(Prim::SolidRectangles)];
+        
+        prim=ComplexPrimitiveTopologyToOrigin[uint(topology)-uint(Prim::SolidRectangles)];
     }
     else
     {
@@ -296,7 +296,7 @@ bool PipelineData::SetPrim(const Prim topology,bool restart)
     input_assembly.pNext = nullptr;
     input_assembly.flags = 0;
     input_assembly.topology = prim;
-    input_assembly.primitiveRestartEnable = restart;
+    input_assembly.primitiveRestartEnable = prim_restart;
 
     pipeline_info.pInputAssemblyState = &input_assembly;
     return(true);

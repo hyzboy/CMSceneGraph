@@ -78,7 +78,7 @@ public:
 
 public:
 
-    bool SetPrim(const Prim prim,bool=false);
+    bool SetPrim(const Prim prim,bool prim_restart=false);
 
     void SetViewport(       float x,float y,float w,float h){viewport.x=x;viewport.y=y;viewport.width=w;viewport.height=h;}
     void SetDepthRange(     float min_depth,float max_depth){viewport.minDepth=min_depth;viewport.maxDepth=max_depth;}
