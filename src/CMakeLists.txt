@@ -49,6 +49,7 @@ SET(CM_CAMERA_SOURCE    ${CM_SG_INCLUDE_PATH}/Camera.h
 SOURCE_GROUP("SceneGraph\\Camera" FILES ${CM_CAMERA_SOURCE})
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
+                        vulkan/VKPrimitiveType.cpp
                         vulkan/VKShaderStage.cpp
                         vulkan/VKShaderDescriptorSet.cpp
                         vulkan/VKVertexInput.cpp

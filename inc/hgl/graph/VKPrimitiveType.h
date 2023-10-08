@@ -25,7 +25,15 @@ enum class Prim
     SolidCube,                          ///<立方体(以画线形式在第一个点中指定一个顶点，在第二个点中指定长宽高)
     WireCube,                           ///<线框立方体
 
-    ENUM_CLASS_RANGE(Points,Patchs)
+    ENUM_CLASS_RANGE(Points,Patchs),
+
+    Error
 };//
+
+const char *GetPrimName(const Prim &prim);
+const Prim ParsePrimName(const char *name,int len=0);
+
+bool CheckGeometryShaderIn(const Prim &);
+bool CheckGeometryShaderOut(const Prim &);
 
 #endif//HGL_GRAPH_VULKAN_PRIMITIVE_TYPE_INCLUDE
