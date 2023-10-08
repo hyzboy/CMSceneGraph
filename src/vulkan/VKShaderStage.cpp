@@ -46,6 +46,23 @@ namespace hgl
 
             return UNKNOW_SHADER_STAGE_NAME;
         }
+        
+        const uint GetShaderStageFlagBits(const char *str,int len)
+        {
+            if(!str||!*str)return(0);
+
+            if(len<=0)
+                len=hgl::strlen(str);
+
+            if(len<=3)
+                return(0);
+
+            for(auto &ss:shader_stage_name_list)
+                if(hgl::stricmp(str,ss.name,len)==0)
+                    return ss.flag;
+
+            return(0);
+        }
 
         const uint GetShaderCountByBits(const uint32_t bits)
         {
@@ -55,6 +72,19 @@ namespace hgl
             {
                 if(bits&ss.flag)
                     ++result;
+            }
+
+            return result;
+        }
+        
+        const uint GetMaxShaderStage(const uint32_t bits)
+        {
+            uint result=0;
+
+            for(auto &ss:shader_stage_name_list)
+            {
+                if(bits&ss.flag)
+                    result=ss.flag;
             }
 
             return result;

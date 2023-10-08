@@ -11,7 +11,9 @@ namespace hgl
     namespace graph
     {
         const uint GetShaderCountByBits(const uint32_t bits);                   ///<根据ShaderStage位数据统计有多少个shader
+        const uint GetMaxShaderStage(const uint32_t bits);                      ///<根据ShaderStage位数据获取最大的ShaderStage位
         const char *GetShaderStageName(const VkShaderStageFlagBits &);          ///<获取指定ShaderStage位的名称
+        const uint GetShaderStageFlagBits(const char *,int len=0);              ///<根据名称获取ShaderStage位数据
 
         constexpr size_t SHADER_RESOURCE_NAME_MAX_LENGTH=32;
 
