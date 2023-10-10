@@ -63,9 +63,9 @@ inline constexpr const char *GetSamplerTypeName(const SamplerType st)
     return SamplerTypeName[static_cast<int>(st)];
 }
 
-inline const SamplerType ParseSamplerType(const char *name)
+inline const SamplerType ParseSamplerType(const char *name,int name_len=0)
 {
-    int result=hgl::find_str_in_array<char>((int)SamplerType::RANGE_SIZE,(const char **)SamplerTypeName,name);
+    int result=hgl::find_str_in_array<char>((int)SamplerType::RANGE_SIZE,(const char **)SamplerTypeName,name,name_len);
 
     if(result<=0||result>(int)SamplerType::END_RANGE)
         return SamplerType::Error;
