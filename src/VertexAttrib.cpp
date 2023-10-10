@@ -10,7 +10,14 @@ namespace hgl
         {
             if(!vat||!str||!*str)return(false);
 
-            if(*str=='v')
+            if(*str=='f')       //float
+            {
+                vat->basetype=VATBaseType::Float;
+                vat->vec_size=1;
+                return(true);
+            }
+            else
+            if(*str=='v')       //vec
             {
                 vat->basetype=VATBaseType::Float;
                 vat->vec_size=str[3]-'0';
