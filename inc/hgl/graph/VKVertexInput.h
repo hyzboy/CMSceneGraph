@@ -20,6 +20,7 @@ class VertexInputConfig
 public:
 
     const uint      GetCount()const{return shader_attr_list.count;}
+    const bool      hasAssign()const{return count_by_group[(size_t)VertexInputGroup::Assign]>0;}
 
 public:
 
@@ -44,6 +45,8 @@ public:
     ~VertexInput();
 
     const uint      GetCount()const{return vic.GetCount();}
+
+    const bool      hasAssign()const{return vic.hasAssign();}
 
 
     const   VIL *   GetDefaultVIL()const{return default_vil;}
