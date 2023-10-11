@@ -8,16 +8,16 @@ namespace hgl
     namespace graph
     {
         /*
-         * OpenGL Coordinate System         Vulkan Coordinate System        My Coordinate System
+         * OpenGL Coordinate System         Vulkan Coordinate System        Our Coordinate System
          *
-         *                                         /Z
-         *     Y|    /Z                           /                             Z|    /Y
-         *      |   /                            /                               |   /        
-         *      |  /                            *------------                    |  /         
-         *      | /                             |           X                    | /          
-         *      |/                              |                                |/           
-         *      *------------                   |                                *------------
-         *                  X                   | Y                                          X
+         *                                         /Z                            | Z
+         *     Y|    /Z                           /                              |
+         *      |   /                            /                               |
+         *      |  /                            *------------                    *------------
+         *      | /                             |           X                     \         X
+         *      |/                              |                                  \        
+         *      *------------                   |                                   \
+         *                  X                   | Y                                  \ Y
          */
 
 //        const Matrix4f &GetOpenGL2VulkanMatrix();
