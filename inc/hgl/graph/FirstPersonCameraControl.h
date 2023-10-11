@@ -23,6 +23,8 @@ namespace hgl
 
             Vector3f target;            ///<目标点坐标
 
+            Vector2f ReverseDirection;  ///<是否反转方向
+
         public:
 
             FirstPersonCameraControl(ViewportInfo *v,Camera *c):CameraControl(v,c)
@@ -33,10 +35,19 @@ namespace hgl
                 yaw  =deg2rad(-90.0f);
                 roll =0;
 
+                ReverseDirection.x=1;
+                ReverseDirection.y=1;
+
                 UpdateCameraVector();
             }
             virtual ~FirstPersonCameraControl()=default;
             
+            void SetReserveDirection(bool x,bool y)
+            {
+                ReverseDirection.x=x?-1:1;
+                ReverseDirection.y=y?-1:1;
+            }
+
             void SetTarget(const Vector3f &t)
             {
                 front   =normalize(t-camera->pos);
@@ -96,8 +107,8 @@ namespace hgl
                 constexpr double top_limit      =deg2rad( 89.0f);
                 constexpr double bottom_limit   =deg2rad(-89.0f);
 
-                yaw     -=axis.x/180.0f;
-                pitch   -=axis.y/180.0f;
+                yaw     -=axis.x*ReverseDirection.x/180.0f;
+                pitch   -=axis.y*ReverseDirection.y/180.0f;
 
                 if(pitch>top_limit      )pitch=top_limit;
                 if(pitch<bottom_limit   )pitch=bottom_limit;
