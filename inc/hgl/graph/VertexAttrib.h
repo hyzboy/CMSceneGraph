@@ -44,6 +44,24 @@ namespace hgl
 
                 return(true);
             }
+
+            int Comp(const VertexAttribType &vat)const
+            {
+                int off=(int)basetype-(int)vat.basetype;
+    
+                if(off)return(off);
+
+                off=vec_size-vat.vec_size;
+
+                return(off);
+            }
+
+            const bool operator > (const VertexAttribType& i)const {return Comp(i)>0;}
+            const bool operator < (const VertexAttribType& i)const {return Comp(i)<0;}
+            const bool operator >=(const VertexAttribType& i)const {return Comp(i) >= 0;}
+            const bool operator <=(const VertexAttribType& i)const {return Comp(i) <= 0;}
+            const bool operator ==(const VertexAttribType& i)const {return Comp(i) == 0;}
+            const bool operator !=(const VertexAttribType& i)const {return Comp(i) != 0;}
         };//struct VAT
 
         using VAT=VertexAttribType;
