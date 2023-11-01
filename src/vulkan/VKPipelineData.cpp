@@ -2,7 +2,6 @@
 #include<hgl/graph/VKVertexInputLayout.h>
 
 VK_NAMESPACE_BEGIN
-
 void SetDefault(VkPipelineColorBlendAttachmentState *cba)
 {    
     cba->colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
@@ -50,7 +49,7 @@ PipelineData::PipelineData(const PipelineData *pd)
 
     InitColorBlend(pd->color_blend->attachmentCount,pd->color_blend_attachments);
 
-    hgl_cpy(dynamic_state_enables,pd->dynamic_state_enables,VK_DYNAMIC_STATE_RANGE_SIZE);
+    hgl_cpy(dynamic_state_enables,pd->dynamic_state_enables);
     hgl_cpy(dynamic_state,pd->dynamic_state);
 
     dynamic_state.pDynamicStates=dynamic_state_enables;
@@ -336,7 +335,6 @@ void PipelineData::InitDynamicState()
     dynamic_state.dynamicStateCount = 0;
     dynamic_state_enables[dynamic_state.dynamicStateCount++] = VK_DYNAMIC_STATE_VIEWPORT;
     dynamic_state_enables[dynamic_state.dynamicStateCount++] = VK_DYNAMIC_STATE_SCISSOR;
-    dynamic_state_enables[dynamic_state.dynamicStateCount++] = VK_DYNAMIC_STATE_LINE_WIDTH;
 
     //如果窗口大小不变，可以不设置这两个。能不能提升效能未知
     pipeline_info.pDynamicState      = &dynamic_state;
