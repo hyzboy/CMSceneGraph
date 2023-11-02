@@ -67,6 +67,7 @@ public:
 
 public:
 
+    PipelineData(const PipelineData &)=delete;
     PipelineData(const PipelineData *);
     PipelineData(const uint32_t color_attachment_count);
     PipelineData();
