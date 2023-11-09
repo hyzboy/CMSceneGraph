@@ -4,7 +4,7 @@ namespace hgl
 {
     namespace graph
     {
-        void ViewportInfo::SetViewport(int w,int h)
+        void ViewportInfo::SetViewport(uint w,uint h)
         {
             viewport_resolution.x=w;
             viewport_resolution.y=h;

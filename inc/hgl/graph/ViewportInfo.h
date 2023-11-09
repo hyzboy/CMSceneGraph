@@ -20,9 +20,9 @@ namespace hgl
 
         public:
 
-            void SetViewport(int,int);
+            void SetViewport(uint,uint);
             void SetCanvas(float,float);
-            void Set(int w,int h)
+            void Set(uint w,uint h)
             {
                 SetViewport(w,h);
                 SetCanvas(w,h);
