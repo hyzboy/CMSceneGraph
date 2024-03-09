@@ -71,5 +71,19 @@ inline const char *GetDescriptorSetTypeName(const enum class DescriptorSetType &
 
     return DescriptSetTypeName[(size_t)type];
 }
+
+inline const DescriptorSetType GetDescriptorSetType(const char *str)
+{
+    if(!str||!*str)return(DescriptorSetType::Global);
+
+    for(size_t i=0;i<DESCRIPTOR_SET_TYPE_COUNT;i++)
+    {
+        if(!strcmp(str,DescriptSetTypeName[i]))
+            return((DescriptorSetType)i);
+    }
+
+    return(DescriptorSetType::Global);
+}
+
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_DESCRIPTOR_SET_TYPE_INCLUDE
