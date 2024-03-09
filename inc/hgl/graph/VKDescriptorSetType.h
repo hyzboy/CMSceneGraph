@@ -44,7 +44,11 @@ VK_NAMESPACE_BEGIN
 */
 enum class DescriptorSetType
 {
-    Global=0,           ///<全局参数，不确定什么时候更新，但一般不怎么更新(如视窗大小，太阳光等), 不会在RenderList中处理刷新
+    Unknow=0,           ///<未分类的
+
+    Static,             ///<静态数据，基本上是不会变的(如Viewport数据)
+
+    Global,             ///<全局参数，不确定什么时候更新，但一般不怎么更新(如太阳光), 不会在RenderList中处理刷新
 
     PerFrame,           ///<固定每帧刷新一次(如摄像机位置等)
 
@@ -52,13 +56,15 @@ enum class DescriptorSetType
 
     Instance,           ///<手动Instance绘制用数据
 
-    ENUM_CLASS_RANGE(Global,Instance)
+    ENUM_CLASS_RANGE(Unknow,Instance)
 };//
 
 constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE_SIZE);
 
 constexpr char *DescriptSetTypeName[]=
 {
+    "Unknow",
+    "Static",
     "Global",
     "PerFrame",
     "PerMaterial",
@@ -74,7 +80,7 @@ inline const char *GetDescriptorSetTypeName(const enum class DescriptorSetType &
 
 inline const DescriptorSetType GetDescriptorSetType(const char *str)
 {
-    if(!str||!*str)return(DescriptorSetType::Global);
+    if(!str||!*str)return(DescriptorSetType::Unknow);
 
     for(size_t i=0;i<DESCRIPTOR_SET_TYPE_COUNT;i++)
     {
@@ -82,7 +88,7 @@ inline const DescriptorSetType GetDescriptorSetType(const char *str)
             return((DescriptorSetType)i);
     }
 
-    return(DescriptorSetType::Global);
+    return(DescriptorSetType::Unknow);
 }
 
 VK_NAMESPACE_END
