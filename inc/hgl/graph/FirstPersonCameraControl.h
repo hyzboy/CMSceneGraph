@@ -65,7 +65,7 @@ namespace hgl
                 target=camera->pos+front;
                 
                 camera_info.view_line  =front;
-                camera_info.view       =glm::lookAtRH(camera->pos,target,up);
+                camera_info.view       =lookat(camera->pos,target,up);
 
                 RefreshCameraInfo(&camera_info,vi,camera);
             }
