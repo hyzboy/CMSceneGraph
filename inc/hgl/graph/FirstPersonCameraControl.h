@@ -30,6 +30,7 @@ namespace hgl
             FirstPersonCameraControl(ViewportInfo *v,Camera *c):CameraControl(v,c)
             {
                 target=Vector3f(0.0f);
+                up=Vector3f(0,0,1);
 
                 pitch=0;
                 yaw  =deg2rad(-90.0f);
@@ -52,18 +53,18 @@ namespace hgl
             {
                 front   =normalize(t-camera->pos);
                 right   =normalize(cross(front,camera->world_up));
-                up      =normalize(cross(right,front));
+                up      =normalize(cross(right,front)); 
 
                 pitch   =asin(front.z);
                 yaw     =atan2(front.x,front.y);
+
+                target  =t;
 
                 UpdateCameraVector();
             }
 
             void Refresh() override
             {
-                target=camera->pos+front;
-                
                 camera_info.view_line  =front;
                 camera_info.view       =lookat(camera->pos,target,up);
 
