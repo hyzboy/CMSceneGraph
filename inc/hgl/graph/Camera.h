@@ -39,8 +39,8 @@ namespace hgl
                 hgl_zero(*this);
 
                 Yfov        =45;
-                znear       =1.0f;
-                zfar        =15000;
+                znear       =0.1f;
+                zfar        =10240;
                 world_up.z  =1.0f;
             }
         };//struct Camera

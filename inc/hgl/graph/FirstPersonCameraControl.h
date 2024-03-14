@@ -21,6 +21,8 @@ namespace hgl
             Vector3f right;
             Vector3f up;
 
+            Vector3f distance;             ///<相机到观察点的距离
+
             Vector3f target;            ///<目标点坐标
 
             Vector2f ReverseDirection;  ///<是否反转方向
@@ -31,6 +33,7 @@ namespace hgl
             {
                 target=Vector3f(0.0f);
                 up=Vector3f(0,0,1);
+                distance=Vector3f(0,0,0);
 
                 pitch=0;
                 yaw  =deg2rad(-90.0f);
@@ -58,15 +61,17 @@ namespace hgl
                 pitch   =asin(front.z);
                 yaw     =atan2(front.x,front.y);
 
-                target  =t;
-
                 UpdateCameraVector();
+
+                distance=(t-camera->pos)/front;
             }
 
             void Refresh() override
             {
+                target=camera->pos+front*distance;
+
                 camera_info.view_line  =front;
-                camera_info.view       =lookat(camera->pos,target,up);
+                camera_info.view       =lookat(camera->pos,target,camera->world_up);
 
                 RefreshCameraInfo(&camera_info,vi,camera);
             }
