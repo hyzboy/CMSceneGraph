@@ -45,6 +45,8 @@ public:
         return count_by_group[size_t(vig)];
     }
 
+    const VertexInputFormat *                   GetVIFList          ()const{return vif_list;}
+
     const uint32_t                              GetFirstBinding     (const VertexInputGroup &vig)const
     {
         RANGE_CHECK_RETURN(vig,0)
