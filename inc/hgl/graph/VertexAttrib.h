@@ -10,11 +10,12 @@ namespace hgl
         {
             Basic,
 
+            LocalToWorld,
+            MaterialInstanceID,
             JointID,
             JointWeight,
-            Assign,
 
-            ENUM_CLASS_RANGE(Basic,Assign)
+            ENUM_CLASS_RANGE(Basic,JointWeight)
         };
 
         struct VertexAttribType
@@ -113,6 +114,9 @@ namespace hgl
             VAN_DEFINE(TexCoord)
             VAN_DEFINE(Color)
             VAN_DEFINE(Luminance)
+
+            VAN_DEFINE(LocalToWorld)
+            VAN_DEFINE(MaterialInstanceID)
 
             VAN_DEFINE(JointID)
             VAN_DEFINE(JointWeight)
