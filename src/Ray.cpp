@@ -54,6 +54,8 @@ namespace hgl
 
             unProjectZO(origin,direction,mp,ci->inverse_vp,vi->GetViewport());
 
+            //由于near/far的xy一样，而near.z又是0。所以省去了direction=normalize(far-near)的计算
+
             //旧标准方案
 
             //Vector3f pos(mp.x,mp.y,0);

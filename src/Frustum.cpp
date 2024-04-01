@@ -74,7 +74,7 @@ namespace hgl
                     return Frustum::Scope::OUTSIDE;
                 else
                 if (distance < radius)
-                    result =  Frustum::Scope::INTERSECT;
+                    result = Frustum::Scope::INTERSECT;
             }
 
             return(result);
@@ -90,7 +90,7 @@ namespace hgl
                     return Frustum::Scope::OUTSIDE;
                 else 
                 if (pl[i].Distance(b.GetVertexN(pl[i].normal)) < 0)
-                    result =  Frustum::Scope::INTERSECT;
+                    result = Frustum::Scope::INTERSECT;
             }
 
             return(result);
