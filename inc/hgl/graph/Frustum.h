@@ -26,7 +26,7 @@ namespace hgl
                 Bottom
             };
 
-            enum
+            enum class Scope
             {
                 OUTSIDE,    //外部
                 INTERSECT,  //交错
@@ -37,9 +37,9 @@ namespace hgl
 
             void SetMatrix(const Matrix4f &);
 
-            int PointIn(const Vector3f &)const;
-            int SphereIn(const Vector3f &,float radius)const;
-            int BoxIn(const AABB &)const;
+            Scope PointIn(const Vector3f &)const;
+            Scope SphereIn(const Vector3f &,float radius)const;
+            Scope BoxIn(const AABB &)const;
         };//class Frustum
     }//namespace graph
 }//namespace hgl
