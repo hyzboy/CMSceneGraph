@@ -15,5 +15,7 @@ struct VertexInputFormat
     VkVertexInputRate   input_rate;
     VertexInputGroup    group;
 };//struct VertexInputFormat
+
+using VIF=VertexInputFormat;
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_VERTEX_INPUT_FORMAT_INCLUDE
