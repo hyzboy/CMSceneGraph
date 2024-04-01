@@ -50,20 +50,20 @@ namespace hgl
             }
         }
 
-        int Frustum::PointIn(const Vector3f &p) const
+        Frustum::Scope Frustum::PointIn(const Vector3f &p) const
         {
-            int result = INSIDE;
+            Frustum::Scope result = Frustum::Scope::INSIDE;
 
             for(int i=0; i < 6; i++)
                 if (pl[i].Distance(p) < 0)
-                    return OUTSIDE;
+                    return Frustum::Scope::OUTSIDE;
 
             return(result);
         }
 
-        int Frustum::SphereIn(const Vector3f &p, float radius) const
+        Frustum::Scope Frustum::SphereIn(const Vector3f &p, float radius) const
         {
-            int result = INSIDE;
+            Frustum::Scope result = Frustum::Scope::INSIDE;
             float distance;
 
             for(int i=0; i < 6; i++)
@@ -71,26 +71,26 @@ namespace hgl
                 distance = pl[i].Distance(p);
 
                 if (distance < -radius)
-                    return OUTSIDE;
+                    return Frustum::Scope::OUTSIDE;
                 else
                 if (distance < radius)
-                    result =  INTERSECT;
+                    result =  Frustum::Scope::INTERSECT;
             }
 
             return(result);
         }
 
-        int Frustum::BoxIn(const AABB &b) const
+        Frustum::Scope Frustum::BoxIn(const AABB &b) const
         {
-            int result = INSIDE;
+            Frustum::Scope result = Frustum::Scope::INSIDE;
 
             for(int i=0; i < 6; i++)
             {
                 if (pl[i].Distance(b.GetVertexP(pl[i].normal)) < 0)
-                    return OUTSIDE;
+                    return Frustum::Scope::OUTSIDE;
                 else 
                 if (pl[i].Distance(b.GetVertexN(pl[i].normal)) < 0)
-                    result =  INTERSECT;
+                    result =  Frustum::Scope::INTERSECT;
             }
 
             return(result);

@@ -6,6 +6,8 @@ SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/NormalData.h
                     ${CM_SG_INCLUDE_PATH}/Coordinate.h
                     ${CM_SG_INCLUDE_PATH}/Ray.h
+                    ${CM_SG_INCLUDE_PATH}/LineSegment.h
+                    ${CM_SG_INCLUDE_PATH}/Capsule.h
                     ${CM_SG_INCLUDE_PATH}/Plane.h
                     ${CM_SG_INCLUDE_PATH}/Frustum.h
                     ${CM_SG_INCLUDE_PATH}/VertexAttrib.h)
