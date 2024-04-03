@@ -45,8 +45,6 @@ public:
         return count_by_group[size_t(vig)];
     }
 
-    const VertexInputFormat *                   GetVIFList          ()const{return vif_list;}
-
     const uint32_t                              GetFirstBinding     (const VertexInputGroup &vig)const
     {
         RANGE_CHECK_RETURN(vig,0)
@@ -54,10 +52,8 @@ public:
         return first_binding[size_t(vig)];
     }
 
-    VkVertexInputBindingDescription *           NewBindListCopy()const{return hgl_new_copy(bind_list,count);}
-    VkVertexInputAttributeDescription *         NewAttrListCopy()const{return hgl_new_copy(attr_list,count);}
-
-    const VertexInputFormat *                   GetFormatList       (const VertexInputGroup &vig)const
+    const VertexInputFormat *                   GetVIFList          ()const{return vif_list;}
+    const VertexInputFormat *                   GetVIFList          (const VertexInputGroup &vig)const
     {
         RANGE_CHECK_RETURN_NULLPTR(vig)
 
@@ -73,6 +69,11 @@ public:
 
     const VertexInputFormat *GetConfig(const uint index)const{return (index>=count)?nullptr:vif_list+index;}
     const VertexInputFormat *GetConfig(const AnsiString &name)const{return GetConfig(GetIndex(name));}
+
+public:
+
+    VkVertexInputBindingDescription *           NewBindListCopy()const{return hgl_new_copy(bind_list,count);}
+    VkVertexInputAttributeDescription *         NewAttrListCopy()const{return hgl_new_copy(attr_list,count);}
 
     const int Comp(const VertexInputLayout *vil)const;
 
