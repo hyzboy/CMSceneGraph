@@ -1,6 +1,9 @@
 #include<hgl/graph/Ray.h>
 #include<hgl/graph/CameraInfo.h>
 #include<hgl/graph/ViewportInfo.h>
+#include<hgl/graph/Sphere.h>
+#include<hgl/graph/AABB.h>
+#include<hgl/graph/OBB.h>
 
 namespace hgl
 {
@@ -69,30 +72,104 @@ namespace hgl
         }
 
         /**
+        * 求射线与指定线段的距离的平方(Github Copilot)
+        */
+        const float Ray::ToLineSegmentDistanceSquared(const Vector3f &start,const Vector3f &end)const
+        {
+            const Vector3f ab=end-start;
+            const Vector3f ac=origin-start;
+
+            const float e=dot(ac,ab);
+
+            if(e<=0)return dot(ac,ac);
+
+            const float f=dot(ab,ab);
+
+            if(e>=f)return dot(origin-end,origin-end);
+
+            return dot(origin-start,origin-start)-e*e/f;
+        }
+
+        bool Ray::CrossSphere(const Sphere &s)const
+        {
+            const Vector3f  sphere_center=s.GetCenter();
+            const float     sphere_radius=s.GetRadius();
+
+            const Vector3f oc=origin-sphere_center;
+
+            const float b=dot(oc,direction);
+            const float c=dot(oc,oc)-sphere_radius*sphere_radius;
+
+            if(c>0&&b>0)return(false);
+
+            const float discr=b*b-c;
+
+            if(discr<0)return(false);
+
+            return(true);
+        }
+
+        bool Ray::CrossEllipseSphere(const EllipseSphere &es)const
+        {
+            const Vector3f es_center=es.GetCenter();
+            const Vector3f es_radius=es.GetRadius();
+
+            const Vector3f oc=origin-es_center;
+
+            const float b=dot(oc,direction);
+            const float c=dot(oc,oc)-es_radius.x*es_radius.y*es_radius.z;
+
+            if(c>0&&b>0)return(false);
+
+            const float discr=b*b-c;
+
+            if(discr<0)return(false);
+
+            return(true);
+        }
+
+        /**
+        * 指当前射线是否与指定三角形相交(此函数由Github Copilot生成，未经测试)
+        */
+        bool Ray::CrossTriangle(const Triangle3D &tri)const
+        {
+            const Vector3f a1=tri[0];
+            const Vector3f a2=tri[1];
+            const Vector3f a3=tri[2];
+
+            const Vector3f normal=cross(a2-a1,a3-a1);
+
+            const float cos=dot(normal,direction);
+
+            if(cos>=0)return(false);        //射线与三角形背对
+
+            const float d=dot(normal,a1);
+
+            const float t=(d-dot(normal,origin))/cos;
+
+            if(t<0)return(false);            //射线与三角形不相交
+
+            const Vector3f hit_point=origin+direction*t;
+
+            const Vector3f v1=cross(a2-a1,hit_point-a1);
+            const Vector3f v2=cross(a3-a2,hit_point-a2);
+            const Vector3f v3=cross(a1-a3,hit_point-a3);
+
+            if(dot(v1,v2)<0)return(false);
+            if(dot(v2,v3)<0)return(false);
+            if(dot(v3,v1)<0)return(false);
+
+            return(true);
+        }
+
+        /**
         * 求指定面是否与射线交汇
         */
         bool Ray::CrossPlane(const Vector3f &v1,const Vector3f &v2,const Vector3f &v3,const Vector3f &v4)const
         {
-            const float ray_len=Distance(v1)+Distance(v2)+Distance(v3)+Distance(v4);
+            const float ray_len=ToPointDistance(v1)+ToPointDistance(v2)+ToPointDistance(v3)+ToPointDistance(v4);
 
             const float len=length(v1,v3)+length(v2,v4);
-
-            return(ray_len<=len);
-        }
-
-        /**
-        * 求指定box是否与射线交汇
-        */
-        bool Ray::CrossBox(const Vector3f &v1,const Vector3f &v2)const
-        {
-            const Vector3f v3(v1[0],v2[1],v2[2]);
-            const Vector3f v4(v2[0],v1[1],v1[2]);
-            const Vector3f v5(v1[0],v1[1],v2[2]);
-            const Vector3f v6(v2[0],v2[1],v1[2]);
-
-            const float ray_len=Distance(v1)+Distance(v2)+Distance(v3)+Distance(v4)+Distance(v5)+Distance(v6);
-
-            const float len=length(v1,v2)+length(v3,v4)+length(v5,v6);
 
             return(ray_len<=len);
         }

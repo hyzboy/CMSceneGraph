@@ -3,22 +3,25 @@
 
 #include<hgl/math/Math.h>
 #include<hgl/graph/Plane.h>
+
 namespace hgl
 {
     namespace graph
     {
+        class OBB;
+
         constexpr Vector3f AABBFaceNormal[6]=
         {
-	        Vector3f(-1,  0,  0),
-	        Vector3f( 1,  0,  0),
-	        Vector3f( 0, -1,  0),
-	        Vector3f( 0,  1,  0),
-	        Vector3f( 0,  0, -1),
-	        Vector3f( 0,  0,  1)
+            Vector3f(-1,  0,  0),
+            Vector3f( 1,  0,  0),
+            Vector3f( 0, -1,  0),
+            Vector3f( 0,  1,  0),
+            Vector3f( 0,  0, -1),
+            Vector3f( 0,  0,  1)
         };
 
         /**
-        * AABB
+        * Axis Aligned Bounding Box
         */
         class AABB
         {
@@ -60,17 +63,22 @@ namespace hgl
                 Update();
             }
 
+            void Set(const OBB &);
+
             void SetZero()
             {
                 hgl_zero(minPoint);
                 hgl_zero(maxPoint);
             }
 
-            const Vector3f &GetMin()const{return minPoint;}
-            const Vector3f &GetMax()const{return maxPoint;}
+            const   Vector3f &  GetMin      ()const{return minPoint;}
+            const   Vector3f &  GetMax      ()const{return maxPoint;}
 
-            Vector3f GetVertexP(const Vector3f &)const;
-            Vector3f GetVertexN(const Vector3f &)const;
+            const   Vector3f &  GetCenter   ()const{return center;}
+            const   Vector3f &  GetLength   ()const{return length;}
+
+                    Vector3f    GetVertexP  (const Vector3f &)const;
+                    Vector3f    GetVertexN  (const Vector3f &)const;
 
             void Enclose(const AABB &box)
             {

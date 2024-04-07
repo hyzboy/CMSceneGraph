@@ -1,12 +1,15 @@
 SET(CM_SG_INCLUDE_PATH  ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/graph)
 
 SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
+                    ${CM_SG_INCLUDE_PATH}/OBB.h
+                    ${CM_SG_INCLUDE_PATH}/Sphere.h
                     ${CM_SG_INCLUDE_PATH}/BitmapData.h
                     ${CM_SG_INCLUDE_PATH}/ImageRegion.h
                     ${CM_SG_INCLUDE_PATH}/NormalData.h
                     ${CM_SG_INCLUDE_PATH}/Coordinate.h
                     ${CM_SG_INCLUDE_PATH}/Ray.h
                     ${CM_SG_INCLUDE_PATH}/LineSegment.h
+                    ${CM_SG_INCLUDE_PATH}/Triangle.h
                     ${CM_SG_INCLUDE_PATH}/Capsule.h
                     ${CM_SG_INCLUDE_PATH}/Plane.h
                     ${CM_SG_INCLUDE_PATH}/Frustum.h
@@ -33,6 +36,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKSamplerType.h)
 
 SET(CM_SG_SOURCE    AABB.cpp
+                    OBB.cpp
                     Coordinate.cpp
                     Ray.cpp
                     Plane.cpp

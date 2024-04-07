@@ -26,10 +26,6 @@ namespace hgl
 
             const float DistanceSquared()const{return length_squared(start,end);}
             const float Distance()const{return length(start,end);}
-
-        public:
-
-
         };//class LineSegment
     }//namespace graph
 }//namespace hgl
