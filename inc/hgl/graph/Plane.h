@@ -53,7 +53,7 @@ namespace hgl
             Vector2f size;
         };
 
-        float float DistanceBetweenPointAndRectangle3D(const Vector3f &p,const Rectangle3D &rect)
+        inline float DistanceBetweenPointAndRectangle3D(const Vector3f &p,const Rectangle3D &rect)
         {
             Vector3f v=p-rect.center;
 
