@@ -30,12 +30,12 @@ VK_NAMESPACE_BEGIN
 
 constexpr const char        MI_VIS_NAME[]       ="MaterialInstanceID";
 constexpr const VAT         MI_VAT_FMT          =VAT_UINT;
-constexpr const VkFormat    MI_VBO_FMT          =VF_V1U16;
-constexpr const uint        MI_VBO_STRIDE_BYTES =2;                     ///<材质实例ID VBO的每个节点的字节数
+constexpr const VkFormat    MI_VAB_FMT          =VF_V1U16;
+constexpr const uint        MI_VAB_STRIDE_BYTES =2;                     ///<材质实例ID VBO的每个节点的字节数
 
-constexpr const char        ASSIGN_VIS_NAME[]       ="Assign";
-constexpr const VAT         ASSIGN_VAT_FMT          =VAT_UVEC2;
-constexpr const VkFormat    ASSIGN_VBO_FMT          =VF_V2U16;
-constexpr const uint        ASSIGN_VBO_STRIDE_BYTES =4;                 ///<L2W ID与材质实例ID VBO的每个节点的字节数
+constexpr const char        L2W_VIS_NAME[]       ="LocalToWorldID";
+constexpr const VAT         L2W_VAT_FMT          =VAT_UINT;
+constexpr const VkFormat    L2W_VAB_FMT          =VF_V1U16;
+constexpr const uint        L2W_VAB_STRIDE_BYTES =2;                    ///<L2W ID与材质实例ID VBO的每个节点的字节数
 
 VK_NAMESPACE_END

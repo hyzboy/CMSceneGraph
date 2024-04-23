@@ -106,21 +106,21 @@ namespace hgl
          */
         namespace VertexAttribName
         {
-            #define VAN_DEFINE(name)    constexpr char name[]=#name;
+        #define VAN_DEFINE(name)    constexpr char name[]=#name;
             VAN_DEFINE(Position)
             VAN_DEFINE(Normal)
             VAN_DEFINE(Tangent)
             VAN_DEFINE(Bitangent)
-            VAN_DEFINE(TexCoord)
             VAN_DEFINE(Color)
             VAN_DEFINE(Luminance)
+            VAN_DEFINE(TexCoord)
 
-            VAN_DEFINE(LocalToWorld)
+            VAN_DEFINE(LocalToWorldID)
             VAN_DEFINE(MaterialInstanceID)
 
             VAN_DEFINE(JointID)
             VAN_DEFINE(JointWeight)
-            #undef VAN_DEFINE
+        #undef VAN_DEFINE
         }//namespace VertexAttribName
 
         #define VAN VertexAttribName

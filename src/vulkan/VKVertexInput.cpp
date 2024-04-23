@@ -105,9 +105,9 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
             else
             if(group==uint(VertexInputGroup::MaterialInstanceID))
             {
-                attr_desc->format   =MI_VBO_FMT;
+                attr_desc->format   =MI_VAB_FMT;
                 bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
-                bind_desc->stride   =MI_VBO_STRIDE_BYTES;
+                bind_desc->stride   =MI_VAB_STRIDE_BYTES;
             }
             else
             {
