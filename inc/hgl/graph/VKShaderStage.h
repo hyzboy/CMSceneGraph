@@ -15,13 +15,11 @@ namespace hgl
         const char *GetShaderStageName(const VkShaderStageFlagBits &);          ///<获取指定ShaderStage位的名称
         const uint GetShaderStageFlagBits(const char *,int len=0);              ///<根据名称获取ShaderStage位数据
 
-        constexpr size_t SHADER_RESOURCE_NAME_MAX_LENGTH=32;
-
         struct ShaderAttribute
         {
             //注：这个类要从GLSLCompiler动态链接库中直接传递，所以不可以使用AnsiString
 
-            char    name[SHADER_RESOURCE_NAME_MAX_LENGTH];
+            char    name[VERTEX_ATTRIB_NAME_MAX_LENGTH];
             uint8   location;
 
             //对应hgl/graph/VertexAttrib.h中的enum class VATBaseType

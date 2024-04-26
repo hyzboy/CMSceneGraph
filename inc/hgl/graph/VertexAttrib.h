@@ -101,6 +101,8 @@ namespace hgl
         constexpr const VAT VAT_DVEC3 ={VATBaseType::Double,3};
         constexpr const VAT VAT_DVEC4 ={VATBaseType::Double,4};
 
+        constexpr size_t VERTEX_ATTRIB_NAME_MAX_LENGTH=32;
+
         /**
          * 预定义一些顶点属性名称，可用可不用。但一般默认shader会使用这些名称
          */
