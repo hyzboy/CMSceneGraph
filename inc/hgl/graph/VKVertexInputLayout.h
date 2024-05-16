@@ -25,10 +25,6 @@ private:
 
 private:
 
-    const int                                   GetIndex            (const AnsiString &name)const;
-
-private:
-
     friend class VertexInputConfig;
 
     VertexInputLayout(const uint32_t);
@@ -51,6 +47,8 @@ public:
 
         return first_binding[size_t(vig)];
     }
+
+    const int                                   GetIndex            (const AnsiString &name)const;
 
     const VertexInputFormat *                   GetVIFList          ()const{return vif_list;}
     const VertexInputFormat *                   GetVIFList          (const VertexInputGroup &vig)const
