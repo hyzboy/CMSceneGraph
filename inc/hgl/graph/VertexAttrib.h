@@ -126,6 +126,8 @@ namespace hgl
         }//namespace VertexAttribName
 
         #define VAN VertexAttribName
+
+        constexpr const uint HGL_MAX_VERTEX_ATTRIB_COUNT=16;        ///<最大顶点属性数量
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_VERTEX_ATTRIB_INCLUDE
