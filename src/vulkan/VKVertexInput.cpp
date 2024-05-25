@@ -95,19 +95,12 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
                 bind_desc->stride   =4;
             }
             else
-            if(group==uint(VertexInputGroup::LocalToWorld))
+            if(group==uint(VertexInputGroup::Assign))
             {
-                attr_desc->format   =VK_FORMAT_R32G32B32A32_SFLOAT;
+                attr_desc->format   =ASSIGN_VAB_FMT;
 
                 bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
-                bind_desc->stride   =16;
-            }
-            else
-            if(group==uint(VertexInputGroup::MaterialInstanceID))
-            {
-                attr_desc->format   =MI_VAB_FMT;
-                bind_desc->inputRate=VK_VERTEX_INPUT_RATE_INSTANCE;
-                bind_desc->stride   =MI_VAB_STRIDE_BYTES;
+                bind_desc->stride   =ASSIGN_VAB_STRIDE_BYTES;
             }
             else
             {

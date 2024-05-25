@@ -10,8 +10,8 @@ namespace hgl
         {
             Basic,
 
-            LocalToWorld,
-            MaterialInstanceID,
+            Assign,
+
             JointID,
             JointWeight,
 
@@ -117,8 +117,7 @@ namespace hgl
             VAN_DEFINE(Luminance)
             VAN_DEFINE(TexCoord)
 
-            VAN_DEFINE(LocalToWorldID)
-            VAN_DEFINE(MaterialInstanceID)
+            VAN_DEFINE(Assign)
 
             VAN_DEFINE(JointID)
             VAN_DEFINE(JointWeight)

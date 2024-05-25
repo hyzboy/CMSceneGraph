@@ -20,7 +20,7 @@ union VertexInputLayoutHash
         uint Color          :4;
 
         bool Bone           :1;
-        bool LocalToWorld   :1;
+        bool Assign         :1;
     };
 
     uint32 hash_code;
