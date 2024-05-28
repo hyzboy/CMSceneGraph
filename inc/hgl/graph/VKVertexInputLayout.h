@@ -33,8 +33,8 @@ public:
 
     ~VertexInputLayout();
 
-    const uint32_t                              GetCount            ()const{return count;}
-    const uint32_t                              GetCount            (const VertexInputGroup &vig)const
+    const uint32_t                              GetVertexAttribCount()const{return count;}
+    const uint32_t                              GetVertexAttribCount(const VertexInputGroup &vig)const
     {
         RANGE_CHECK_RETURN(vig,0)
 

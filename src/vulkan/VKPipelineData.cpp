@@ -1,4 +1,4 @@
-#include<hgl/graph/VKPipelineData.h>
+﻿#include<hgl/graph/VKPipelineData.h>
 #include<hgl/graph/VKVertexInputLayout.h>
 
 VK_NAMESPACE_BEGIN
@@ -253,7 +253,7 @@ void PipelineData::InitVertexInputState(const VIL *vil)
     vertex_input_state.flags = 0;
 
     vertex_input_state.vertexBindingDescriptionCount   = 
-    vertex_input_state.vertexAttributeDescriptionCount = vil->GetCount();
+    vertex_input_state.vertexAttributeDescriptionCount = vil->GetVertexAttribCount();
 
     vertex_input_binding_description    =vil->NewBindListCopy();
     vertex_input_attribute_description  =vil->NewAttrListCopy();
