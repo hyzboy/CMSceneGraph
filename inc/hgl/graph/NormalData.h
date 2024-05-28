@@ -1,4 +1,4 @@
-#ifndef HGL_NORMAL_DATA_INCLUDE
+﻿#ifndef HGL_NORMAL_DATA_INCLUDE
 #define HGL_NORMAL_DATA_INCLUDE
 
 #include<hgl/math/Math.h>
@@ -93,7 +93,7 @@ namespace hgl
     /*
     * 批量将3字节法线数据压缩成2字节数据
     */
-    void Normal3to2(uint8 *output,const uint8 *input,const uint count)
+    inline void Normal3to2(uint8 *output,const uint8 *input,const uint count)
     {
         for(uint i=0;i<count;i++)
         {
@@ -106,7 +106,7 @@ namespace hgl
     /**
     * 批量将2字节法线数据解压成3字节法线数据
     */
-    void Normal2to3(uint8 *output,const uint8 *input,const uint count)
+    inline void Normal2to3(uint8 *output,const uint8 *input,const uint count)
     {
         for(uint i=0;i<count;i++)
         {
@@ -119,7 +119,7 @@ namespace hgl
     /*
     * 批量将float3型法线数据压缩成2字节数据
     */
-    void Normal3to2(uint8 *output,const float *input,const uint count)
+    inline void Normal3to2(uint8 *output,const float *input,const uint count)
     {
         for(uint i=0;i<count;i++)
         {
