@@ -27,6 +27,9 @@ namespace hgl
             alignas(16) Vector3f view_line;             ///<pos-target
             alignas(16) Vector3f world_up;
 
+            alignas(16) Vector3f camera_up;
+            alignas(16) Vector3f camera_right;
+
             float znear,zfar;
         };//struct CameraInfo
 
