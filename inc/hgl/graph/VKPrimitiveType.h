@@ -2,11 +2,15 @@
 #define HGL_GRAPH_VULKAN_PRIMITIVE_TYPE_INCLUDE
 
 #include<hgl/TypeFunc.h>
+namespace hgl
+{
+    namespace graph
+    {
 
 /**
  * 图元类型枚举
  */
-enum class Prim
+enum class Prim:uint32
 {
     Points=0,                           ///<点
     Lines,                              ///<线
@@ -20,13 +24,35 @@ enum class Prim
     TriangleStripAdj,                   ///<4+2N个Vertices代表N个Primitive,其中1,3,5,7,9...代表原本的Triangle strip形成Triangle,而2,4,6,8,10...代表邻近提供信息的点.(由1起算)
     Patchs,
 
+    //2D元素
     SolidRectangles=0x100,              ///<实心矩形(并非原生支持。以画点形式在每个点的Position中传递Left,Top,Right,bottom。在Geometry Shader中转换为2个三角形。用于2D游戏或UI)
-    WireRectangles,                     ///<线框矩形
+    //SolidCircles,                       ///<实心圆(以画点形式在Position中指定圆心，名为Radius的VAB中指定半径)
 
-    Billboard2DWay,                     ///<2D广告牌(以画线形式在第一个点中指定一个顶点，在第二个点中指定宽高)
+    WireRectangles=0x200,               ///<线框矩形    
+    //WireCircles,                        ///<空心圆(以画点形式在Position中指定圆心，名为Radius的VAB中指定半径)
 
-    SolidCube,                          ///<立方体(以画线形式在第一个点中指定一个顶点，在第二个点中指定长宽高)
-    WireCube,                           ///<线框立方体
+    ////3D元素
+    //SolidCube=0x300,                    ///<立方体(以画点形式在第一个点中指定一个顶点，在另一个名为Size的VAB中指定尺寸，否则在UBO中指定)
+    //                                    ///<如果存在一个名为Rotation的VAB，则其中的值代表每个Cube的3D旋转角度，否则Rotation在UBO中指定。
+    //SolidSphere,                        ///<球体(以画点形式在Position中指定球心，名为Size的VAB中指定半径)
+    //SolidCylinder,                      ///<圆柱体(以画点形式在Position中指定圆心，名为Size的VAB中指定半径和高度，名为Rotation的VAB指定旋转角度)
+    //SolidCone,                          ///<圆锥体(以画点形式在Position中指定圆心，名为Size的VAB中指定半径和高度，名为Rotation的VAB指定旋转角度)
+    //SolidCapsule,                       ///<胶囊体(以画点形式在Position中指定胶囊中心，名为Size的VAB中指定半径和高度，名为Rotation的VAB指定旋转角度)
+
+    //SolidAxis,                          ///<坐标轴(以画点形式在Position中指定坐标轴原点，名为Size的VAB中指定长度)
+
+    //WireCube=0x400,                     ///<线框立方体
+    //WireSphere,                         ///<线框球体
+    //WireCylinder,                       ///<线框圆柱体
+    //WireCone,                           ///<线框圆锥体
+    //WireCapsule,                        ///<线框胶囊体
+
+    //WireAxis,
+
+    //特别元素
+    Billboard2DWay=0x500,               ///<2D广告牌(以画点形式在Position中指定公告板的3D世界坐标)
+                                        ///<如果存在另一个名为Size的VAB，则其中的值代表每个Billboard的尺寸，否则Size在UBO中指定。
+                                        ///<如果存在一个名为Rotation的VAB，则其中的值代表每个Billboard的2D旋转角度，否则Rotation在UBO中指定。
 
     ENUM_CLASS_RANGE(Points,Patchs),
 
@@ -38,5 +64,8 @@ const Prim ParsePrimName(const char *name,int len=0);
 
 bool CheckGeometryShaderIn(const Prim &);
 bool CheckGeometryShaderOut(const Prim &);
+
+    }//namespace graph
+}//namespace hgl
 
 #endif//HGL_GRAPH_VULKAN_PRIMITIVE_TYPE_INCLUDE

@@ -117,6 +117,11 @@ namespace hgl
             VAN_DEFINE(Luminance)
             VAN_DEFINE(TexCoord)
 
+            VAN_DEFINE(AO)
+
+            VAN_DEFINE(Size)
+            VAN_DEFINE(Rotation)
+
             VAN_DEFINE(Assign)
 
             VAN_DEFINE(JointID)
