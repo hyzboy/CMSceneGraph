@@ -277,7 +277,7 @@ namespace
         {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::SolidCircles},
         {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   Prim::WireRectangles},
         {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   Prim::WireCircles},
-        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::Billboard2DWay}
+        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::Billboard}
     };
 
     const VkPrimitiveTopology GetVkPrimitive(const Prim &p)

@@ -51,7 +51,7 @@ enum class Prim:uint32
     //WireAxis,
 
     //特别元素
-    Billboard2DWay=0x500,               ///<2D广告牌(以画点形式在Position中指定公告板的3D世界坐标)
+    Billboard=0x500,                    ///<2D广告牌(以画点形式在Position中指定公告板的3D世界坐标)
                                         ///<如果存在另一个名为Size的VAB，则其中的值代表每个Billboard的尺寸，否则Size在UBO中指定。
                                         ///<如果存在一个名为Rotation的VAB，则其中的值代表每个Billboard的2D旋转角度，否则Rotation在UBO中指定。
 
