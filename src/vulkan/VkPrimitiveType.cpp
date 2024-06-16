@@ -1,8 +1,10 @@
-#include<hgl/graph/VKPrimitiveType.h>
+﻿#include<hgl/graph/VKPrimitiveType.h>
 #include<hgl/type/StrChar.h>
 
 namespace
 {
+    using namespace hgl::graph;
+
     struct PrimitiveNameInfo
     {
         const char *name;
@@ -28,13 +30,17 @@ namespace
     
         PRIM_NAME(SolidRectangles,  "solid_rectangles"),
         PRIM_NAME(WireRectangles,   "wire_rectangles"),
-        PRIM_NAME(SolidCube,        "solid_cube"),
-        PRIM_NAME(WireCube,         "wire_cube")
+        //PRIM_NAME(SolidCube,        "solid_cube"),
+        //PRIM_NAME(WireCube,         "wire_cube")
     };
 
     #undef PRIM_NAME
 }//namespace
 
+namespace hgl
+{
+    namespace graph
+    {
 const char *GetPrimName(const Prim &prim)
 {
     for(const auto &pni:PrimitiveInfoList)
@@ -79,3 +85,5 @@ bool CheckGeometryShaderOut(const Prim &op)
 
     return(false);
 }
+    }//namespace graph
+}//namespace hgl
