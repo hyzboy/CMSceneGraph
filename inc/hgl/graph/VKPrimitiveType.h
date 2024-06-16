@@ -6,7 +6,6 @@ namespace hgl
 {
     namespace graph
     {
-
 /**
  * 图元类型枚举
  */
@@ -26,10 +25,12 @@ enum class Prim:uint32
 
     //2D元素
     SolidRectangles=0x100,              ///<实心矩形(并非原生支持。以画点形式在每个点的Position中传递Left,Top,Right,bottom。在Geometry Shader中转换为2个三角形。用于2D游戏或UI)
-    //SolidCircles,                       ///<实心圆(以画点形式在Position中指定圆心，名为Radius的VAB中指定半径)
+                                        //下一步计划改为Position中只传递Left,Top，改在Size中传递Width,Height
+
+    SolidCircles,                       ///<实心圆(以画点形式在Position中指定圆心，名为Size的VAB中指定半径)
 
     WireRectangles=0x200,               ///<线框矩形    
-    //WireCircles,                        ///<空心圆(以画点形式在Position中指定圆心，名为Radius的VAB中指定半径)
+    WireCircles,                        ///<空心圆(以画点形式在Position中指定圆心，名为Sizes的VAB中指定半径)
 
     ////3D元素
     //SolidCube=0x300,                    ///<立方体(以画点形式在第一个点中指定一个顶点，在另一个名为Size的VAB中指定尺寸，否则在UBO中指定)

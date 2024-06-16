@@ -265,31 +265,39 @@ void PipelineData::InitVertexInputState(const VIL *vil)
 }
 namespace
 {
-    constexpr VkPrimitiveTopology ComplexPrimitiveTopologyToOrigin[]=
+    struct ComplexPrimitiveTopologyToOrigin
     {
-        VK_PRIMITIVE_TOPOLOGY_POINT_LIST,
-        VK_PRIMITIVE_TOPOLOGY_POINT_LIST,
-        VK_PRIMITIVE_TOPOLOGY_LINE_LIST,
-        VK_PRIMITIVE_TOPOLOGY_LINE_LIST,
+        VkPrimitiveTopology vk_prim;
+        Prim prim;
     };
+
+    constexpr const ComplexPrimitiveTopologyToOrigin ComplexPrimitiveTopologyToOriginList[]=
+    {
+        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::SolidRectangles},
+        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::SolidCircles},
+        {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   Prim::WireRectangles},
+        {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   Prim::WireCircles},
+    };
+
+    const VkPrimitiveTopology GetVkPrimitive(const Prim &p)
+    {
+        if(RangeCheck(p))
+            return VkPrimitiveTopology(p);
+
+        for(const ComplexPrimitiveTopologyToOrigin &cptol:ComplexPrimitiveTopologyToOriginList)
+            if(cptol.prim==p)
+                return cptol.vk_prim;
+
+        return VK_PRIMITIVE_TOPOLOGY_MAX_ENUM;
+    }
 }//namespace
 
 bool PipelineData::SetPrim(const Prim topology,bool prim_restart)
 {
-    VkPrimitiveTopology prim;
+    VkPrimitiveTopology prim=GetVkPrimitive(topology);
 
-    if(topology<Prim::BEGIN_RANGE||topology>Prim::END_RANGE)
-    {
-        if(topology<Prim::SolidRectangles
-         ||topology>Prim::WireCube)
-            return(false);
-        
-        prim=ComplexPrimitiveTopologyToOrigin[uint(topology)-uint(Prim::SolidRectangles)];
-    }
-    else
-    {
-        prim=VkPrimitiveTopology(topology);
-    }    
+    if(prim==VK_PRIMITIVE_TOPOLOGY_MAX_ENUM)
+        return(false);
 
     input_assembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     input_assembly.pNext = nullptr;
