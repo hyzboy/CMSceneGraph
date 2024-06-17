@@ -99,7 +99,7 @@ namespace hgl
             return vk_format_by_basetype[size_t(type->basetype)][type->vec_size-1];
         }
 
-        const VkFormat GetVulkanFormat(const ShaderAttribute *sa)
+        const VkFormat GetVulkanFormat(const VertexInputAttribute *sa)
         {
             if(!sa)return VK_FORMAT_UNDEFINED;
 

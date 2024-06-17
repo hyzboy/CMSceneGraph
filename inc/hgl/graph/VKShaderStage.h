@@ -15,7 +15,7 @@ namespace hgl
         const char *GetShaderStageName(const VkShaderStageFlagBits &);          ///<获取指定ShaderStage位的名称
         const uint GetShaderStageFlagBits(const char *,int len=0);              ///<根据名称获取ShaderStage位数据
 
-        struct ShaderAttribute
+        struct VertexInputAttribute
         {
             //注：这个类要从GLSLCompiler动态链接库中直接传递，所以不可以使用AnsiString
 
@@ -30,23 +30,23 @@ namespace hgl
             VertexInputGroup    group;          //分组
 
             Interpolation       interpolation;  //插值方式
-        };//struct ShaderAttribute
+        };//struct VertexInputAttribute
 
-        inline const AnsiString GetShaderAttributeTypename(const ShaderAttribute *ss)
+        inline const AnsiString GetShaderAttributeTypename(const VertexInputAttribute *ss)
         {
             return AnsiString(GetVertexAttribName((VABaseType)ss->basetype,ss->vec_size));
         }
 
-        const VkFormat GetVulkanFormat(const ShaderAttribute *sa);
+        const VkFormat GetVulkanFormat(const VertexInputAttribute *sa);
 
-        struct ShaderAttributeArray
+        struct VertexInputAttributeArray
         {
             uint32_t count;
-            ShaderAttribute *items;
+            VertexInputAttribute *items;
 
         public:
 
-            int Comp(const ShaderAttributeArray *saa)const
+            int Comp(const VertexInputAttributeArray *saa)const
             {
                 if(!saa)
                     return 1;
@@ -67,26 +67,26 @@ namespace hgl
                 return 0;
             }
 
-            int Comp(const ShaderAttributeArray &saa)const
+            int Comp(const VertexInputAttributeArray &saa)const
             {
                 return Comp(&saa);
             }
 
-            CompOperator(const ShaderAttributeArray *,Comp)
-            CompOperator(const ShaderAttributeArray &,Comp)
+            CompOperator(const VertexInputAttributeArray *,Comp)
+            CompOperator(const VertexInputAttributeArray &,Comp)
         };
 
-        inline void Init(ShaderAttributeArray *sad,const uint count=0)
+        inline void Init(VertexInputAttributeArray *sad,const uint count=0)
         {
             sad->count=count;
 
             if(count>0)
-                sad->items=array_alloc<ShaderAttribute>(count);
+                sad->items=array_alloc<VertexInputAttribute>(count);
             else
                 sad->items=nullptr;
         }
 
-        inline void Clear(ShaderAttributeArray *sad)
+        inline void Clear(VertexInputAttributeArray *sad)
         {
             if(sad->items)
             {
@@ -97,7 +97,7 @@ namespace hgl
             sad->count=0;
         }
 
-        inline void Copy(ShaderAttributeArray *dst,const ShaderAttributeArray *src)
+        inline void Copy(VertexInputAttributeArray *dst,const VertexInputAttributeArray *src)
         {
             Init(dst,src->count);
 
@@ -105,11 +105,11 @@ namespace hgl
                 hgl_cpy(dst->items,src->items,src->count);
         }
 
-        inline void Append(ShaderAttributeArray *sad,ShaderAttribute *sa)
+        inline void Append(VertexInputAttributeArray *sad,VertexInputAttribute *sa)
         {
             if(!sad->items)
             {
-                sad->items=array_alloc<ShaderAttribute>(1);
+                sad->items=array_alloc<VertexInputAttribute>(1);
                 sad->count=1;
             }
             else
@@ -118,12 +118,12 @@ namespace hgl
                 sad->count++;
             }
 
-            memcpy(sad->items+sad->count-1,sa,sizeof(ShaderAttribute));
+            memcpy(sad->items+sad->count-1,sa,sizeof(VertexInputAttribute));
         }
 
         struct ShaderStageIO
         {
-            ShaderAttributeArray input,output;
+            VertexInputAttributeArray input,output;
         };//struct ShaderStageIO
 
         inline void Init(ShaderStageIO &io)

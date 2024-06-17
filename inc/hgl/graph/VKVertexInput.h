@@ -11,7 +11,7 @@ class VILConfig;
 
 class VertexInputConfig
 {
-    ShaderAttributeArray shader_attr_list;
+    VertexInputAttributeArray via_list;
     VAType *type_list;
     const char **name_list;
 
@@ -19,11 +19,11 @@ class VertexInputConfig
 
 public:
 
-    const uint      GetCount()const{return shader_attr_list.count;}
+    const uint      GetCount()const{return via_list.count;}
 
 public:
 
-    VertexInputConfig(const ShaderAttributeArray &sa_array);
+    VertexInputConfig(const VertexInputAttributeArray &sa_array);
     ~VertexInputConfig();
 
     VIL *CreateVIL(const VILConfig *format_map=nullptr);
@@ -39,7 +39,7 @@ class VertexInput
 
 public:
 
-    VertexInput(const ShaderAttributeArray &);
+    VertexInput(const VertexInputAttributeArray &);
     VertexInput(const VertexInput &)=delete;
     ~VertexInput();
 
@@ -51,7 +51,7 @@ public:
     const uint32_t  GetInstanceCount()const{return vil_sets.GetCount();}
 };//class VertexInput
 
-VertexInput *GetVertexInput(const ShaderAttributeArray &);
+VertexInput *GetVertexInput(const VertexInputAttributeArray &);
 void ReleaseVertexInput(VertexInput *);
 VK_NAMESPACE_END
 #endif//HGL_VULKAN_VERTEX_INPUT_INCLUDE

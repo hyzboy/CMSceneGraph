@@ -51,14 +51,14 @@ constexpr const char *ShaderImageTypeName[]=
     "image2DMSArray"
 };
 
-inline constexpr const char *GetShaderImageTypeName(const ShaderImageType it)
+inline const char *GetShaderImageTypeName(const ShaderImageType it)
 {
     RANGE_CHECK_RETURN_NULLPTR(it);
 
     return ShaderImageTypeName[(int)it];
 }
 
-inline const ShaderImageType ParseShaderImageType(const const char *name,int name_len=0)
+inline const ShaderImageType ParseShaderImageType(const char *name,int name_len=0)
 {
     int result=hgl::find_str_in_array<char>(int(ShaderImageType::RANGE_SIZE),(const char **)ShaderImageTypeName,name,name_len);
 
@@ -67,5 +67,4 @@ inline const ShaderImageType ParseShaderImageType(const const char *name,int nam
 
     return (ShaderImageType)result;
 }
-
 VK_NAMESPACE_END

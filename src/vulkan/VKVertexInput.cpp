@@ -4,18 +4,18 @@
 #include<hgl/type/ObjectManage.h>
 
 VK_NAMESPACE_BEGIN
-VertexInputConfig::VertexInputConfig(const ShaderAttributeArray &sa_array)
+VertexInputConfig::VertexInputConfig(const VertexInputAttributeArray &sa_array)
 {    
-    Copy(&shader_attr_list,&sa_array);
+    Copy(&via_list,&sa_array);
 
-    name_list=new const char *[shader_attr_list.count];
-    type_list=new VAType[shader_attr_list.count];
+    name_list=new const char *[via_list.count];
+    type_list=new VAType[via_list.count];
 
-    const ShaderAttribute *sa=shader_attr_list.items;
+    const VertexInputAttribute *sa=via_list.items;
 
     hgl_zero(count_by_group);
     
-    for(uint i=0;i<shader_attr_list.count;i++)
+    for(uint i=0;i<via_list.count;i++)
     {
         name_list[i]            =sa->name;
         type_list[i].basetype   =VABaseType(sa->basetype);
@@ -29,7 +29,7 @@ VertexInputConfig::VertexInputConfig(const ShaderAttributeArray &sa_array)
 
 VertexInputConfig::~VertexInputConfig()
 {
-    Clear(&shader_attr_list);
+    Clear(&via_list);
 
     delete[] name_list;
     delete[] type_list;
@@ -37,13 +37,13 @@ VertexInputConfig::~VertexInputConfig()
 
 VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
 {
-    VIL *vil=new VIL(shader_attr_list.count);
+    VIL *vil=new VIL(via_list.count);
 
     VkVertexInputBindingDescription *bind_desc=vil->bind_list;
     VkVertexInputAttributeDescription *attr_desc=vil->attr_list;
     VertexInputFormat *vif=vil->vif_list;
 
-    const ShaderAttribute *sa;
+    const VertexInputAttribute *sa;
     VAConfig vac;
     uint binding=0;
 
@@ -54,9 +54,9 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
         vil->vif_list_by_group[group]=vif;
         vil->first_binding[group]=binding;
 
-        sa=shader_attr_list.items;
+        sa=via_list.items;
 
-        for(uint i=0;i<shader_attr_list.count;i++)
+        for(uint i=0;i<via_list.count;i++)
         {
             if(uint(sa->group)!=group)
             {
@@ -140,7 +140,7 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
     return(vil);
 }
 
-VertexInput::VertexInput(const ShaderAttributeArray &sa_array):vic(sa_array)
+VertexInput::VertexInput(const VertexInputAttributeArray &sa_array):vic(sa_array)
 {
     default_vil=vic.CreateVIL(nullptr);
 }
@@ -163,7 +163,6 @@ VIL *VertexInput::CreateVIL(const VILConfig *cfg)
     //原本是想在这里做根据VILConfig的Map缓冲管理，避免重复创建VIL。
     //但VILConfig的复制与比较过于复杂，而且这种使用情况极少。所以放弃做这个事情，如未来真正产生这种需求时再做。
 
-
     VIL *vil=vic.CreateVIL(cfg);
 
     vil_sets.Add(vil);
@@ -178,14 +177,14 @@ bool VertexInput::Release(VIL *vil)
 
 namespace
 {
-    ObjectManage<ShaderAttributeArray,VertexInput> vertex_input_manager;
+    ObjectManage<VertexInputAttributeArray,VertexInput> vertex_input_manager;
 
     //完全没必要的管理
 
-    //ShaderAttributeArray+VertexInput 就算有1024个，也没多少内存占用。完全没必要搞什么引用计数管理
+    //VertexInputAttributeArray+VertexInput 就算有1024个，也没多少内存占用。完全没必要搞什么引用计数管理
 }//namespace
 
-VertexInput *GetVertexInput(const ShaderAttributeArray &saa)
+VertexInput *GetVertexInput(const VertexInputAttributeArray &saa)
 {
     VertexInput *vi=vertex_input_manager.Get(saa);
 
