@@ -6,6 +6,7 @@ namespace hgl
 {
     namespace graph
     {
+    #pragma pack(push,1)
         enum class VertexInputGroup:uint8
         {
             Basic,
@@ -18,28 +19,38 @@ namespace hgl
             ENUM_CLASS_RANGE(Basic,JointWeight)
         };
 
+        enum class VertexAttribBaseType:uint8
+        {
+            Bool=0,
+            Int,
+            UInt,
+            Float,
+            Double,
+
+            ENUM_CLASS_RANGE(Bool,Double)
+        };//enum class VertexAttribBaseType
+
+        using VABaseType=VertexAttribBaseType;
+
         struct VertexAttribType
         {
-            enum class BaseType
+            union
             {
-                Bool=0,
-                Int,
-                UInt,
-                Float,
-                Double,
+                struct
+                {
+                    VertexAttribBaseType basetype:4;
+                    uint vec_size:4;
+                };
 
-                ENUM_CLASS_RANGE(Bool,Double)
-            };//enum class BaseType
-
-            BaseType basetype;
-            uint vec_size;
+                uint8 vat_code;
+            };
 
         public:
 
             const bool Check()const
             {
-                if(basetype<BaseType::Bool
-                 ||basetype>BaseType::Double)return(false);
+                if(basetype<VertexAttribBaseType::Bool
+                 ||basetype>VertexAttribBaseType::Double)return(false);
 
                 if(vec_size<=0||vec_size>4)return(false);
 
@@ -63,43 +74,52 @@ namespace hgl
             const bool operator <=(const VertexAttribType& i)const {return Comp(i) <= 0;}
             const bool operator ==(const VertexAttribType& i)const {return Comp(i) == 0;}
             const bool operator !=(const VertexAttribType& i)const {return Comp(i) != 0;}
-        };//struct VAT
 
-        using VAT=VertexAttribType;
-        using VATBaseType=VertexAttribType::BaseType;
+            const uint8 ToCode()const{return vat_code;}
+
+            const bool FromCode(const uint8 code)
+            {
+                vat_code=code;
+
+                return Check();
+            }
+        };//struct VertexAttribType
+    #pragma pack(pop)
+
+        using VAType=VertexAttribType;
 
         /**
          * 根据字符串解晰顶点属性类型
          */
-        bool ParseVertexAttribType(VAT *,const char *);
+        bool ParseVertexAttribType(VAType *,const char *);
 
-        const char *GetVertexAttribName(const VATBaseType &base_type,const uint vec_size);
-        const char *GetVertexAttribName(const VAT *type);
+        const char *GetVertexAttribName(const VABaseType &base_type,const uint vec_size);
+        const char *GetVertexAttribName(const VAType *type);
 
-        constexpr const VAT VAT_BOOL ={VATBaseType::Bool,1};
-        constexpr const VAT VAT_BVEC2={VATBaseType::Bool,2};
-        constexpr const VAT VAT_BVEC3={VATBaseType::Bool,3};
-        constexpr const VAT VAT_BVEC4={VATBaseType::Bool,4};
+        constexpr const VAType VAT_BOOL ={VABaseType::Bool,1};
+        constexpr const VAType VAT_BVEC2={VABaseType::Bool,2};
+        constexpr const VAType VAT_BVEC3={VABaseType::Bool,3};
+        constexpr const VAType VAT_BVEC4={VABaseType::Bool,4};
 
-        constexpr const VAT VAT_INT  ={VATBaseType::Int,1};
-        constexpr const VAT VAT_IVEC2={VATBaseType::Int,2};
-        constexpr const VAT VAT_IVEC3={VATBaseType::Int,3};
-        constexpr const VAT VAT_IVEC4={VATBaseType::Int,4};
+        constexpr const VAType VAT_INT  ={VABaseType::Int,1};
+        constexpr const VAType VAT_IVEC2={VABaseType::Int,2};
+        constexpr const VAType VAT_IVEC3={VABaseType::Int,3};
+        constexpr const VAType VAT_IVEC4={VABaseType::Int,4};
 
-        constexpr const VAT VAT_UINT ={VATBaseType::UInt,1};
-        constexpr const VAT VAT_UVEC2={VATBaseType::UInt,2};
-        constexpr const VAT VAT_UVEC3={VATBaseType::UInt,3};
-        constexpr const VAT VAT_UVEC4={VATBaseType::UInt,4};
+        constexpr const VAType VAT_UINT ={VABaseType::UInt,1};
+        constexpr const VAType VAT_UVEC2={VABaseType::UInt,2};
+        constexpr const VAType VAT_UVEC3={VABaseType::UInt,3};
+        constexpr const VAType VAT_UVEC4={VABaseType::UInt,4};
 
-        constexpr const VAT VAT_FLOAT={VATBaseType::Float,1};
-        constexpr const VAT VAT_VEC2 ={VATBaseType::Float,2};
-        constexpr const VAT VAT_VEC3 ={VATBaseType::Float,3};
-        constexpr const VAT VAT_VEC4 ={VATBaseType::Float,4};
+        constexpr const VAType VAT_FLOAT={VABaseType::Float,1};
+        constexpr const VAType VAT_VEC2 ={VABaseType::Float,2};
+        constexpr const VAType VAT_VEC3 ={VABaseType::Float,3};
+        constexpr const VAType VAT_VEC4 ={VABaseType::Float,4};
 
-        constexpr const VAT VAT_DOUBLE={VATBaseType::Double,1};
-        constexpr const VAT VAT_DVEC2 ={VATBaseType::Double,2};
-        constexpr const VAT VAT_DVEC3 ={VATBaseType::Double,3};
-        constexpr const VAT VAT_DVEC4 ={VATBaseType::Double,4};
+        constexpr const VAType VAT_DOUBLE={VABaseType::Double,1};
+        constexpr const VAType VAT_DVEC2 ={VABaseType::Double,2};
+        constexpr const VAType VAT_DVEC3 ={VABaseType::Double,3};
+        constexpr const VAType VAT_DVEC4 ={VABaseType::Double,4};
 
         constexpr size_t VERTEX_ATTRIB_NAME_MAX_LENGTH=32;
 
@@ -130,8 +150,6 @@ namespace hgl
         }//namespace VertexAttribName
 
         #define VAN VertexAttribName
-
-        constexpr const uint HGL_MAX_VERTEX_ATTRIB_COUNT=16;        ///<最大顶点属性数量
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_VERTEX_ATTRIB_INCLUDE

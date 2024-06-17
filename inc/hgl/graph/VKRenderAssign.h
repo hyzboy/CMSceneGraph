@@ -19,7 +19,7 @@ VK_NAMESPACE_BEGIN
 */
 
 constexpr const char        ASSIGN_VIS_NAME[]       ="Assign";
-constexpr const VAT         ASSIGN_VAT_FMT          =VAT_UVEC2;
+constexpr const VAType      ASSIGN_VAT_FMT          =VAT_UVEC2;
 constexpr const VkFormat    ASSIGN_VAB_FMT          =VF_V2U16;
 constexpr const uint        ASSIGN_VAB_STRIDE_BYTES =4;                 ///<L2W ID与材质实例ID VBO的每个节点的字节数
 

@@ -1,4 +1,4 @@
-#ifndef HGL_VULKAN_VERTEX_INPUT_INCLUDE
+﻿#ifndef HGL_VULKAN_VERTEX_INPUT_INCLUDE
 #define HGL_VULKAN_VERTEX_INPUT_INCLUDE
 
 #include<hgl/graph/VKFormat.h>
@@ -12,7 +12,7 @@ class VILConfig;
 class VertexInputConfig
 {
     ShaderAttributeArray shader_attr_list;
-    VAT *type_list;
+    VAType *type_list;
     const char **name_list;
 
     uint count_by_group[size_t(VertexInputGroup::RANGE_SIZE)];

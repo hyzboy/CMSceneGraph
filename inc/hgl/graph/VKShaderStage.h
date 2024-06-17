@@ -22,7 +22,7 @@ namespace hgl
             char    name[VERTEX_ATTRIB_NAME_MAX_LENGTH];
             uint8   location;
 
-            //对应hgl/graph/VertexAttrib.h中的enum class VATBaseType
+            //对应hgl/graph/VertexAttrib.h中的enum class VABaseType
             uint8   basetype;
             uint8   vec_size;
 
@@ -34,7 +34,7 @@ namespace hgl
 
         inline const AnsiString GetShaderAttributeTypename(const ShaderAttribute *ss)
         {
-            return AnsiString(GetVertexAttribName((VATBaseType)ss->basetype,ss->vec_size));
+            return AnsiString(GetVertexAttribName((VABaseType)ss->basetype,ss->vec_size));
         }
 
         const VkFormat GetVulkanFormat(const ShaderAttribute *sa);

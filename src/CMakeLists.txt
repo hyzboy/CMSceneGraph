@@ -1,4 +1,4 @@
-SET(CM_SG_INCLUDE_PATH  ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/graph)
+﻿SET(CM_SG_INCLUDE_PATH  ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/graph)
 
 SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/OBB.h
@@ -33,7 +33,9 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputLayout.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputLayoutHash.h
-                            ${CM_SG_INCLUDE_PATH}/VKSamplerType.h)
+                            ${CM_SG_INCLUDE_PATH}/VKSamplerType.h
+                            ${CM_SG_INCLUDE_PATH}/VKImageType.h
+)
 
 SET(CM_SG_SOURCE    AABB.cpp
                     OBB.cpp

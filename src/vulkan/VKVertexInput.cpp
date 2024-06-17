@@ -9,7 +9,7 @@ VertexInputConfig::VertexInputConfig(const ShaderAttributeArray &sa_array)
     Copy(&shader_attr_list,&sa_array);
 
     name_list=new const char *[shader_attr_list.count];
-    type_list=new VAT[shader_attr_list.count];
+    type_list=new VAType[shader_attr_list.count];
 
     const ShaderAttribute *sa=shader_attr_list.items;
 
@@ -18,7 +18,7 @@ VertexInputConfig::VertexInputConfig(const ShaderAttributeArray &sa_array)
     for(uint i=0;i<shader_attr_list.count;i++)
     {
         name_list[i]            =sa->name;
-        type_list[i].basetype   =VATBaseType(sa->basetype);
+        type_list[i].basetype   =VABaseType(sa->basetype);
         type_list[i].vec_size   =sa->vec_size;
 
         count_by_group[size_t(sa->group)]++;
