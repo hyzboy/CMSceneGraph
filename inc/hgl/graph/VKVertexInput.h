@@ -11,7 +11,7 @@ class VILConfig;
 
 class VertexInputConfig
 {
-    VertexInputAttributeArray via_list;
+    VIAArray via_array;
     VAType *type_list;
     const char **name_list;
 
@@ -19,7 +19,7 @@ class VertexInputConfig
 
 public:
 
-    const uint      GetCount()const{return via_list.count;}
+    const uint      GetCount()const{return via_array.count;}
 
 public:
 
@@ -39,7 +39,7 @@ class VertexInput
 
 public:
 
-    VertexInput(const VertexInputAttributeArray &);
+    VertexInput(const VIAArray &);
     VertexInput(const VertexInput &)=delete;
     ~VertexInput();
 
@@ -51,7 +51,7 @@ public:
     const uint32_t  GetInstanceCount()const{return vil_sets.GetCount();}
 };//class VertexInput
 
-VertexInput *GetVertexInput(const VertexInputAttributeArray &);
+VertexInput *GetVertexInput(const VIAArray &);
 void ReleaseVertexInput(VertexInput *);
 VK_NAMESPACE_END
 #endif//HGL_VULKAN_VERTEX_INPUT_INCLUDE

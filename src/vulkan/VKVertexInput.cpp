@@ -4,18 +4,18 @@
 #include<hgl/type/ObjectManage.h>
 
 VK_NAMESPACE_BEGIN
-VertexInputConfig::VertexInputConfig(const VertexInputAttributeArray &sa_array)
-{    
-    Copy(&via_list,&sa_array);
+VertexInputConfig::VertexInputConfig(const VIAArray &viaa)
+{
+    via_array.Clone(&viaa);
 
-    name_list=new const char *[via_list.count];
-    type_list=new VAType[via_list.count];
+    name_list=new const char *[via_array.count];
+    type_list=new VAType[via_array.count];
 
-    const VertexInputAttribute *sa=via_list.items;
+    const VertexInputAttribute *sa=via_array.items;
 
     hgl_zero(count_by_group);
     
-    for(uint i=0;i<via_list.count;i++)
+    for(uint i=0;i<via_array.count;i++)
     {
         name_list[i]            =sa->name;
         type_list[i].basetype   =VABaseType(sa->basetype);
@@ -29,21 +29,19 @@ VertexInputConfig::VertexInputConfig(const VertexInputAttributeArray &sa_array)
 
 VertexInputConfig::~VertexInputConfig()
 {
-    Clear(&via_list);
-
     delete[] name_list;
     delete[] type_list;
 }
 
 VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
 {
-    VIL *vil=new VIL(via_list.count);
+    VIL *vil=new VIL(via_array.count);
 
     VkVertexInputBindingDescription *bind_desc=vil->bind_list;
     VkVertexInputAttributeDescription *attr_desc=vil->attr_list;
     VertexInputFormat *vif=vil->vif_list;
 
-    const VertexInputAttribute *sa;
+    const VertexInputAttribute *via;
     VAConfig vac;
     uint binding=0;
 
@@ -54,13 +52,13 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
         vil->vif_list_by_group[group]=vif;
         vil->first_binding[group]=binding;
 
-        sa=via_list.items;
+        via=via_array.items;
 
-        for(uint i=0;i<via_list.count;i++)
+        for(uint i=0;i<via_array.count;i++)
         {
-            if(uint(sa->group)!=group)
+            if(uint(via->group)!=group)
             {
-                ++sa;
+                ++via;
                 continue;
             }
 
@@ -70,7 +68,7 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
             //但在我们的设计中，仅支持一个流传递一个attrib
 
             attr_desc->binding   =binding;
-            attr_desc->location  =sa->location;                 //此值对应shader中的layout(location=
+            attr_desc->location  =via->location;                 //此值对应shader中的layout(location=
         
             attr_desc->offset    =0;
 
@@ -104,15 +102,15 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
             }
             else
             {
-                if(!cfg||!cfg->Get(sa->name,vac))
+                if(!cfg||!cfg->Get(via->name,vac))
                 {
-                    attr_desc->format    =GetVulkanFormat(sa);
+                    attr_desc->format    =GetVulkanFormat(via);
 
-                    bind_desc->inputRate =VkVertexInputRate(sa->input_rate);
+                    bind_desc->inputRate =VkVertexInputRate(via->input_rate);
                 }
                 else
                 {
-                    attr_desc->format    =(vac.format==PF_UNDEFINED?GetVulkanFormat(sa):vac.format);
+                    attr_desc->format    =(vac.format==PF_UNDEFINED?GetVulkanFormat(via):vac.format);
 
                     bind_desc->inputRate =vac.input_rate;
                 }
@@ -121,26 +119,26 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
             }
 
             vif->format     =attr_desc->format;
-            vif->vec_size   =sa->vec_size;
+            vif->vec_size   =via->vec_size;
             vif->stride     =bind_desc->stride;
 
-            vif->name       =sa->name;
+            vif->name       =via->name;
             vif->binding    =attr_desc->binding;
             vif->input_rate =bind_desc->inputRate;
-            vif->group      =sa->group;
+            vif->group      =via->group;
 
             ++vif;
             ++attr_desc;
             ++bind_desc;
 
-            ++sa;
+            ++via;
         }
     }
 
     return(vil);
 }
 
-VertexInput::VertexInput(const VertexInputAttributeArray &sa_array):vic(sa_array)
+VertexInput::VertexInput(const VIAArray &sa_array):vic(sa_array)
 {
     default_vil=vic.CreateVIL(nullptr);
 }
@@ -177,22 +175,63 @@ bool VertexInput::Release(VIL *vil)
 
 namespace
 {
-    ObjectManage<VertexInputAttributeArray,VertexInput> vertex_input_manager;
+    constexpr const uint VertexInputAttributeBytes=sizeof(VertexInputAttribute);
+    constexpr const uint VIAIndexLength=(VertexInputAttributeBytes)*16;
+
+    ObjectManage<AnsiString,VertexInput> vertex_input_manager;
 
     //完全没必要的管理
 
-    //VertexInputAttributeArray+VertexInput 就算有1024个，也没多少内存占用。完全没必要搞什么引用计数管理
+    //VIAArray+VertexInput 就算有1024个，也没多少内存占用。完全没必要搞什么引用计数管理
+
+    void MakeVIIndex(AnsiString &result,const VIAArray &viaa)
+    {
+        result=AnsiString::numberOf(viaa.count);
+
+        const VertexInputAttribute *via=viaa.items;
+
+        for(uint i=0;i<viaa.count;i++)
+        {
+            result+="[\"";
+
+            result+=via->name;
+            result+="\",location:";
+            result+=AnsiString::numberOf(via->location);
+            result+=",type:";
+            result+=GetVertexAttribName((VABaseType)via->basetype,via->vec_size);
+            result+=",input_rate:";
+
+            if(via->input_rate==VK_VERTEX_INPUT_RATE_VERTEX)
+                result+="vertex";
+            else
+                result+="instance";
+
+            result+=",group:";
+            result+=GetVertexInputGroupName(via->group);
+            result+=",interpolation:";
+
+            result+=GetInterpolationName(via->interpolation);
+
+            result+="]";
+
+            ++via;
+        }
+    }
 }//namespace
 
-VertexInput *GetVertexInput(const VertexInputAttributeArray &saa)
+VertexInput *GetVertexInput(const VIAArray &saa)
 {
-    VertexInput *vi=vertex_input_manager.Get(saa);
+    AnsiString index;
+
+    MakeVIIndex(index,saa);
+
+    VertexInput *vi=vertex_input_manager.Get(index);
 
     if(!vi)
     {
         vi=new VertexInput(saa);
 
-        vertex_input_manager.Add(saa,vi);
+        vertex_input_manager.Add(index,vi);
     }
 
     return vi;

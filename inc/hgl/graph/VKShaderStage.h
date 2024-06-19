@@ -15,6 +15,7 @@ namespace hgl
         const char *GetShaderStageName(const VkShaderStageFlagBits &);          ///<获取指定ShaderStage位的名称
         const uint GetShaderStageFlagBits(const char *,int len=0);              ///<根据名称获取ShaderStage位数据
 
+    #pragma pack(push,1)
         struct VertexInputAttribute
         {
             //注：这个类要从GLSLCompiler动态链接库中直接传递，所以不可以使用AnsiString
@@ -31,8 +32,11 @@ namespace hgl
 
             Interpolation       interpolation;  //插值方式
         };//struct VertexInputAttribute
+    #pragma pack(pop)
 
         using VIA=VertexInputAttribute;
+
+        using VIAList=List<VIA>;
 
         inline const AnsiString GetShaderAttributeTypename(const VertexInputAttribute *ss)
         {
@@ -52,6 +56,14 @@ namespace hgl
             {
                 count=0;
                 items=nullptr;
+            }
+
+            VertexInputAttributeArray(const VertexInputAttributeArray &viaa)
+            {
+                count=0;
+                items=nullptr;
+
+                Clone(&viaa);
             }
 
             ~VertexInputAttributeArray()

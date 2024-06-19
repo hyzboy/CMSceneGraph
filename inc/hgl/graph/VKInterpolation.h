@@ -4,7 +4,7 @@
 #include<hgl/graph/VKNamespace.h>
 
 VK_NAMESPACE_BEGIN
-enum class Interpolation
+enum class Interpolation:uint8
 {
     Smooth,
     NoPerspective,
