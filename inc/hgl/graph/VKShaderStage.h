@@ -32,6 +32,8 @@ namespace hgl
             Interpolation       interpolation;  //插值方式
         };//struct VertexInputAttribute
 
+        using VIA=VertexInputAttribute;
+
         inline const AnsiString GetShaderAttributeTypename(const VertexInputAttribute *ss)
         {
             return AnsiString(GetVertexAttribName((VABaseType)ss->basetype,ss->vec_size));
@@ -41,10 +43,21 @@ namespace hgl
 
         struct VertexInputAttributeArray
         {
-            uint32_t count;
-            VertexInputAttribute *items;
+            uint count;
+            VIA *items;
 
         public:
+
+            VertexInputAttributeArray()
+            {
+                count=0;
+                items=nullptr;
+            }
+
+            ~VertexInputAttributeArray()
+            {
+                Clear();
+            }
 
             int Comp(const VertexInputAttributeArray *saa)const
             {
@@ -62,6 +75,9 @@ namespace hgl
                     SAA_COMP_ITEM(vec_size)
                     SAA_COMP_ITEM(input_rate)
                 #undef SAA_COMP_ITEM
+                        
+                    off=hgl::strcmp(items[i].name,saa->items[i].name);
+                    if(off)return off;
                 }
 
                 return 0;
@@ -74,75 +90,85 @@ namespace hgl
 
             CompOperator(const VertexInputAttributeArray *,Comp)
             CompOperator(const VertexInputAttributeArray &,Comp)
-        };
 
-        inline void Init(VertexInputAttributeArray *sad,const uint count=0)
-        {
-            sad->count=count;
-
-            if(count>0)
-                sad->items=array_alloc<VertexInputAttribute>(count);
-            else
-                sad->items=nullptr;
-        }
-
-        inline void Clear(VertexInputAttributeArray *sad)
-        {
-            if(sad->items)
+            bool Init(const uint c=0)
             {
-                array_free(sad->items);
-                sad->items=nullptr;
+                if(items)
+                    return(false);
+
+                if(c>0)
+                {
+                    count=c;
+                    items=array_alloc<VertexInputAttribute>(count);
+                }
+                else
+                {
+                    count=0;
+                    items=nullptr;
+                }
+
+                return(true);
             }
 
-            sad->count=0;
-        }
+            bool IsMember(const char *name)const
+            {                
+                if(count<=0)
+                    return(false);
 
-        inline void Copy(VertexInputAttributeArray *dst,const VertexInputAttributeArray *src)
-        {
-            Init(dst,src->count);
+                for(uint i=0;i<count;i++)
+                    if(hgl::strcmp(items[i].name,name)==0)
+                        return(true);
 
-            if(src->count>0)
-                hgl_cpy(dst->items,src->items,src->count);
-        }
-
-        inline void Append(VertexInputAttributeArray *sad,VertexInputAttribute *sa)
-        {
-            if(!sad->items)
-            {
-                sad->items=array_alloc<VertexInputAttribute>(1);
-                sad->count=1;
-            }
-            else
-            {
-                sad->items=array_realloc(sad->items,sad->count+1);
-                sad->count++;
+                return(false);
             }
 
-            memcpy(sad->items+sad->count-1,sa,sizeof(VertexInputAttribute));
-        }
+            bool Add(VIA &via)
+            {
+                if(IsMember(via.name))
+                    return(false);
 
-        struct ShaderStageIO
-        {
-            VertexInputAttributeArray input,output;
-        };//struct ShaderStageIO
+                via.location=count;
 
-        inline void Init(ShaderStageIO &io)
-        {
-            Init(&io.input);
-            Init(&io.output);
-        }
+                if(!items)
+                {
+                    items=array_alloc<VertexInputAttribute>(1);
+                    count=1;
+                }
+                else
+                {
+                    ++count;
+                    items=array_realloc(items,count);
+                }
+                
+                hgl_cpy(items[count-1],via);
+                return(true);
+            }
 
-        inline void Clear(ShaderStageIO &io)
-        {
-            Clear(&io.input);
-            Clear(&io.output);
-        }
+            void Clear()
+            {
+                if(items)
+                {
+                    array_free(items);
+                    items=nullptr;
+                }
 
-        inline void Copy(ShaderStageIO *dst,const ShaderStageIO *src)
-        {
-            Copy(&(dst->input),&(src->input));
-            Copy(&(dst->output),&(src->output));
-        }
+                count=0;
+            }
+
+            bool Clone(const VertexInputAttributeArray *src)
+            {
+                if(!src)
+                    return(false);
+
+                if(!Init(src->count))
+                    return(false);
+
+                hgl_cpy(items,src->items,src->count);
+                return(true);
+            }
+        };//struct VertexInputAttributeArray
+
+        using VIAArray=VertexInputAttributeArray;
     }//namespace graph
 }//namespace hgl
 #endif//HGL_SHADER_GEN_SHADER_STAGE_INCLUDE
