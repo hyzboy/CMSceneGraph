@@ -39,7 +39,7 @@ namespace hgl
                 struct
                 {
                     VertexAttribBaseType basetype:4;
-                    uint vec_size:4;
+                    uint8 vec_size:4;
                 };
 
                 uint8 vat_code;
