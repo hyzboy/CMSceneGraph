@@ -27,10 +27,10 @@ const int VertexInputLayout::Comp(const VertexInputLayout *vil)const
     int result;
 
     result=count-vil->count;
-    if(!result)return result;
+    if(result)return result;
 
     result=hgl_cmp(bind_list,vil->bind_list,count);
-    if(!result)return result;
+    if(result)return result;
 
     result=hgl_cmp(attr_list,vil->attr_list,count);
     
