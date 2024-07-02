@@ -19,7 +19,9 @@ namespace hgl
             Matrix4f inverse_view;
 
             Matrix4f vp;                    ///< projection * view
-            Matrix4f inverse_vp;
+            Matrix4f inverse_vp;            ///< inverse_projection * inverse_view  
+
+            Vector4f frustum_planes[6];     ///<视锥体平面
 
             Matrix4f sky;                   ///<天空盒用矩阵
 
@@ -33,7 +35,7 @@ namespace hgl
             float znear,zfar;
         };//struct CameraInfo
 
-        constexpr size_t CameraInfoBytes=sizeof(CameraInfo);
+        constexpr const size_t CameraInfoBytes=sizeof(CameraInfo);
     }//namespace graph
 }//namespace hgl
 #endif//HGL_GRAPH_CAMERA_INFO_INCLUDE

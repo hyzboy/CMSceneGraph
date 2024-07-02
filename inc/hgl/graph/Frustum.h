@@ -1,4 +1,4 @@
-#ifndef HGL_GRAPH_FRUSTUM_INCLUDE
+﻿#ifndef HGL_GRAPH_FRUSTUM_INCLUDE
 #define HGL_GRAPH_FRUSTUM_INCLUDE
 
 #include<hgl/graph/AABB.h>
@@ -7,6 +7,10 @@ namespace hgl
 {
     namespace graph
     {
+        using FrustumPlanes=Vector4f[6];
+
+        void GetFrustumPlanes(FrustumPlanes &fp,const Matrix4f &mvp);
+
         /**
         * 平截头裁剪处理
         */
@@ -16,7 +20,7 @@ namespace hgl
 
         public:
             
-		    enum class Side 
+            enum class Side 
             { 
                 Left=0,
                 Right,
@@ -35,7 +39,7 @@ namespace hgl
 
         public:
 
-            void SetMatrix(const Matrix4f &);
+            void SetMatrix(const Matrix4f &mvp);
 
             Scope PointIn(const Vector3f &)const;
             Scope SphereIn(const Vector3f &,float radius)const;
