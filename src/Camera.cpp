@@ -1,4 +1,5 @@
 ﻿#include<hgl/graph/Camera.h>
+#include<hgl/graph/Frustum.h>
 namespace hgl
 {
     namespace graph
@@ -13,6 +14,8 @@ namespace hgl
 
             ci->vp                     =ci->projection*ci->view;
             ci->inverse_vp             =inverse(ci->vp);
+
+            GetFrustumPlanes(ci->frustum_planes,ci->vp);
 
             {
                 glm::mat4 tmp=ci->view;
