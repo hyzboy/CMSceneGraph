@@ -2,7 +2,7 @@
 #define HGL_GRAPH_VULKAN_DESCRIPTOR_SET_TYPE_INCLUDE
 
 #include<hgl/graph/VKNamespace.h>
-#include<hgl/TypeFunc.h>
+#include<hgl/type/StrChar.h>
 
 VK_NAMESPACE_BEGIN
 
@@ -61,7 +61,7 @@ enum class DescriptorSetType
 
 constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE_SIZE);
 
-constexpr char *DescriptSetTypeName[]=
+const char *DescriptSetTypeName[]=
 {
     "Unknow",
     "Static",
@@ -84,7 +84,7 @@ inline const DescriptorSetType GetDescriptorSetType(const char *str)
 
     for(size_t i=0;i<DESCRIPTOR_SET_TYPE_COUNT;i++)
     {
-        if(!strcmp(str,DescriptSetTypeName[i]))
+        if(!hgl::strcmp(str,DescriptSetTypeName[i]))
             return((DescriptorSetType)i);
     }
 
