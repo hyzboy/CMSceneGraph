@@ -20,6 +20,11 @@ namespace hgl
 
         public:
 
+            ViewportInfo()
+            {
+                hgl_zero(*this);
+            }
+
             void SetViewport(uint,uint);
             void SetCanvas(float,float);
             void Set(uint w,uint h)

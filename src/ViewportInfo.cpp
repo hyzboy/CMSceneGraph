@@ -17,6 +17,7 @@ namespace hgl
         {
             canvas_resolution.x=w;
             canvas_resolution.y=h;
+
             ortho_matrix=ortho(w,h);
         }
     }//namespace graph

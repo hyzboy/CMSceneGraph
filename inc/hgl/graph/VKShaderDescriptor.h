@@ -44,6 +44,8 @@ namespace hgl
                     hgl_cpy(*this,*sr);
             }
 
+            virtual ~ShaderDescriptor()=default;
+
             const int Comp(const ShaderDescriptor &sr)const
             {
                 if(set!=sr.set)return sr.set-set;

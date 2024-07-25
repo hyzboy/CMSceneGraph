@@ -61,7 +61,7 @@ enum class DescriptorSetType
 
 constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE_SIZE);
 
-const char *DescriptSetTypeName[]=
+constexpr const char *DescriptSetTypeName[]=
 {
     "Unknow",
     "Static",
