@@ -491,6 +491,33 @@ enum class VulkanBaseType
     ENUM_CLASS_RANGE(UINT,SRGB)
 };//
 
+constexpr const char *TextureCompressTypeName[]=
+{
+    "NONE",
+    "S3TC",
+    "PVRTC",
+    "ETC1",
+    "ETC2",
+    "EAC",
+    "ATC",
+    "ASTC",
+    "YUV"
+};
+
+constexpr const char *VulkanBaseTypeName[]
+{
+    "NONE",
+    "UINT",
+    "SINT",
+    "UNORM",
+    "SNORM",
+    "USCALED",
+    "SSCALED",
+    "UFLOAT",
+    "SFLOAT",
+    "SRGB"
+};//
+
 struct VulkanFormat
 {
     VkFormat            format;         ///<Vulkan格式，此值保留仅为参考
