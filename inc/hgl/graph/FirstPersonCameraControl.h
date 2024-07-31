@@ -58,6 +58,8 @@ namespace hgl
                 right   =normalize(cross(front,camera->world_up));
                 up      =normalize(cross(right,front)); 
 
+                camera->view_line=normalize(camera->pos-t);
+
                 pitch   =asin(front.z);
                 yaw     =atan2(front.x,front.y);
 
@@ -70,7 +72,6 @@ namespace hgl
             {
                 target=camera->pos+front*distance;
 
-                camera_info.view_line  =front;
                 camera_info.view       =lookat(camera->pos,target,camera->world_up);
 
                 RefreshCameraInfo(&camera_info,vi,camera);
