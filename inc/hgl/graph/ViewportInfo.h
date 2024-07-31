@@ -35,6 +35,9 @@ namespace hgl
 
         public:
 
+            const float GetViewportWidth()const{return viewport_resolution.x;}
+            const float GetViewportHeight()const{return viewport_resolution.y;}
+
             const float GetAspectRatio()const
             {
                 return canvas_resolution.x/canvas_resolution.y;
