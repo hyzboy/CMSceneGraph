@@ -10,7 +10,7 @@ namespace hgl
     {
         class OBB;
 
-        constexpr Vector3f AABBFaceNormal[6]=
+        const Vector3f AABBFaceNormal[6]=
         {
             Vector3f(-1,  0,  0),
             Vector3f( 1,  0,  0),
