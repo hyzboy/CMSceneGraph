@@ -7,6 +7,30 @@ namespace hgl
 {
     namespace graph
     {
+        template<typename T>
+        inline const bool PointInTriangle(const glm::vec<2,T> *vertex,const glm::vec<2,T> &pt)
+        {
+            // Compute vectors
+            glm::dvec2 v2v1 = vertex[1] - vertex[0];
+            glm::dvec2 v3v1 = vertex[2] - vertex[0];
+            glm::dvec2 ptv1 = pt        - vertex[0];
+
+            // Compute dot products
+            double dot00 = glm::dot(v3v1, v3v1);
+            double dot01 = glm::dot(v3v1, v2v1);
+            double dot02 = glm::dot(v3v1, ptv1);
+            double dot11 = glm::dot(v2v1, v2v1);
+            double dot12 = glm::dot(v2v1, ptv1);
+
+            // Compute barycentric coordinates
+            double invDenom = 1.0f / (dot00 * dot11 - dot01 * dot01);
+            double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+            double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+            // Check if point is in triangle
+            return (u >= 0) && (v >= 0) && (u + v < 1);
+        }
+
         template<typename T> class Triangle2
         {
             glm::vec<2,T> vertex[3];
@@ -69,25 +93,7 @@ namespace hgl
 
             const bool PointIn(const glm::vec<2,T> &pt)const
             {
-                // Compute vectors
-                glm::dvec2 v2v1 = vertex[1] - vertex[0];
-                glm::dvec2 v3v1 = vertex[2] - vertex[0];
-                glm::dvec2 ptv1 = pt        - vertex[0];
-
-                // Compute dot products
-                double dot00 = glm::dot(v3v1, v3v1);
-                double dot01 = glm::dot(v3v1, v2v1);
-                double dot02 = glm::dot(v3v1, ptv1);
-                double dot11 = glm::dot(v2v1, v2v1);
-                double dot12 = glm::dot(v2v1, ptv1);
-
-                // Compute barycentric coordinates
-                double invDenom = 1.0f / (dot00 * dot11 - dot01 * dot01);
-                double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
-                double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
-
-                // Check if point is in triangle
-                return (u >= 0) && (v >= 0) && (u + v < 1);
+                return PointInTriangle<T>(vertex,pt);
             }
         };//template<typename T> class Triangle2
 
