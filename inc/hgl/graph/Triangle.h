@@ -78,6 +78,16 @@ namespace hgl
                 return glm::vec<2,T>(0,0);
             }
 
+            glm::vec<2,T> &operator[](const int index)
+            {
+                return vertex[index];
+            }
+
+            const glm::vec<2,T> &operator[](const int index)const
+            {
+                return vertex[index];
+            }
+
             const T GetEdgeLength(const int index)const
             {
                 if(index==0)return length_2d(vertex[0],vertex[1]);else
@@ -102,35 +112,80 @@ namespace hgl
         using Triangle2f=Triangle2<float>;
         using Triangle2d=Triangle2<double>;
 
-        ///**
-        //* 计算三角形的面积
-        //*/
-        //inline float TriangleArea(const Triangle3D &tri)
-        //{
-        //    return length(cross(tri[1]-tri[0],tri[2]-tri[0]))/2.0f;
-        //}
+        template<typename T> class Triangle3
+        {
+            glm::vec<3,T> vertex[3];
 
-        ///**
-        //* 计算点到三角形的距离(此函数由Github Copilot生成，未经测试)
-        //*/
-        //inline float DistancePointAndTriangle(const Vector3f &p,const Triangle3D &tri)
-        //{
-        //    Vector3f v0=tri[0]-p;
-        //    Vector3f v1=tri[1]-p;
-        //    Vector3f v2=tri[2]-p;
-        //
-        //    Vector3f n=cross(v1-v0,v2-v0);
-        //
-        //    float area=length(n)/2.0f;
-        //
-        //    float a0=TriangleArea(Triangle3D{p,tri[1],tri[2]});
-        //    float a1=TriangleArea(Triangle3D{tri[0],p,tri[2]});
-        //    float a2=TriangleArea(Triangle3D{tri[0],tri[1],p});
-        //
-        //    if(a0+a1+a2>area)
-        //        return -1;
-        //
-        //    return 2.0f*area/length(n);
-        //}
+        public:
+
+            Triangle3()
+            {
+                vertex[0]=glm::vec<3,T>(0,0,0);
+                vertex[1]=glm::vec<3,T>(0,0,0);
+                vertex[2]=glm::vec<3,T>(0,0,0);
+            }
+
+            Triangle3(const glm::vec<3,T> &v0,const glm::vec<3,T> &v1,const glm::vec<3,T> &v2)
+            {
+                vertex[0]=v0;
+                vertex[1]=v1;
+                vertex[2]=v2;
+            }
+
+            virtual ~Triangle3()=default;
+
+            void SetVertex(const glm::vec<3,T> v[3])
+            {
+                vertex=v;
+            }
+
+            void SetVertex(const glm::vec<3,T> &v0,const glm::vec<3,T> &v1,const glm::vec<3,T> &v2)
+            {
+                vertex[0]=v0;
+                vertex[1]=v1;
+                vertex[2]=v2;
+            }
+
+            void SetVertex(const int index,const glm::vec<3,T> &v)
+            {
+                if(index>=0&&index<=2)
+                    vertex[index]=v;
+            }
+
+            const glm::vec<3,T> &GetVertex(const int index)const
+            {
+                if(index>=0&&index<=2)return vertex[index];
+
+                return glm::vec<3,T>(0,0,0);
+            }
+
+            glm::vec<3,T> &operator[](const int index)
+            {
+                return vertex[index];
+            }
+
+            const glm::vec<3,T> &operator[](const int index)const
+            {
+                return vertex[index];
+            }
+
+            const T GetEdgeLength(const int index)const
+            {
+                if(index==0)return length_3d(vertex[0],vertex[1]);else
+                if(index==1)return length_3d(vertex[1],vertex[2]);else
+                if(index==2)return length_3d(vertex[2],vertex[0]);else
+                    return 0;
+            }
+
+            const T Area()const
+            {
+                return TriangleArea(vertex[0],vertex[1],vertex[2]);
+            }
+        };//template<typename T> class Triangle3
+
+        using Triangle3s=Triangle3<short>;
+        using Triangle3i=Triangle3<int>;
+        using Triangle3f=Triangle3<float>;
+        using Triangle3d=Triangle3<double>;
     }//namespace graph
 }//namespace hgl

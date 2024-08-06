@@ -99,8 +99,8 @@ namespace hgl
             bool CrossSphere(const Sphere &)const;                                                      ///<求射线是否与指定球体相交
             bool CrossEllipseSphere(const EllipseSphere &)const;                                        ///<求射线是否与指定椭球体相交
 
-            bool CrossTriangle(const Triangle3D &)const;                                                ///<指当前射线是否与指定三角形相交
-            bool CrossPlane(const Vector3f &,const Vector3f &,const Vector3f &,const Vector3f &)const;  ///<求指定面是否与射线交汇
+            bool CrossTriangle(const Triangle3f &,bool two_side=true)const;                                                ///<指当前射线是否与指定三角形相交
+            bool CrossPlane(const Vector3f &,const Vector3f &,const Vector3f &,const Vector3f &,bool two_side=true)const;  ///<求指定面是否与射线交汇
         };//class Ray
     }//namespace graph
 }//namespace hgl

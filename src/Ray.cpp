@@ -131,7 +131,7 @@ namespace hgl
         /**
         * 指当前射线是否与指定三角形相交(此函数由Github Copilot生成，未经测试)
         */
-        bool Ray::CrossTriangle(const Triangle3D &tri)const
+        bool Ray::CrossTriangle(const Triangle3f &tri,bool two_side)const
         {
             const Vector3f a1=tri[0];
             const Vector3f a2=tri[1];
@@ -139,13 +139,19 @@ namespace hgl
 
             const Vector3f normal=cross(a2-a1,a3-a1);
 
-            const float cos=dot(normal,direction);
+            float rad=dot(normal,direction);
+            
+            if(rad>=0)              //射线与三角形背对
+            {
+                if(!two_side)
+                    return(false);
 
-            if(cos>=0)return(false);        //射线与三角形背对
+                rad=-rad;
+            }
 
             const float d=dot(normal,a1);
 
-            const float t=(d-dot(normal,origin))/cos;
+            const float t=(d-dot(normal,origin))/rad;
 
             if(t<0)return(false);            //射线与三角形不相交
 
@@ -165,13 +171,27 @@ namespace hgl
         /**
         * 求指定面是否与射线交汇
         */
-        bool Ray::CrossPlane(const Vector3f &v1,const Vector3f &v2,const Vector3f &v3,const Vector3f &v4)const
+        bool Ray::CrossPlane(const Vector3f &v1,const Vector3f &v2,const Vector3f &v3,const Vector3f &v4,const bool two_side)const
         {
-            const float ray_len=ToPointDistance(v1)+ToPointDistance(v2)+ToPointDistance(v3)+ToPointDistance(v4);
+            const Vector3f normal=cross(v2-v1,v3-v1);
 
-            const float len=length(v1,v3)+length(v2,v4);
+            float rad=dot(normal,direction);
 
-            return(ray_len<=len);
+            if(rad>=0)              //射线与三角形背对
+            {
+                if(!two_side)
+                    return(false);
+
+                rad=-rad;
+            }
+
+            const float d=dot(normal,v1);
+
+            const float t=(d-dot(normal,origin))/rad;
+
+            if(t<0)return(false);            //射线与平面不相交
+
+            return(true);
         }
     }//namespace graph
 }//namespace hgl
