@@ -43,7 +43,7 @@ namespace hgl
                 if(adjust>0&&camera->Yfov>MaxFOV)camera->Yfov=MaxFOV;
             }
 
-            CameraInfo &GetCameraInfo(){return camera_info;}
+            CameraInfo *GetCameraInfo(){return &camera_info;}
 
             virtual void Refresh()=0;
         };//class CameraControl
