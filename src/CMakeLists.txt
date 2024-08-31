@@ -13,6 +13,7 @@ SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/Capsule.h
                     ${CM_SG_INCLUDE_PATH}/Plane.h
                     ${CM_SG_INCLUDE_PATH}/Frustum.h
+                    ${CM_SG_INCLUDE_PATH}/TransformFaceToCamera.h
                     ${CM_SG_INCLUDE_PATH}/VertexAttrib.h)
 
 SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
