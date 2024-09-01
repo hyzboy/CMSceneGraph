@@ -1,6 +1,7 @@
 #pragma once
 
 #include<hgl/math/Transform.h>
+#include<hgl/graph/CameraInfo.h>
 
 namespace hgl
 {
@@ -31,6 +32,13 @@ namespace hgl
 
             constexpr const size_t GetTypeHash()const override { return hgl::GetTypeHash<TransformFaceToCamera>(); }
 
+            TransformFaceToCamera():TransformBase()
+            {
+                camera_info=nullptr;
+
+                last_view_matrix=Identity4f;
+            }
+
             TransformFaceToCamera(CameraInfo *ci):TransformBase()
             {
                 camera_info=ci;
@@ -43,7 +51,14 @@ namespace hgl
                 return(new TransformFaceToCamera(camera_info));
             }
 
-            void SetCameraInfo(CameraInfo *ci) { camera_info=ci; }
+            void SetCameraInfo(CameraInfo *ci)
+            {
+                if(camera_info==ci)return;
+
+                camera_info=ci;
+
+                UpdateVersion();
+            }
 
             bool Update() override
             {
