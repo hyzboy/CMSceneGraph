@@ -122,7 +122,7 @@ namespace hgl
                 return(true);
             }
 
-            bool IsMember(const char *name)const
+            bool Contains(const char *name)const
             {                
                 if(count<=0)
                     return(false);
@@ -136,7 +136,7 @@ namespace hgl
 
             bool Add(VIA &via)
             {
-                if(IsMember(via.name))
+                if(Contains(via.name))
                     return(false);
 
                 via.location=count;

@@ -36,7 +36,7 @@ public:
 
     bool Add(const AnsiString &name,const VkFormat fmt,const VkVertexInputRate ir=VK_VERTEX_INPUT_RATE_VERTEX)
     {
-        if(KeyExist(name))
+        if(ContainsKey(name))
             return(false);
 
         return Map<AnsiString,VAConfig>::Add(name,VAConfig(fmt,ir));
