@@ -107,6 +107,12 @@ struct ImageMemoryBarrier:public vkstruct<VkImageMemoryBarrier,VK_STRUCTURE_TYPE
 {
 public:
 
+    ImageMemoryBarrier()
+    {
+        this->srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        this->dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    }
+
     ImageMemoryBarrier(VkImage img)
     {
         this->image=img;
