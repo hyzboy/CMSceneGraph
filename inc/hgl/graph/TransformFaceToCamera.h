@@ -46,7 +46,7 @@ namespace hgl
                 last_view_matrix=Identity4f;
             }
 
-            TransformBase *CreateSelfCopy()const override
+            TransformBase *CloneSelf()const override
             {
                 return(new TransformFaceToCamera(camera_info));
             }
@@ -63,7 +63,9 @@ namespace hgl
             bool Update() override
             {
                 if(!camera_info)
+                {
                     return(false);
+                }
 
                 if(IsNearlyEqual(last_view_matrix,camera_info->view))
                     return(false);
