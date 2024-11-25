@@ -3,7 +3,7 @@
 
 #include<hgl/graph/VKFormat.h>
 #include<hgl/graph/VKVertexInputLayout.h>
-#include<hgl/type/SortedSets.h>
+#include<hgl/type/SortedSet.h>
 #include<hgl/graph/VKShaderStage.h>
 
 VK_NAMESPACE_BEGIN
@@ -35,7 +35,7 @@ class VertexInput
 
     VIL *default_vil;
     
-    SortedSets<VIL *> vil_sets;
+    SortedSet<VIL *> vil_sets;
 
 public:
 
