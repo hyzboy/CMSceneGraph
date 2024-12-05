@@ -26,7 +26,7 @@ public:
     }
 };//struct VAConfig
 
-class VILConfig:public Map<AnsiString,VAConfig>,public ComparatorData<VILConfig>
+class VILConfig:public Map<AnsiString,VAConfig>,public Comparator<VILConfig>
 {
 public:
 
