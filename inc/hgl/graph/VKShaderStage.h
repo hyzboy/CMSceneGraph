@@ -45,7 +45,7 @@ namespace hgl
 
         const VkFormat GetVulkanFormat(const VertexInputAttribute *sa);
 
-        struct VertexInputAttributeArray
+        struct VertexInputAttributeArray:public Comparator<VertexInputAttributeArray>
         {
             uint count;
             VIA *items;
@@ -95,13 +95,10 @@ namespace hgl
                 return 0;
             }
 
-            int Comp(const VertexInputAttributeArray &saa)const
+            const int compare(const VertexInputAttributeArray &saa)const override
             {
                 return Comp(&saa);
             }
-
-            CompOperator(const VertexInputAttributeArray *,Comp)
-            CompOperator(const VertexInputAttributeArray &,Comp)
 
             bool Init(const uint c=0)
             {

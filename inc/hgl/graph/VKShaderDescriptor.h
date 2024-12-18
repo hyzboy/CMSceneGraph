@@ -11,7 +11,7 @@ namespace hgl
     {
         constexpr size_t DESCRIPTOR_NAME_MAX_LENGTH=32;
 
-        struct ShaderDescriptor
+        struct ShaderDescriptor:public Comparator<ShaderDescriptor>
         {
             char name[DESCRIPTOR_NAME_MAX_LENGTH];
             VkDescriptorType desc_type;
@@ -46,15 +46,13 @@ namespace hgl
 
             virtual ~ShaderDescriptor()=default;
 
-            const int Comp(const ShaderDescriptor &sr)const
+            const int compare(const ShaderDescriptor &sr)const override
             {
                 if(set!=sr.set)return sr.set-set;
                 if(binding!=sr.binding)return sr.binding-binding;
 
                 return strcmp(name,sr.name);
             }
-
-            CompOperator(const ShaderDescriptor &,Comp);
         };//struct ShaderDescriptor
 
         using ShaderDescriptorList=List<ShaderDescriptor *>;

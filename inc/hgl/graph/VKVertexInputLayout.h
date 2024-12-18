@@ -9,7 +9,7 @@ VK_NAMESPACE_BEGIN
 * 顶点输入布局<br>
 * 本对象用于传递给Material,用于已经确定好顶点格式的情况下，依然可修改部分设定(如instance)。
 */
-class VertexInputLayout
+class VertexInputLayout:public Comparator<VertexInputLayout>
 {
 private:
 
@@ -73,9 +73,7 @@ public:
     VkVertexInputBindingDescription *           NewBindListCopy()const{return hgl_new_copy(bind_list,count);}
     VkVertexInputAttributeDescription *         NewAttrListCopy()const{return hgl_new_copy(attr_list,count);}
 
-    const int Comp(const VertexInputLayout *vil)const;
-
-    CompOperator(const VertexInputLayout *,Comp)
+    const int compare(const VertexInputLayout &vil)const override;
 };//class VertexInputLayout
 
 using VIL=VertexInputLayout;

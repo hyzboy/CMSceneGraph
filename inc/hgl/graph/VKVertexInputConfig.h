@@ -1,4 +1,4 @@
-#ifndef HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE
+﻿#ifndef HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE
 #define HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE
 
 #include<hgl/graph/VKFormat.h>
@@ -6,7 +6,7 @@
 #include<hgl/type/Map.h>
 
 VK_NAMESPACE_BEGIN
-struct VAConfig
+struct VAConfig:public ComparatorData<VAConfig>
 {
     VkFormat format;
     VkVertexInputRate input_rate;
@@ -24,11 +24,9 @@ public:
         format=fmt;
         input_rate=ir;
     }
+};//struct VAConfig
 
-    CompOperatorMemcmp(const VAConfig &);
-};
-
-class VILConfig:public Map<AnsiString,VAConfig>
+class VILConfig:public Map<AnsiString,VAConfig>,public Comparator<VILConfig>
 {
 public:
 
@@ -42,7 +40,7 @@ public:
         return Map<AnsiString,VAConfig>::Add(name,VAConfig(fmt,ir));
     }
 
-    int Comp(const VILConfig &vc)const
+    const int compare(const VILConfig &vc)const override
     {
         int off;
 
@@ -57,7 +55,7 @@ public:
             if(!vc.Get((*sp)->key,vac))
                 return(1);
 
-            off=(*sp)->value._Comp(vac);
+            off=(*sp)->value.compare(vac);
             if(off)return(off);
 
             ++sp;
@@ -65,8 +63,6 @@ public:
 
         return 0;
     }
-
-    CompOperator(const VILConfig &,Comp)
 };//class VILConfig:public Map<AnsiString,VAConfig>
 VK_NAMESPACE_END
 #endif//HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE

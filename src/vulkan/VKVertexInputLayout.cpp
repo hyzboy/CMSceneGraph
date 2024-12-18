@@ -20,19 +20,17 @@ VertexInputLayout::~VertexInputLayout()
     delete[] attr_list;
 }
 
-const int VertexInputLayout::Comp(const VertexInputLayout *vil)const
+const int VertexInputLayout::compare(const VertexInputLayout &vil)const
 {
-    if(!vil)return(1);
-
     int result;
 
-    result=count-vil->count;
+    result=count-vil.count;
     if(result)return result;
 
-    result=hgl_cmp(bind_list,vil->bind_list,count);
+    result=hgl_cmp(bind_list,vil.bind_list,count);
     if(result)return result;
 
-    result=hgl_cmp(attr_list,vil->attr_list,count);
+    result=hgl_cmp(attr_list,vil.attr_list,count);
     
     return(result);
 }
