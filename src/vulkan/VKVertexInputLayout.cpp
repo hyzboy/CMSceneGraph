@@ -39,7 +39,7 @@ const int VertexInputLayout::GetIndex(const AnsiString &name)const
 {
     if(name.IsEmpty())return(-1);
 
-    for(int i=0;i<count;i++)
+    for(uint32_t i=0;i<count;i++)
         if(name.Comp(vif_list[i].name)==0)
             return(i);
 
