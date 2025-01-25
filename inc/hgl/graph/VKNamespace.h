@@ -6,5 +6,5 @@
 
 #define VK_NAMESPACE_USING  using namespace VK_NAMESPACE;
 
-#define VK_NAMESPACE_BEGIN  namespace hgl{namespace graph{
-#define VK_NAMESPACE_END    }}
+#define VK_NAMESPACE_BEGIN  namespace hgl::graph{
+#define VK_NAMESPACE_END    }
