@@ -3,7 +3,6 @@
 
 #include<hgl/graph/VKVertexInputFormat.h>
 #include<hgl/type/String.h>
-#include<hgl/type/List.h>
 VK_NAMESPACE_BEGIN
 /**
 * 顶点输入布局<br>

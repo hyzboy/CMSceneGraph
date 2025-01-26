@@ -5,12 +5,14 @@ VertexInputLayout::VertexInputLayout(const uint32_t c)
 {
     count=c;
 
-    bind_list=new VkVertexInputBindingDescription[count];
-    attr_list=new VkVertexInputAttributeDescription[count];
+    bind_list=hgl_zero_new<VkVertexInputBindingDescription>(count);
+    attr_list=hgl_zero_new<VkVertexInputAttributeDescription>(count);
 
-    vif_list=new VertexInputFormat[count];
+    vif_list=hgl_zero_new<VertexInputFormat>(count);
+    hgl_zero(vif_list_by_group);
 
     hgl_zero(count_by_group);
+    hgl_zero(first_binding);
 }
 
 VertexInputLayout::~VertexInputLayout()
