@@ -7,13 +7,10 @@
 #include<hgl/type/List.h>
 #include<hgl/type/String.h>
 
-namespace hgl
+namespace hgl::io
 {
-    namespace io
-    {
-        class DataOutputStream;
-    }
-}
+    class DataOutputStream;
+}//namespace hgl::io
 
 VK_NAMESPACE_BEGIN
 
@@ -22,6 +19,8 @@ constexpr size_t MAX_SAMPLE_MASK_COUNT=(VK_SAMPLE_COUNT_64_BIT+31)/32;
 constexpr size_t VK_DYNAMIC_STATE_RANGE_SIZE=40;
 
 using ShaderStageCreateInfoList=List<VkPipelineShaderStageCreateInfo>;
+
+const bool Compare(const VkGraphicsPipelineCreateInfo *,const VkGraphicsPipelineCreateInfo *);
 
 struct PipelineData
 {
@@ -144,7 +143,7 @@ public:
 
 public:
 
-    bool SaveToStream(io::DataOutputStream *dos);
+    bool SaveToStream(io::DataOutputStream *dos)const;
     bool LoadFromMemory(uchar *,uint);
 };//struct PipelineData
 

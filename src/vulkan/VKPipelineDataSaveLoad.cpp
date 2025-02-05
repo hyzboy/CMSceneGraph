@@ -40,7 +40,7 @@ constexpr size_t PipelineFileHeaderLength=sizeof(PipelineFileHeader)-1;
 
 #define WRITE_AND_CHECK_SIZE(ptr,type)  if(dos->Write(ptr,sizeof(type))!=sizeof(type))return(false);
 
-bool PipelineData::SaveToStream(io::DataOutputStream *dos)
+bool PipelineData::SaveToStream(io::DataOutputStream *dos)const
 {
     if(!dos)return(false);
 
