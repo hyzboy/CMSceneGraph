@@ -1,3 +1,3 @@
-add_executable(PipelineCompiler PipelineCompiler.cpp LoadXMLPipeline.cpp)
+add_executable(PipelineCompiler PipelineCompiler.cpp SavePipeline2Toml.cpp)
 
-target_link_libraries(PipelineCompiler ${HGL_MATH_LIB})
+target_link_libraries(PipelineCompiler ${ULRE})

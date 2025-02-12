@@ -64,6 +64,24 @@ public:
     }
 };//class VkEnumStringList
 
+namespace
+{
+    const char true_string[]="true";
+    const char false_string[]="false";
+}
+
+template<> const char *VkToString(const VkBool32 &value)
+{
+    return value?true_string:false_string;
+}
+
+template<> const VkBool32 VkToEnum(const char *str)
+{
+    if(hgl::stricmp(str,true_string)==0)return VK_TRUE;
+    if(hgl::stricmp(str,false_string)==0)return VK_FALSE;
+    return VK_FALSE;
+}
+
 template<typename E> IVulkanEnumStringList *VkGetEnumStringList();
 
 constexpr const VkEnumString<VkPolygonMode> vk_polygon_mode_list[]=
@@ -178,6 +196,10 @@ constexpr const VkEnumString<VkBlendFactor> vk_blend_factor_list[]=
 {
     {VK_BLEND_FACTOR_ZERO,                      "zero"},
     {VK_BLEND_FACTOR_ONE,                       "one"},
+
+    {VK_BLEND_FACTOR_ZERO,                      "0"},
+    {VK_BLEND_FACTOR_ONE,                       "1"},
+
     {VK_BLEND_FACTOR_SRC_COLOR,                 "src_color"},
     {VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR,       "one_minus_src_color"},
     {VK_BLEND_FACTOR_DST_COLOR,                 "dst_color"},
