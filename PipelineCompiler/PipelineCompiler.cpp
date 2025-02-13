@@ -9,11 +9,11 @@ VK_NAMESPACE::PipelineData *LoadPipeline(const hgl::OSString &filename);
 VK_NAMESPACE_BEGIN
     bool SaveToFile(const OSString &filename,PipelineData *pd);
 
-    std::string SavePipeline2Toml(const PipelineData *data);
+    std::string SavePipelineToToml(const PipelineData *data);
 
     void SaveToToml(const OSString &filename,const PipelineData &pd)
     {
-        std::string str=SavePipeline2Toml(&pd);
+        std::string str=SavePipelineToToml(&pd);
 
         if(hgl::filesystem::SaveMemoryToFile(filename,str.c_str(),str.length())>0)
         {

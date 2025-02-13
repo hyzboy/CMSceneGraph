@@ -73,8 +73,14 @@ namespace
             tv["Back" ]=back;
         }
 
-        tv["MinDepthBounds"     ]=dssci->minDepthBounds;
-        tv["MaxDepthBounds"     ]=dssci->maxDepthBounds;
+        {
+            toml::value depth_bounds;
+
+            depth_bounds["Min"]=dssci->minDepthBounds;
+            depth_bounds["Max"]=dssci->maxDepthBounds;
+
+            tv["DepthBounds"]=depth_bounds;
+        }
     }
 
     void SaveToToml(toml::value &tv,const VkPipelineColorBlendAttachmentState *cbas)
@@ -152,7 +158,7 @@ namespace
     }
 }//namespace
 
-std::string SavePipeline2Toml(const PipelineData *data)
+std::string SavePipelineToToml(const PipelineData *data)
 {
     toml::value result;
 
