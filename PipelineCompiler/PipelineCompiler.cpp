@@ -66,7 +66,6 @@ int os_main(int argc,os_char **argv)
         return 0;
     }
 
-
     //const hgl::OSString xml_filename=argv[1];
 
     //os_out<<OS_TEXT("pipeline filename: ")<<xml_filename.c_str()<<std::endl;

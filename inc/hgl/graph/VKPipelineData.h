@@ -1,5 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
-#define HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE
+﻿#pragma once
 
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/graph/VKPrimitiveType.h>
@@ -153,4 +152,3 @@ public:
  */
 const PipelineData *GetPipelineData(const OSString &filename);
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_PIPELINE_DATA_INCLUDE

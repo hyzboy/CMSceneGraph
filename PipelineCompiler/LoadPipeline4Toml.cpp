@@ -1,5 +1,6 @@
 #include<hgl/graph/VKPipelineData.h>
 #include<hgl/graph/VKString.h>
+#include<hgl/io/LoadString.h>
 #include<toml.hpp>
 
 VK_NAMESPACE_BEGIN
@@ -209,6 +210,20 @@ bool LoadPipelineFromToml(PipelineData *data,const std::string &toml_string)
         LoadFromToml(data,data->color_blend,root["ColorBlend"]);
 
     return(false);
+}
+
+bool LoadPipelineFromTomlFile(PipelineData *pd,const OSString &filename)
+{
+    if(!pd)return(false);
+
+    if(filename.IsEmpty())return(false);
+
+    std::string toml_string;
+
+    if(LoadStringFromTextFile(toml_string,filename)<=0)
+        return(false);
+
+    return LoadPipelineFromToml(pd,toml_string);
 }
 
 VK_NAMESPACE_END
