@@ -33,23 +33,30 @@ VK_NAMESPACE_BEGIN
             return;
         }
 
-        SaveToToml(filesystem::MergeFilename(pathname,OS_TEXT("Solid3D.pipeline.toml")),GetPipelineData(InlinePipeline::Solid3D));
-        SaveToToml(filesystem::MergeFilename(pathname,OS_TEXT("Alpha3D.pipeline.toml")),GetPipelineData(InlinePipeline::Alpha3D));
-        SaveToToml(filesystem::MergeFilename(pathname,OS_TEXT("Solid2D.pipeline.toml")),GetPipelineData(InlinePipeline::Solid2D));
-        SaveToToml(filesystem::MergeFilename(pathname,OS_TEXT("Alpha2D.pipeline.toml")),GetPipelineData(InlinePipeline::Alpha2D));
-        SaveToToml(filesystem::MergeFilename(pathname,OS_TEXT("Sky.pipeline.toml"    )),GetPipelineData(InlinePipeline::Sky));
+    #define SAVE_PIPELINE_TO_FILE(name) SaveToToml(filesystem::MergeFilename(pathname,OS_TEXT(#name) OS_TEXT(".pipeline.toml")),GetPipelineData(InlinePipeline::name));
+
+        SAVE_PIPELINE_TO_FILE(Solid3D)
+        SAVE_PIPELINE_TO_FILE(Alpha3D)
+        SAVE_PIPELINE_TO_FILE(Solid2D)
+        SAVE_PIPELINE_TO_FILE(Alpha2D)
+        SAVE_PIPELINE_TO_FILE(Sky)
+
+    #undef SAVE_PIPELINE_TO_FILE
     }
 VK_NAMESPACE_END
 
 int os_main(int argc,os_char **argv)
 {
-    std::cout<<"PipelineCompiler v1.01 (offical web: "<<HGL_OFFICAL_WEB<<")"<<std::endl<<std::endl;
+    os_out<<OS_TEXT("PipelineCompiler v1.01 (offical web: ")<<HGL_OFFICAL_WEB_OS<<OS_TEXT(")")<<std::endl<<std::endl;
 
     if(argc<2)
     {
-        std::cout<<"example: PipelineCompiler init"<<std::endl;
+        std::cout<<"example: PipelineCompiler init"<<std::endl
+                 <<"         the method should save all inline PipelineData to .toml files."<<std::endl<<std::endl;
             
-        std::cout<<"example: PipelineCompiler [pipeline filename]"<<std::endl<<std::endl;
+        std::cout<<"example: PipelineCompiler [pipeline filename]"<<std::endl
+                 <<"         the method should load the pipeline toml file, and to save a binary pipeline file."<<std::endl<<std::endl;
+
         return 0;
     }
 

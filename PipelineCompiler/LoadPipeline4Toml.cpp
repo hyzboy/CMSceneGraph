@@ -190,24 +190,24 @@ namespace
     }
 }//namespace
 
-bool LoadPipelineFromToml(PipelineData *data,const std::string &toml_string)
+bool LoadPipelineFromToml(PipelineData *pd,const std::string &toml_string)
 {
     toml::value root=toml::parse_str(toml_string);
 
     if(root.contains("Tessellation"))
-        LoadFromToml(data->tessellation,root["Tessellation"]);
+        LoadFromToml(pd->tessellation,root["Tessellation"]);
 
     if(root.contains("Rasterization"))
-        LoadFromToml(data->rasterization,root["Rasterization"]);
+        LoadFromToml(pd->rasterization,root["Rasterization"]);
 
     if(root.contains("Multisample"))
-        LoadFromToml(data->multi_sample,root["Multisample"]);
+        LoadFromToml(pd->multi_sample,root["Multisample"]);
 
     if(root.contains("DepthStencil"))
-        LoadFromToml(data->depth_stencil,root["DepthStencil"]);
+        LoadFromToml(pd->depth_stencil,root["DepthStencil"]);
 
     if(root.contains("ColorBlend"))
-        LoadFromToml(data,data->color_blend,root["ColorBlend"]);
+        LoadFromToml(pd,pd->color_blend,root["ColorBlend"]);
 
     return(false);
 }
