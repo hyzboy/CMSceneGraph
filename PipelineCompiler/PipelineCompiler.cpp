@@ -4,12 +4,14 @@
 #include<hgl/filesystem/FileSystem.h>
 #include<iostream>
 
-VK_NAMESPACE::PipelineData *LoadPipeline(const hgl::OSString &filename);
 
 VK_NAMESPACE_BEGIN
+
+    bool LoadFromFile(const OSString &filename,PipelineData *pd);
     bool SaveToFile(const OSString &filename,PipelineData *pd);
 
     std::string SavePipelineToToml(const PipelineData *data);
+    bool LoadPipelineFromTomlFile(PipelineData *pd,const OSString &filename);
 
     void SaveToToml(const OSString &filename,const PipelineData &pd)
     {
@@ -73,27 +75,40 @@ int os_main(int argc,os_char **argv)
         return 0;
     }
 
-    //const hgl::OSString xml_filename=argv[1];
+    const hgl::OSString toml_filename=argv[1];
 
-    //os_out<<OS_TEXT("pipeline filename: ")<<xml_filename.c_str()<<std::endl;
+    os_out<<OS_TEXT("pipeline filename: ")<<toml_filename.c_str()<<std::endl;
 
-    //VK_NAMESPACE::PipelineData *pd=LoadPipeline(xml_filename);
-    //
-    //if(pd)
-    //{
-    //    const hgl::OSString filename=hgl::filesystem::TrimFileExtName(xml_filename)+OS_TEXT("pipeline");
+    VK_NAMESPACE::PipelineData pd;
 
-    //    os_out<<OS_TEXT("save pipeline file: ")<<filename.c_str()<<std::endl;
+    if(!LoadPipelineFromTomlFile(&pd,toml_filename))
+    {
+        os_err<<OS_TEXT("Load .toml pipeline file failed!")<<std::endl;
+        return(-1);
+    }
 
-    //    if(VK_NAMESPACE::SaveToFile(filename,pd))
-    //        std::cout<<"save ok!"<<std::endl;
-    //    else
-    //        std::cerr<<"save failed!"<<std::endl;
-    //}
-    //else
-    //{
-    //    std::cerr<<"load pipeline xml file failed!"<<std::endl;
-    //}
+    const hgl::OSString ext_pipeline=OS_TEXT("pipeline");
+    const hgl::OSString bin_filename=hgl::filesystem::ReplaceExtName(toml_filename,ext_pipeline);
+
+    os_out<<OS_TEXT("save pipeline file: ")<<bin_filename.c_str()<<std::endl;
+
+    if(!VK_NAMESPACE::SaveToFile(bin_filename,&pd))
+    {
+        std::cerr<<"save failed!"<<std::endl;
+        return -2;
+    }
+
+    std::cout<<"save ok!"<<std::endl;
+
+    VK_NAMESPACE::PipelineData pd2;
+
+    if(!VK_NAMESPACE::LoadFromFile(bin_filename,&pd2))
+    {
+        std::cerr<<"load failed!"<<std::endl;
+        return -3;
+    }
+
+    
 
     return 0;
 }
