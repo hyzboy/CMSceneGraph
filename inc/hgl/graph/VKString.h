@@ -16,7 +16,7 @@ VK_NAMESPACE_BEGIN
 // VkBlendFactor
 // VkBlendOp
 
-template<typename E> const char *VkToString(const E &value);
-template<typename E> const E VkToEnum(const char *);
+template<typename E> const char *VkEnum2String(const E &value);
+template<typename E> const E String2VkEnum(const char *);
 
 VK_NAMESPACE_END

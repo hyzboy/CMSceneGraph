@@ -7,12 +7,12 @@ VK_NAMESPACE_BEGIN
 
 namespace
 {
-    template<typename E> const bool VkToEnum(E &result,toml::value &tv,const char *name)
+    template<typename E> const bool String2VkEnum(E &result,toml::value &tv,const char *name)
     {
         if(!tv.contains(name))
             return(false);
 
-        result=VK_NAMESPACE::VkToEnum<E>(tv[name].as_string().c_str());
+        result=VK_NAMESPACE::String2VkEnum<E>(tv[name].as_string().c_str());
         return(true);
     }
 
@@ -42,9 +42,9 @@ namespace
     {
         VkToBool(rsci->depthClampEnable,        tv,"DepthClamp");
         VkToBool(rsci->rasterizerDiscardEnable, tv,"Discard");
-        VkToEnum(rsci->polygonMode,             tv,"PolygonMode");
-        VkToEnum(rsci->cullMode,                tv,"Cull");
-        VkToEnum(rsci->frontFace,               tv,"FrontFace");
+        String2VkEnum(rsci->polygonMode,             tv,"PolygonMode");
+        String2VkEnum(rsci->cullMode,                tv,"Cull");
+        String2VkEnum(rsci->frontFace,               tv,"FrontFace");
 
         if(tv.contains("DepthBias"))
         {
@@ -76,10 +76,10 @@ namespace
 
     bool LoadFromToml(VkStencilOpState *sos,toml::value &tv)
     {
-        VkToEnum(sos->failOp,      tv,"FailOp");
-        VkToEnum(sos->passOp,      tv,"PassOp");
-        VkToEnum(sos->depthFailOp, tv,"DepthFailOp");
-        VkToEnum(sos->compareOp,   tv,"CompareOp");
+        String2VkEnum(sos->failOp,      tv,"FailOp");
+        String2VkEnum(sos->passOp,      tv,"PassOp");
+        String2VkEnum(sos->depthFailOp, tv,"DepthFailOp");
+        String2VkEnum(sos->compareOp,   tv,"CompareOp");
 
         sos->compareMask=tv["CompareMask"].as_integer();
         sos->writeMask  =tv["WriteMask"  ].as_integer();
@@ -93,7 +93,7 @@ namespace
         dssci->depthTestEnable      =tv["DepthTest"].as_boolean();
         dssci->depthWriteEnable     =tv["DepthWrite"].as_boolean();
 
-        VkToEnum(dssci->depthCompareOp,tv,"DepthCompareOp");
+        String2VkEnum(dssci->depthCompareOp,tv,"DepthCompareOp");
 
         dssci->depthBoundsTestEnable=tv["DepthBounds"].as_boolean();
         dssci->stencilTestEnable    =tv["StencilTest"].as_boolean();
@@ -122,18 +122,18 @@ namespace
         if(tv.contains("Color"))
         {
             toml::value &color=tv["Color"];
-            VkToEnum(cbas->srcColorBlendFactor,color,"Src");
-            VkToEnum(cbas->dstColorBlendFactor,color,"Dst");
-            VkToEnum(cbas->colorBlendOp,       color,"Op");
+            String2VkEnum(cbas->srcColorBlendFactor,color,"Src");
+            String2VkEnum(cbas->dstColorBlendFactor,color,"Dst");
+            String2VkEnum(cbas->colorBlendOp,       color,"Op");
         }
 
         if(tv.contains("Alpha"))
         {
             toml::value &alpha=tv["Alpha"];
         
-            VkToEnum(cbas->srcAlphaBlendFactor,alpha,"Src");
-            VkToEnum(cbas->dstAlphaBlendFactor,alpha,"Dst");
-            VkToEnum(cbas->alphaBlendOp,       alpha,"Op");
+            String2VkEnum(cbas->srcAlphaBlendFactor,alpha,"Src");
+            String2VkEnum(cbas->dstAlphaBlendFactor,alpha,"Dst");
+            String2VkEnum(cbas->alphaBlendOp,       alpha,"Op");
         }
 
         {
@@ -161,7 +161,7 @@ namespace
 
             cbsci->logicOpEnable=logic_op["Enable"].as_boolean();
 
-            VkToEnum(cbsci->logicOp,logic_op,"Op");
+            String2VkEnum(cbsci->logicOp,logic_op,"Op");
         }
 
         if(tv.contains("Attachments"))
