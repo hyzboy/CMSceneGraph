@@ -8,7 +8,7 @@ VK_NAMESPACE_BEGIN
 // the following enum are to support
 
 // VkPolygonMode
-// VkCullModeFlagBits
+
 // VkFrontFace
 // VkStencilOp
 // VkCompareOp
@@ -19,5 +19,8 @@ VK_NAMESPACE_BEGIN
 
 template<typename E> const char *VkEnum2String(const E &value);
 template<typename E> const E String2VkEnum(const char *);
+
+const char *VkCullMode2String(const VkCullModeFlags &);
+const VkCullModeFlags String2VkCullMode(const char *);
 
 VK_NAMESPACE_END

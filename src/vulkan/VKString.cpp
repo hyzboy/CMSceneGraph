@@ -85,6 +85,8 @@ namespace
         {VK_CULL_MODE_FRONT_AND_BACK,       "front_and_back"},
     };
 
+    static VkEnumStringList<VkCullModeFlagBits> VkCullModeFlagBitsESL(vk_cull_mode_list,sizeof(vk_cull_mode_list)/sizeof(VkEnumString<VkCullModeFlagBits>),VK_CULL_MODE_BACK_BIT);
+
     constexpr const VkEnumString<VkFrontFace> vk_front_face_list[]=
     {
         {VK_FRONT_FACE_COUNTER_CLOCKWISE,   "ccw"},
@@ -358,7 +360,6 @@ namespace
     template<> const Vk##VK_TYPE String2VkEnum(const char *str){return (Vk##VK_TYPE)Vk##VK_TYPE##ESL.to(str);}
 
     VK_ENUM_STRING_LIST(PolygonMode,        polygon_mode,   VK_POLYGON_MODE_FILL)
-    VK_ENUM_STRING_LIST(CullModeFlagBits,   cull_mode,      VK_CULL_MODE_BACK_BIT)
     VK_ENUM_STRING_LIST(FrontFace,          front_face,     VK_FRONT_FACE_CLOCKWISE)
     VK_ENUM_STRING_LIST(StencilOp,          stencil_op,     VK_STENCIL_OP_KEEP)
     VK_ENUM_STRING_LIST(CompareOp,          compare_op,     VK_COMPARE_OP_NEVER)
@@ -379,6 +380,16 @@ template<> const VkBool32 String2VkEnum(const char *str)
     if(hgl::stricmp(str,true_string)==0)return VK_TRUE;
     if(hgl::stricmp(str,false_string)==0)return VK_FALSE;
     return VK_FALSE;
+}
+
+const char *VkCullMode2String(const VkCullModeFlags &cull)
+{
+    return VkCullModeFlagBitsESL.to(cull);
+}
+
+const VkCullModeFlags String2VkCullMode(const char *str)
+{
+    return VkCullModeFlagBitsESL.to(str,VK_CULL_MODE_BACK_BIT);
 }
 
 VK_NAMESPACE_END
