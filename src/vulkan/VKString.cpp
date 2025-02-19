@@ -202,21 +202,36 @@ constexpr const VkEnumString<VkBlendFactor> vk_blend_factor_list[]=
 
     {VK_BLEND_FACTOR_SRC_COLOR,                 "src_color"},
     {VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR,       "one_minus_src_color"},
+    {VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR,       "1-src_color"},
+
     {VK_BLEND_FACTOR_DST_COLOR,                 "dst_color"},
     {VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR,       "one_minus_dst_color"},
+    {VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR,       "1-dst_color"},
+
     {VK_BLEND_FACTOR_SRC_ALPHA,                 "src_alpha"},
     {VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,       "one_minus_src_alpha"},
+    {VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,       "1-src_alpha"},
+
     {VK_BLEND_FACTOR_DST_ALPHA,                 "dst_alpha"},
     {VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA,       "one_minus_dst_alpha"},
+    {VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA,       "1-dst_alpha"},
+
     {VK_BLEND_FACTOR_CONSTANT_COLOR,            "constant_color"},
     {VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_COLOR,  "one_minus_constant_color"},
+    {VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_COLOR,  "1-constant_color"},
+
     {VK_BLEND_FACTOR_CONSTANT_ALPHA,            "constant_alpha"},
     {VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_ALPHA,  "one_minus_constant_alpha"},
+    {VK_BLEND_FACTOR_ONE_MINUS_CONSTANT_ALPHA,  "1-constant_alpha"},
+
     {VK_BLEND_FACTOR_SRC_ALPHA_SATURATE,        "src_alpha_saturate"},
     {VK_BLEND_FACTOR_SRC1_COLOR,                "src1_color"},
     {VK_BLEND_FACTOR_ONE_MINUS_SRC1_COLOR,      "one_minus_src1_color"},
+    {VK_BLEND_FACTOR_ONE_MINUS_SRC1_COLOR,      "1-src1_color"},
+
     {VK_BLEND_FACTOR_SRC1_ALPHA,                "src1_alpha"},
     {VK_BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA,      "one_minus_src1_alpha"},
+    {VK_BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA,      "1-src1_alpha"},
 };
 
 VK_ENUM_STRING_LIST(BlendFactor,blend_factor,VK_BLEND_FACTOR_ZERO)
