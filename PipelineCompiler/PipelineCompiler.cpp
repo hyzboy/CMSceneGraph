@@ -89,6 +89,8 @@ int os_main(int argc,os_char **argv)
 
     const hgl::OSString ext_pipeline=OS_TEXT("pipeline");
     const hgl::OSString bin_filename=hgl::filesystem::ReplaceExtName(toml_filename,ext_pipeline);
+    
+    //.pipeline.toml 这样的后缀，使用上面的函数后，会改成成.pipeline.pipeline。这是个问题需要修正。
 
     os_out<<OS_TEXT("save pipeline file: ")<<bin_filename.c_str()<<std::endl;
 

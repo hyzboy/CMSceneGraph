@@ -21,14 +21,22 @@ namespace
         if(!tv.contains(name))
             return;
 
-        char ch=*(tv[name].as_string().c_str());
+        const toml::value &v=tv[name];
 
-        if(ch=='t'||ch=='T'
-         ||ch=='y'||ch=='Y'
-         ||ch=='1')
-            result=VK_TRUE;
+        if(v.is_boolean())
+            result=v.as_boolean();
         else
-            result=VK_FALSE;
+        if(v.is_string())
+        {
+            char ch=*(tv[name].as_string().c_str());
+
+            if(ch=='t'||ch=='T'
+             ||ch=='y'||ch=='Y'
+             ||ch=='1')
+                result=VK_TRUE;
+            else
+                result=VK_FALSE;
+        }
     }
 
     bool LoadFromToml(VkPipelineTessellationStateCreateInfo *tsci,toml::value &tv)
@@ -40,11 +48,12 @@ namespace
 
     bool LoadFromToml(VkPipelineRasterizationStateCreateInfo *rsci,toml::value &tv)
     {
-        VkToBool(rsci->depthClampEnable,        tv,"DepthClamp");
-        VkToBool(rsci->rasterizerDiscardEnable, tv,"Discard");
-        String2VkEnum(rsci->polygonMode,             tv,"PolygonMode");
-        String2VkEnum(rsci->cullMode,                tv,"Cull");
-        String2VkEnum(rsci->frontFace,               tv,"FrontFace");
+        VkToBool(       rsci->depthClampEnable,        tv,"DepthClamp");
+        VkToBool(       rsci->rasterizerDiscardEnable, tv,"Discard");
+        String2VkEnum(  rsci->polygonMode,             tv,"PolygonMode");
+        String2VkEnum(  rsci->frontFace,               tv,"FrontFace");
+
+        rsci->cullMode=String2VkCullMode(tv["Cull"].as_string().c_str());
 
         if(tv.contains("DepthBias"))
         {
@@ -95,7 +104,7 @@ namespace
 
         String2VkEnum(dssci->depthCompareOp,tv,"DepthCompareOp");
 
-        dssci->depthBoundsTestEnable=tv["DepthBounds"].as_boolean();
+        dssci->depthBoundsTestEnable=tv["DepthBoundsTest"].as_boolean();
         dssci->stencilTestEnable    =tv["StencilTest"].as_boolean();
 
         if(tv.contains("DepthBounds"))
@@ -137,7 +146,7 @@ namespace
         }
 
         {
-            std::string &color_mask=tv["WriteMask"].as_string();
+            std::string &color_mask=tv["ColorWriteMask"].as_string();
 
             cbas->colorWriteMask=0;
 
@@ -194,22 +203,32 @@ bool LoadPipelineFromToml(PipelineData *pd,const std::string &toml_string)
 {
     toml::value root=toml::parse_str(toml_string);
 
-    if(root.contains("Tessellation"))
-        LoadFromToml(pd->tessellation,root["Tessellation"]);
+    if(!root.contains("Tessellation"))
+        return(false);
+    if(!LoadFromToml(pd->tessellation,root["Tessellation"]))
+        return(false);
 
-    if(root.contains("Rasterization"))
-        LoadFromToml(pd->rasterization,root["Rasterization"]);
+    if(!root.contains("Rasterization"))
+        return(false);
+    if(!LoadFromToml(pd->rasterization,root["Rasterization"]))
+        return(false);
 
-    if(root.contains("Multisample"))
-        LoadFromToml(pd->multi_sample,root["Multisample"]);
+    if(!root.contains("Multisample"))
+        return(false);
+    if(!LoadFromToml(pd->multi_sample,root["Multisample"]))
+        return(false);
 
-    if(root.contains("DepthStencil"))
-        LoadFromToml(pd->depth_stencil,root["DepthStencil"]);
+    if(!root.contains("DepthStencil"))
+        return(false);
+    if(!LoadFromToml(pd->depth_stencil,root["DepthStencil"]))
+        return(false);
 
-    if(root.contains("ColorBlend"))
-        LoadFromToml(pd,pd->color_blend,root["ColorBlend"]);
+    if(!root.contains("ColorBlend"))
+        return(false);
+    if(!LoadFromToml(pd,pd->color_blend,root["ColorBlend"]))
+        return(false);
 
-    return(false);
+    return(true);
 }
 
 bool LoadPipelineFromTomlFile(PipelineData *pd,const OSString &filename)

@@ -13,16 +13,16 @@ namespace
 
     void SaveToToml(toml::value &tv,const VkPipelineRasterizationStateCreateInfo *rsci)
     {
-        tv["DepthClamp" ]=VkEnum2String(rsci->depthClampEnable);
-        tv["Discard"    ]=VkEnum2String(rsci->rasterizerDiscardEnable);
+        tv["DepthClamp" ]=bool(rsci->depthClampEnable);
+        tv["Discard"    ]=bool(rsci->rasterizerDiscardEnable);
         tv["PolygonMode"]=VkEnum2String(rsci->polygonMode);
-        tv["Cull"       ]=VkEnum2String(rsci->cullMode);
+        tv["Cull"       ]=VkCullMode2String(rsci->cullMode);
         tv["FrontFace"  ]=VkEnum2String(rsci->frontFace);
 
         {
             toml::value depth_bias;
 
-            depth_bias["Enable"          ]=VkEnum2String(rsci->depthBiasEnable);
+            depth_bias["Enable"          ]=bool(rsci->depthBiasEnable);
             depth_bias["ConstantFactor"  ]=rsci->depthBiasConstantFactor;
             depth_bias["Clamp"           ]=rsci->depthBiasClamp;
             depth_bias["SlopeFactor"     ]=rsci->depthBiasSlopeFactor;
@@ -36,13 +36,13 @@ namespace
     void SaveToToml(toml::value &tv,const VkPipelineMultisampleStateCreateInfo *msci)
     {
         tv["Samples"            ]=(uint)msci->rasterizationSamples;
-        tv["SampleShading"      ]=VkEnum2String(msci->sampleShadingEnable);
+        tv["SampleShading"      ]=bool(msci->sampleShadingEnable);
         tv["MinSampleShading"   ]=msci->minSampleShading;
 
         //tv["SampleMask"]
 
-        tv["AlphaToCoverage"    ]=VkEnum2String(msci->alphaToCoverageEnable);
-        tv["AlphaToOne"         ]=VkEnum2String(msci->alphaToOneEnable);
+        tv["AlphaToCoverage"    ]=bool(msci->alphaToCoverageEnable);
+        tv["AlphaToOne"         ]=bool(msci->alphaToOneEnable);
     }
 
     void SaveToToml(toml::value &tv,const VkStencilOpState *sos)
@@ -58,11 +58,11 @@ namespace
 
     void SaveToToml(toml::value &tv,const VkPipelineDepthStencilStateCreateInfo *dssci)
     {
-        tv["DepthTest"          ]=VkEnum2String(dssci->depthTestEnable);
-        tv["DepthWrite"         ]=VkEnum2String(dssci->depthWriteEnable);
+        tv["DepthTest"          ]=bool(dssci->depthTestEnable);
+        tv["DepthWrite"         ]=bool(dssci->depthWriteEnable);
         tv["DepthCompareOp"     ]=VkEnum2String(dssci->depthCompareOp);
-        tv["DepthBounds"        ]=VkEnum2String(dssci->depthBoundsTestEnable);
-        tv["StencilTest"        ]=VkEnum2String(dssci->stencilTestEnable);
+        tv["DepthBoundsTest"    ]=bool(dssci->depthBoundsTestEnable);
+        tv["StencilTest"        ]=bool(dssci->stencilTestEnable);
         {
             toml::value front,back;
 
@@ -85,7 +85,7 @@ namespace
 
     void SaveToToml(toml::value &tv,const VkPipelineColorBlendAttachmentState *cbas)
     {
-        tv["Enable"        ]=VkEnum2String(cbas->blendEnable);
+        tv["Enable"        ]=bool(cbas->blendEnable);
 
         {
             toml::value color;
@@ -128,7 +128,7 @@ namespace
         {
             toml::value logic_op;
 
-            logic_op["Enable"   ]=VkEnum2String(cbsci->logicOpEnable);
+            logic_op["Enable"   ]=bool(cbsci->logicOpEnable);
             logic_op["Op"       ]=VkEnum2String(cbsci->logicOp);
 
             tv["LogicOp"]=logic_op;
