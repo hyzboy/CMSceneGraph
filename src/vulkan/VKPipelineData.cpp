@@ -228,15 +228,39 @@ void PipelineData::SetColorAttachments(const uint32_t count)
 
 PipelineData::PipelineData()
 {
+    file_data=nullptr;
+
     hgl_zero(pipeline_info);
     pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 
     pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
     pipeline_info.basePipelineIndex = -1;
 
+    vertex_input_attribute_description=nullptr;
+    vertex_input_binding_description=nullptr;
+
     sample_mask=nullptr;
-    color_blend_attachments=nullptr;
    
+    tessellation              =hgl_zero_new<VkPipelineTessellationStateCreateInfo>();
+    rasterization             =hgl_zero_new<VkPipelineRasterizationStateCreateInfo>();
+    multi_sample              =hgl_zero_new<VkPipelineMultisampleStateCreateInfo>();
+    sample_mask               =hgl_zero_new<VkSampleMask>(VK_NAMESPACE::MAX_SAMPLE_MASK_COUNT);
+    multi_sample->pSampleMask =nullptr;
+    
+    depth_stencil             =hgl_zero_new<VkPipelineDepthStencilStateCreateInfo>();
+    color_blend               =hgl_zero_new<VkPipelineColorBlendStateCreateInfo>();
+
+    InitColorBlend(32);//暂时不可能MRT输出32个，就这样了
+    
+    pipeline_info.pTessellationState =tessellation;
+    pipeline_info.pRasterizationState=rasterization;
+    pipeline_info.pMultisampleState  =multi_sample;
+    pipeline_info.pDepthStencilState =depth_stencil;
+    pipeline_info.pColorBlendState   =color_blend;
+    
+    alpha_test=0;
+    alpha_blend=false;
+
     InitViewportState();
 }
 

@@ -5,6 +5,7 @@
 #include<hgl/graph/VKVertexInputLayout.h>
 #include<hgl/type/List.h>
 #include<hgl/type/String.h>
+#include<cmath>
 
 namespace hgl::io
 {
@@ -13,9 +14,9 @@ namespace hgl::io
 
 VK_NAMESPACE_BEGIN
 
-constexpr size_t MAX_SAMPLE_MASK_COUNT=(VK_SAMPLE_COUNT_64_BIT+31)/32;
+const size_t MAX_SAMPLE_MASK_COUNT=VK_SAMPLE_COUNT_64_BIT;
 
-constexpr size_t VK_DYNAMIC_STATE_RANGE_SIZE=40;
+const size_t VK_DYNAMIC_STATE_RANGE_SIZE=40;
 
 using ShaderStageCreateInfoList=List<VkPipelineShaderStageCreateInfo>;
 

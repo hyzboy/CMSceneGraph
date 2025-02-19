@@ -555,28 +555,6 @@ namespace
 VK_NAMESPACE::PipelineData *LoadPipeline(const hgl::OSString &filename)
 {
     VK_NAMESPACE::PipelineData *data=new VK_NAMESPACE::PipelineData;
-    {
-        data->tessellation              =hgl_zero_new<VkPipelineTessellationStateCreateInfo>();
-        data->rasterization             =hgl_zero_new<VkPipelineRasterizationStateCreateInfo>();
-        data->multi_sample              =hgl_zero_new<VkPipelineMultisampleStateCreateInfo>();
-        data->sample_mask               =hgl_zero_new<VkSampleMask>(VK_NAMESPACE::MAX_SAMPLE_MASK_COUNT);
-        data->multi_sample->pSampleMask =nullptr;
-    
-        data->depth_stencil             =hgl_zero_new<VkPipelineDepthStencilStateCreateInfo>();
-        data->color_blend               =hgl_zero_new<VkPipelineColorBlendStateCreateInfo>();
-
-        data->color_blend_attachments   =hgl_zero_new<VkPipelineColorBlendAttachmentState>(32);      //暂时不可能MRT输出32个，就这样了
-        data->color_blend->pAttachments=data->color_blend_attachments;
-        
-        data->pipeline_info.pTessellationState =data->tessellation;
-        data->pipeline_info.pRasterizationState=data->rasterization;
-        data->pipeline_info.pMultisampleState  =data->multi_sample;
-        data->pipeline_info.pDepthStencilState =data->depth_stencil;
-        data->pipeline_info.pColorBlendState   =data->color_blend;
-        
-        data->alpha_test=0;
-        data->alpha_blend=false;
-    }
 
     RootElementCreater root_ec(data);
     xml::ElementParseCreater epc(&root_ec);
