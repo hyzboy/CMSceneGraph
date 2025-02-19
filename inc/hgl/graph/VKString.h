@@ -15,6 +15,7 @@ VK_NAMESPACE_BEGIN
 // VkLogicOp
 // VkBlendFactor
 // VkBlendOp
+// VkDynamicState
 
 template<typename E> const char *VkEnum2String(const E &value);
 template<typename E> const E String2VkEnum(const char *);
