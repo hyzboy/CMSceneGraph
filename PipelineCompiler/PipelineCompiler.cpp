@@ -4,7 +4,6 @@
 #include<hgl/filesystem/FileSystem.h>
 #include<iostream>
 
-
 VK_NAMESPACE_BEGIN
 
     bool LoadFromFile(const OSString &filename,PipelineData *pd);
@@ -12,6 +11,8 @@ VK_NAMESPACE_BEGIN
 
     std::string SavePipelineToToml(const PipelineData *data);
     bool LoadPipelineFromTomlFile(PipelineData *pd,const OSString &filename);
+
+    bool Compare(const PipelineData *pd1,const PipelineData *pd2);
 
     void SaveToToml(const OSString &filename,const PipelineData &pd)
     {
@@ -88,9 +89,7 @@ int os_main(int argc,os_char **argv)
     }
 
     const hgl::OSString ext_pipeline=OS_TEXT("pipeline");
-    const hgl::OSString bin_filename=hgl::filesystem::ReplaceExtName(toml_filename,ext_pipeline);
-    
-    //.pipeline.toml 这样的后缀，使用上面的函数后，会改成成.pipeline.pipeline。这是个问题需要修正。
+    const hgl::OSString bin_filename=hgl::filesystem::ReplaceExtName(toml_filename,ext_pipeline,OS_TEXT('.'),false);
 
     os_out<<OS_TEXT("save pipeline file: ")<<bin_filename.c_str()<<std::endl;
 
@@ -110,7 +109,15 @@ int os_main(int argc,os_char **argv)
         return -3;
     }
 
-    
+    if(VK_NAMESPACE::Compare(&pd,&pd2))
+    {
+        std::cout<<"compare ok!"<<std::endl;
+    }
+    else
+    {
+        std::cerr<<"compare failed!"<<std::endl;
+        return -4;
+    }
 
     return 0;
 }
