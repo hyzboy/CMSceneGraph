@@ -1,5 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_DESCRIPTOR_SET_TYPE_INCLUDE
-#define HGL_GRAPH_VULKAN_DESCRIPTOR_SET_TYPE_INCLUDE
+﻿#pragma once
 
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/type/StrChar.h>
@@ -46,7 +45,9 @@ enum class DescriptorSetType
 {
     Unknow=0,           ///<未分类的
 
-    Static,             ///<静态数据，基本上是不会变的(如Viewport数据)
+    RenderTarget,       ///<所有的RenderTarget相关数据
+
+    Static,             ///<静态数据，基本上是不会变的
 
     Global,             ///<全局参数，不确定什么时候更新，但一般不怎么更新(如太阳光), 不会在RenderList中处理刷新
 
@@ -64,6 +65,9 @@ constexpr const size_t DESCRIPTOR_SET_TYPE_COUNT=size_t(DescriptorSetType::RANGE
 constexpr const char *DescriptSetTypeName[]=
 {
     "Unknow",
+
+    "RenderTarget",
+
     "Static",
     "Global",
     "PerFrame",
@@ -92,4 +96,3 @@ inline const DescriptorSetType GetDescriptorSetType(const char *str)
 }
 
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_DESCRIPTOR_SET_TYPE_INCLUDE
