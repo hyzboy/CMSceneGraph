@@ -55,7 +55,7 @@ namespace hgl
             }
         };//struct ShaderDescriptor
 
-        using ShaderDescriptorList=List<ShaderDescriptor *>;
+        using ShaderDescriptorList=ArrayList<ShaderDescriptor *>;
 
         struct UBODescriptor:public ShaderDescriptor
         {

@@ -18,7 +18,7 @@ const size_t MAX_SAMPLE_MASK_COUNT=VK_SAMPLE_COUNT_64_BIT;
 
 const size_t VK_DYNAMIC_STATE_RANGE_SIZE=40;
 
-using ShaderStageCreateInfoList=List<VkPipelineShaderStageCreateInfo>;
+using ShaderStageCreateInfoList=ArrayList<VkPipelineShaderStageCreateInfo>;
 
 const bool Compare(const VkGraphicsPipelineCreateInfo *,const VkGraphicsPipelineCreateInfo *);
 

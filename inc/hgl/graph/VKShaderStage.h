@@ -36,7 +36,7 @@ namespace hgl
 
         using VIA=VertexInputAttribute;
 
-        using VIAList=List<VIA>;
+        using VIAList=ArrayList<VIA>;
 
         inline const AnsiString GetShaderAttributeTypename(const VertexInputAttribute *ss)
         {
