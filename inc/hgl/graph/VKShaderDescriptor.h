@@ -2,7 +2,7 @@
 #define HGL_GRAPH_SHADER_DESCRIPTOR_INCLUDE
 
 #include<hgl/type/String.h>
-#include<hgl/type/List.h>
+#include<hgl/type/ArrayList.h>
 #include<hgl/graph/VKDescriptorSetType.h>
 
 namespace hgl

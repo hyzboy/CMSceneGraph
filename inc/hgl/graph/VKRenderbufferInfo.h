@@ -1,7 +1,7 @@
 #ifndef HGL_GRAPH_VULKAN_RENDER_BUFFER_INFO
 #define HGL_GRAPH_VULKAN_RENDER_BUFFER_INFO
 
-#include<hgl/type/List.h>
+#include<hgl/type/ArrayList.h>
 #include<hgl/graph/VKFormat.h>
 
 VK_NAMESPACE_BEGIN
