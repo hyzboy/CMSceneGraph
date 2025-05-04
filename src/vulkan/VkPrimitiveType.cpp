@@ -9,10 +9,10 @@ namespace
     {
         const char *name;
         const int   len;
-        Prim        prim;
+        PrimitiveType        prim;
     };
 
-    #define PRIM_NAME(L,S) {S,sizeof(S)-1,Prim::L}
+    #define PRIM_NAME(L,S) {S,sizeof(S)-1,PrimitiveType::L}
 
     constexpr const PrimitiveNameInfo PrimitiveInfoList[]=
     {
@@ -41,7 +41,7 @@ namespace hgl
 {
     namespace graph
     {
-const char *GetPrimName(const Prim &prim)
+const char *GetPrimName(const PrimitiveType &prim)
 {
     for(const auto &pni:PrimitiveInfoList)
         if(pni.prim==prim)
@@ -50,9 +50,9 @@ const char *GetPrimName(const Prim &prim)
     return nullptr;
 }
 
-const Prim ParsePrimName(const char *name,int len)
+const PrimitiveType ParsePrimitiveType(const char *name,int len)
 {
-    if(!name||!*name)return Prim::Error;
+    if(!name||!*name)return PrimitiveType::Error;
 
     if(len==0)
         len=hgl::strlen(name);
@@ -63,25 +63,25 @@ const Prim ParsePrimName(const char *name,int len)
             return pni.prim;
     }
 
-    return Prim::Error;
+    return PrimitiveType::Error;
 }
 
-bool CheckGeometryShaderIn(const Prim &ip)
+bool CheckGeometryShaderIn(const PrimitiveType &ip)
 {
-    if(ip==Prim::Points)return(true);
-    if(ip==Prim::Lines)return(true);
-    if(ip==Prim::LinesAdj)return(true);
-    if(ip==Prim::Triangles)return(true);
-    if(ip==Prim::TrianglesAdj)return(true);
+    if(ip==PrimitiveType::Points)return(true);
+    if(ip==PrimitiveType::Lines)return(true);
+    if(ip==PrimitiveType::LinesAdj)return(true);
+    if(ip==PrimitiveType::Triangles)return(true);
+    if(ip==PrimitiveType::TrianglesAdj)return(true);
 
     return(false);
 }
 
-bool CheckGeometryShaderOut(const Prim &op)
+bool CheckGeometryShaderOut(const PrimitiveType &op)
 {
-    if(op==Prim::Points)return(true);
-    if(op==Prim::LineStrip)return(true);
-    if(op==Prim::TriangleStrip)return(true);
+    if(op==PrimitiveType::Points)return(true);
+    if(op==PrimitiveType::LineStrip)return(true);
+    if(op==PrimitiveType::TriangleStrip)return(true);
 
     return(false);
 }

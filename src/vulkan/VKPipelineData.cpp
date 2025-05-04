@@ -292,19 +292,19 @@ namespace
     struct ComplexPrimitiveTopologyToOrigin
     {
         VkPrimitiveTopology vk_prim;
-        Prim prim;
+        PrimitiveType prim;
     };
 
     constexpr const ComplexPrimitiveTopologyToOrigin ComplexPrimitiveTopologyToOriginList[]=
     {
-        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::SolidRectangles},
-        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::SolidCircles},
-        {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   Prim::WireRectangles},
-        {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   Prim::WireCircles},
-        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  Prim::Billboard}
+        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  PrimitiveType::SolidRectangles},
+        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  PrimitiveType::SolidCircles},
+        {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   PrimitiveType::WireRectangles},
+        {VK_PRIMITIVE_TOPOLOGY_LINE_LIST,   PrimitiveType::WireCircles},
+        {VK_PRIMITIVE_TOPOLOGY_POINT_LIST,  PrimitiveType::Billboard}
     };
 
-    const VkPrimitiveTopology GetVkPrimitive(const Prim &p)
+    const VkPrimitiveTopology GetVkPrimitive(const PrimitiveType &p)
     {
         if(RangeCheck(p))
             return VkPrimitiveTopology(p);
@@ -317,7 +317,7 @@ namespace
     }
 }//namespace
 
-bool PipelineData::SetPrim(const Prim topology,bool prim_restart)
+bool PipelineData::SetPrim(const PrimitiveType topology,bool prim_restart)
 {
     VkPrimitiveTopology prim=GetVkPrimitive(topology);
 
