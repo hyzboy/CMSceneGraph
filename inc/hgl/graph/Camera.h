@@ -3,21 +3,11 @@
 
 #include<hgl/graph/ViewportInfo.h>
 #include<hgl/graph/CameraInfo.h>
+
 namespace hgl
 {
     namespace graph
     {
-        /**
-         * 曝光控制
-         */
-        struct ExposureControl
-        {
-            float aperture      =1.0f;          ///<光圈
-            float shutter       =1.0f/8.0f;     ///<快门时间(秒)
-            float iso           =800.0f;
-            float exposure      =0.0f;
-        };
-
         /**
          * 摄像机数据结构
          */
