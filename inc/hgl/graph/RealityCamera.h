@@ -75,7 +75,7 @@ namespace hgl::graph
             float       focal_length    =50.0f;         ///<焦距(毫米)
             float       focus_distance  =1000.0f;       ///<对焦距离(毫米)
 
-            float       aperture        =1.0f;          ///<光圈(fnumber)
+            float       aperture        =1.0f;          ///<光圈(Fnumber)
             float       shutter         =1.0f/8.0f;     ///<快门时间(秒)
             float       iso             =800.0f;        ///<ISO感光度
             float       exposure        =0.0f;          ///<曝光补偿(单位：EV)
