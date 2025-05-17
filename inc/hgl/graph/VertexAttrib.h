@@ -145,7 +145,7 @@ namespace hgl
          */
         namespace VertexAttribName
         {
-        #define VAN_DEFINE(name)    constexpr char name[]=#name;
+        #define VAN_DEFINE(name)    constexpr const char name[]=#name;
             VAN_DEFINE(Position)
             VAN_DEFINE(Normal)
             VAN_DEFINE(Tangent)
@@ -163,6 +163,10 @@ namespace hgl
 
             VAN_DEFINE(JointID)
             VAN_DEFINE(JointWeight)
+
+            VAN_DEFINE(LeftTop)
+            VAN_DEFINE(WidthHeight)
+            VAN_DEFINE(RightBottom)
         #undef VAN_DEFINE
         }//namespace VertexAttribName
 

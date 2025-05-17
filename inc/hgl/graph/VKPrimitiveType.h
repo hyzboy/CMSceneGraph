@@ -21,7 +21,7 @@ namespace hgl::graph
         Patchs,
 
         //2D元素
-        SolidRectangles=0x100,              ///<实心矩形(并非原生支持。以画点形式在每个点的Position中传递Left,Top,Right,bottom。在Geometry Shader中转换为2个三角形。用于2D游戏或UI)
+        SolidRectangles=0x100,              ///<实心矩形(并非原生支持。以画点形式在每个点的Position中传递Left,Top,Right,Bottom。在Geometry Shader中转换为2个三角形。用于2D游戏或UI)
                                             //下一步计划改为Position中只传递Left,Top，改在Size中传递Width,Height
 
         SolidCircles,                       ///<实心圆(以画点形式在Position中指定圆心，名为Size的VAB中指定半径)
