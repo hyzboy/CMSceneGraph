@@ -1,52 +1,63 @@
-#ifndef HGL_GRAPH_CAMERA_CONTROL_INCLUDE
-#define HGL_GRAPH_CAMERA_CONTROL_INCLUDE
+#pragma once
 
 #include<hgl/graph/Camera.h>
-namespace hgl
+#include<hgl/graph/VKBuffer.h>
+#include<hgl/type/IDName.h>
+
+namespace hgl::graph
 {
-    namespace graph
+    using UBOCameraInfo=DeviceBufferMap<CameraInfo>;
+
+    HGL_DEFINE_IDNAME(CameraControlIDName,   char)
+
+    class CameraControl
     {
-        class CameraControl
+    protected:
+
+        ViewportInfo *vi;
+        Camera *camera;
+
+        UBOCameraInfo *ubo_camera_info;
+        CameraInfo *camera_info;
+        DescriptorBinding *desc_binding_camera;
+
+    public:
+
+        virtual const CameraControlIDName GetControlName()const=0;
+
+    public:
+
+        CameraControl(ViewportInfo *v,Camera *c,UBOCameraInfo *ci);
+
+        virtual ~CameraControl();
+
+        void SetViewport(ViewportInfo *i)
         {
-        protected:
+            vi=i;
+        }
 
-            ViewportInfo *vi;
-            Camera *camera;
-            CameraInfo camera_info;
+        void SetCamera(Camera *c)
+        {
+            camera=c;
+        }
 
-        public:
+        void ZoomFOV(int adjust)
+        {
+            constexpr float MinFOV=10;
+            constexpr float MaxFOV=180;
 
-            CameraControl(ViewportInfo *v,Camera *c)
-            {
-                vi=v;
-                camera=c;
-            }
+            camera->Yfov+=float(adjust)/10.0f;
 
-            void SetViewport(ViewportInfo *i)
-            {
-                vi=i;
-            }
+            if(adjust<0&&camera->Yfov<MinFOV)camera->Yfov=MinFOV;else
+            if(adjust>0&&camera->Yfov>MaxFOV)camera->Yfov=MaxFOV;
+        }
 
-            void SetCamera(Camera *c)
-            {
-                camera=c;
-            }
+        ViewportInfo *      GetViewportInfo     (){return vi;}
+        Camera *            GetCamera           (){return camera;}
+        CameraInfo *        GetCameraInfo       (){return camera_info;}
 
-            void ZoomFOV(int adjust)
-            {
-                constexpr float MinFOV=10;
-                constexpr float MaxFOV=180;
+        DescriptorBinding * GetDescriptorBinding(){return desc_binding_camera;}
 
-                camera->Yfov+=float(adjust)/10.0f;
-
-                if(adjust<0&&camera->Yfov<MinFOV)camera->Yfov=MinFOV;else
-                if(adjust>0&&camera->Yfov>MaxFOV)camera->Yfov=MaxFOV;
-            }
-
-            CameraInfo *GetCameraInfo(){return &camera_info;}
-
-            virtual void Refresh()=0;
-        };//class CameraControl
-    }//namespace graph
-}//namespace hgl
-#endif//HGL_GRAPH_CAMERA_CONTROL_INCLUDE
+        virtual void Refresh()=0;
+    };//class CameraControl
+}//namespace hgl::graph
