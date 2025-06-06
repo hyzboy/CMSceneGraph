@@ -47,6 +47,8 @@ enum class DescriptorSetType
 
     RenderTarget,       ///<所有的RenderTarget相关数据(包括Viewport，显示器HDR参数等等)
 
+    Camera,             ///<相机相关
+
     Scene,              ///<场景数据，基本不怎么刷新的的数据(如天空球、太阳/月亮等)
 
     Static,             ///<静态数据，基本上是不会变的
@@ -69,6 +71,8 @@ constexpr const char *DescriptSetTypeName[]=
     "Unknow",
 
     "RenderTarget",
+
+    "Camera",
 
     "Scene",
 
