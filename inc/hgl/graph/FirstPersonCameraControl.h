@@ -6,6 +6,10 @@
  */
 
 #include<hgl/graph/CameraControl.h>
+#include<hgl/io/event/KeyboardEvent.h>
+#include<hgl/io/event/MouseEvent.h>
+#include<hgl/Time.h>
+
 namespace hgl::graph
 {
     class FirstPersonCameraControl:public CameraControl
@@ -28,7 +32,7 @@ namespace hgl::graph
 
         static CameraControlIDName StaticControlName()
         {
-            static CameraControlIDName FPCC("FPCameraControl");
+            static CameraControlIDName FPCC("FirstPersonCameraControl");
 
             return FPCC;
         }
@@ -141,4 +145,127 @@ namespace hgl::graph
             camera->pos+=delta;
         }
     };//class FirstPersonCameraControl:public CameraControl
-}//hgl::namespace graph
+
+    class CameraKeyboardControl:public io::KeyboardStateEvent
+    {
+        FirstPersonCameraControl *camera;
+        float move_speed;
+
+    public:
+
+        CameraKeyboardControl(FirstPersonCameraControl *wc)
+        {
+            camera=wc;
+            move_speed=1.0f;
+        }
+
+        bool OnPressed(const io::KeyboardButton &kb)override
+        {
+            if(!KeyboardStateEvent::OnPressed(kb))
+                return(false);
+
+            if(kb==io::KeyboardButton::Minus    )move_speed*=0.9f;else
+            if(kb==io::KeyboardButton::Equals   )move_speed*=1.1f;
+
+            return(true);
+        }
+
+        bool Update() override
+        {
+            if(HasPressed(io::KeyboardButton::W     ))camera->Forward   (move_speed);else
+            if(HasPressed(io::KeyboardButton::S     ))camera->Backward  (move_speed);else
+            if(HasPressed(io::KeyboardButton::A     ))camera->Left      (move_speed);else
+            if(HasPressed(io::KeyboardButton::D     ))camera->Right     (move_speed);else
+            //if(HasPressed(io::KeyboardButton::R     ))camera->Up        (move_speed);else
+            //if(HasPressed(io::KeyboardButton::F     ))camera->Down      (move_speed);else
+
+            //if(HasPressed(io::KeyboardButton::Left  ))camera->HoriRotate( move_speed);else
+            //if(HasPressed(io::KeyboardButton::Right ))camera->HoriRotate(-move_speed);else
+            //if(HasPressed(io::KeyboardButton::Up    ))camera->VertRotate( move_speed);else
+            //if(HasPressed(io::KeyboardButton::Down  ))camera->VertRotate(-move_speed);else
+                return(true);
+
+            return(true);
+        }
+    };//class CameraKeyboardControl:public io::KeyboardStateEvent
+
+    class CameraMouseControl:public io::MouseEvent
+    {
+        FirstPersonCameraControl *camera;
+        double cur_time;
+        double last_time;
+
+        Vector2f mouse_pos;
+        Vector2f mouse_last_pos;
+
+    protected:
+
+        bool OnPressed(int x,int y,io::MouseButton) override
+        {
+            mouse_last_pos.x=x;
+            mouse_last_pos.y=y;
+
+            last_time=cur_time;
+
+            return(true);
+        }
+    
+        bool OnWheel(int,int y) override
+        {
+            if(y==0)return(false);
+
+            camera->Forward(float(y)/10.0f);
+
+            return(true);
+        }
+
+        bool OnMove(int x,int y) override
+        {
+            mouse_pos.x=x;
+            mouse_pos.y=y;
+
+            bool left =HasPressed(io::MouseButton::Left);
+            bool right=HasPressed(io::MouseButton::Right);
+        
+            Vector2f pos(x,y);
+            Vector2f gap=pos-mouse_last_pos;
+        
+            if(left)
+            {
+                gap/=-5.0f;
+
+                camera->Rotate(gap);
+            }
+            else
+            if(right)
+            {
+                gap/=10.0f;
+
+                camera->Move(Vector3f(gap.x,0,gap.y));
+            }
+
+            last_time=cur_time;
+            mouse_last_pos=Vector2f(x,y);
+
+            return(true);
+        }
+
+    public:
+
+        CameraMouseControl(FirstPersonCameraControl *wc)
+        {
+            camera=wc;
+            cur_time=0;
+            last_time=0;
+        }
+
+        const Vector2f &GetMouseCoord()const{return mouse_pos;}
+
+        bool Update() override
+        {
+            cur_time=GetPreciseTime();
+
+            return(true);
+        }
+    };//class CameraMouseControl:public io::MouseEvent
+}//namespace hgl::graph
