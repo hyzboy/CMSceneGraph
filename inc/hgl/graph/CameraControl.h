@@ -6,7 +6,7 @@
 
 namespace hgl::graph
 {
-    using UBOCameraInfo=DeviceBufferMap<CameraInfo>;
+    using UBOCameraInfo=UBOInstance<CameraInfo>;
 
     HGL_DEFINE_IDNAME(CameraControlIDName,   char)
 
