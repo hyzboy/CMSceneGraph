@@ -41,6 +41,14 @@ namespace hgl::graph
             camera=c;
         }
 
+        void SetPosition(const Vector3f &p)
+        {
+            if(camera)
+                camera->pos=p;
+        }
+
+        virtual void SetTarget(const Vector3f &t)=0;
+
         void ZoomFOV(int adjust)
         {
             constexpr float MinFOV=10;

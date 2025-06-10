@@ -67,7 +67,7 @@ namespace hgl::graph
             ReverseDirection.y=y?-1:1;
         }
 
-        void SetTarget(const Vector3f &t)
+        void SetTarget(const Vector3f &t) override
         {
             front   =normalize(t-camera->pos);
             right   =normalize(cross(front,camera->world_up));
