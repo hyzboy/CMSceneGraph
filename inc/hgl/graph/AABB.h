@@ -80,7 +80,7 @@ namespace hgl::graph
         void Enclose(const AABB &box)
         {
             SetMinMax(MinVector(minPoint,box.minPoint)
-                        ,MaxVector(maxPoint,box.maxPoint));
+                     ,MaxVector(maxPoint,box.maxPoint));
         }
 
         const Plane &GetFacePlanes(int i)const{return planes[i];}
