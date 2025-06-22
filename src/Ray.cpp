@@ -196,7 +196,7 @@ namespace hgl::graph
     {
         // 计算射线与平面的交点
         float denom = dot(normal, direction);
-        if (fabs(denom) < 1e-6) return false; // 射线与平面平行
+        if(IsNearlyZero(denom)) return false; // 射线与平面平行
 
         float t = dot(normal, center - origin) / denom;
         if (t < 0) return false; // 平面在射线的反方向
