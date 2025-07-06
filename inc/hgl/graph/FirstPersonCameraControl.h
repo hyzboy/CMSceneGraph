@@ -54,7 +54,7 @@ namespace hgl::graph
             yaw  =deg2rad(-90.0f);
             roll =0;
 
-            ReverseDirection.x=1;
+            ReverseDirection.x=-1;
             ReverseDirection.y=1;
 
             UpdateCameraVector();
@@ -214,7 +214,7 @@ namespace hgl::graph
         {
             if(y==0)return(false);
 
-            camera->Forward(float(y)/10.0f);
+            camera->Forward(float(y)/100.0f);
 
             return(true);
         }
