@@ -87,7 +87,7 @@ namespace hgl::graph
         {
             target=camera->pos+front*distance;
 
-            camera_info->view       =lookat(camera->pos,target,camera->world_up);
+            camera_info->view       =LookAtMatrix(camera->pos,target,camera->world_up);
 
             RefreshCameraInfo(camera_info,vi,camera);
 
