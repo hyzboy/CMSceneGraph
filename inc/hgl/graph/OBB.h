@@ -14,7 +14,7 @@ namespace hgl::graph
     class OBB
     {
         Vector3f center;
-        Vector3f axis[3];
+        Matrix3f axis;  ///<轴矩阵
         Vector3f half_length;
 
         Plane planes[6];
@@ -27,16 +27,16 @@ namespace hgl::graph
 
         const Vector3f &GetCenter()const{return center;}
         const Vector3f &GetAxis(int n)const{return axis[n];}
+        const Matrix3f &GetRotationMatrix()const{return axis;}
         const Vector3f &GetHalfExtend()const{return half_length;}
 
-        const Matrix4f &GetRotationMatrix()const
+        const Matrix4f GetMatrix(const float cube_size=1.0f)const
         {
-            return Matrix4f(
-                axis[0].x, axis[1].x, axis[2].x, 0,
-                axis[0].y, axis[1].y, axis[2].y, 0,
-                axis[0].z, axis[1].z, axis[2].z, 0,
-                0, 0, 0, 1
-            );
+            Matrix4f translate_matrix   =TranslateMatrix(center);
+            Matrix4f rotate_matrix      =axis;
+            Matrix4f scale_matrix       =ScaleMatrix(half_length*(cube_size/0.5f));
+
+            return translate_matrix*rotate_matrix*scale_matrix;
         }
 
     public:
