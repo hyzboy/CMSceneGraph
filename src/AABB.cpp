@@ -8,7 +8,7 @@ namespace hgl
         void AABB::Set(const OBB &obb)
         {   //此函数由Github Copilot生成，未经测试
             const Vector3f obb_center       =obb.GetCenter();
-            const Vector3f obb_half_length  =obb.GetHalfLength();
+            const Vector3f obb_half_length  =obb.GetHalfExtend();
 
             SetCornerLength(obb_center-obb_half_length,obb_half_length*2.0f);
         }

@@ -27,7 +27,17 @@ namespace hgl::graph
 
         const Vector3f &GetCenter()const{return center;}
         const Vector3f &GetAxis(int n)const{return axis[n];}
-        const Vector3f &GetHalfLength()const{return half_length;}
+        const Vector3f &GetHalfExtend()const{return half_length;}
+
+        const Matrix4f &GetRotationMatrix()const
+        {
+            return Matrix4f(
+                axis[0].x, axis[1].x, axis[2].x, 0,
+                axis[0].y, axis[1].y, axis[2].y, 0,
+                axis[0].z, axis[1].z, axis[2].z, 0,
+                0, 0, 0, 1
+            );
+        }
 
     public:
 
