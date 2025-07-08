@@ -8,13 +8,12 @@ namespace hgl::graph
     class AABB;
 
     /**
-        * Oriented Bounding Box<Br>
-        * 本类由Github Copilot生成，未经测试
-        */
+     * Oriented Bounding Box
+     */
     class OBB
     {
         Vector3f center;
-        Matrix3f axis;  ///<轴矩阵
+        Matrix3f axis;          ///<轴矩阵
         Vector3f half_length;
 
         Plane planes[6];
@@ -30,14 +29,7 @@ namespace hgl::graph
         const Matrix3f &GetRotationMatrix()const{return axis;}
         const Vector3f &GetHalfExtend()const{return half_length;}
 
-        const Matrix4f GetMatrix(const float cube_size=1.0f)const
-        {
-            Matrix4f translate_matrix   =TranslateMatrix(center);
-            Matrix4f rotate_matrix      =axis;
-            Matrix4f scale_matrix       =ScaleMatrix(half_length*(cube_size/0.5f));
-
-            return translate_matrix*rotate_matrix*scale_matrix;
-        }
+        const Matrix4f GetMatrix(const float cube_size=1.0f)const;
 
     public:
 

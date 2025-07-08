@@ -49,4 +49,28 @@ namespace hgl::graph
 
         ComputePlanes();
     }
+
+    const Matrix4f OBB::GetMatrix(const float cube_size)const
+    {
+        // 这段代码也是正确的，留着做参考吧！
+        {        
+            //Matrix4f translate_matrix   =TranslateMatrix(center);
+            //Matrix4f rotate_matrix      =axis;
+            //Matrix4f scale_matrix       =ScaleMatrix(half_length*(cube_size/0.5f));
+
+            //return translate_matrix*rotate_matrix*scale_matrix;
+        }
+
+        Matrix4f result(axis);
+
+        const float scale=cube_size/0.5f;
+
+        result[0]*=half_length.x*scale;
+        result[1]*=half_length.y*scale;
+        result[2]*=half_length.z*scale;
+
+        result[3]=Vector4f(center,1.0f);
+
+        return result;
+    }
 }//namespace hgl::graph
