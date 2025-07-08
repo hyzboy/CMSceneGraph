@@ -32,6 +32,8 @@ namespace
         PRIM_NAME(WireRectangles,   "wire_rectangles"),
         //PRIM_NAME(SolidCube,        "solid_cube"),
         //PRIM_NAME(WireCube,         "wire_cube")
+
+        PRIM_NAME(OBB,              "obb")
     };
 
     #undef PRIM_NAME

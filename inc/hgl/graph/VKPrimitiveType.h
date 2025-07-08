@@ -52,6 +52,8 @@ namespace hgl::graph
                                             ///<如果存在另一个名为Size的VAB，则其中的值代表每个Billboard的尺寸，否则Size在UBO中指定。
                                             ///<如果存在一个名为Rotation的VAB，则其中的值代表每个Billboard的2D旋转角度，否则Rotation在UBO中指定。
 
+        OBB=0x600,                          ///<OBB(以画点形式在Position中指定OBB的中心，名为Size的VAB中指定半径，名为Axis[0/1/2]的VAB中指定3个轴向)
+                                            
         ENUM_CLASS_RANGE(Points,Patchs),
 
         Error
