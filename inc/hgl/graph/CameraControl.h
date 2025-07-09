@@ -3,6 +3,7 @@
 #include<hgl/graph/Camera.h>
 #include<hgl/graph/VKBuffer.h>
 #include<hgl/type/IDName.h>
+#include<hgl/io/event/WindowEvent.h>
 
 namespace hgl::graph
 {
@@ -10,7 +11,7 @@ namespace hgl::graph
 
     HGL_DEFINE_IDNAME(CameraControlIDName,   char)
 
-    class CameraControl
+    class CameraControl:public io::WindowEvent
     {
     protected:
 
