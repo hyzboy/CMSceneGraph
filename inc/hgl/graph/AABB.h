@@ -62,10 +62,14 @@ namespace hgl::graph
 
         void Set(const OBB &);
 
-        void SetZero()
+        void Clear()
         {
             hgl_zero(minPoint);
             hgl_zero(maxPoint);
+            hgl_zero(center);
+            hgl_zero(length);
+            hgl_zero(planes);
+            hgl_zero(face_center_point);
         }
 
         const   Vector3f &  GetMin      ()const{return minPoint;}

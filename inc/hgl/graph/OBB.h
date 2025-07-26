@@ -38,6 +38,14 @@ namespace hgl::graph
         void Set(const AABB &aabb);
         void Set(const Matrix4f &local_to_world,const AABB &aabb);
 
+        void Clear()
+        {
+            hgl_zero(center);
+            hgl_zero(axis);
+            hgl_zero(half_length);
+            hgl_zero(planes);
+        }
+
     public:
 
         OBB()

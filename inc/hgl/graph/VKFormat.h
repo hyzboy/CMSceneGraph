@@ -399,7 +399,7 @@ inline const bool CheckVulkanFormat(const VkFormat format)
 #define UPF_RGBA32F    PF_RGBA32F
 #define UPF_B10GR11UF  PF_B10GR11UF
 
-//顶点用格式
+//顶点格式
 #define VF_V1F      PF_R32F
 #define VF_V2F      PF_RG32F
 #define VF_V3F      PF_RGB32F
