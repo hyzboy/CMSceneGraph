@@ -22,12 +22,12 @@ namespace hgl::graph
             return origin+direction*length;
     }
         
-    void unProjectZO(Vector3f &near_point,Vector3f &far_point,const Vector2f &win, const Matrix4f &Inverse, const Vector2f &viewport)
+    void unProjectZO(Vector3f &near_point,Vector3f &far_point,const Vector2i &win, const Matrix4f &Inverse, const Vector2f &viewport)
     {
         Vector4f tmp;
 
-        tmp.x = win.x / viewport.x;
-        tmp.y = win.y / viewport.y;
+        tmp.x = float(win.x) / viewport.x;
+        tmp.y = float(win.y) / viewport.y;
         tmp.x = tmp.x + tmp.x - 1.0;
         tmp.y = tmp.y + tmp.y - 1.0;
 
@@ -49,7 +49,7 @@ namespace hgl::graph
     * @param mp 屏幕点坐标
     * @param camera_info 摄像机信息
     */
-    void Ray::Set(const Vector2f &mp,const CameraInfo *ci,const ViewportInfo *vi)
+    void Ray::Set(const Vector2i &mp,const CameraInfo *ci,const ViewportInfo *vi)
     {
         //新方案
 

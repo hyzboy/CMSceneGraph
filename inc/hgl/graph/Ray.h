@@ -35,7 +35,7 @@ namespace hgl::graph
             direction=d;
         }
 
-        void Set(const Vector2f &,const CameraInfo *,const ViewportInfo *);
+        void Set(const Vector2i &,const CameraInfo *,const ViewportInfo *);
 
         /**
         * 取得与原点指定距离的点
@@ -100,5 +100,5 @@ namespace hgl::graph
         bool CrossPlane(const Vector3f &,const Vector3f &,const Vector3f &,const Vector3f &,bool two_side=true)const;  ///<求指定面是否与射线交汇
 
         bool CrossCircle(const Vector3f &center,const Vector3f &normal,const float radius)const; ///<求射线是否与指定圆相交
-    };//class Ray
+    };//struct Ray
 }//namespace hgl::graph

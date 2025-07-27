@@ -200,34 +200,32 @@ namespace hgl::graph
 
     protected:
 
-        bool OnPressed(int x,int y,io::MouseButton) override
+        bool OnPressed(const Vector2i &mouse_coord,io::MouseButton) override
         {
-            mouse_last_pos.x=x;
-            mouse_last_pos.y=y;
+            mouse_last_pos=mouse_coord;
 
             last_time=cur_time;
 
             return(true);
         }
     
-        bool OnWheel(int,int y) override
+        bool OnWheel(const Vector2i &mouse_coord) override
         {
-            if(y==0)return(false);
+            if(mouse_coord.y==0)return(false);
 
-            camera->Forward(float(y)/100.0f);
+            camera->Forward(float(mouse_coord.y)/100.0f);
 
             return(true);
         }
 
-        bool OnMove(int x,int y) override
+        bool OnMove(const Vector2i &mouse_coord) override
         {
-            mouse_pos.x=x;
-            mouse_pos.y=y;
+            mouse_pos=mouse_coord;
 
             bool left =HasPressed(io::MouseButton::Left);
             bool right=HasPressed(io::MouseButton::Right);
         
-            Vector2f pos(x,y);
+            Vector2f pos=mouse_coord;
             Vector2f gap=pos-mouse_last_pos;
         
             if(left)
@@ -245,9 +243,9 @@ namespace hgl::graph
             }
 
             last_time=cur_time;
-            mouse_last_pos=Vector2f(x,y);
+            mouse_last_pos=pos;
 
-            return(true);
+            return(false);
         }
 
     public:

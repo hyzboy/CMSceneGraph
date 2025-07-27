@@ -7,6 +7,8 @@
 
 namespace hgl::graph
 {
+    struct Ray;
+
     using UBOCameraInfo=UBOInstance<CameraInfo>;
 
     HGL_DEFINE_IDNAME(CameraControlIDName,   char)
@@ -68,5 +70,9 @@ namespace hgl::graph
         DescriptorBinding * GetDescriptorBinding(){return desc_binding_camera;}
 
         virtual void Refresh()=0;
+
+    public:
+
+        bool SetMouseRay(Ray *,const Vector2i &);
     };//class CameraControl
 }//namespace hgl::graph
