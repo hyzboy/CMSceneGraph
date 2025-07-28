@@ -74,5 +74,17 @@ namespace hgl::graph
     public:
 
         bool SetMouseRay(Ray *,const Vector2i &);
+
+        /**
+        * 求指定坐标点(世界坐标)单位长度1相对当前屏幕空间象素的粗略缩放比(注：不准)
+        */
+        float GetPixelPerUnit(const Vector3f &point)const
+        {
+            if(!vi)return(1.0f);
+
+            const float dist=length(point,camera->pos);
+
+            return vi->GetViewportHeight()/(2.0f*dist*tan(camera->Yfov*HGL_PI/360.0f));
+        }
     };//class CameraControl
 }//namespace hgl::graph
