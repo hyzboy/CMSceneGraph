@@ -1,4 +1,4 @@
-#include<hgl/graph/Ray.h>
+﻿#include<hgl/graph/Ray.h>
 #include<hgl/graph/CameraInfo.h>
 #include<hgl/graph/ViewportInfo.h>
 #include<hgl/graph/Sphere.h>
@@ -22,8 +22,10 @@ namespace hgl::graph
             return origin+direction*length;
     }
         
-    void unProjectZO(Vector3f &near_point,Vector3f &far_point,const Vector2i &win, const Matrix4f &Inverse, const Vector2f &viewport)
+    void unProjectZO(Vector3f &origin,Vector3f &direction,const Vector2i &win, const Matrix4f &Inverse, const Vector2f &viewport)
     {
+        Vector4f near_point;
+        Vector4f far_point;
         Vector4f tmp;
 
         tmp.x = float(win.x) / viewport.x;
@@ -41,7 +43,12 @@ namespace hgl::graph
         tmp = Inverse * tmp;
         tmp /= tmp.w;
 
-        far_point=tmp;
+        far_point = tmp;
+
+        //注意这里的远近点和我们的矩阵设置有关
+
+        origin=near_point;
+        direction=glm::normalize(far_point-near_point);
     }
 
     /**
@@ -74,18 +81,37 @@ namespace hgl::graph
     */
     const float Ray::ToLineSegmentDistanceSquared(const Vector3f &start,const Vector3f &end)const
     {
-        const Vector3f ab = end - start;  // 线段的方向向量
-        const Vector3f ac = origin - start;  // 射线起点到线段起点的向量
+        Vector3f u = direction; // 射线方向，假定已归一化
+        Vector3f v = end - start;
+        Vector3f w = origin - start;
 
-        const float e = dot(ac, ab);  // 射线起点到线段起点的向量在线段方向上的投影长度
+        float a = dot(u, u); // = 1，如果u已归一化
+        float b = dot(u, v);
+        float c = dot(v, v);
+        float d = dot(u, w);
+        float e = dot(v, w);
 
-        if (e <= 0) return dot(ac, ac);  // 如果投影点在线段起点之前，返回射线起点到线段起点的距离平方
+        float D = a * c - b * b;
+        float sc, tc;
 
-        const float f = dot(ab, ab);  // 线段方向向量的长度平方
+        if (D < 1e-8f) {
+            // 射线和线段几乎平行
+            sc = 0.0f;
+            tc = (b > c ? d / b : e / c);
+        } else {
+            sc = (b * e - c * d) / D;
+            tc = (a * e - b * d) / D;
+        }
 
-        if (e >= f) return dot(origin - end, origin - end);  // 如果投影点在线段终点之后，返回射线起点到线段终点的距离平方
+        // 限制参数范围
+        if (sc < 0.0f) sc = 0.0f; // 射线参数不能小于0
+        if (tc < 0.0f) tc = 0.0f;
+        if (tc > 1.0f) tc = 1.0f;
 
-        return dot(origin - start, origin - start) - e * e / f;  // 投影点在线段上，返回射线起点到线段的距离平
+        Vector3f pointOnRay = origin + u * sc;
+        Vector3f pointOnSeg = start + v * tc;
+
+        return length_squared(pointOnRay - pointOnSeg);
     }
 
     bool Ray::CrossSphere(const Sphere &s)const
