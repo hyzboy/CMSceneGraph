@@ -70,6 +70,10 @@ namespace hgl::graph
         */
         Vector3f ClosestPoint(const Vector3f &point)const;
 
+        void ClosestPoint(Vector3f &point_on_ray,Vector3f &point_on_segment,const Vector3f &line_segment_start,const Vector3f &line_segment_end)const;
+
+        Vector3f ClosestPoint(const Vector3f &,const Vector3f &)const;                                                  ///<求指定线段上离射线最近的点
+        Vector3f ClosestPoint(const LineSegment &ls)const{return ClosestPoint(ls.GetStart(),ls.GetEnd());}              ///<求指定线段上离射线最近的点
 
         /**
         * 求指定点与射线的距离的平方

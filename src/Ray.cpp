@@ -76,14 +76,11 @@ namespace hgl::graph
         //direction   =glm::unProject(pos,camera_info->view,camera_info->projection,vp);        //射线最远点
     }
 
-    /**
-    * 求射线与指定线段的距离的平方(Github Copilot)
-    */
-    const float Ray::ToLineSegmentDistanceSquared(const Vector3f &start,const Vector3f &end)const
+    void Ray::ClosestPoint(Vector3f &point_on_ray,Vector3f &point_on_segment,const Vector3f &line_segment_start,const Vector3f &line_segment_end)const
     {
         Vector3f u = direction; // 射线方向，假定已归一化
-        Vector3f v = end - start;
-        Vector3f w = origin - start;
+        Vector3f v = line_segment_end - line_segment_start;
+        Vector3f w = origin - line_segment_start;
 
         float a = dot(u, u); // = 1，如果u已归一化
         float b = dot(u, v);
@@ -94,11 +91,14 @@ namespace hgl::graph
         float D = a * c - b * b;
         float sc, tc;
 
-        if (D < 1e-8f) {
+        if (D < 1e-8f)
+        {
             // 射线和线段几乎平行
             sc = 0.0f;
             tc = (b > c ? d / b : e / c);
-        } else {
+        }
+        else
+        {
             sc = (b * e - c * d) / D;
             tc = (a * e - b * d) / D;
         }
@@ -108,8 +108,32 @@ namespace hgl::graph
         if (tc < 0.0f) tc = 0.0f;
         if (tc > 1.0f) tc = 1.0f;
 
-        Vector3f pointOnRay = origin + u * sc;
-        Vector3f pointOnSeg = start + v * tc;
+        point_on_ray = origin + u * sc;
+        point_on_segment = line_segment_start + v * tc;
+    }
+
+    /**
+    * 求线段上离射线最近的点
+    */
+    Vector3f Ray::ClosestPoint(const Vector3f &start,const Vector3f &end)const
+    {
+        Vector3f pointOnRay;
+        Vector3f pointOnSeg;
+
+        ClosestPoint(pointOnRay,pointOnSeg,start,end);
+
+        return pointOnRay+(pointOnSeg-pointOnRay)*0.5f; // 返回两点的中点
+    }
+
+    /**
+    * 求射线与指定线段的距离的平方(Github Copilot)
+    */
+    const float Ray::ToLineSegmentDistanceSquared(const Vector3f &start,const Vector3f &end)const
+    {
+        Vector3f pointOnRay;
+        Vector3f pointOnSeg;
+
+        ClosestPoint(pointOnRay,pointOnSeg,start,end);
 
         return length_squared(pointOnRay - pointOnSeg);
     }
