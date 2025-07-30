@@ -159,15 +159,15 @@ namespace hgl::graph
             move_speed=1.0f;
         }
 
-        bool OnPressed(const io::KeyboardButton &kb)override
+        io::EventProcResult OnPressed(const io::KeyboardButton &kb)override
         {
-            if(!KeyboardStateEvent::OnPressed(kb))
-                return(false);
+            if(io::KeyboardStateEvent::OnPressed(kb)==io::EventProcResult::Continue)
+                return(io::EventProcResult::Continue);
 
             if(kb==io::KeyboardButton::Minus    )move_speed*=0.9f;else
             if(kb==io::KeyboardButton::Equals   )move_speed*=1.1f;
 
-            return(true);
+            return(io::EventProcResult::Break);
         }
 
         bool Update() override
@@ -200,25 +200,25 @@ namespace hgl::graph
 
     protected:
 
-        bool OnPressed(const Vector2i &mouse_coord,io::MouseButton) override
+        io::EventProcResult OnPressed(const Vector2i &mouse_coord,io::MouseButton) override
         {
             mouse_last_pos=mouse_coord;
 
             last_time=cur_time;
 
-            return(true);
+            return(io::EventProcResult::Break);
         }
     
-        bool OnWheel(const Vector2i &mouse_coord) override
+        io::EventProcResult OnWheel(const Vector2i &mouse_coord) override
         {
-            if(mouse_coord.y==0)return(false);
+            if(mouse_coord.y==0)return(io::EventProcResult::Continue);
 
             camera->Forward(float(mouse_coord.y)/100.0f);
 
-            return(true);
+            return(io::EventProcResult::Break);
         }
 
-        bool OnMove(const Vector2i &mouse_coord) override
+        io::EventProcResult OnMove(const Vector2i &mouse_coord) override
         {
             mouse_pos=mouse_coord;
 
@@ -245,7 +245,7 @@ namespace hgl::graph
             last_time=cur_time;
             mouse_last_pos=pos;
 
-            return(false);
+            return(io::EventProcResult::Continue);
         }
 
     public:
