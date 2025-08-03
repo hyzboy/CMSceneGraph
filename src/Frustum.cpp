@@ -6,7 +6,8 @@ namespace hgl
     {
         void GetFrustumPlanes(FrustumPlanes &planes,const Matrix4f &mvp)
         {
-            //@see https://github.com/SaschaWillems/Vulkan/base/frustum.hpp
+            // @see https://github.com/SaschaWillems/Vulkan/base/frustum.hpp
+            // 注意我们的向上轴和向前轴和上面的不同
 
             planes[size_t(Frustum::Side::Left   )].x = mvp[0].w + mvp[0].x;
             planes[size_t(Frustum::Side::Left   )].y = mvp[1].w + mvp[1].x;
@@ -37,22 +38,22 @@ namespace hgl
             planes[size_t(Frustum::Side::Bottom )].y = mvp[1].w - mvp[1].z;
             planes[size_t(Frustum::Side::Bottom )].z = mvp[2].w - mvp[2].z;
             planes[size_t(Frustum::Side::Bottom )].w = mvp[3].w - mvp[3].z;
+
+            for(int i=0;i<6;i++)
+            {
+                float len=sqrtf(planes[i].x * planes[i].x + planes[i].y * planes[i].y + planes[i].z * planes[i].z);
+
+                planes[i] /= len;
+            }
         }
 
         void Frustum::SetMatrix(const Matrix4f &mvp)
         {
             FrustumPlanes planes;
 
-            GetFrustumPlanes(planes,mvp);
+            GetFrustumPlanes(planes,mvp);   // 从矩阵提取六个平面
 
-            for(int i=0;i<6;i++)
-            {
-                float length = sqrtf(planes[i].x * planes[i].x + planes[i].y * planes[i].y + planes[i].z * planes[i].z);
-                
-                planes[i] /= length;
-
-                pl[i].Set(planes[i]);
-            }
+            for(int i=0;i<6;i++)pl[i].Set(planes[i]);         // 设置平面
         }
 
         Frustum::Scope Frustum::PointIn(const Vector3f &p) const
