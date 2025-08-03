@@ -18,6 +18,25 @@ namespace hgl
 
         public:
 
+            LineSegment()=default;
+            LineSegment(const Vector3f &s,const Vector3f &e):start(s),end(e) {}
+
+            void Set(const Vector3f &s,const Vector3f &e)
+            {
+                start=s;
+                end=e;
+            }
+
+            void SetStart(const Vector3f &s)
+            {
+                start=s;
+            }
+
+            void SetEnd(const Vector3f &e)
+            {
+                end=e;
+            }
+
             const Vector3f &GetStart()const{return start;}
             const Vector3f &GetEnd()const{return end;}
 
