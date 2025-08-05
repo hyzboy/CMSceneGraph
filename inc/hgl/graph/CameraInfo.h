@@ -33,9 +33,24 @@ namespace hgl::graph
 
     public:
 
+        const Vector4f WorldToViewSpace(const Vector3f &v)const
+        {
+            return view * Vector4f(v,1);
+        }
+
+        const Vector4f LocalToViewSpace(const Matrix4f &l2w,const Vector3f &v)const
+        {
+            return view * l2w * Vector4f(v,1);
+        }
+
         const Vector4f Project(const Vector3f &v)const
         {
             return vp * Vector4f(v,1);
+        }
+
+        const Vector4f Project(const Matrix4f &l2w,const Vector3f &v)const
+        {
+            return vp * l2w * Vector4f(v,1);
         }
 
         const Vector3f UnProject(const Vector3f &v)const
