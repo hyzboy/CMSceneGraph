@@ -76,6 +76,21 @@ namespace hgl::graph
         bool SetMouseRay(Ray *,const Vector2i &);
 
         /**
+        * 本地坐标到观察坐标
+        */
+        const Vector3f LocalToViewSpace(const Matrix4f &l2w,const Vector3f &local_pos)const
+        {
+            if(!vi||!camera_info)return(Vector3f(0,0,0));
+
+            const Vector4f clip_pos=camera_info->LocalToViewSpace(l2w,local_pos);
+
+            if(clip_pos.w==0.0f)
+                return(Vector3f(0,0,0));
+
+            return Vector3f(clip_pos.x/clip_pos.w,clip_pos.y/clip_pos.w,clip_pos.z/clip_pos.w);
+        }
+
+        /**
         * 求指定坐标点(世界坐标)单位长度1相对当前屏幕空间象素的粗略缩放比(注：不准)
         */
         float GetPixelPerUnit(const Vector3f &point)const
@@ -85,6 +100,43 @@ namespace hgl::graph
             const float dist=length(point,camera->pos);
 
             return vi->GetViewportHeight()/(2.0f*dist*tan(camera->Yfov*HGL_PI/360.0f));
+        }
+
+        const Vector2f WorldPositionToScreen(const Vector3f &wp)const
+        {
+            if(!vi)return(Vector2i(0,0));
+
+            const Vector4f clip_pos=camera_info->Project(wp);
+
+            if(clip_pos.w==0.0f)
+                return(Vector2i(0,0));
+
+            Vector3f ndc_pos(clip_pos.x/clip_pos.w,clip_pos.y/clip_pos.w,clip_pos.z/clip_pos.w);
+
+            Vector2f screen_pos;
+
+            screen_pos.x=(ndc_pos.x+1.0f)*0.5f*vi->GetViewportWidth();
+            screen_pos.y=(ndc_pos.y+1.0f)*0.5f*vi->GetViewportHeight();
+
+            if (screen_pos.x<0)screen_pos.x=0;
+            if (screen_pos.x>=vi->GetViewportWidth())screen_pos.x=vi->GetViewportWidth()-1;
+            if (screen_pos.y<0)screen_pos.y=0;
+            if (screen_pos.y>=vi->GetViewportHeight())screen_pos.y=vi->GetViewportHeight()-1;
+
+            return(screen_pos);
+        }
+
+        const Vector3f ScreenPositionToWorld(const Vector2i &sp)const
+        {
+            if(!vi)return(Vector3f(0,0,0));
+
+            const float x=(float(sp.x)/vi->GetViewportWidth())*2.0f-1.0f;
+            const float y=(float(sp.y)/vi->GetViewportHeight())*2.0f-1.0f;
+
+            Vector4f clip_pos(x,y,-1.0f,1.0f);
+            Vector3f ndc_pos(clip_pos.x/clip_pos.w,clip_pos.y/clip_pos.w,clip_pos.z/clip_pos.w);
+
+            return camera_info->UnProject(ndc_pos);
         }
     };//class CameraControl
 }//namespace hgl::graph
