@@ -22,7 +22,7 @@ namespace hgl::graph
             return origin+direction*length;
     }
         
-    void unProjectZO(Vector3f &origin,Vector3f &direction,const Vector2i &win, const Matrix4f &Inverse, const Vector2f &viewport)
+    void RayUnProjectZO(Vector3f &origin,Vector3f &direction,const Vector2i &win, const Matrix4f &Inverse, const Vector2f &viewport)
     {
         Vector4f near_point;
         Vector4f far_point;
@@ -37,13 +37,14 @@ namespace hgl::graph
         tmp.w=1.0;
 
         near_point = Inverse * tmp;
+        if(near_point.w != 0.0f)
+            near_point/=near_point.w;
 
         tmp.z=1.0;
 
-        tmp = Inverse * tmp;
-        tmp /= tmp.w;
-
-        far_point = tmp;
+        far_point = Inverse * tmp;
+        if(far_point.w != 0.0f)
+            far_point/=far_point.w;
 
         //注意这里的远近点和我们的矩阵设置有关
 
@@ -60,7 +61,7 @@ namespace hgl::graph
     {
         //新方案
 
-        unProjectZO(origin,direction,mp,ci->inverse_vp,vi->GetViewport());
+        RayUnProjectZO(origin,direction,mp,ci->inverse_vp,vi->GetViewport());
 
         //由于near/far的xy一样，而near.z又是0。所以省去了direction=normalize(far-near)的计算
 
