@@ -21,27 +21,40 @@ namespace hgl
             int binding;
             uint32_t stage_flag;
 
+        private:
+
+            void Init()
+            {
+                hgl_zero(name);
+                desc_type=VK_DESCRIPTOR_TYPE_MAX_ENUM;
+                set_type=DescriptorSetType::Global;
+                set=-1;
+                binding=-1;
+                stage_flag=0;
+            }
+
         public:
 
             ShaderDescriptor()
             {
-                hgl_zero(*this);
-                set=-1;
-                binding=-1;
-                stage_flag=0;
+                Init();
             }
 
             ShaderDescriptor(const ShaderDescriptor *sr)
             {
                 if(!sr)
                 {
-                    hgl_zero(*this);
-
-                    set=-1;
-                    binding=-1;
+                    Init();     ////注：请不要使用memset(this,0..)，因为这会破坏Comparator<>纯虚函数表
                 }
                 else
-                    hgl_cpy(*this,*sr);
+                {       //注：请不要使用memcpy/hgl_cpy(*this,sr)来复制数据，因为这会破坏Comparator<>纯虚函数表
+                    hgl_cpy(name,sr->name);
+                    desc_type   =sr->desc_type;
+                    set_type    =sr->set_type;
+                    set         =sr->set;
+                    binding     =sr->binding;
+                    stage_flag  =sr->stage_flag;
+                }
             }
 
             virtual ~ShaderDescriptor()=default;
