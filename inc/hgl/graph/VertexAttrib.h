@@ -145,6 +145,10 @@ namespace hgl::graph
     {
     #define VAN_DEFINE(name)    constexpr const char name[]=#name;
         VAN_DEFINE(Position)
+
+        VAN_DEFINE(StartPosition)
+        VAN_DEFINE(EndPosition)
+
         VAN_DEFINE(Normal)
         VAN_DEFINE(Tangent)
         VAN_DEFINE(Bitangent)
@@ -161,10 +165,6 @@ namespace hgl::graph
 
         VAN_DEFINE(JointID)
         VAN_DEFINE(JointWeight)
-
-        VAN_DEFINE(LeftTop)
-        VAN_DEFINE(WidthHeight)
-        VAN_DEFINE(RightBottom)
     #undef VAN_DEFINE
     }//namespace VertexAttribName
 
