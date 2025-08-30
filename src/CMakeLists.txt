@@ -23,7 +23,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKDescriptorSetType.h
                             ${CM_SG_INCLUDE_PATH}/VKShaderDescriptor.h
                             ${CM_SG_INCLUDE_PATH}/VKShaderDescriptorSet.h
-                            ${CM_SG_INCLUDE_PATH}/VKShaderStage.h
+                            ${CM_SG_INCLUDE_PATH}/VKVertexInputAttribute.h
                             ${CM_SG_INCLUDE_PATH}/VKImageCreateInfo.h
                             ${CM_SG_INCLUDE_PATH}/VKInlinePipeline.h
                             ${CM_SG_INCLUDE_PATH}/VKNamespace.h
