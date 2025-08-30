@@ -15,27 +15,22 @@ namespace hgl::graph
      */
     struct SkyInfo
     {
+        // Vector4f and Color4f types grouped together for optimal UBO alignment
         Vector4f sun_direction = Vector4f(0, 1, 0, 0);     // w=0 表示方向向量
         Color4f  sun_color     = Color4f(1, 0.95f, 0.9f, 1);
-        float    sun_intensity = 1.0f;
+        Color4f  base_sky_color = Color4f(0.5f, 0.6f, 1.0f, 1.0f); // 天空基础色（用于shader中的exp2(-ray.y / BaseSkyColor)计算）
+        Color4f  moon_color     = Color4f(0.8f, 0.8f, 1.0f, 1.0f);
+        Color4f  halo_color     = Color4f(1.0f, 0.9f, 0.7f, 1.0f);
 
+        // Scalar values grouped together
+        float    sun_intensity = 1.0f;
         float    sun_path_azimuth_deg = 180.0f;            // 正午方位角（默认朝南）
         float    max_elevation_deg    = 60.0f;             // 正午最大仰角
-
-        // 地理位置信息
         float    latitude_deg  = 0.0f;                     // 纬度（度）
         float    longitude_deg = 0.0f;                     // 经度（度）
-
-        // 天空基础色（用于shader中的exp2(-ray.y / BaseSkyColor)计算）
-        Color4f  base_sky_color = Color4f(0.5f, 0.6f, 1.0f, 1.0f);
-
-        // 月亮参数
-        Color4f  moon_color     = Color4f(0.8f, 0.8f, 1.0f, 1.0f);
         float    moon_intensity = 0.3f;
-
-        // 光晕参数
-        Color4f  halo_color     = Color4f(1.0f, 0.9f, 0.7f, 1.0f);
         float    halo_intensity = 0.5f;
+        float    padding_ubo = 0.0f;                       // UBO对齐填充
 
         // 未来可用的大气与曝光等参数，先注释保留：
         // float turbidity        = 2.0f;    // 浊度（大气混浊程度）
