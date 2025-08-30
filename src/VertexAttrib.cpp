@@ -1,6 +1,6 @@
 ﻿#include<hgl/graph/VertexAttrib.h>
 #include<hgl/graph/VKFormat.h>
-#include<hgl/graph/VKShaderStage.h>
+#include<hgl/graph/VKVertexInputAttribute.h>
 
 namespace hgl
 {

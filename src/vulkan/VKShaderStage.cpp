@@ -1,4 +1,4 @@
-#include<hgl/graph/VKShaderStage.h>
+#include<hgl/graph/VKVertexInputAttribute.h>
 
 namespace hgl
 {

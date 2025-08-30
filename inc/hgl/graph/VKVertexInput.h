@@ -4,7 +4,7 @@
 #include<hgl/graph/VKFormat.h>
 #include<hgl/graph/VKVertexInputLayout.h>
 #include<hgl/type/SortedSet.h>
-#include<hgl/graph/VKShaderStage.h>
+#include<hgl/graph/VKVertexInputAttribute.h>
 
 VK_NAMESPACE_BEGIN
 class VILConfig;
