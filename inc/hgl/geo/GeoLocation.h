@@ -436,7 +436,7 @@ namespace hgl::geo
                 float       longitude_deg = 0.0f;           ///< 经度（度）
                 float       altitude_m    = 0.0f;           ///< 海拔（米）
 
-                int         time_zone;                      ///< 时区，东一区为+1，西一区为-1
+                int         time_zone_minutes;              ///< 时区(分钟)，东一区为+60，西一区为-60
     };
 
     // Lookup API
@@ -448,4 +448,9 @@ namespace hgl::geo
 
     const CityInfo *   GetCityInfo(const AnsiString &eng_name);
     const CityInfo *   GetCityInfo(const U16String &chs_name);
+
+    /**
+    * 根据经纬度计算日出日落时间
+    */
+    const bool GetSunTime(float *sunrise,float *sunset,const float latitude,const float longitude,const int year,const int month,const int day);
 }//namespace hgl::geo
