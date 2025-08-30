@@ -76,6 +76,7 @@ namespace hgl::graph
         float    max_elevation_deg    = 60.0f;             // 正午最大仰角
         float    latitude_deg  = 0.0f;                     // 纬度（度）
         float    longitude_deg = 0.0f;                     // 经度（度）
+        float    altitude_m    = 0.0f;                     // 海拔（米）
         float    moon_intensity = 0.3f;
         float    halo_intensity = 0.5f;
         float    padding_ubo = 0.0f;                       // UBO对齐填充
@@ -100,6 +101,8 @@ namespace hgl::graph
 
         /** 设置经纬度（度） */
         void SetLocation(float latitude_deg, float longitude_deg);
+        /** 设置海拔（米） */
+        void SetAltitude(float altitude_m);
         /** 设置日期（年-月-日），用于计算太阳赤纬（影响季节变化） */
         void SetDate(int year, int month, int day);
         /** 设置环境概况（可多类混合） */

@@ -1,5 +1,10 @@
 ﻿SET(CM_SG_INCLUDE_PATH  ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/graph)
 
+SET(CM_SG_GEO_FILES     ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/geo/GeoLocation.h
+                        Geo/GeoLocation.cpp)
+
+SOURCE_GROUP("Geo" FILES ${CM_SG_GEO_FILES})
+
 SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/OBB.h
                     ${CM_SG_INCLUDE_PATH}/Sphere.h
@@ -58,7 +63,6 @@ SET(CM_CAMERA_SOURCE    ${CM_SG_INCLUDE_PATH}/Camera.h
                         ${CM_SG_INCLUDE_PATH}/FirstPersonCameraControl.h
                         Camera.cpp
                         ViewportInfo.cpp)
-
 SOURCE_GROUP("SceneGraph\\Camera" FILES ${CM_CAMERA_SOURCE})
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
@@ -81,6 +85,7 @@ source_group("SceneGraph\\Vulkan" FILES ${CM_SG_VULKAN_HEADER} ${CM_SG_VULKAN_SO
 
 add_cm_library(CMSceneGraph "CM"    ${CM_SG_HEADER}
                                     ${CM_SG_SOURCE}
+                                    ${CM_SG_GEO_FILES}
                                     ${CM_CAMERA_SOURCE}
                                     ${CM_SG_VULKAN_HEADER}
                                     ${CM_SG_VULKAN_SOURCE})
