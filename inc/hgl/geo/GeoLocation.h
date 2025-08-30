@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include<hgl/type/DataType.h>
 #include<hgl/type/String.h>
+#include<hgl/type/DateTime.h>
 
 namespace hgl::geo
 {
@@ -452,5 +452,5 @@ namespace hgl::geo
     /**
     * 根据经纬度计算日出日落时间
     */
-    const bool GetSunTime(float *sunrise,float *sunset,const float latitude,const float longitude,const int year,const int month,const int day);
+    const bool GetSunTime(float *sunrise,float *sunset,const float latitude,const float longitude,const Date &);
 }//namespace hgl::geo

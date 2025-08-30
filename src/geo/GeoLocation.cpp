@@ -1,6 +1,5 @@
 ﻿#include <hgl/geo/GeoLocation.h>
-#include <cctype>
-#include <cstring>
+#include <cmath>
 
 namespace hgl::geo
 {
@@ -350,12 +349,103 @@ namespace hgl::geo
         return nullptr;
     }
 
-    const bool GetSunTime(float *sunrise,float *sunset,const float latitude,const float longitude,const int year,const int month,const int day)
+    static constexpr double PI_CONST = 3.14159265358979323846;
+    static inline double deg2rad(double d){ return d * PI_CONST / 180.0; }
+    static inline double rad2deg(double r){ return r * 180.0 / PI_CONST; }
+
+    // Based on NOAA Solar Calculator (https://gml.noaa.gov/grad/solcalc/)
+    const bool GetSunTime(float *sunrise,float *sunset,const float latitude,const float longitude,const Date &date)
     {
         if(!sunrise || !sunset) return false;
-        // Based on NOAA's Solar Calculator
-        // https://gml.noaa.gov/grad/solcalc/solareqns.PDF
 
+        // day of year
+        int N = date.DayOfYear();
 
+        // longitude hour value
+        double lngHour = static_cast<double>(longitude) / 15.0;
+
+        auto calc_time_utc = [&](double targetHour, double &outUT)->bool
+        {
+            // t for rise/set
+            double t = static_cast<double>(N) + ((targetHour - lngHour) / 24.0);
+
+            // Sun's mean anomaly
+            double M = (0.9856 * t) - 3.289;
+
+            // Sun's true longitude
+            double L = M + (1.916 * sin(deg2rad(M))) + (0.020 * sin(deg2rad(2.0*M))) + 282.634;
+            // normalize L to [0,360)
+            L = fmod(L,360.0);
+            if(L < 0) L += 360.0;
+
+            // Sun's right ascension
+            double RA = rad2deg(atan(0.91764 * tan(deg2rad(L))));
+            // normalize RA to [0,360)
+            RA = fmod(RA,360.0);
+            if(RA < 0) RA += 360.0;
+
+            // RA needs to be in the same quadrant as L
+            double Lquadrant  = floor(L/90.0) * 90.0;
+            double RAquadrant = floor(RA/90.0) * 90.0;
+            RA = RA + (Lquadrant - RAquadrant);
+
+            // RA into hours
+            RA = RA / 15.0;
+
+            // Sun's declination
+            double sinDec = 0.39782 * sin(deg2rad(L));
+            double cosDec = cos(asin(sinDec));
+
+            // Sun's local hour angle
+            double zenith = 90.833; // official zenith for sunrise/sunset
+            double cosH = (cos(deg2rad(zenith)) - (sinDec * sin(deg2rad(latitude)))) / (cosDec * cos(deg2rad(latitude)));
+
+            if(cosH > 1.0) return false; // sun never rises
+            if(cosH < -1.0) return false; // sun never sets
+
+            double H;
+            if(targetHour <= 12.0)
+            {
+                // sunrise
+                H = 360.0 - rad2deg(acos(cosH));
+            }
+            else
+            {
+                // sunset
+                H = rad2deg(acos(cosH));
+            }
+
+            H = H / 15.0;
+
+            // local mean time
+            double T = H + RA - (0.06571 * t) - 6.622;
+
+            // convert to UTC
+            double UT = T - lngHour;
+            // normalize to [0,24)
+            UT = fmod(UT,24.0);
+            if(UT < 0) UT += 24.0;
+
+            outUT = UT;
+            return true;
+        };
+
+        double riseUTC, setUTC;
+        bool okRise = calc_time_utc(6.0, riseUTC);
+        bool okSet  = calc_time_utc(18.0, setUTC);
+
+        if(!okRise || !okSet)
+        {
+            // polar day/night or other issue: signal failure
+            *sunrise = -1.0f;
+            *sunset  = -1.0f;
+            return false;
+        }
+
+        *sunrise = static_cast<float>(riseUTC);
+        *sunset  = static_cast<float>(setUTC);
+
+        return true;
     }
+
 }

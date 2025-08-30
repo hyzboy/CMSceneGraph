@@ -1,4 +1,5 @@
 #include <hgl/graph/Sky.h>
+#include <hgl/type/DateTime.h>
 #include <algorithm>
 #include <chrono>
 #include <ctime>
@@ -40,19 +41,6 @@ namespace hgl::graph
         inline Color4f Scale(const Color4f &c, float s)
         {
             return Color4f(c.r * s, c.g * s, c.b * s, c.a * s);
-        }
-
-        inline int DayOfYear(int year, int month, int day)
-        {
-            static const int mdays_norm[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-            auto is_leap = [](int y){ return (y%4==0 && y%100!=0) || (y%400==0); };
-            int doy = 0;
-            for (int m=1; m<month; ++m)
-            {
-                if (m==2 && is_leap(year)) doy += 29; else doy += mdays_norm[m-1];
-            }
-            doy += day;
-            return doy;
         }
 
         inline float solar_declination_from_doy(int day_of_year)
@@ -247,7 +235,9 @@ namespace hgl::graph
 
             // 白天月亮忽略
             this->moon_intensity = 0.0f;
-        } else {
+        }
+        else
+        {
             // 夜晚
             this->sun_intensity = 0.0f;
 
