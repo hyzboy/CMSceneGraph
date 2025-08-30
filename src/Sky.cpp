@@ -20,9 +20,9 @@ namespace hgl::graph
             return t * t * (3.0f - 2.0f * t);
         }
 
-        inline float frac_day(float h, float m, float s)
+        inline float frac_day(float h, float m, float s,float time_zone_minus)
         {
-            float th = h + m / 60.0f + s / 3600.0f;
+            float th = h + m / 60.0f + s / 3600.0f - time_zone_minus/60.0f;
             th = std::fmod(th, 24.0f);
             if (th < 0.0f) th += 24.0f;
             return th;
@@ -170,7 +170,7 @@ namespace hgl::graph
 
     void SkyInfo::SetByTimeOfDay(float hour, float minute, float second)
     {
-        const float h = frac_day(hour, minute, second);
+        const float h = frac_day(hour, minute, second,time_zone_minus);
         const float latitude_rad = this->latitude_deg * DEG2RAD;
 
         const int day_of_year = DayOfYear(this->year, this->month, this->day);
@@ -204,15 +204,17 @@ namespace hgl::graph
         humidity *= humidity_factor;
         aerosol  *= aerosol_factor;
 
-        if (is_day) {
+        if (is_day)
+        {
             const float cos_e = std::cos(elevation_rad);
             const float sin_e = std::sin(elevation_rad);
 
-            // 太阳方向
-            const float dx = std::sin(azimuth_rad) * cos_e;
-            const float dy = sin_e;
-            const float dz = std::cos(azimuth_rad) * cos_e;
-            this->sun_direction = Vector4f(-dx, dy, -dz, 0.0f);
+            // 太阳方向 (Z-up): horizontal components on X/Y plane, Z is elevation
+            const float hx = std::sin(azimuth_rad) * cos_e;
+            const float hy = std::cos(azimuth_rad) * cos_e;
+            const float hz = sin_e;
+            // sun_direction: 从太阳指向场景，需归一化；负号确保方向从光源指向场景
+            this->sun_direction = Vector4f(-hx, -hy, -hz, 0.0f);
 
             // 太阳颜色/强度
             const Color4f day_color(1.0f, 0.95f, 0.90f, 1.0f);
@@ -246,10 +248,12 @@ namespace hgl::graph
             const float moon_elevation = std::abs(elevation_rad) * 0.8f;
             const float cos_e = std::cos(moon_elevation);
             const float sin_e = std::sin(moon_elevation);
-            const float dx = std::sin(moon_azimuth) * cos_e;
-            const float dy = sin_e;
-            const float dz = std::cos(moon_azimuth) * cos_e;
-            this->sun_direction = Vector4f(-dx, dy, -dz, 0.0f);
+
+            // moon direction (Z-up)
+            const float mhx = std::sin(moon_azimuth) * cos_e;
+            const float mhy = std::cos(moon_azimuth) * cos_e;
+            const float mhz = sin_e;
+            this->sun_direction = Vector4f(-mhx, -mhy, -mhz, 0.0f);
 
             this->sun_color = this->moon_color;
             // 海拔高夜空更通透，光晕扩散降低（通过湿度/气溶胶修正）
@@ -273,10 +277,39 @@ namespace hgl::graph
 
     void SkyInfo::SetByLocalTime(const std::tm &local_tm)
     {
-        const float hour   = static_cast<float>(local_tm.tm_hour);
-        const float minute = static_cast<float>(local_tm.tm_min);
-        const float second = static_cast<float>(local_tm.tm_sec);
-        this->SetByTimeOfDay(hour, minute, second);
+        // 将本地时间转换为 UTC，再以 UTC 时间调用 SetByTimeOfDay
+        // 原因：hour_angle(...) 假定传入的 hour 是 UTC（或标准时间），否则需要减去时区偏移。
+        std::tm tmp = local_tm; // mktime 会规范化 tm ，拷贝以免修改调用者数据
+
+        // mktime 将 tmp 视为本地时间并返回 time_t
+        std::time_t tt = mktime(&tmp);
+        if (tt == -1)
+        {
+            // 退回到原逻辑（不可用 time_t 时）
+            const float hour   = static_cast<float>(local_tm.tm_hour);
+            const float minute = static_cast<float>(local_tm.tm_min);
+            const float second = static_cast<float>(local_tm.tm_sec);
+
+            this->SetDate(1900 + local_tm.tm_year, 1 + local_tm.tm_mon, local_tm.tm_mday);
+            this->SetByTimeOfDay(hour, minute, second);
+            return;
+        }
+
+        std::tm gtm{};
+    #if defined(_WIN32)
+        gmtime_s(&gtm, &tt);
+    #else
+        gmtime_r(&tt, &gtm);
+    #endif
+
+        const float utc_hour   = static_cast<float>(gtm.tm_hour);
+        const float utc_minute = static_cast<float>(gtm.tm_min);
+        const float utc_second = static_cast<float>(gtm.tm_sec);
+
+        // 保持日期由调用者控制（仍使用 local_tm 的年月日）
+        this->SetDate(1900 + local_tm.tm_year, 1 + local_tm.tm_mon, local_tm.tm_mday);
+        // 传入 UTC 时间给 SetByTimeOfDay，使 hour_angle 计算正确
+        this->SetByTimeOfDay(utc_hour, utc_minute, utc_second);
     }
 
     void SkyInfo::SetBySystemClock()

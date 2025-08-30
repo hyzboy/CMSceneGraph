@@ -64,7 +64,7 @@ namespace hgl::graph
     struct SkyInfo
     {
         // Vector4f and Color4f types grouped together for optimal UBO alignment
-        Vector4f sun_direction = Vector4f(0, 1, 0, 0);     // w=0 表示方向向量
+        Vector4f sun_direction = Vector4f(0, 0, 1, 0);     // w=0 表示方向向量
         Color4f  sun_color     = Color4f(1, 0.95f, 0.9f, 1);
         Color4f  base_sky_color = Color4f(0.5f, 0.6f, 1.0f, 1.0f); // 天空基础色（用于shader中的exp2(-ray.y / BaseSkyColor)计算）
         Color4f  moon_color     = Color4f(0.8f, 0.8f, 1.0f, 1.0f);
@@ -75,16 +75,17 @@ namespace hgl::graph
         float    sun_path_azimuth_deg = 180.0f;            // 正午方位角（默认朝南）
         float    max_elevation_deg    = 60.0f;             // 正午最大仰角
         float    latitude_deg  = 0.0f;                     // 纬度（度）
+
         float    longitude_deg = 0.0f;                     // 经度（度）
         float    altitude_m    = 0.0f;                     // 海拔（米）
         float    moon_intensity = 0.3f;
         float    halo_intensity = 0.5f;
-        float    padding_ubo = 0.0f;                       // UBO对齐填充
 
         // Date info for solar declination calculation
         int      year  = 2024;
         int      month = 4;
         int      day   = 10;
+        int     time_zone_minus=0;
 
         // 环境概况（可多类混合）
         EnvironmentProfile environment{};
@@ -113,18 +114,26 @@ namespace hgl::graph
 
             SetLocation(ci->latitude_deg,ci->longitude_deg);
             SetAltitude(ci->altitude_m);
+
+            time_zone_minus=ci->time_zone_minutes;
             return(true);
         }
 
         /** 设置日期（年-月-日），用于计算太阳赤纬（影响季节变化） */
         void SetDate(int year, int month, int day);
+
+        void SetDate(const Date &date) { SetDate(date.GetYear(),date.GetMonth(),date.GetDay()); }
+
         /** 设置环境概况（可多类混合） */
         void SetEnvironment(const EnvironmentProfile &env) { environment = env; environment.Normalize(); }
 
         /** 根据“本地时间（小时/分/秒）”设置太阳/月亮方向与颜色（使用已存储经纬度与日期） */
         void SetByTimeOfDay(float hour, float minute = 0.0f, float second = 0.0f);
+
+
         /** 使用 std::tm 的本地时间来设置（仅取时分秒，不修改已存储的日期） */
         void SetByLocalTime(const std::tm &local_tm);
+
         /** 使用系统当前本地时间来设置（仅取时分秒，不修改已存储的日期） */
         void SetBySystemClock();
     };
