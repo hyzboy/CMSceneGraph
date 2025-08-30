@@ -10,7 +10,7 @@ namespace hgl::geo
 
         static const CountryInfo kCountries[] =
         {
-            { CountryID::PRC,    Continent::Asia,        CityID::BeiJing,     "China",                    U16_TEXT("中国") },
+            { CountryID::PRC,    Continent::Asia,        CityID::BeiJing,      "China",                   U16_TEXT("中国") },
             { CountryID::USA,    Continent::NorthAmerica,CityID::WashingtonDC, "United States",           U16_TEXT("美国") },
             { CountryID::UK,     Continent::Europe,      CityID::London,       "United Kingdom",          U16_TEXT("英国") },
 
@@ -114,7 +114,7 @@ namespace hgl::geo
         };
 
 
-        static const CityInfo kCities[] =
+        static CityInfo kCities[] =
         {
             // China - major cities
             { CountryID::PRC, Continent::Asia, CityID::BeiJing,      "Beijing",            U16_TEXT("北京"),            39.9042f, 116.4074f, 44.0f },
@@ -296,8 +296,6 @@ namespace hgl::geo
             }
         }
     } // namespace
-
-    // ... lookup functions remain unchanged ...
 
     const CountryInfo *GetCountryInfo(CountryID id)
     {

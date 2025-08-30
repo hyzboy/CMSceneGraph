@@ -425,16 +425,18 @@ namespace hgl::geo
 
     struct CityInfo
     {
-        CountryID country_id;
-        Continent continent;
-        CityID city_id;
+                CountryID   country_id;
+                Continent   continent;
+                CityID      city_id;
 
-        const char *    eng_name;                           ///<城市英文名字
-        const u16char * chs_name;                           ///<城市中文名字
+        const   char *      eng_name;                       ///<城市英文名字
+        const   u16char *   chs_name;                       ///<城市中文名字
 
-        float    latitude_deg  = 0.0f;                      ///< 纬度（度）
-        float    longitude_deg = 0.0f;                      ///< 经度（度）
-        float    altitude_m    = 0.0f;                      ///< 海拔（米）
+                float       latitude_deg  = 0.0f;           ///< 纬度（度）
+                float       longitude_deg = 0.0f;           ///< 经度（度）
+                float       altitude_m    = 0.0f;           ///< 海拔（米）
+
+                int         time_zone;                      ///< 时区，东一区为+1，西一区为-1
     };
 
     // Lookup API
