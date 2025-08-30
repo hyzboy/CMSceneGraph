@@ -21,6 +21,8 @@ namespace hgl::geo
 
     enum class CountryID:uint16
     {
+        Unknow,
+
         PRC,        // China
         USA,        // United States
         UK,         // United Kingdom
@@ -69,8 +71,6 @@ namespace hgl::geo
         MYS,        // Malaysia
         SGP,        // Singapore
         PHL,        // Philippines
-        TWN,        // Taiwan
-        HKG,        // Hong Kong (SAR)
         KHM,        // Cambodia
         LAO,        // Laos
         MMR,        // Myanmar
@@ -126,10 +126,14 @@ namespace hgl::geo
         SAU_BH,     // Bahrain (legacy alias)
         BHR,        // Bahrain
         UAE_AJ,     // Ajman (emirate alias)
+
+        ENUM_CLASS_RANGE(Unknow,UAE_AJ)
     };
 
     enum class CityID:uint32
     {
+        Unknow,
+
         // China
         BeiJing,
         ShangHai,
@@ -405,6 +409,8 @@ namespace hgl::geo
 
         // East Asia (Caucasus/Central Asia/Mongolia)
         Ulaanbaatar,
+
+        ENUM_CLASS_RANGE(Unknow,Ulaanbaatar)
     };
 
     struct CountryInfo

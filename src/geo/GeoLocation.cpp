@@ -1,4 +1,6 @@
 ﻿#include <hgl/geo/GeoLocation.h>
+#include <cctype>
+#include <cstring>
 
 namespace hgl::geo
 {
@@ -8,60 +10,109 @@ namespace hgl::geo
 
         static const CountryInfo kCountries[] =
         {
-            { CountryID::PRC, Continent::Asia,        CityID::BeiJing,      "China",            U16_TEXT("中国") },
-            { CountryID::USA, Continent::NorthAmerica,CityID::WashingtonDC, "United States",    U16_TEXT("美国") },
-            { CountryID::UK,  Continent::Europe,      CityID::London,       "United Kingdom",   U16_TEXT("英国") },
-            { CountryID::FRA, Continent::Europe,      CityID::Paris,        "France",           U16_TEXT("法国") },
-            { CountryID::DEU, Continent::Europe,      CityID::Berlin,       "Germany",          U16_TEXT("德国") },
-            { CountryID::ITA, Continent::Europe,      CityID::Rome,         "Italy",            U16_TEXT("意大利") },
-            { CountryID::ESP, Continent::Europe,      CityID::Madrid,       "Spain",            U16_TEXT("西班牙") },
-            { CountryID::JPN, Continent::Asia,        CityID::Tokyo,        "Japan",            U16_TEXT("日本") },
-            { CountryID::KOR, Continent::Asia,        CityID::Seoul,        "South Korea",      U16_TEXT("韩国") },
-            { CountryID::IND, Continent::Asia,        CityID::Delhi,        "India",            U16_TEXT("印度") },
-            { CountryID::RUS, Continent::Europe,      CityID::Moscow,       "Russia",           U16_TEXT("俄罗斯") },
-            { CountryID::CAN, Continent::NorthAmerica,CityID::Ottawa,       "Canada",           U16_TEXT("加拿大") },
-            { CountryID::BRA, Continent::SouthAmerica,CityID::Brasilia,     "Brazil",           U16_TEXT("巴西") },
-            { CountryID::MEX, Continent::NorthAmerica,CityID::MexicoCity,   "Mexico",           U16_TEXT("墨西哥") },
-            { CountryID::TUR, Continent::Asia,        CityID::Ankara,       "Turkey",           U16_TEXT("土耳其") },
-            { CountryID::GRC, Continent::Europe,      CityID::Athens,       "Greece",           U16_TEXT("希腊") },
-            { CountryID::EGY, Continent::Africa,      CityID::Cairo,        "Egypt",            U16_TEXT("埃及") },
-            { CountryID::ZAF, Continent::Africa,      CityID::CapeTown,     "South Africa",     U16_TEXT("南非") },
-            { CountryID::SAU, Continent::Asia,        CityID::Riyadh,       "Saudi Arabia",     U16_TEXT("沙特阿拉伯") },
-            { CountryID::ARE, Continent::Asia,        CityID::AbuDhabi,     "United Arab Emirates", U16_TEXT("阿联酋") },
-            { CountryID::IRN, Continent::Asia,        CityID::Tehran,       "Iran",             U16_TEXT("伊朗") },
-            { CountryID::IRQ, Continent::Asia,        CityID::Baghdad,      "Iraq",             U16_TEXT("伊拉克") },
-            { CountryID::IDN, Continent::Asia,        CityID::Jakarta,      "Indonesia",        U16_TEXT("印度尼西亚") },
-            { CountryID::VNM, Continent::Asia,        CityID::Hanoi,        "Vietnam",          U16_TEXT("越南") },
-            { CountryID::THA, Continent::Asia,        CityID::Bangkok,      "Thailand",         U16_TEXT("泰国") },
-            { CountryID::MYS, Continent::Asia,        CityID::KualaLumpur,  "Malaysia",         U16_TEXT("马来西亚") },
-            { CountryID::SGP, Continent::Asia,        CityID::Singapore,    "Singapore",        U16_TEXT("新加坡") },
-            { CountryID::PHL, Continent::Asia,        CityID::Manila,       "Philippines",      U16_TEXT("菲律宾") },
-            { CountryID::TWN, Continent::Asia,        CityID::Taipei,       "Taiwan",           U16_TEXT("台湾") },
-            { CountryID::HKG, Continent::Asia,        CityID::HongKong,     "Hong Kong",        U16_TEXT("香港") },
-            { CountryID::KHM, Continent::Asia,        CityID::PhnomPenh,    "Cambodia",         U16_TEXT("柬埔寨") },
-            { CountryID::LAO, Continent::Asia,        CityID::Vientiane,    "Laos",             U16_TEXT("老挝") },
-            { CountryID::MMR, Continent::Asia,        CityID::Yangon,       "Myanmar",          U16_TEXT("缅甸") },
-            { CountryID::NPL, Continent::Asia,        CityID::Kathmandu,    "Nepal",            U16_TEXT("尼泊尔") },
-            { CountryID::BGD, Continent::Asia,        CityID::Dhaka,        "Bangladesh",       U16_TEXT("孟加拉国") },
-            { CountryID::LKA, Continent::Asia,        CityID::Colombo,      "Sri Lanka",        U16_TEXT("斯里兰卡") },
-            { CountryID::QAT, Continent::Asia,        CityID::Doha,         "Qatar",            U16_TEXT("卡塔尔") },
-            { CountryID::KWT, Continent::Asia,        CityID::KuwaitCity,   "Kuwait",           U16_TEXT("科威特") },
-            { CountryID::OMN, Continent::Asia,        CityID::Muscat,       "Oman",             U16_TEXT("阿曼") },
-            { CountryID::JOR, Continent::Asia,        CityID::Amman,        "Jordan",           U16_TEXT("约旦") },
-            { CountryID::LBN, Continent::Asia,        CityID::Beirut,       "Lebanon",          U16_TEXT("黎巴嫩") },
-            { CountryID::DZA, Continent::Africa,      CityID::Algiers,      "Algeria",          U16_TEXT("阿尔及利亚") },
-            { CountryID::TUN, Continent::Africa,      CityID::Tunis,        "Tunisia",          U16_TEXT("突尼斯") },
-            { CountryID::ARG, Continent::SouthAmerica,CityID::BuenosAires,  "Argentina",        U16_TEXT("阿根廷") },
-            { CountryID::CHL, Continent::SouthAmerica,CityID::Santiago,     "Chile",            U16_TEXT("智利") },
-            { CountryID::COL, Continent::SouthAmerica,CityID::Bogota,       "Colombia",         U16_TEXT("哥伦比亚") },
-            { CountryID::PER, Continent::SouthAmerica,CityID::Lima,         "Peru",             U16_TEXT("秘鲁") },
-            { CountryID::VEN, Continent::SouthAmerica,CityID::Caracas,      "Venezuela",        U16_TEXT("委内瑞拉") },
-            { CountryID::URY, Continent::SouthAmerica,CityID::Montevideo,   "Uruguay",          U16_TEXT("乌拉圭") },
-            { CountryID::PRY, Continent::SouthAmerica,CityID::Asuncion,     "Paraguay",         U16_TEXT("巴拉圭") },
-            { CountryID::BOL, Continent::SouthAmerica,CityID::LaPaz,        "Bolivia",          U16_TEXT("拉巴斯") },
-            { CountryID::ECU, Continent::SouthAmerica,CityID::Quito,        "Ecuador",          U16_TEXT("厄瓜多尔") },
-            { CountryID::ISL, Continent::Europe,      CityID::Reykjavik,    "Iceland",          U16_TEXT("冰岛") },
+            { CountryID::PRC,    Continent::Asia,        CityID::BeiJing,     "China",                    U16_TEXT("中国") },
+            { CountryID::USA,    Continent::NorthAmerica,CityID::WashingtonDC, "United States",           U16_TEXT("美国") },
+            { CountryID::UK,     Continent::Europe,      CityID::London,       "United Kingdom",          U16_TEXT("英国") },
+
+            { CountryID::CAN,    Continent::NorthAmerica,CityID::Ottawa,       "Canada",                  U16_TEXT("加拿大") },
+            { CountryID::DEU,    Continent::Europe,      CityID::Berlin,       "Germany",                 U16_TEXT("德国") },
+            { CountryID::FRA,    Continent::Europe,      CityID::Paris,        "France",                  U16_TEXT("法国") },
+            { CountryID::JPN,    Continent::Asia,        CityID::Tokyo,        "Japan",                   U16_TEXT("日本") },
+            { CountryID::KOR,    Continent::Asia,        CityID::Seoul,        "South Korea",             U16_TEXT("韩国") },
+            { CountryID::IND,    Continent::Asia,        CityID::Delhi,        "India",                   U16_TEXT("印度") },
+            { CountryID::RUS,    Continent::Europe,      CityID::Moscow,       "Russia",                  U16_TEXT("俄罗斯") },
+            { CountryID::AUS,    Continent::Oceania,     CityID::Canberra,     "Australia",               U16_TEXT("澳大利亚") },
+            { CountryID::NZL,    Continent::Oceania,     CityID::Wellington,   "New Zealand",             U16_TEXT("新西兰") },
+            { CountryID::BRA,    Continent::SouthAmerica,CityID::Brasilia,     "Brazil",                  U16_TEXT("巴西") },
+            { CountryID::MEX,    Continent::NorthAmerica,CityID::MexicoCity,   "Mexico",                  U16_TEXT("墨西哥") },
+            { CountryID::ESP,    Continent::Europe,      CityID::Madrid,       "Spain",                   U16_TEXT("西班牙") },
+            { CountryID::ITA,    Continent::Europe,      CityID::Rome,         "Italy",                   U16_TEXT("意大利") },
+            { CountryID::NLD,    Continent::Europe,      CityID::Unknow,       "Netherlands",             U16_TEXT("荷兰") },
+            { CountryID::SWE,    Continent::Europe,      CityID::Unknow,       "Sweden",                  U16_TEXT("瑞典") },
+            { CountryID::NOR,    Continent::Europe,      CityID::Unknow,       "Norway",                  U16_TEXT("挪威") },
+            { CountryID::DNK,    Continent::Europe,      CityID::Unknow,       "Denmark",                 U16_TEXT("丹麦") },
+            { CountryID::FIN,    Continent::Europe,      CityID::Unknow,       "Finland",                 U16_TEXT("芬兰") },
+            { CountryID::POL,    Continent::Europe,      CityID::Unknow,       "Poland",                  U16_TEXT("波兰") },
+            { CountryID::CZE,    Continent::Europe,      CityID::Unknow,       "Czechia",                 U16_TEXT("捷克") },
+            { CountryID::AUT,    Continent::Europe,      CityID::Unknow,       "Austria",                 U16_TEXT("奥地利") },
+            { CountryID::CHE,    Continent::Europe,      CityID::Unknow,       "Switzerland",             U16_TEXT("瑞士") },
+            { CountryID::BEL,    Continent::Europe,      CityID::Unknow,       "Belgium",                 U16_TEXT("比利时") },
+            { CountryID::PRT,    Continent::Europe,      CityID::Unknow,       "Portugal",                U16_TEXT("葡萄牙") },
+            { CountryID::TUR,    Continent::Asia,        CityID::Ankara,       "Turkey",                  U16_TEXT("土耳其") },
+            { CountryID::GRC,    Continent::Europe,      CityID::Athens,       "Greece",                  U16_TEXT("希腊") },
+            { CountryID::EGY,    Continent::Africa,      CityID::Cairo,        "Egypt",                   U16_TEXT("埃及") },
+            { CountryID::ZAF,    Continent::Africa,      CityID::CapeTown,     "South Africa",            U16_TEXT("南非") },
+            { CountryID::NGA,    Continent::Africa,      CityID::Abuja,        "Nigeria",                 U16_TEXT("尼日利亚") },
+            { CountryID::GHA,    Continent::Africa,      CityID::Accra,        "Ghana",                   U16_TEXT("加纳") },
+            { CountryID::KEN,    Continent::Africa,      CityID::Nairobi,      "Kenya",                   U16_TEXT("肯尼亚") },
+            { CountryID::MAR,    Continent::Africa,      CityID::Rabat,        "Morocco",                 U16_TEXT("摩洛哥") },
+            { CountryID::SAU,    Continent::Asia,        CityID::Riyadh,       "Saudi Arabia",            U16_TEXT("沙特阿拉伯") },
+            { CountryID::ARE,    Continent::Asia,        CityID::AbuDhabi,     "United Arab Emirates",    U16_TEXT("阿联酋") },
+            { CountryID::ISR,    Continent::Asia,        CityID::Jerusalem,    "Israel",                  U16_TEXT("以色列") },
+            { CountryID::IRN,    Continent::Asia,        CityID::Tehran,       "Iran",                    U16_TEXT("伊朗") },
+            { CountryID::IRQ,    Continent::Asia,        CityID::Baghdad,      "Iraq",                    U16_TEXT("伊拉克") },
+            { CountryID::PAK,    Continent::Asia,        CityID::Islamabad,    "Pakistan",                U16_TEXT("巴基斯坦") },
+            { CountryID::IDN,    Continent::Asia,        CityID::Jakarta,      "Indonesia",               U16_TEXT("印度尼西亚") },
+            { CountryID::VNM,    Continent::Asia,        CityID::Hanoi,        "Vietnam",                 U16_TEXT("越南") },
+            { CountryID::THA,    Continent::Asia,        CityID::Bangkok,      "Thailand",                U16_TEXT("泰国") },
+            { CountryID::MYS,    Continent::Asia,        CityID::KualaLumpur,  "Malaysia",                U16_TEXT("马来西亚") },
+            { CountryID::SGP,    Continent::Asia,        CityID::Singapore,    "Singapore",               U16_TEXT("新加坡") },
+            { CountryID::PHL,    Continent::Asia,        CityID::Manila,       "Philippines",             U16_TEXT("菲律宾") },
+            { CountryID::KHM,    Continent::Asia,        CityID::PhnomPenh,    "Cambodia",                U16_TEXT("柬埔寨") },
+            { CountryID::LAO,    Continent::Asia,        CityID::Vientiane,    "Laos",                    U16_TEXT("老挝") },
+            { CountryID::MMR,    Continent::Asia,        CityID::Yangon,       "Myanmar",                 U16_TEXT("缅甸") },
+            { CountryID::NPL,    Continent::Asia,        CityID::Kathmandu,    "Nepal",                   U16_TEXT("尼泊尔") },
+            { CountryID::BGD,    Continent::Asia,        CityID::Dhaka,        "Bangladesh",              U16_TEXT("孟加拉国") },
+            { CountryID::LKA,    Continent::Asia,        CityID::Colombo,      "Sri Lanka",               U16_TEXT("斯里兰卡") },
+            { CountryID::ARE_QA, Continent::Asia,        CityID::Doha,         "Qatar (alias)",          U16_TEXT("卡塔尔(别名)") },
+            { CountryID::QAT,    Continent::Asia,        CityID::Doha,         "Qatar",                   U16_TEXT("卡塔尔") },
+            { CountryID::KWT,    Continent::Asia,        CityID::KuwaitCity,   "Kuwait",                  U16_TEXT("科威特") },
+            { CountryID::OMN,    Continent::Asia,        CityID::Muscat,       "Oman",                    U16_TEXT("阿曼") },
+            { CountryID::JOR,    Continent::Asia,        CityID::Amman,        "Jordan",                  U16_TEXT("约旦") },
+            { CountryID::LBN,    Continent::Asia,        CityID::Beirut,       "Lebanon",                 U16_TEXT("黎巴嫩") },
+            { CountryID::SDN,    Continent::Africa,      CityID::Khartoum,     "Sudan",                   U16_TEXT("苏丹") },
+            { CountryID::ETH,    Continent::Africa,      CityID::AddisAbaba,   "Ethiopia",                U16_TEXT("埃塞俄比亚") },
+            { CountryID::DZA,    Continent::Africa,      CityID::Algiers,      "Algeria",                 U16_TEXT("阿尔及利亚") },
+            { CountryID::TUN,    Continent::Africa,      CityID::Tunis,        "Tunisia",                 U16_TEXT("突尼斯") },
+            { CountryID::ARG,    Continent::SouthAmerica,CityID::BuenosAires,  "Argentina",               U16_TEXT("阿根廷") },
+            { CountryID::CHL,    Continent::SouthAmerica,CityID::Santiago,     "Chile",                   U16_TEXT("智利") },
+            { CountryID::COL,    Continent::SouthAmerica,CityID::Bogota,       "Colombia",                U16_TEXT("哥伦比亚") },
+            { CountryID::PER,    Continent::SouthAmerica,CityID::Lima,         "Peru",                    U16_TEXT("秘鲁") },
+            { CountryID::VEN,    Continent::SouthAmerica,CityID::Caracas,      "Venezuela",               U16_TEXT("委内瑞拉") },
+            { CountryID::URY,    Continent::SouthAmerica,CityID::Montevideo,   "Uruguay",                 U16_TEXT("乌拉圭") },
+            { CountryID::PRY,    Continent::SouthAmerica,CityID::Asuncion,     "Paraguay",                U16_TEXT("巴拉圭") },
+            { CountryID::BOL,    Continent::SouthAmerica,CityID::LaPaz,        "Bolivia",                 U16_TEXT("玻利维亚") },
+            { CountryID::ECU,    Continent::SouthAmerica,CityID::Quito,        "Ecuador",                 U16_TEXT("厄瓜多尔") },
+            { CountryID::CRI,    Continent::NorthAmerica,CityID::Unknow,       "Costa Rica",              U16_TEXT("哥斯达黎加") },
+            { CountryID::PAN,    Continent::NorthAmerica,CityID::Unknow,       "Panama",                  U16_TEXT("巴拿马") },
+            { CountryID::CUB,    Continent::NorthAmerica,CityID::Unknow,       "Cuba",                    U16_TEXT("古巴") },
+            { CountryID::DOM,    Continent::NorthAmerica,CityID::Unknow,       "Dominican Republic",      U16_TEXT("多米尼加") },
+            { CountryID::JAM,    Continent::NorthAmerica,CityID::Unknow,       "Jamaica",                 U16_TEXT("牙买加") },
+            { CountryID::ISL,    Continent::Europe,      CityID::Reykjavik,    "Iceland",                 U16_TEXT("冰岛") },
+            { CountryID::IRL,    Continent::Europe,      CityID::Dublin,       "Ireland",                 U16_TEXT("爱尔兰") },
+            { CountryID::UKR,    Continent::Europe,      CityID::Kyiv,         "Ukraine",                 U16_TEXT("乌克兰") },
+            { CountryID::BLR,    Continent::Europe,      CityID::Minsk,        "Belarus",                 U16_TEXT("白俄罗斯") },
+            { CountryID::ROU,    Continent::Europe,      CityID::Bucharest,    "Romania",                 U16_TEXT("罗马尼亚") },
+            { CountryID::BGR,    Continent::Europe,      CityID::Sofia,        "Bulgaria",                U16_TEXT("保加利亚") },
+            { CountryID::HUN,    Continent::Europe,      CityID::Budapest,     "Hungary",                 U16_TEXT("匈牙利") },
+            { CountryID::SRB,    Continent::Europe,      CityID::Belgrade,     "Serbia",                  U16_TEXT("塞尔维亚") },
+            { CountryID::HRV,    Continent::Europe,      CityID::Zagreb,       "Croatia",                 U16_TEXT("克罗地亚") },
+            { CountryID::SVN,    Continent::Europe,      CityID::Ljubljana,    "Slovenia",                U16_TEXT("斯洛文尼亚") },
+            { CountryID::SVK,    Continent::Europe,      CityID::Bratislava,   "Slovakia",                U16_TEXT("斯洛伐克") },
+            { CountryID::EST,    Continent::Europe,      CityID::Tallinn,      "Estonia",                 U16_TEXT("爱沙尼亚") },
+            { CountryID::LVA,    Continent::Europe,      CityID::Riga,         "Latvia",                  U16_TEXT("拉脱维亚") },
+            { CountryID::LTU,    Continent::Europe,      CityID::Vilnius,      "Lithuania",               U16_TEXT("立陶宛") },
+            { CountryID::MLT,    Continent::Europe,      CityID::Valletta,     "Malta",                   U16_TEXT("马耳他") },
+            { CountryID::CYP,    Continent::Europe,      CityID::Nicosia,      "Cyprus",                  U16_TEXT("塞浦路斯") },
+            { CountryID::GEO,    Continent::Asia,        CityID::Tbilisi,      "Georgia",                 U16_TEXT("格鲁吉亚") },
+            { CountryID::KAZ,    Continent::Asia,        CityID::Astana,       "Kazakhstan",              U16_TEXT("哈萨克斯坦") },
+            { CountryID::UZB,    Continent::Asia,        CityID::Tashkent,     "Uzbekistan",              U16_TEXT("乌兹别克斯坦") },
+            { CountryID::AZE,    Continent::Asia,        CityID::Baku,         "Azerbaijan",              U16_TEXT("阿塞拜疆") },
+            { CountryID::ARM,    Continent::Asia,        CityID::Yerevan,      "Armenia",                 U16_TEXT("亚美尼亚") },
+            { CountryID::MNG,    Continent::Asia,        CityID::Ulaanbaatar,  "Mongolia",                U16_TEXT("蒙古") },
+            { CountryID::BHR,    Continent::Asia,        CityID::Manama,       "Bahrain",                 U16_TEXT("巴林") },
         };
+
 
         static const CityInfo kCities[] =
         {
@@ -144,8 +195,8 @@ namespace hgl::geo
             { CountryID::MYS, Continent::Asia,         CityID::KualaLumpur,  "Kuala Lumpur",       U16_TEXT("吉隆坡"),          3.1390f,   101.6869f, 21.0f },
             { CountryID::SGP, Continent::Asia,         CityID::Singapore,    "Singapore",          U16_TEXT("新加坡"),          1.3521f,   103.8198f, 15.0f },
             { CountryID::PHL, Continent::Asia,         CityID::Manila,       "Manila",             U16_TEXT("马尼拉"),          14.5995f,  120.9842f, 16.0f },
-            { CountryID::TWN, Continent::Asia,         CityID::Taipei,       "Taipei",             U16_TEXT("台北"),            25.0330f,  121.5654f, 10.0f },
-            { CountryID::HKG, Continent::Asia,         CityID::HongKong,     "Hong Kong",          U16_TEXT("香港"),            22.3193f,  114.1694f, 9.0f },
+            { CountryID::PRC, Continent::Asia,         CityID::Taipei,       "Taipei",             U16_TEXT("台北"),            25.0330f,  121.5654f, 10.0f },
+            { CountryID::PRC, Continent::Asia,         CityID::HongKong,     "Hong Kong",          U16_TEXT("香港"),            22.3193f,  114.1694f, 9.0f },
             { CountryID::KHM, Continent::Asia,         CityID::PhnomPenh,    "Phnom Penh",         U16_TEXT("金边"),            11.5564f,  104.9282f, 12.0f },
             { CountryID::LAO, Continent::Asia,         CityID::Vientiane,    "Vientiane",          U16_TEXT("万象"),            17.9757f,  102.6331f, 174.0f },
             { CountryID::MMR, Continent::Asia,         CityID::Yangon,       "Yangon",             U16_TEXT("仰光"),            16.8409f,   96.1735f, 23.0f },
@@ -193,28 +244,16 @@ namespace hgl::geo
             { CountryID::BHR, Continent::Asia,         CityID::Manama,       "Manama",             U16_TEXT("麦纳麦"),          26.2285f,   50.5860f, 10.0f },
 
             // Additional capitals in Africa
-            { CountryID::NGA, Continent::Africa,      CityID::Abuja,        "Abuja",              U16_TEXT("阿布贾"),           9.0765f,    7.3986f, 840.0f },
-            { CountryID::KEN, Continent::Africa,      CityID::Nairobi,      "Nairobi",            U16_TEXT("内罗毕"),          -1.2921f,   36.8219f, 1795.0f },
-            { CountryID::MAR, Continent::Africa,      CityID::Rabat,        "Rabat",              U16_TEXT("拉巴特"),          34.0209f,   -6.8416f, 75.0f },
-            { CountryID::GHA, Continent::Africa,      CityID::Accra,        "Accra",              U16_TEXT("阿克拉"),           5.6037f,   -0.1870f, 61.0f },
-            { CountryID::ETH, Continent::Africa,      CityID::AddisAbaba,   "Addis Ababa",        U16_TEXT("亚的斯亚贝巴"),     8.9806f,   38.7578f, 2355.0f },
-            { CountryID::SDN, Continent::Africa,      CityID::Khartoum,     "Khartoum",           U16_TEXT("喀土穆"),           15.5007f,  32.5599f, 382.0f },
+            { CountryID::NGA, Continent::Africa,       CityID::Abuja,        "Abuja",              U16_TEXT("阿布贾"),           9.0765f,    7.3986f, 840.0f },
+            { CountryID::KEN, Continent::Africa,       CityID::Nairobi,      "Nairobi",            U16_TEXT("内罗毕"),          -1.2921f,   36.8219f, 1795.0f },
+            { CountryID::MAR, Continent::Africa,       CityID::Rabat,        "Rabat",              U16_TEXT("拉巴特"),          34.0209f,   -6.8416f, 75.0f },
+            { CountryID::GHA, Continent::Africa,       CityID::Accra,        "Accra",              U16_TEXT("阿克拉"),           5.6037f,   -0.1870f, 61.0f },
+            { CountryID::ETH, Continent::Africa,       CityID::AddisAbaba,   "Addis Ababa",        U16_TEXT("亚的斯亚贝巴"),     8.9806f,   38.7578f, 2355.0f },
+            { CountryID::SDN, Continent::Africa,       CityID::Khartoum,     "Khartoum",           U16_TEXT("喀土穆"),           15.5007f,  32.5599f, 382.0f },
 
             // Famous non-capital cities (selection)
             { CountryID::USA, Continent::NorthAmerica, CityID::NewYork,      "New York",           U16_TEXT("纽约"),            40.7128f,  -74.0060f, 10.0f },
             { CountryID::USA, Continent::NorthAmerica, CityID::LosAngeles,   "Los Angeles",        U16_TEXT("洛杉矶"),          34.0522f, -118.2437f, 71.0f },
-            { CountryID::USA, Continent::NorthAmerica, CityID::SanFrancisco, "San Francisco",      U16_TEXT("旧金山"),          37.7749f, -122.4194f, 16.0f },
-            { CountryID::USA, Continent::NorthAmerica, CityID::Seattle,      "Seattle",            U16_TEXT("西雅图"),          47.6062f, -122.3321f, 56.0f },
-            { CountryID::USA, Continent::NorthAmerica, CityID::Chicago,      "Chicago",            U16_TEXT("芝加哥"),          41.8781f,  -87.6298f, 181.0f },
-            { CountryID::USA, Continent::NorthAmerica, CityID::Boston,       "Boston",             U16_TEXT("波士顿"),          42.3601f,  -71.0589f, 43.0f },
-            { CountryID::USA, Continent::NorthAmerica, CityID::Houston,      "Houston",            U16_TEXT("休斯敦"),          29.7604f,  -95.3698f, 13.0f },
-            { CountryID::USA, Continent::NorthAmerica, CityID::Miami,        "Miami",              U16_TEXT("迈阿密"),          25.7617f,  -80.1918f, 2.0f },
-            { CountryID::ARE, Continent::Asia,         CityID::Dubai,        "Dubai",              U16_TEXT("迪拜"),            25.2048f,   55.2708f, 5.0f },
-            { CountryID::TUR, Continent::Asia,         CityID::Istanbul,     "Istanbul",           U16_TEXT("伊斯坦布尔"),      41.0082f,   28.9784f, 39.0f },
-            { CountryID::ZAF, Continent::Africa,       CityID::Johannesburg, "Johannesburg",       U16_TEXT("约翰内斯堡"),      -26.2041f,  28.0473f, 1753.0f },
-            { CountryID::MAR, Continent::Africa,       CityID::Casablanca,   "Casablanca",         U16_TEXT("卡萨布兰卡"),      33.5731f,   -7.5898f, 30.0f },
-            { CountryID::NGA, Continent::Africa,       CityID::Lagos,        "Lagos",              U16_TEXT("拉各斯"),           6.5244f,     3.3792f, 41.0f },
-            { CountryID::ISR, Continent::Asia,         CityID::TelAviv,      "Tel Aviv",           U16_TEXT("特拉维夫"),        32.0853f,   34.7818f, 14.0f },
         };
 
         static int next_normalized_ascii_letter(const char **p)
@@ -226,7 +265,6 @@ namespace hgl::geo
                 unsigned char c = *s;
                 if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
                 {
-                    /* Convert ASCII uppercase to lowercase by setting bit 0x20, safe for A-Z */
                     unsigned char lower = (c >= 'A' && c <= 'Z') ? (c | 0x20) : c;
                     s++;
                     *p = (const char *)s;
@@ -255,10 +293,11 @@ namespace hgl::geo
                 if (cb == 0) return 1;
                 if (ca < cb) return -1;
                 if (ca > cb) return 1;
-                /* otherwise equal, continue to next character */
             }
         }
     } // namespace
+
+    // ... lookup functions remain unchanged ...
 
     const CountryInfo *GetCountryInfo(CountryID id)
     {
