@@ -82,10 +82,10 @@ namespace hgl::graph
         float    halo_intensity = 0.5f;
 
         // Date info for solar declination calculation
-        int      year  = 2024;
-        int      month = 4;
-        int      day   = 10;
-        int     time_zone_minus=0;
+        int     year  = 2024;
+        int     month = 4;
+        int     day   = 10;
+        int     timezone_offset_minutes=0;
 
         // 环境概况（可多类混合）
         EnvironmentProfile environment{};
@@ -115,7 +115,7 @@ namespace hgl::graph
             SetLocation(ci->latitude_deg,ci->longitude_deg);
             SetAltitude(ci->altitude_m);
 
-            time_zone_minus=ci->time_zone_minutes;
+            timezone_offset_minutes=ci->timezone_offset_minutes;
             return(true);
         }
 
@@ -127,12 +127,13 @@ namespace hgl::graph
         /** 设置环境概况（可多类混合） */
         void SetEnvironment(const EnvironmentProfile &env) { environment = env; environment.Normalize(); }
 
-        /** 根据“本地时间（小时/分/秒）”设置太阳/月亮方向与颜色（使用已存储经纬度与日期） */
+        /** 根据“UTC时间（小时/分/秒）”设置太阳/月亮方向与颜色（使用已存储经纬度与日期） */
         void SetByTimeOfDay(float hour, float minute = 0.0f, float second = 0.0f);
-
 
         /** 使用 std::tm 的本地时间来设置（仅取时分秒，不修改已存储的日期） */
         void SetByLocalTime(const std::tm &local_tm);
+
+        void SetByLocalTime(float hour, float minute = 0.0f, float second = 0.0f);
 
         /** 使用系统当前本地时间来设置（仅取时分秒，不修改已存储的日期） */
         void SetBySystemClock();

@@ -436,7 +436,7 @@ namespace hgl::geo
                 float       longitude_deg = 0.0f;           ///< 经度（度）
                 float       altitude_m    = 0.0f;           ///< 海拔（米）
 
-                int         time_zone_minutes;              ///< 时区(分钟)，东一区为+60，西一区为-60
+                int         timezone_offset_minutes;        ///< 时区(分钟)，东一区为+60，西一区为-60
     };
 
     // Lookup API

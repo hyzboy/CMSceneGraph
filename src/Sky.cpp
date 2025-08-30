@@ -20,9 +20,9 @@ namespace hgl::graph
             return t * t * (3.0f - 2.0f * t);
         }
 
-        inline float frac_day(float h, float m, float s,float time_zone_minus)
+        inline float frac_day(float h, float m, float s)
         {
-            float th = h + m / 60.0f + s / 3600.0f - time_zone_minus/60.0f;
+            float th = h + m / 60.0f + s / 3600.0f;
             th = std::fmod(th, 24.0f);
             if (th < 0.0f) th += 24.0f;
             return th;
@@ -73,6 +73,31 @@ namespace hgl::graph
         inline float Luminance(const Color4f &c)
         {
             return 0.2126f*c.r + 0.7152f*c.g + 0.0722f*c.b;
+        }
+
+        // Convert civil date to days since epoch 1970-01-01 using algorithm from Howard Hinnant
+        inline int days_from_civil(int y, unsigned m, unsigned d)
+        {
+            y -= m <= 2;
+            const int era = (y >= 0 ? y : y-399) / 400;
+            const unsigned yoe = static_cast<unsigned>(y - era * 400);      // [0, 399]
+            const unsigned doy = (153*(m + (m > 2 ? -3 : 9)) + 2)/5 + d - 1;
+            const unsigned doe = yoe*365 + yoe/4 - yoe/100 + doy;
+            return era * 146097 + static_cast<int>(doe) - 719468;
+        }
+
+        inline void civil_from_days(int z, int &y, int &m, int &d)
+        {
+            z += 719468;
+            const int era = (z >= 0 ? z : z - 146096) / 146097;
+            const unsigned doe = static_cast<unsigned>(z - era * 146097);          // [0, 146096]
+            const unsigned yoe = (doe - doe/1460 + doe/36524 - doe/146096) / 365; // [0, 399]
+            y = static_cast<int>(yoe) + era * 400;
+            const unsigned doy = doe - (365*yoe + yoe/4 - yoe/100);
+            const unsigned mp = (5*doy + 2)/153;
+            d = static_cast<int>(doy - (153*mp+2)/5 + 1);
+            m = static_cast<int>(mp + (mp < 10 ? 3 : -9));
+            y += (m <= 2);
         }
     } // anon
 
@@ -170,7 +195,7 @@ namespace hgl::graph
 
     void SkyInfo::SetByTimeOfDay(float hour, float minute, float second)
     {
-        const float h = frac_day(hour, minute, second,time_zone_minus);
+        const float h = frac_day(hour, minute, second);
         const float latitude_rad = this->latitude_deg * DEG2RAD;
 
         const int day_of_year = DayOfYear(this->year, this->month, this->day);
@@ -310,6 +335,38 @@ namespace hgl::graph
         this->SetDate(1900 + local_tm.tm_year, 1 + local_tm.tm_mon, local_tm.tm_mday);
         // 传入 UTC 时间给 SetByTimeOfDay，使 hour_angle 计算正确
         this->SetByTimeOfDay(utc_hour, utc_minute, utc_second);
+    }
+
+    void SkyInfo::SetByLocalTime(float hour, float minute, float second)
+    {
+        // Use timezone_offset_minutes in SkyInfo if set; default 0
+        const int tz_minutes = this->timezone_offset_minutes;
+
+        // total seconds of local time
+        int total = int(std::round(hour * 3600.0f + minute * 60.0f + second));
+        // subtract timezone offset to get UTC seconds
+        total -= tz_minutes * 60;
+
+        int day_offset = 0;
+        const int day_seconds = 24 * 3600;
+        while (total < 0) { total += day_seconds; --day_offset; }
+        while (total >= day_seconds) { total -= day_seconds; ++day_offset; }
+
+        int utc_h = total / 3600;
+        int utc_m = (total % 3600) / 60;
+        int utc_s = total % 60;
+
+        if (day_offset != 0)
+        {
+            // shift stored date by day_offset using civil date algorithms
+            int z = days_from_civil(this->year, static_cast<unsigned>(this->month), static_cast<unsigned>(this->day));
+            z += day_offset;
+            int ny, nm, nd;
+            civil_from_days(z, ny, nm, nd);
+            this->SetDate(ny, nm, nd);
+        }
+
+        this->SetByTimeOfDay(static_cast<float>(utc_h), static_cast<float>(utc_m), static_cast<float>(utc_s));
     }
 
     void SkyInfo::SetBySystemClock()
