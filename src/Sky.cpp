@@ -42,17 +42,36 @@ namespace hgl::graph
         sun_direction.z = sin(elevation_rad);
         sun_direction.w = 0.0f; // 方向向量
 
-        // 根据仰角调整太阳光强度和颜色（简单模型）
+        // 根据仰角调整太阳光强度和颜色（更自然的色温变化）
         if (elevation_deg > 0.0f)
         {
-            // 白天，光强随仰角增加
-            sun_intensity=1.0f;
-            moon_intensity=0.0f;
+            // 白天：色温随仰角从暖到冷（接近白）
+            // elev_norm: 0(地平线) .. 1(正顶)
+            const float elev_norm = elevation_deg >= 90.0f ? 1.0f : (elevation_deg <= 0.0f ? 0.0f : elevation_deg/90.0f);
+            // 暖色因子：地平线最暖，正顶最冷
+            const float warm = powf(1.0f - elev_norm, 1.2f);
+
+            // 日光近白（略暖），黄昏偏橙
+            const Color4f day_col (1.00f, 0.98f, 0.95f, 1.0f);
+            const Color4f dusk_col(1.00f, 0.62f, 0.32f, 1.0f);
+
+            sun_color.r = day_col.r + (dusk_col.r - day_col.r) * warm;
+            sun_color.g = day_col.g + (dusk_col.g - day_col.g) * warm;
+            sun_color.b = day_col.b + (dusk_col.b - day_col.b) * warm;
+            sun_color.a = 1.0f;
+
+            // 光晕颜色与太阳色一致，稍暖
+            halo_color = sun_color;
+
+            // 白天，光强固定为可见（由材质做映射）
+            sun_intensity = 1.0f;
+            moon_intensity = 0.0f;
         }
         else
         {
-            sun_intensity=0.0f;
-            moon_intensity=1.0f;
+            // 夜晚：太阳熄灭，月亮可见（颜色保持不变或使用 moon_color）
+            sun_intensity = 0.0f;
+            moon_intensity = 1.0f;
         }
     }
 } // namespace hgl::graph
