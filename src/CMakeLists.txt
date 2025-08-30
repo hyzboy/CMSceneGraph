@@ -14,7 +14,8 @@ SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/Plane.h
                     ${CM_SG_INCLUDE_PATH}/Frustum.h
                     ${CM_SG_INCLUDE_PATH}/TransformFaceToCamera.h
-                    ${CM_SG_INCLUDE_PATH}/VertexAttrib.h)
+                    ${CM_SG_INCLUDE_PATH}/VertexAttrib.h
+                    ${CM_SG_INCLUDE_PATH}/Sky.h)
 
 SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKString.h
@@ -46,7 +47,8 @@ SET(CM_SG_SOURCE    AABB.cpp
                     Ray.cpp
                     Plane.cpp
                     Frustum.cpp
-                    VertexAttrib.cpp)
+                    VertexAttrib.cpp
+                    Sky.cpp)
 
 SET(CM_CAMERA_SOURCE    ${CM_SG_INCLUDE_PATH}/Camera.h
                         ${CM_SG_INCLUDE_PATH}/CameraInfo.h
