@@ -14,7 +14,7 @@ namespace hgl::graph
 
         Color4f     moon_color      =Color4f(0.6f,0.7f,0.8f,1);
 
-        float       sun_ang_deg     =0.53f;               // 太阳视直径（度），约0.5度，稍微放大一些
+        float       sun_ang_deg     =17.0f;               // 太阳视直径（度），约0.5度，稍微放大一些
         float       sun_intensity   =1.0f;                // 光强，夜晚为0
         float       moon_intensity  =0.0f;                // 月亮强度
         float       halo_intensity  =0.1f;                // 光晕强度
