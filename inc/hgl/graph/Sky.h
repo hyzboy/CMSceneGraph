@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <ctime>                   // std::tm
 #include <hgl/color/Color.h>
-#include <hgl/graph/Camera.h>      // 提供 Vector4f（约定 Y 轴向上）
+#include <hgl/geo/GeoLocation.h>
 
 namespace hgl::graph
 {
@@ -99,10 +99,23 @@ namespace hgl::graph
         // Color3f sky_tint       = {0.5f, 0.6f, 1.0f}; // 天空色倾向
         // bool   enable_stars    = false;   // 夜空星星
 
-        /** 设置经纬度（度） */
-        void SetLocation(float latitude_deg, float longitude_deg);
-        /** 设置海拔（米） */
-        void SetAltitude(float altitude_m);
+
+        void SetLocation(float latitude_deg, float longitude_deg);              ///<设置经纬度（度）
+
+        void SetAltitude(float altitude_m);                                     ///<设置海拔（米）
+
+        bool SetLocation(const geo::CityID &city)                               ///<根据城市设置经纬度和海拔
+        {
+            const geo::CityInfo *ci=geo::GetCityInfo(city);
+
+            if(!ci)
+                return(false);
+
+            SetLocation(ci->latitude_deg,ci->longitude_deg);
+            SetAltitude(ci->altitude_m);
+            return(true);
+        }
+
         /** 设置日期（年-月-日），用于计算太阳赤纬（影响季节变化） */
         void SetDate(int year, int month, int day);
         /** 设置环境概况（可多类混合） */
