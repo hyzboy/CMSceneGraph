@@ -60,9 +60,9 @@ namespace hgl::graph
     #define SDB_FIELD_Cpp_Source(type,name) type name;
     #define SDB_FIELD_GLSL_Source(type,name) "\t" #type " " #name ";\n"
 
-    #define UBO_DEFINE(name,vn,dst) class UBO##name:public ShaderDataBlock   \
+    #define SDB_DEFINE(bo,name,vn,dst) class ##bo##name:public ShaderDataBlock   \
     { \
-        UBO_FIELD_##name(SDB_FIELD_Cpp_Source); \
+        SDB_FIELD_##name(SDB_FIELD_Cpp_Source); \
     \
         static constexpr const char struct_name[]=#name; \
         static constexpr const char glsl_source_code[]=UBO_FIELD_##name(SDB_FIELD_GLSL_Source); \
@@ -76,11 +76,14 @@ namespace hgl::graph
         virtual const DescriptorSetType GetDescSetType()const{return DescriptorSetType::dst};\
     };
 
+    #define UBO_DEFINE(name,vn,dst)     SDB_DEFINE(UBO,name,vn,dst)
+    #define SSBO_DEFINE(name,vn,dst)    SDB_DEFINE(SSBO,name,vn,dst)
+
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
 
     C++中定义UBO方法：
 
-    #define UBO_FIELD_ViewportInfo(F) \
+    #define SDB_FIELD_ViewportInfo(F) \
             F(Matrix4,ortho_matrix)            \
             F(Float2,canvas_resolution)        \
             F(Float2,viewport_resolution)      \
