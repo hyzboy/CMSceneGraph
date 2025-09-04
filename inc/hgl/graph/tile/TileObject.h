@@ -7,6 +7,8 @@ namespace hgl::graph
 {
     struct TileObject
     {
+        int id;
+
         int col,row;            //当前tile在整个纹理中的tile位置
 
         RectScope2i uv_pixel;   //以象素为单位的tile位置和尺寸
