@@ -55,16 +55,6 @@ SET(CM_SG_SOURCE    AABB.cpp
                     VertexAttrib.cpp
                     Sky.cpp)
 
-SET(CM_CAMERA_SOURCE    ${CM_SG_INCLUDE_PATH}/Camera.h
-                        ${CM_SG_INCLUDE_PATH}/CameraInfo.h
-                        ${CM_SG_INCLUDE_PATH}/ViewportInfo.h
-                        ${CM_SG_INCLUDE_PATH}/CameraControl.h
-                        ${CM_SG_INCLUDE_PATH}/LookAtCameraControl.h
-                        ${CM_SG_INCLUDE_PATH}/FirstPersonCameraControl.h
-                        Camera.cpp
-                        ViewportInfo.cpp)
-SOURCE_GROUP("SceneGraph\\Camera" FILES ${CM_CAMERA_SOURCE})
-
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
                         vulkan/VKString.cpp
                         vulkan/VKPrimitiveType.cpp
