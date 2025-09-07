@@ -8,10 +8,12 @@ inline hgl::String<T> VkUUID2String(const hgl::uint8 *pipelineCacheUUID)
 {
     constexpr const size_t UUID_SIZE=16;
 
-    T *hstr=new T[UUID_SIZE*2+1];
+    String<T> uuid_string;
+
+    T *hstr=uuid_string.Resize(UUID_SIZE*2);
     
     DataToLowerHexStr(hstr,pipelineCacheUUID,UUID_SIZE);
 
-    return hgl::String<T>::newOf(hstr,UUID_SIZE*2);
+    return uuid_string;
 }
 VK_NAMESPACE_END
