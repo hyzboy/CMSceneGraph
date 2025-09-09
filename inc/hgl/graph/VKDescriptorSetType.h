@@ -12,7 +12,7 @@ VK_NAMESPACE_BEGIN
 *
 *    #define MI_MAX_COUNT ???                //该值由引擎根据 UBORange/sizeof(MaterialInstance) 计算出来
 *
-*    struct MaterialInstance                 //这部分数据，即为材质实例的具体数据，每一个材质实例类负责提供具体数据。由RenderList合并成一整个UBO
+*    struct MaterialInstance                 //这部分数据，即为材质实例的具体数据，每一个材质实例类负责提供具体数据。由RenderCollector合并成一整个UBO
 *    {                                       //该类数据，由DescriptorSetType为PerMaterial的参数构成
 *        vec4 BaseColor;
 *        vec4 Emissive;
@@ -53,7 +53,7 @@ enum class DescriptorSetType
 
     Static,             ///<静态数据，基本上是不会变的
 
-    Global,             ///<全局参数，不确定什么时候更新，但一般不怎么更新(如太阳光), 不会在RenderList中处理刷新
+    Global,             ///<全局参数，不确定什么时候更新，但一般不怎么更新(如太阳光), 不会在RenderCollector中处理刷新
 
     PerFrame,           ///<固定每帧刷新一次(如摄像机位置等)
 
