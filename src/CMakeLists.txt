@@ -73,7 +73,6 @@ SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
 source_group("SceneGraph" FILES ${CM_SG_HEADER} ${CM_SG_SOURCE})
 source_group("SceneGraph\\Vulkan" FILES ${CM_SG_VULKAN_HEADER} ${CM_SG_VULKAN_SOURCE})
 
-
 add_cm_library(CMSceneGraph "CM"    ${CM_SG_HEADER}
                                     ${CM_SG_SOURCE}
                                     ${CM_SG_GEO_FILES}
