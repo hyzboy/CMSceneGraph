@@ -36,7 +36,7 @@ VK_NAMESPACE_BEGIN
             return;
         }
 
-    #define SAVE_PIPELINE_TO_FILE(name) SaveToToml(filesystem::MergeFilename(pathname,OS_TEXT(#name) OS_TEXT(".pipeline.toml")),GetPipelineData(InlinePipeline::name));
+    #define SAVE_PIPELINE_TO_FILE(name) SaveToToml(filesystem::JoinPathWithFilename(pathname,OS_TEXT(#name) OS_TEXT(".pipeline.toml")),GetPipelineData(InlinePipeline::name));
 
         SAVE_PIPELINE_TO_FILE(Solid3D)
         SAVE_PIPELINE_TO_FILE(Alpha3D)
@@ -89,7 +89,7 @@ int os_main(int argc,os_char **argv)
     }
 
     const hgl::OSString ext_pipeline=OS_TEXT("pipeline");
-    const hgl::OSString bin_filename=hgl::filesystem::ReplaceExtName(toml_filename,ext_pipeline,OS_TEXT('.'),false);
+    const hgl::OSString bin_filename=hgl::filesystem::ReplaceExtension(toml_filename,ext_pipeline,OS_TEXT('.'),false);
 
     os_out<<OS_TEXT("save pipeline file: ")<<bin_filename.c_str()<<std::endl;
 
