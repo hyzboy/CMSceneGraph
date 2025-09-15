@@ -30,10 +30,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKShaderDescriptorSet.h
                             ${CM_SG_INCLUDE_PATH}/VKVertexInputAttribute.h
                             ${CM_SG_INCLUDE_PATH}/VKImageCreateInfo.h
-                            ${CM_SG_INCLUDE_PATH}/VKInlinePipeline.h
                             ${CM_SG_INCLUDE_PATH}/VKNamespace.h
-                            ${CM_SG_INCLUDE_PATH}/VKPipelineData.h
-                            ${CM_SG_INCLUDE_PATH}/VKPipelineHash.h
                             ${CM_SG_INCLUDE_PATH}/VKPrimitiveType.h
                             ${CM_SG_INCLUDE_PATH}/VKRenderbufferInfo.h
                             ${CM_SG_INCLUDE_PATH}/VKStruct.h
@@ -63,12 +60,7 @@ SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
                         vulkan/VKShaderDescriptorSet.cpp
                         vulkan/VKVertexInput.cpp
                         vulkan/VKVertexInputLayout.cpp
-                        vulkan/VKVertexInputLayoutHash.cpp
-                        vulkan/VKPipelineCompare.cpp
-                        vulkan/VKPipelineHash.cpp
-                        vulkan/VKPipelineData.cpp
-                        vulkan/VKPipelineDataManage.cpp
-                        vulkan/VKPipelineDataSaveLoad.cpp)
+                        vulkan/VKVertexInputLayoutHash.cpp)
 
 source_group("SceneGraph" FILES ${CM_SG_HEADER} ${CM_SG_SOURCE})
 source_group("SceneGraph\\Vulkan" FILES ${CM_SG_VULKAN_HEADER} ${CM_SG_VULKAN_SOURCE})
