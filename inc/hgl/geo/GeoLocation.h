@@ -77,7 +77,6 @@ namespace hgl::geo
         NPL,        // Nepal
         BGD,        // Bangladesh
         LKA,        // Sri Lanka
-        ARE_QA,     // Qatar (legacy alias)
         QAT,        // Qatar
         KWT,        // Kuwait
         OMN,        // Oman
@@ -419,7 +418,7 @@ namespace hgl::geo
         Continent   continent;                              ///<所属洲
         CityID      capital_city_id;                        ///<首都城市ID
 
-        const char *    eng_name;                           ///<国家英文名
+        const u16char * eng_name;                           ///<国家英文名
         const u16char * chs_name;                           ///<国家中文名
     };
 
@@ -429,7 +428,7 @@ namespace hgl::geo
                 Continent   continent;
                 CityID      city_id;
 
-        const   char *      eng_name;                       ///<城市英文名字
+        const   u16char *   eng_name;                       ///<城市英文名字
         const   u16char *   chs_name;                       ///<城市中文名字
 
                 float       latitude_deg  = 0.0f;           ///< 纬度（度）
@@ -443,11 +442,11 @@ namespace hgl::geo
     const CountryInfo *GetCountryInfo(CountryID id);
     const CityInfo *   GetCityInfo(CityID id);
 
-    const CountryInfo *GetCountryInfo(const AnsiString &eng_name);
-    const CountryInfo *GetCountryInfo(const U16String &chs_name);
+    const CountryInfo *GetCountryInfoByEngName(const U16String &eng_name);
+    const CountryInfo *GetCountryInfoByChsName(const U16String &chs_name);
 
-    const CityInfo *   GetCityInfo(const AnsiString &eng_name);
-    const CityInfo *   GetCityInfo(const U16String &chs_name);
+    const CityInfo *   GetCityInfoByEngName(const U16String &eng_name);
+    const CityInfo *   GetCityInfoByChsName(const U16String &chs_name);
 
     /**
     * 根据经纬度计算日出日落时间
