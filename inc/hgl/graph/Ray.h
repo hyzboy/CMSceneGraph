@@ -6,7 +6,6 @@
 namespace hgl::graph
 {
     struct CameraInfo;
-    class ViewportInfo;
 
     class Sphere;
     class EllipseSphere;
@@ -35,7 +34,7 @@ namespace hgl::graph
             direction=d;
         }
 
-        void Set(const Vector2i &,const CameraInfo *,const ViewportInfo *);
+        void SetFromViewportPoint(const Vector2i &,const CameraInfo *,const Vector2u &viewport_size);
 
         /**
         * 取得与原点指定距离的点

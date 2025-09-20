@@ -22,14 +22,14 @@ namespace hgl::graph
             return origin+direction*length;
     }
         
-    void RayUnProjectZO(Vector3f &origin,Vector3f &direction,const Vector2i &win, const Matrix4f &Inverse, const Vector2f &viewport)
+    void RayUnProjectZO(Vector3f &origin,Vector3f &direction,const Vector2i &win, const Matrix4f &Inverse, const Vector2u &viewport)
     {
         Vector4f near_point;
         Vector4f far_point;
         Vector4f tmp;
 
-        tmp.x = float(win.x) / viewport.x;
-        tmp.y = float(win.y) / viewport.y;
+        tmp.x = float(win.x) / float(viewport.x);
+        tmp.y = float(win.y) / float(viewport.y);
         tmp.x = tmp.x + tmp.x - 1.0;
         tmp.y = tmp.y + tmp.y - 1.0;
 
@@ -57,11 +57,11 @@ namespace hgl::graph
     * @param mp 屏幕点坐标
     * @param camera_info 摄像机信息
     */
-    void Ray::Set(const Vector2i &mp,const CameraInfo *ci,const ViewportInfo *vi)
+    void Ray::SetFromViewportPoint(const Vector2i &mp,const CameraInfo *ci,const Vector2u &vp_size)
     {
         //新方案
 
-        RayUnProjectZO(origin,direction,mp,ci->inverse_vp,vi->GetViewport());
+        RayUnProjectZO(origin,direction,mp,ci->inverse_vp,vp_size);
 
         //由于near/far的xy一样，而near.z又是0。所以省去了direction=normalize(far-near)的计算
 
