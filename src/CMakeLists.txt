@@ -50,8 +50,7 @@ SET(CM_SG_SOURCE    AABB.cpp
                     Plane.cpp
                     Frustum.cpp
                     VertexAttrib.cpp
-                    Sky.cpp
-                    ViewportInfo.cpp)
+                    Sky.cpp)
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
                         vulkan/VKString.cpp

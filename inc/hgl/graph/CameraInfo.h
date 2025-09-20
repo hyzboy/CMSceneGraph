@@ -60,6 +60,31 @@ namespace hgl::graph
     };//struct CameraInfo
 
     constexpr const size_t CameraInfoBytes=sizeof(CameraInfo);
+
+    inline Vector3f LocalToViewSpace(const Matrix4f &l2w,const Vector3f &local_pos,const CameraInfo *ci)
+    {
+        if(!ci) return {};
+
+        const Vector4f clip_pos = ci->LocalToViewSpace(l2w,local_pos);
+
+        if(clip_pos.w == 0.0f) return {};
+
+        return { clip_pos.x / clip_pos.w,clip_pos.y / clip_pos.w,clip_pos.z / clip_pos.w };
+    }
+
+    inline Vector2i WorldPositionToScreen(const Vector3f &wp,const CameraInfo *ci,const Vector2u &vp_size)   ///< 世界坐标→屏幕坐标
+    {
+        if(!ci) return {};
+
+        return ProjectToScreen(wp,ci->view,ci->projection,vp_size);
+    }
+
+    inline Vector3f ScreenPositionToWorld(const Vector2i &sp,const CameraInfo *ci,const Vector2u &vp_size)   ///< 屏幕坐标→世界坐标
+    {
+        if(!ci) return {};
+
+        return UnProjectToWorld(sp,ci->view,ci->projection,vp_size);
+    }
         
     /**
      * 计算一个旋转矩阵，使原本面向X轴的模型改成面向屏幕
