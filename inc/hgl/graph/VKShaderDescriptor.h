@@ -82,13 +82,25 @@ namespace hgl
             }
         };
 
-        struct ImageSamplerDescriptor:public ShaderDescriptor
+        struct TextureDescriptor:public ShaderDescriptor
         {
             AnsiString type;
 
         public:
 
-            ImageSamplerDescriptor()
+            TextureDescriptor()
+            {
+                desc_type = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+            }
+        };
+
+        struct TextureSamplerDescriptor:public ShaderDescriptor
+        {
+            AnsiString type;
+
+        public:
+
+            TextureSamplerDescriptor()
             {
                 desc_type=VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
             }
