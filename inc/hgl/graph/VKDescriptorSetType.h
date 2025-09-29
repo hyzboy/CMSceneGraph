@@ -49,7 +49,7 @@ enum class DescriptorSetType
 
     Camera,             ///<相机相关
 
-    Scene,              ///<场景数据，基本不怎么刷新的的数据(如天空球、太阳/月亮等)
+    World,              ///<场景世界数据，基本不怎么刷新的的数据(如天空球、太阳/月亮等)
 
     Static,             ///<静态数据，基本上是不会变的
 
@@ -74,7 +74,7 @@ constexpr const char *DescriptSetTypeName[]=
 
     "Camera",
 
-    "Scene",
+    "World",
 
     "Static",
     "Global",
