@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include<hgl/type/String.h>
-#include<hgl/type/DateTime.h>
+#include<hgl/time/DateTime.h>
 
 namespace hgl::geo
 {
