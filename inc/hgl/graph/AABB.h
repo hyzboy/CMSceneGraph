@@ -33,6 +33,8 @@ namespace hgl::graph
 
     private:
 
+        friend struct BoundingVolumes;
+
         void Update();
 
     public:

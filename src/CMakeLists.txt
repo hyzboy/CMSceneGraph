@@ -8,6 +8,7 @@ SOURCE_GROUP("Geo" FILES ${CM_SG_GEO_FILES})
 SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/OBB.h
                     ${CM_SG_INCLUDE_PATH}/Sphere.h
+                    ${CM_SG_INCLUDE_PATH}/BoundingVolumes.h
                     ${CM_SG_INCLUDE_PATH}/BitmapData.h
                     ${CM_SG_INCLUDE_PATH}/ImageRegion.h
                     ${CM_SG_INCLUDE_PATH}/NormalData.h
@@ -44,7 +45,8 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
 )
 
 SET(CM_SG_SOURCE    AABB.cpp
-                    OBB.cpp
+                    OBB.cpp                    
+                    BoundingVolumes.cpp
                     Coordinate.cpp
                     Ray.cpp
                     Plane.cpp

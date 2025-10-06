@@ -20,6 +20,8 @@ namespace hgl::graph
 
     private:
 
+        friend struct BoundingVolumes;
+
         void ComputePlanes();
 
     public:
