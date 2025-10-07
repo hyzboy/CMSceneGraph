@@ -1,68 +1,89 @@
 ﻿#include<hgl/graph/AABB.h>
-#include<hgl/graph/OBB.h>
 
-namespace hgl
+namespace hgl::graph
 {
-    namespace graph
+    Vector3f AABB::GetVertexP(const Vector3f &normal) const
     {
-        void AABB::Set(const OBB &obb)
-        {   //此函数由Github Copilot生成，未经测试
-            const Vector3f obb_center       =obb.GetCenter();
-            const Vector3f obb_half_length  =obb.GetHalfExtend();
+        Vector3f res = minPoint;
 
-            SetCornerLength(obb_center-obb_half_length,obb_half_length*2.0f);
-        }
+        if (normal[0] > 0)res[0] += length[0];
+        if (normal[1] > 0)res[1] += length[1];
+        if (normal[2] > 0)res[2] += length[2];
 
-        Vector3f AABB::GetVertexP(const Vector3f &normal) const
+        return(res);
+    }
+
+    Vector3f AABB::GetVertexN(const Vector3f &normal) const
+    {
+        Vector3f res = minPoint;
+
+        if (normal[0] < 0)res[0] += length[0];
+        if (normal[1] < 0)res[1] += length[1];
+        if (normal[2] < 0)res[2] += length[2];
+
+        return(res);
+    }
+
+    void AABB::Update()
+    {
+        face_center_point[0]=Vector3f(minPoint.x, center.y, center.z);
+        face_center_point[1]=Vector3f(maxPoint.x, center.y, center.z);
+        face_center_point[2]=Vector3f(center.x, minPoint.y, center.z);
+        face_center_point[3]=Vector3f(center.x, maxPoint.y, center.z);
+        face_center_point[4]=Vector3f(center.x, center.y, minPoint.z);
+        face_center_point[5]=Vector3f(center.x, center.y, maxPoint.z);
+
+        for(uint i=0;i<6;i++)
+            planes[i].Set(face_center_point[i],AABBFaceNormal[i]);
+    }
+
+    template<typename T>
+    void AABB::SetFromPoints(const T *pts,const uint32_t count)
+    {
+        Clear();
+
+        const T *in=pts;
+            
+        T minp=*in;
+        T maxp=*in;
+        ++in;
+
+        for(uint32_t i=1;i<count;++i)
         {
-            Vector3f res = minPoint;
-
-            if (normal[0] > 0)res[0] += length[0];
-            if (normal[1] > 0)res[1] += length[1];
-            if (normal[2] > 0)res[2] += length[2];
-
-            return(res);
+            minp=glm::min(minp,*in);
+            maxp=glm::max(maxp,*in);
+            ++in;
         }
 
-        Vector3f AABB::GetVertexN(const Vector3f &normal) const
+        SetMinMax(minp,maxp);
+    }
+
+    void AABB::Set(const Vector3f *pts,const uint32_t count){SetFromPoints<Vector3f>(pts,count);}
+    void AABB::Set(const Vector4f *pts,const uint32_t count){SetFromPoints<Vector4f>(pts,count);}
+
+    AABB AABB::Transformed(const Matrix4f &m)const
+    {
+        if(IsEmpty())
+            return *this;
+
+        const Vector3f corners[8]=
         {
-            Vector3f res = minPoint;
+            minPoint,
+            Vector3f(maxPoint.x,minPoint.y,minPoint.z),
+            Vector3f(minPoint.x,maxPoint.y,minPoint.z),
+            Vector3f(maxPoint.x,maxPoint.y,minPoint.z),
+            Vector3f(minPoint.x,minPoint.y,maxPoint.z),
+            Vector3f(maxPoint.x,minPoint.y,maxPoint.z),
+            Vector3f(minPoint.x,maxPoint.y,maxPoint.z),
+            maxPoint
+        };
 
-            if (normal[0] < 0)res[0] += length[0];
-            if (normal[1] < 0)res[1] += length[1];
-            if (normal[2] < 0)res[2] += length[2];
+        Vector3f transformed[8];
+        for(int i=0;i<8;++i)
+            transformed[i] = Vector3f(m * Vector4f(corners[i], 1.0f));
 
-            return(res);
-        }
-
-        void AABB::operator+=(const AABB &box)
-        {
-            minPoint[0]=hgl_min(minPoint[0],box.minPoint[0]);
-            minPoint[1]=hgl_min(minPoint[1],box.minPoint[1]);
-            minPoint[2]=hgl_min(minPoint[2],box.minPoint[2]);
-
-            maxPoint[0]=hgl_max(maxPoint[0],box.maxPoint[0]);
-            maxPoint[1]=hgl_max(maxPoint[1],box.maxPoint[1]);
-            maxPoint[2]=hgl_max(maxPoint[2],box.maxPoint[2]);
-
-            length=maxPoint-minPoint;
-
-            center=(minPoint+maxPoint)/2.0f;
-
-            Update();
-        }
-
-        void AABB::Update()
-        {
-            face_center_point[0]=Vector3f(minPoint.x, center.y, center.z);
-            face_center_point[1]=Vector3f(maxPoint.x, center.y, center.z);
-            face_center_point[2]=Vector3f(center.x, minPoint.y, center.z);
-            face_center_point[3]=Vector3f(center.x, maxPoint.y, center.z);
-            face_center_point[4]=Vector3f(center.x, center.y, minPoint.z);
-            face_center_point[5]=Vector3f(center.x, center.y, maxPoint.z);
-
-            for(uint i=0;i<6;i++)
-                planes[i].Set(face_center_point[i],AABBFaceNormal[i]);
-        }
-    }//namespace graph
-}//namespace hgl
+        AABB result;
+        result.SetFromPoints<Vector3f>(transformed, 8);
+        return result;
+    }
+}//namespace hgl::graph

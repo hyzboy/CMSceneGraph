@@ -9,6 +9,7 @@ SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
                     ${CM_SG_INCLUDE_PATH}/OBB.h
                     ${CM_SG_INCLUDE_PATH}/Sphere.h
                     ${CM_SG_INCLUDE_PATH}/TRS.h
+                    ${CM_SG_INCLUDE_PATH}/BoundingSphere.h
                     ${CM_SG_INCLUDE_PATH}/BoundingVolumes.h
                     ${CM_SG_INCLUDE_PATH}/BitmapData.h
                     ${CM_SG_INCLUDE_PATH}/ImageRegion.h
@@ -47,7 +48,9 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
 
 SET(CM_SG_SOURCE    AABB.cpp
                     OBB.cpp
+                    OBB_SetFromPoints_AVX2.cpp
                     TRS.cpp
+                    BoundingSphere.cpp
                     BoundingVolumes.cpp
                     Coordinate.cpp
                     Ray.cpp

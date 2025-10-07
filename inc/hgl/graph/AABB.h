@@ -5,8 +5,6 @@
 
 namespace hgl::graph
 {
-    class OBB;
-
     const Vector3f AABBFaceNormal[6]=
     {
         Vector3f(-1,  0,  0),
@@ -37,6 +35,8 @@ namespace hgl::graph
 
         void Update();
 
+        template<typename T> void SetFromPoints(const T *pts,const uint32_t count);
+
     public:
 
         AABB()
@@ -44,7 +44,7 @@ namespace hgl::graph
             SetCornerLength(Vector3f(0,0,0),Vector3f(1,1,1));
         }
 
-        void SetCornerLength(const Vector3f &c,const Vector3f &l)           ///<按顶角和长度设置盒子范围
+        void SetCornerLength(const Vector3f &c,const Vector3f &l)               ///<按顶角和长度设置盒子范围
         {
             minPoint=c;
             length=l;
@@ -53,7 +53,7 @@ namespace hgl::graph
             Update();
         }
 
-        void SetMinMax(const Vector3f &min_v,const Vector3f &max_v)         ///<按最小最大值设置盒子范围
+        void SetMinMax(const Vector3f &min_v,const Vector3f &max_v)             ///<按最小最大值设置盒子范围
         {
             minPoint=min_v;
             maxPoint=max_v;
@@ -62,7 +62,8 @@ namespace hgl::graph
             Update();
         }
 
-        void Set(const OBB &);
+        void Set(const Vector3f *pts,const uint32_t count);
+        void Set(const Vector4f *pts,const uint32_t count);
 
         void Clear()
         {
@@ -83,7 +84,7 @@ namespace hgl::graph
                 Vector3f    GetVertexP  (const Vector3f &)const;
                 Vector3f    GetVertexN  (const Vector3f &)const;
 
-        void Enclose(const AABB &box)
+        void Merge(const AABB &box)
         {
             SetMinMax(MinVector(minPoint,box.minPoint)
                      ,MaxVector(maxPoint,box.maxPoint));
@@ -91,10 +92,12 @@ namespace hgl::graph
 
         const Plane &GetFacePlanes(int i)const{return planes[i];}
 
-        bool IsEmpty()const { return (length.x<=0)||(length.y<=0)||(length.z<=0); }
+        bool IsEmpty()const{return IsNearlyZero(length);}
 
     public:
 
-        void operator += (const AABB &);                                   ///<融合另一个AABox
-    };//struct AABB
+        void operator += (const AABB &aabb){Merge(aabb);}                       ///<融合另一个AABox
+
+        AABB Transformed(const Matrix4f &m)const;                               ///<返回变换后的AABox
+    };//class AABB
 }//namespace hgl::graph

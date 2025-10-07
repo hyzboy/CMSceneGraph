@@ -1,5 +1,4 @@
 #include<hgl/graph/OBB.h>
-#include<hgl/graph/AABB.h>
 
 namespace hgl::graph
 {
@@ -29,27 +28,6 @@ namespace hgl::graph
         ComputePlanes();
     }
 
-    void OBB::Set(const AABB &aabb)
-    {
-        Set(aabb.GetCenter(),aabb.GetLength());
-    }
-
-    void OBB::Set(const Matrix4f &local_to_world,const AABB &aabb)
-    {
-        // 中心点需要应用完整的变换
-        center = local_to_world * Vector4f(aabb.GetCenter(), 1.0f);
-        
-        // 半长直接从AABB获取
-        half_length = aabb.GetLength() * 0.5f; // 假设GetLength返回的是全长
-
-        // 取出local_to_world的旋转部分赋给 axis
-        axis[0]=glm::normalize(local_to_world[0]);
-        axis[1]=glm::normalize(local_to_world[1]);
-        axis[2]=glm::normalize(local_to_world[2]);
-
-        ComputePlanes();
-    }
-
     const Matrix4f OBB::GetMatrix(const float cube_size)const
     {
         // 这段代码也是正确的，留着做参考吧！
@@ -72,5 +50,44 @@ namespace hgl::graph
         result[3]=Vector4f(center,1.0f);
 
         return result;
+    }
+
+    void OBB::GetCorners(Vector3f out[8])const
+    {        
+        const glm::vec3 ex=axis[0]*half_length.x;
+        const glm::vec3 ey=axis[1]*half_length.y;
+        const glm::vec3 ez=axis[2]*half_length.z;
+
+        out[0]=center-ex-ey-ez;
+        out[1]=center+ex-ey-ez;
+        out[2]=center-ex+ey-ez;
+        out[3]=center+ex+ey-ez;
+        out[4]=center-ex-ey+ez;
+        out[5]=center+ex-ey+ez;
+        out[6]=center-ex+ey+ez;
+        out[7]=center+ex+ey+ez;
+    }
+
+    OBB OBB::Transformed(const Matrix4f &m)const
+    {
+        if(IsEmpty()) return *this;
+        OBB out;
+        out.center=glm::vec3(m*glm::vec4(center,1.0f));
+        const glm::mat3 L(m);
+
+        const glm::vec3 v0=L*axis[0];
+        const glm::vec3 v1=L*axis[1];
+        const glm::vec3 v2=L*axis[2];
+
+        const float l0=glm::length(v0);
+        const float l1=glm::length(v1);
+        const float l2=glm::length(v2);
+
+        out.axis[0]=(l0>0.0f)?(v0/l0):axis[0];
+        out.axis[1]=(l1>0.0f)?(v1/l1):axis[1];
+        out.axis[2]=(l2>0.0f)?(v2/l2):axis[2];
+        out.half_length=glm::vec3(half_length.x*l0,half_length.y*l1,half_length.z*l2);
+        out.ComputePlanes();
+        return out;
     }
 }//namespace hgl::graph

@@ -2,6 +2,59 @@
 
 namespace hgl::graph
 {
+    AABB ToAABB(const OBB &obb)
+    {
+        if(obb.IsEmpty())
+        {
+            AABB aabb;
+            aabb.Clear();
+            return aabb;
+        }
+
+        // Get the absolute values of the OBB's axes
+        const glm::vec3 ax = glm::abs(obb.GetAxis(0));
+        const glm::vec3 ay = glm::abs(obb.GetAxis(1));
+        const glm::vec3 az = glm::abs(obb.GetAxis(2));
+        
+        // Calculate the extent by projecting OBB half-lengths onto world axes
+        const Vector3f half_extent = obb.GetHalfExtend();
+        const glm::vec3 e = ax * half_extent.x + ay * half_extent.y + az * half_extent.z;
+
+        AABB aabb;
+        aabb.SetMinMax(obb.GetCenter() - e, obb.GetCenter() + e);
+        return aabb;
+    }
+
+    OBB ToOBB(const AABB &aabb)
+    {
+        OBB obb;
+        obb.Set(aabb.GetCenter(), aabb.GetLength() * 0.5f);
+        return obb;
+    }
+
+    OBB ToOBB(const AABB &aabb, const Matrix4f &transform)
+    {
+        // Transform the center
+        Vector3f center = Vector3f(transform * Vector4f(aabb.GetCenter(), 1.0f));
+        
+        // Extract rotation and scale from transform
+        const float s0 = glm::length(glm::vec3(transform[0]));
+        const float s1 = glm::length(glm::vec3(transform[1]));
+        const float s2 = glm::length(glm::vec3(transform[2]));
+
+        // Extract and normalize axes
+        Vector3f a0 = (s0 > 0.0f) ? (glm::vec3(transform[0]) / s0) : Vector3f(1, 0, 0);
+        Vector3f a1 = (s1 > 0.0f) ? (glm::vec3(transform[1]) / s1) : Vector3f(0, 1, 0);
+        Vector3f a2 = (s2 > 0.0f) ? (glm::vec3(transform[2]) / s2) : Vector3f(0, 0, 1);
+
+        // Apply scale to half extents
+        Vector3f half_length = aabb.GetLength() * 0.5f * Vector3f(s0, s1, s2);
+
+        OBB obb;
+        obb.Set(center, a0, a1, a2, half_length);
+        return obb;
+    }
+
     void BoundingVolumes::Pack(BoundingVolumesData *packed) const
     {
         if(!packed)

@@ -5,8 +5,6 @@
 
 namespace hgl::graph
 {
-    class AABB;
-
     /**
      * Oriented Bounding Box
      */
@@ -24,6 +22,9 @@ namespace hgl::graph
 
         void ComputePlanes();
 
+        template<typename T>
+        void SetFromPointsMinVolume(const T *points,size_t count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg);
+
     public:
 
         const Vector3f &GetCenter()const{return center;}
@@ -37,8 +38,9 @@ namespace hgl::graph
 
         void Set(const Vector3f &c,const Vector3f &hl);
         void Set(const Vector3f &c,const Vector3f &a0,const Vector3f &a1,const Vector3f &a2,const Vector3f &hl);
-        void Set(const AABB &aabb);
-        void Set(const Matrix4f &local_to_world,const AABB &aabb);
+
+        void Set(const Vector3f *points,size_t count,float coarseStepDeg=15.0f,float fineStepDeg=3.0f,float ultraStepDeg=0.5f);
+        void Set(const Vector4f *points,size_t count,float coarseStepDeg=15.0f,float fineStepDeg=3.0f,float ultraStepDeg=0.5f);
 
         void Clear()
         {
@@ -65,21 +67,17 @@ namespace hgl::graph
             Set(c,a0,a1,a2,hl);
         }
 
-        OBB(const AABB &aabb)
-        {
-            Set(aabb);
-        }
-
-        OBB(const Matrix4f &local_to_world,const AABB &aabb)
-        {
-            Set(local_to_world,aabb);
-        }
-
     public:
+
+        bool IsEmpty()const{return IsNearlyZero(half_length);}
 
         const Vector3f GetMin()const{return center-half_length;}
         const Vector3f GetMax()const{return center+half_length;}
 
         const Plane &GetFacePlanes(int i)const{return planes[i];}
+
+        void GetCorners(Vector3f out[8])const;
+
+        OBB Transformed(const Matrix4f &)const;
     };//class OBB
 }//namespace hgl::graph
