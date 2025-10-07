@@ -37,29 +37,29 @@ namespace hgl::graph
             planes[i].Set(face_center_point[i],AABBFaceNormal[i]);
     }
 
-    template<typename T>
-    void AABB::SetFromPoints(const T *pts,const uint32_t count)
+    void AABB::SetFromPoints(const float *pts,const uint32_t count,const uint32_t component_count)
     {
         Clear();
 
-        const T *in=pts;
+        if(pts==nullptr||count==0)
+            return;
+
+        const float *p=pts;
             
-        T minp=*in;
-        T maxp=*in;
-        ++in;
+        Vector3f minp(p[0],p[1],p[2]);
+        Vector3f maxp(p[0],p[1],p[2]);
+        p+=component_count;
 
         for(uint32_t i=1;i<count;++i)
         {
-            minp=glm::min(minp,*in);
-            maxp=glm::max(maxp,*in);
-            ++in;
+            Vector3f v(p[0],p[1],p[2]);
+            minp=glm::min(minp,v);
+            maxp=glm::max(maxp,v);
+            p+=component_count;
         }
 
         SetMinMax(minp,maxp);
     }
-
-    void AABB::Set(const Vector3f *pts,const uint32_t count){SetFromPoints<Vector3f>(pts,count);}
-    void AABB::Set(const Vector4f *pts,const uint32_t count){SetFromPoints<Vector4f>(pts,count);}
 
     AABB AABB::Transformed(const Matrix4f &m)const
     {
@@ -83,7 +83,7 @@ namespace hgl::graph
             transformed[i] = Vector3f(m * Vector4f(corners[i], 1.0f));
 
         AABB result;
-        result.SetFromPoints<Vector3f>(transformed, 8);
+        result.SetFromPoints(transformed, 8);
         return result;
     }
 }//namespace hgl::graph

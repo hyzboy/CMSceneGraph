@@ -6,6 +6,8 @@
 
 namespace hgl::graph
 {
+    BoundingSphere ToBoundingSphere(const AABB &a);
+
     /**
      * Convert OBB to AABB
      * @param obb The oriented bounding box to convert
@@ -75,18 +77,17 @@ namespace hgl::graph
             SetFromAABB(box);
         }
 
-        template<typename T>
-        bool SetFromPoints(const T *pts,const uint32_t count)
+        bool SetFromPoints(const float *pts,const uint32_t count,const uint32_t component_count)
         {
-            if(pts.empty())
+            if(!pts||count<=0)
             {
                 Clear();
                 return false;
             }
 
-            aabb    .Set(pts,count);
-            obb     .Set(pts,count);
-            bsphere =SphereFromPoints(pts,count);
+            aabb    .SetFromPoints(pts,count,component_count);
+            obb     .SetFromPoints(pts,count,component_count);
+            bsphere .SetFromPoints(pts,count,component_count);
 
             return true;
         }

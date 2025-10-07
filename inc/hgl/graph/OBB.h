@@ -24,6 +24,8 @@ namespace hgl::graph
 
         template<typename T>
         void SetFromPointsMinVolume(const T *points,size_t count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg);
+        
+        void SetFromPointsMinVolumeFloat(const float *points,size_t count,uint32_t component_count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg);
 
     public:
 
@@ -39,9 +41,7 @@ namespace hgl::graph
         void Set(const Vector3f &c,const Vector3f &hl);
         void Set(const Vector3f &c,const Vector3f &a0,const Vector3f &a1,const Vector3f &a2,const Vector3f &hl);
 
-        void Set(const Vector3f *points,size_t count,float coarseStepDeg=15.0f,float fineStepDeg=3.0f,float ultraStepDeg=0.5f);
-        void Set(const Vector4f *points,size_t count,float coarseStepDeg=15.0f,float fineStepDeg=3.0f,float ultraStepDeg=0.5f);
-
+        void SetFromPoints(const float *points,size_t count,uint32_t component_count,float coarseStepDeg=15.0f,float fineStepDeg=3.0f,float ultraStepDeg=0.5f);
         void Clear()
         {
             hgl_zero(center);

@@ -1,7 +1,23 @@
 #include<hgl/graph/BoundingVolumes.h>
 
 namespace hgl::graph
-{
+{    
+    // Helper: sphere from AABB (center = mid, radius = half diagonal)
+    BoundingSphere ToBoundingSphere(const AABB &a)
+    {
+        BoundingSphere s;
+
+        s.Clear();
+
+        if(!a.IsEmpty())
+        {
+            s.center=(a.GetMin()+a.GetMax())*0.5f;
+            s.radius=glm::length(a.GetMax()-s.center);
+        }
+
+        return s;
+    }
+
     AABB ToAABB(const OBB &obb)
     {
         if(obb.IsEmpty())

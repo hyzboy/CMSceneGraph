@@ -1,6 +1,6 @@
 #pragma once
 
-#include<hgl/graph/AABB.h>
+#include<hgl/math/Vector.h>
 
 namespace hgl::graph
 {
@@ -22,9 +22,9 @@ namespace hgl::graph
         {
             return radius<=0.0f;
         }
-    };
 
-    BoundingSphere SphereFromAABB(const AABB &a);
-    BoundingSphere SphereFromPoints(const Vector3f *pts,const uint32 count);
-    BoundingSphere SphereFromPoints(const Vector4f *pts,const uint32 count);
+    public:
+
+        void SetFromPoints(const float *pts,const uint32 count,const uint32 component_count);
+    };//struct BoundingSphere
 }//namespace hgl::graph

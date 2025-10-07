@@ -2,12 +2,11 @@
 
 namespace hgl::graph
 {
-    template<typename VecType>
-    void OBB::SetFromPointsMinVolume(const VecType *points,size_t count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg)
+    void OBB::SetFromPointsMinVolumeFloat(const float *points,size_t count,uint32_t component_count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg)
     {
         if(points==nullptr||count==0) { this->Clear(); return; }
         if(count==1) {
-            center=glm::vec3(points[0].x,points[0].y,points[0].z);
+            center=glm::vec3(points[0],points[1],points[2]);
             axis[0]=Vector3f(1,0,0);
             axis[1]=Vector3f(0,1,0);
             axis[2]=Vector3f(0,0,1);
@@ -22,9 +21,10 @@ namespace hgl::graph
     #endif
         for(int i=0; i<static_cast<int>(count); ++i)
         {
-            xs[i]=points[i].x;
-            ys[i]=points[i].y;
-            zs[i]=points[i].z;
+            const float *p=points+i*component_count;
+            xs[i]=p[0];
+            ys[i]=p[1];
+            zs[i]=p[2];
         }
 
         auto makeR=[](float yawDeg,float pitchDeg,float rollDeg)
@@ -206,6 +206,8 @@ namespace hgl::graph
         *this = best;
     }
 
-    void OBB::Set(const Vector3f *points,size_t count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg){SetFromPointsMinVolume<Vector3f>(points,count,coarseStepDeg,fineStepDeg,ultraStepDeg);}
-    void OBB::Set(const Vector4f *points,size_t count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg){SetFromPointsMinVolume<Vector4f>(points,count,coarseStepDeg,fineStepDeg,ultraStepDeg);}
+    void OBB::SetFromPoints(const float *points,size_t count,uint32_t component_count,float coarseStepDeg,float fineStepDeg,float ultraStepDeg)
+    {
+        SetFromPointsMinVolumeFloat(points,count,component_count,coarseStepDeg,fineStepDeg,ultraStepDeg);
+    }
 }//namespace hgl::graph

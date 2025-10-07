@@ -2,72 +2,41 @@
 
 namespace hgl::graph
 {
-    // Helper: sphere from AABB (center = mid, radius = half diagonal)
-    BoundingSphere SphereFromAABB(const AABB &a)
+    void BoundingSphere::SetFromPoints(const float *pts,const uint32 count,const uint32 component_count)
     {
-        BoundingSphere s;
+        Clear();
 
-        s.Clear();
+        if(pts==nullptr||count==0)
+            return;
+    
+        glm::vec3 c(0.0f);
 
-        if(!a.IsEmpty())
+        const float *p=pts;
+        for(uint32 i=0;i<count;++i)
         {
-            s.center=(a.GetMin()+a.GetMax())*0.5f;
-            s.radius=glm::length(a.GetMax()-s.center);
+            c.x += p[0];
+            c.y += p[1];
+            c.z += p[2];
+
+            p+=component_count;
         }
+        c /= static_cast<float>(count);
+    
+        float r=0.0f;
 
-        return s;
-    }
+        p=pts;
 
-    // Internal template implementation for SphereFromPoints
-    namespace
-    {
-        template<typename VecType>
-        BoundingSphere SphereFromPointsImpl(const VecType *pts,const uint32 count)
+        for(uint32 i=0;i<count;++i)
         {
-            BoundingSphere s;
+            r = std::max(r, glm::length(Vector3f(p[0] - c.x,
+                                                 p[1] - c.y,
+                                                 p[2] - c.z)));
 
-            s.Clear();
-            if(count<=0) return s;
-        
-            glm::vec3 c(0.0f);
-
-            const VecType *p=pts;
-            for(uint32 i=0;i<count;++i)
-            {
-                c.x += p->x;
-                c.y += p->y;
-                c.z += p->z;
-
-                ++p;
-            }
-            c /= static_cast<float>(count);
-        
-            float r=0.0f;
-            p=pts;
-            for(uint32 i=0;i<count;++i)
-            {
-                r = std::max(r, glm::length(Vector3f(p->x - c.x,
-                                                    p->y - c.y,
-                                                    p->z - c.z)));
-
-                ++p;
-            }
-        
-            s.center = c;
-            s.radius = r;
-            return s;
+            p+=component_count;
         }
-    }
-
-    // Helper: sphere from points (center = average, radius = max distance to center) using float input
-    BoundingSphere SphereFromPoints(const Vector3f *pts,const uint32 count)
-    {
-        return SphereFromPointsImpl(pts,count);
-    }
-
-    BoundingSphere SphereFromPoints(const Vector4f *pts,const uint32 count)
-    {
-        return SphereFromPointsImpl(pts,count);
+    
+        center = c;
+        radius = r;
     }
 }//namespace hgl::graph
 

@@ -35,8 +35,6 @@ namespace hgl::graph
 
         void Update();
 
-        template<typename T> void SetFromPoints(const T *pts,const uint32_t count);
-
     public:
 
         AABB()
@@ -62,8 +60,7 @@ namespace hgl::graph
             Update();
         }
 
-        void Set(const Vector3f *pts,const uint32_t count);
-        void Set(const Vector4f *pts,const uint32_t count);
+        void SetFromPoints(const float *pts,const uint32_t count,const uint32_t component_count);
 
         void Clear()
         {
