@@ -91,6 +91,8 @@ namespace hgl::graph
 
         const Plane &GetFacePlanes(int i)const{return planes[i];}
 
+        bool IsEmpty()const { return (length.x<=0)||(length.y<=0)||(length.z<=0); }
+
     public:
 
         void operator += (const AABB &);                                   ///<融合另一个AABox
