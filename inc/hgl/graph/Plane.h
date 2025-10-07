@@ -34,7 +34,7 @@ namespace hgl::graph
 
         float Distance(const Vector3f &p)const
         {
-            return(d+dot(normal,p));
+            return(dot(normal,p)-d)/glm::length(normal);
         }
     };//struct Plane
 

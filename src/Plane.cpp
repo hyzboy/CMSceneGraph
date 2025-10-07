@@ -1,4 +1,6 @@
 #include<hgl/graph/Plane.h>
+#include<hgl/math/Math.h>
+#include<algorithm>
 
 namespace hgl::graph
 {
@@ -6,23 +8,34 @@ namespace hgl::graph
     {
         Vector3f v=p-rect.center;
 
+        // 计算点到平面的垂直距离
+        float normal_dist=abs(dot(v,rect.normal));
+
+        // 计算在矩形平面上的投影坐标
         float up_len=dot(v,rect.up);
         float right_len=dot(v,rect.right);
 
-        if(up_len<0||up_len>rect.size.y
-            ||right_len<0||right_len>rect.size.x)
+        // 矩形的范围应该是以中心为原点的 [-size/2, size/2]
+        float half_height=rect.size.y*0.5f;
+        float half_width=rect.size.x*0.5f;
+
+        // 检查投影是否在矩形内
+        if(up_len>=-half_height && up_len<=half_height
+         && right_len>=-half_width && right_len<=half_width)
         {
-            float up_len2=up_len<0?0:up_len>rect.size.y?rect.size.y:up_len;
-            float right_len2=right_len<0?0:right_len>rect.size.x?rect.size.x:right_len;
-
-            Vector3f up_v=rect.up*up_len2;
-            Vector3f right_v=rect.right*right_len2;
-
-            Vector3f point=rect.center+up_v+right_v;
-
-            return length(p-point);
+            // 投影在矩形内,返回垂直距离
+            return normal_dist;
         }
 
-        return 0;
+        // 投影在矩形外,需要找到最近的边界点
+        float up_len_clamped=std::clamp(up_len,-half_height,half_height);
+        float right_len_clamped=std::clamp(right_len,-half_width,half_width);
+
+        Vector3f up_v=rect.up*up_len_clamped;
+        Vector3f right_v=rect.right*right_len_clamped;
+
+        Vector3f closest_point=rect.center+up_v+right_v;
+
+        return length(p-closest_point);
     }
 }//namespace hgl::graph
