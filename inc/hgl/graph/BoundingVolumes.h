@@ -21,6 +21,42 @@ namespace hgl::graph
 
     public:
 
+        BoundingVolumes()
+        {
+            Clear();
+        }
+
+        void Clear()
+        {
+            aabb.Clear();
+            obb.Clear();
+            hgl_zero(bsphere);
+        }
+
+        bool IsEmpty()const
+        {
+            return aabb.IsEmpty() && obb.GetHalfExtend().x <= 0 && bsphere.radius <= 0;
+        }
+
+    public:
+
+        void SetFromAABB(const AABB &box)
+        {
+            aabb = box;
+            obb.Set(box);
+            bsphere.center = aabb.GetCenter();
+            bsphere.radius = glm::length(aabb.GetMax() - bsphere.center);
+        }
+
+        void SetFromAABB(const Vector3f &min_v,const Vector3f &max_v)
+        {
+            AABB box;
+            box.SetMinMax(min_v,max_v);
+            SetFromAABB(box);
+        }
+
+    public:
+
         void Pack(BoundingVolumesData *packed) const;
     };
     
