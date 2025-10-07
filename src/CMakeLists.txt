@@ -5,12 +5,20 @@ SET(CM_SG_GEO_FILES     ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/geo/GeoLocation.h
 
 SOURCE_GROUP("Geo" FILES ${CM_SG_GEO_FILES})
 
-SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/AABB.h
-                    ${CM_SG_INCLUDE_PATH}/OBB.h
-                    ${CM_SG_INCLUDE_PATH}/Sphere.h
+SET(CM_BOUNDING_FILES   ${CM_SG_INCLUDE_PATH}/AABB.h
+                        ${CM_SG_INCLUDE_PATH}/OBB.h
+                        ${CM_SG_INCLUDE_PATH}/BoundingSphere.h
+                        ${CM_SG_INCLUDE_PATH}/BoundingVolumes.h
+                        Bounding/AABB.cpp
+                        Bounding/OBB.cpp
+                        Bounding/OBB_SetFromPoints_AVX2.cpp
+                        Bounding/BoundingSphere.cpp
+                        Bounding/BoundingVolumes.cpp)
+
+SOURCE_GROUP("Bounding Volumes" FILES ${CM_BOUNDING_FILES})
+
+SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/Sphere.h
                     ${CM_SG_INCLUDE_PATH}/TRS.h
-                    ${CM_SG_INCLUDE_PATH}/BoundingSphere.h
-                    ${CM_SG_INCLUDE_PATH}/BoundingVolumes.h
                     ${CM_SG_INCLUDE_PATH}/BitmapData.h
                     ${CM_SG_INCLUDE_PATH}/ImageRegion.h
                     ${CM_SG_INCLUDE_PATH}/NormalData.h
@@ -46,12 +54,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKImageType.h
 )
 
-SET(CM_SG_SOURCE    AABB.cpp
-                    OBB.cpp
-                    OBB_SetFromPoints_AVX2.cpp
-                    TRS.cpp
-                    BoundingSphere.cpp
-                    BoundingVolumes.cpp
+SET(CM_SG_SOURCE    TRS.cpp
                     Coordinate.cpp
                     Ray.cpp
                     Plane.cpp
@@ -75,5 +78,6 @@ add_cm_library(CMSceneGraph "CM"    ${CM_SG_HEADER}
                                     ${CM_SG_SOURCE}
                                     ${CM_SG_GEO_FILES}
                                     ${CM_CAMERA_SOURCE}
+                                    ${CM_BOUNDING_FILES}
                                     ${CM_SG_VULKAN_HEADER}
                                     ${CM_SG_VULKAN_SOURCE})

@@ -79,11 +79,13 @@ namespace hgl::graph
         };
 
         Vector3f transformed[8];
+
         for(int i=0;i<8;++i)
             transformed[i] = Vector3f(m * Vector4f(corners[i], 1.0f));
 
         AABB result;
-        result.SetFromPoints(transformed, 8);
+        result.SetFromPoints((const float *)&transformed,8,
+                             sizeof(Vector3f)/sizeof(float));       //这里不能直接写3，因为Vector3f可能为了硬件SIMD指令加速而对齐保存。
         return result;
     }
 }//namespace hgl::graph
