@@ -1,4 +1,4 @@
-#include<hgl/math/Math.h>
+﻿#include<hgl/math/Math.h>
 
 namespace hgl
 {

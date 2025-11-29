@@ -1,6 +1,4 @@
-﻿#ifndef HGL_NORMAL_DATA_INCLUDE
-#define HGL_NORMAL_DATA_INCLUDE
-
+﻿#pragma once
 #include<hgl/math/Math.h>
 
 namespace hgl
@@ -129,4 +127,3 @@ namespace hgl
         }
     }
 }//namespace hgl
-#endif//HGL_NORMAL_DATA_INCLUDE

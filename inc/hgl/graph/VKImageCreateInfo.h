@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_IMAGE_CREATE_INFO_INCLUDE
-#define HGL_GRAPH_VULKAN_IMAGE_CREATE_INFO_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKStruct.h>
 
 VK_NAMESPACE_BEGIN
@@ -185,4 +183,3 @@ public:
     ~ImageCubeArrayCreateInfo()=default;
 };//
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_IMAGE_CREATE_INFO_INCLUDE

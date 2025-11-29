@@ -1,4 +1,4 @@
-#include <hgl/graph/BoundingSphere.h>
+﻿#include <hgl/graph/BoundingSphere.h>
 
 namespace hgl::graph
 {

@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_STRUCT_INCLUDE
-#define HGL_GRAPH_VULKAN_STRUCT_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
 
 VK_NAMESPACE_BEGIN
@@ -161,4 +159,3 @@ public:
     }
 };
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_STRUCT_INCLUDE

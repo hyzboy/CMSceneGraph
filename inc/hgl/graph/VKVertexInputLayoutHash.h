@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_HASH_INCLUDE
-#define HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_HASH_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/type/DataType.h>
 VK_NAMESPACE_BEGIN
@@ -31,4 +29,3 @@ union VertexInputLayoutHash
 */
 const uint GetVertexInputStreamCount(const VertexInputLayoutHash &);
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_HASH_INCLUDE

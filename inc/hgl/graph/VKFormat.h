@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_FORMAT_INCLUDE
-#define HGL_GRAPH_VULKAN_FORMAT_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VertexAttrib.h>
 #include<hgl/graph/VKNamespace.h>
 
@@ -585,4 +583,3 @@ struct VulkanColorSpace
 const VulkanColorSpace *GetVulkanColorSpace(const VkColorSpaceKHR &cs);
 
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_FORMAT_INCLUDE

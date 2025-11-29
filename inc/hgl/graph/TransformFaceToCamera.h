@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include<hgl/math/Transform.h>
 #include<hgl/graph/CameraInfo.h>

@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_MESH_INCLUDE
-#define HGL_GRAPH_MESH_INCLUDE
-
+﻿#pragma once
 namespace hgl
 {
     namespace graph
@@ -47,4 +45,3 @@ namespace hgl
         };//
     }//namespace graph
 }//namespace hgl
-#endif//HGL_GRAPH_MESH_INCLUDE

@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_INCLUDE
-#define HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKVertexInputFormat.h>
 #include<hgl/type/String.h>
 VK_NAMESPACE_BEGIN
@@ -77,4 +75,3 @@ public:
 
 using VIL=VertexInputLayout;
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_VERTEX_INPUT_LAYOUT_INCLUDE

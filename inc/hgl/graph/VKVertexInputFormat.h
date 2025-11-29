@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_VERTEX_INPUT_FORMAT_INCLUDE
-#define HGL_GRAPH_VULKAN_VERTEX_INPUT_FORMAT_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/graph/VertexAttrib.h>
 VK_NAMESPACE_BEGIN
@@ -18,4 +16,3 @@ struct VertexInputFormat
 
 using VIF=VertexInputFormat;
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_VERTEX_INPUT_FORMAT_INCLUDE

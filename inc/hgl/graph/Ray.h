@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include<hgl/graph/LineSegment.h>
 #include<hgl/graph/Triangle.h>

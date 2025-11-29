@@ -1,6 +1,4 @@
-﻿#ifndef HGL_VULKAN_SHADER_DESCRIPTR_SET_INCLUDE
-#define HGL_VULKAN_SHADER_DESCRIPTR_SET_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/graph/VKDescriptorSetType.h>
 #include<hgl/graph/VKShaderDescriptor.h>
@@ -29,4 +27,3 @@ public:
 
 using ShaderDescriptorSetArray=ShaderDescriptorSet[DESCRIPTOR_SET_TYPE_COUNT];
 VK_NAMESPACE_END
-#endif//HGL_VULKAN_SHADER_DESCRIPTR_SET_INCLUDE

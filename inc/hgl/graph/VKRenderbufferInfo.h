@@ -1,6 +1,4 @@
-#ifndef HGL_GRAPH_VULKAN_RENDER_BUFFER_INFO
-#define HGL_GRAPH_VULKAN_RENDER_BUFFER_INFO
-
+﻿#pragma once
 #include<hgl/type/ArrayList.h>
 #include<hgl/graph/VKFormat.h>
 
@@ -225,4 +223,3 @@ public:
 
 using FBOInfo=FramebufferInfo;
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_RENDER_BUFFER_INFO

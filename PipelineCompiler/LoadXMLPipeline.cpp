@@ -1,4 +1,4 @@
-#include<hgl/type/StringList.h>
+﻿#include<hgl/type/StringList.h>
 #include<hgl/util/xml/XMLParse.h>
 #include<hgl/util/xml/ElementParseCreater.h>
 #include<hgl/filesystem/FileSystem.h>

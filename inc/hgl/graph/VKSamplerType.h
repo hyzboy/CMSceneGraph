@@ -1,6 +1,4 @@
-﻿#ifndef HGL_VULKAN_SAMPLER_TYPE_INCLUDE
-#define HGL_VULKAN_SAMPLER_TYPE_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/TypeFunc.h>
 #include<hgl/type/StrChar.h>
@@ -121,4 +119,3 @@ inline const VkImageViewType GetSamplerImageViewType(const SamplerType st)
 }
 
 VK_NAMESPACE_END
-#endif//HGL_VULKAN_SAMPLER_TYPE_INCLUDE

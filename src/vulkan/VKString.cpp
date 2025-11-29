@@ -1,4 +1,4 @@
-#include<hgl/graph/VKString.h>
+﻿#include<hgl/graph/VKString.h>
 #include<hgl/type/StrChar.h>
 
 VK_NAMESPACE_BEGIN

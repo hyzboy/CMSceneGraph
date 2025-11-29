@@ -1,4 +1,4 @@
-#include<hgl/type/String.h>
+﻿#include<hgl/type/String.h>
 #include<hgl/graph/VKPipelineData.h>
 #include<hgl/graph/VKInlinePipeline.h>
 #include<hgl/filesystem/FileSystem.h>

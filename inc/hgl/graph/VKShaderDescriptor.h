@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_SHADER_DESCRIPTOR_INCLUDE
-#define HGL_GRAPH_SHADER_DESCRIPTOR_INCLUDE
-
+﻿#pragma once
 #include<hgl/type/String.h>
 #include<hgl/type/ArrayList.h>
 #include<hgl/graph/VKDescriptorSetType.h>
@@ -138,4 +136,3 @@ namespace hgl
         };
     }//namespace graph
 }//namespace hgl
-#endif//HGL_GRAPH_SHADER_DESCRIPTOR_INCLUDE

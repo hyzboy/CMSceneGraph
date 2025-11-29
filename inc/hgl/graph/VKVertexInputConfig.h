@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE
-#define HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKFormat.h>
 #include<hgl/type/String.h>
 #include<hgl/type/Map.h>
@@ -65,4 +63,3 @@ public:
     }
 };//class VILConfig:public Map<AnsiString,VAConfig>
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_VERTEX_INPUT_CONFIG_INCLUDE

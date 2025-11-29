@@ -1,6 +1,4 @@
-﻿#ifndef HGL_GRAPH_VULKAN_INTERPOLATION_INCLUDE
-#define HGL_GRAPH_VULKAN_INTERPOLATION_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
 
 VK_NAMESPACE_BEGIN
@@ -27,4 +25,3 @@ inline const char *GetInterpolationName(const Interpolation &i)
     return InterpolationName[(size_t)i];
 }
 VK_NAMESPACE_END
-#endif//HGL_GRAPH_VULKAN_INTERPOLATION_INCLUDE

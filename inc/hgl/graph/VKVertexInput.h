@@ -1,6 +1,4 @@
-﻿#ifndef HGL_VULKAN_VERTEX_INPUT_INCLUDE
-#define HGL_VULKAN_VERTEX_INPUT_INCLUDE
-
+﻿#pragma once
 #include<hgl/graph/VKFormat.h>
 #include<hgl/graph/VKVertexInputLayout.h>
 #include<hgl/type/SortedSet.h>
@@ -54,4 +52,3 @@ public:
 VertexInput *GetVertexInput(const VIAArray &);
 void ReleaseVertexInput(VertexInput *);
 VK_NAMESPACE_END
-#endif//HGL_VULKAN_VERTEX_INPUT_INCLUDE
