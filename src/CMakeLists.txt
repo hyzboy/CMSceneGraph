@@ -81,3 +81,14 @@ add_cm_library(CMSceneGraph "CM"    ${CM_SG_HEADER}
                                     ${CM_BOUNDING_FILES}
                                     ${CM_SG_VULKAN_HEADER}
                                     ${CM_SG_VULKAN_SOURCE})
+
+# Optional Vulkan support: find Vulkan and link if available. Define HGL_VULKAN_AVAILABLE accordingly.
+find_package(Vulkan QUIET)
+if(Vulkan_FOUND)
+    message(STATUS "Vulkan found: enabling Vulkan support for CMSceneGraph")
+    target_link_libraries(CMSceneGraph PRIVATE Vulkan::Vulkan)
+    target_compile_definitions(CMSceneGraph PRIVATE HGL_VULKAN_AVAILABLE=1)
+else()
+    message(STATUS "Vulkan not found: building CMSceneGraph without Vulkan linkage")
+    target_compile_definitions(CMSceneGraph PRIVATE HGL_VULKAN_AVAILABLE=0)
+endif()
