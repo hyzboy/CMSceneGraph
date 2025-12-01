@@ -161,7 +161,7 @@ VK_NAMESPACE_BEGIN
 #define PF_D24UN_S8U   VK_FORMAT_D24_UNORM_S8_UINT
 #define PF_D32F_S8U    VK_FORMAT_D32_SFLOAT_S8_UINT
 
-inline bool IsDepthFormat(const VkFormat fmt)
+constexpr bool IsDepthFormat(const VkFormat fmt)
 {
     return(fmt==PF_D16UN
          ||fmt==PF_X8_D24UN
@@ -171,7 +171,7 @@ inline bool IsDepthFormat(const VkFormat fmt)
          ||fmt==PF_D32F_S8U);
 }
 
-inline bool IsStencilFormat(const VkFormat fmt)
+constexpr bool IsStencilFormat(const VkFormat fmt)
 {
     return(fmt==PF_S8U
          ||fmt==PF_D16UN_S8U
@@ -179,7 +179,7 @@ inline bool IsStencilFormat(const VkFormat fmt)
          ||fmt==PF_D32F_S8U);
 }
 
-inline bool IsDepthStencilFormat(const VkFormat fmt)
+constexpr bool IsDepthStencilFormat(const VkFormat fmt)
 {
     return(fmt==PF_D16UN_S8U
          ||fmt==PF_D24UN_S8U
