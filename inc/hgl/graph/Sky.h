@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <ctime>                   // std::tm
 #include <hgl/color/Color.h>
+#include <hgl/math/Vector.h>
 #include <hgl/geo/GeoLocation.h>
 
 namespace hgl::graph

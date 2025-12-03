@@ -1,6 +1,8 @@
 ﻿#pragma once
 
-#include<hgl/math/Math.h>
+#include<hgl/math/VectorTypes.h>
+#include<hgl/math/MatrixTypes.h>
+#include<hgl/math/Projection.h>
 
 namespace hgl::graph
 {
