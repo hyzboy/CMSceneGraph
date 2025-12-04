@@ -1,6 +1,8 @@
 ﻿#pragma once
 
-#include<hgl/TypeFunc.h>
+#include<hgl/BasicType.h>
+#include<hgl/type/EnumUtil.h>
+
 namespace hgl::graph
 {
     /**

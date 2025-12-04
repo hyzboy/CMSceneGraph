@@ -2,6 +2,7 @@
 
 #include<hgl/graph/VKNamespace.h>
 #include<hgl/type/StrChar.h>
+#include<hgl/type/EnumUtil.h>
 
 VK_NAMESPACE_BEGIN
 

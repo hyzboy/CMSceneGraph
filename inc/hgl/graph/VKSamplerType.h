@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
-#include<hgl/TypeFunc.h>
+#include<hgl/type/EnumUtil.h>
 #include<hgl/type/StrChar.h>
 
 VK_NAMESPACE_BEGIN
