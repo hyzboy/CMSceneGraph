@@ -5,33 +5,21 @@ SET(CM_SG_GEO_FILES     ${CMSCENEGRAPH_ROOT_INCLUDE_PATH}/hgl/geo/GeoLocation.h
 
 SOURCE_GROUP("Geo" FILES ${CM_SG_GEO_FILES})
 
-SET(CM_BOUNDING_FILES   ${CM_SG_INCLUDE_PATH}/AABB.h
-                        ${CM_SG_INCLUDE_PATH}/OBB.h
-                        ${CM_SG_INCLUDE_PATH}/BoundingSphere.h
-                        ${CM_SG_INCLUDE_PATH}/BoundingVolumes.h
-                        Bounding/AABB.cpp
-                        Bounding/OBB.cpp
-                        Bounding/OBB_SetFromPoints_AVX2.cpp
-                        Bounding/BoundingSphere.cpp
-                        Bounding/BoundingVolumes.cpp)
+# Bounding volumes have been moved to CMMath/inc/hgl/math/geometry/
+# Set empty for backward compatibility
+SET(CM_BOUNDING_FILES)
 
 SOURCE_GROUP("Bounding Volumes" FILES ${CM_BOUNDING_FILES})
 
-SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/Sphere.h
-                    ${CM_SG_INCLUDE_PATH}/TRS.h
-                    ${CM_SG_INCLUDE_PATH}/BitmapData.h
+SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/BitmapData.h
                     ${CM_SG_INCLUDE_PATH}/ImageRegion.h
-                    ${CM_SG_INCLUDE_PATH}/NormalData.h
-                    ${CM_SG_INCLUDE_PATH}/Coordinate.h
-                    ${CM_SG_INCLUDE_PATH}/Ray.h
-                    ${CM_SG_INCLUDE_PATH}/LineSegment.h
-                    ${CM_SG_INCLUDE_PATH}/Triangle.h
-                    ${CM_SG_INCLUDE_PATH}/Capsule.h
-                    ${CM_SG_INCLUDE_PATH}/Plane.h
-                    ${CM_SG_INCLUDE_PATH}/Frustum.h
                     ${CM_SG_INCLUDE_PATH}/TransformFaceToCamera.h
                     ${CM_SG_INCLUDE_PATH}/VertexAttrib.h
-                    ${CM_SG_INCLUDE_PATH}/Sky.h)
+                    ${CM_SG_INCLUDE_PATH}/Sky.h
+                    ${CM_SG_INCLUDE_PATH}/CameraInfo.h
+                    ${CM_SG_INCLUDE_PATH}/ViewportInfo.h
+                    ${CM_SG_INCLUDE_PATH}/RealityCamera.h
+                    ${CM_SG_INCLUDE_PATH}/Mesh.h)
 
 SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKString.h
@@ -54,12 +42,7 @@ SET(CM_SG_VULKAN_HEADER     ${CM_SG_INCLUDE_PATH}/VKFormat.h
                             ${CM_SG_INCLUDE_PATH}/VKImageType.h
 )
 
-SET(CM_SG_SOURCE    TRS.cpp
-                    Coordinate.cpp
-                    Ray.cpp
-                    Plane.cpp
-                    Frustum.cpp
-                    VertexAttrib.cpp
+SET(CM_SG_SOURCE    VertexAttrib.cpp
                     Sky.cpp)
 
 SET(CM_SG_VULKAN_SOURCE vulkan/VKFormat.cpp
