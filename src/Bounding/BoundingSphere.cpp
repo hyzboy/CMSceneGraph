@@ -28,7 +28,7 @@ namespace hgl::graph
 
         for(uint32 i=0;i<count;++i)
         {
-            r = std::max(r, glm::length(Vector3f(p[0] - c.x,
+            r = hgl_max(r, glm::length(Vector3f(p[0] - c.x,
                                                  p[1] - c.y,
                                                  p[2] - c.z)));
 

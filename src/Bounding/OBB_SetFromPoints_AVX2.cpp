@@ -1,4 +1,6 @@
 ﻿#include<hgl/graph/OBB.h>
+#include<vector>
+#include<glm/gtc/quaternion.hpp>
 
 namespace hgl::graph
 {

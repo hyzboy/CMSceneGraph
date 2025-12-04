@@ -1,5 +1,5 @@
 ﻿#include<hgl/graph/Plane.h>
-#include<hgl/math/Math.h>
+#include<hgl/math/Vector.h>
 #include<algorithm>
 
 namespace hgl::graph

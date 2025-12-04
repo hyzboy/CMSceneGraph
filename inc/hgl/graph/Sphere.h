@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include<hgl/math/Math.h>
+#include<hgl/math/Vector.h>
 
 namespace hgl
 {

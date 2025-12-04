@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include<hgl/graph/VKNamespace.h>
-#include<hgl/type/DataType.h>
+#include<hgl/CoreType.h>
 VK_NAMESPACE_BEGIN
 /**
  * 顶点输入流配置

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
-#include<hgl/math/Math.h>
+#include<hgl/math/Vector.h>
+#include<hgl/math/MatrixTypes.h>
 #include<hgl/graph/Plane.h>
 
 namespace hgl::graph
