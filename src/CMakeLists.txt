@@ -16,7 +16,6 @@ SET(CM_SG_HEADER    ${CM_SG_INCLUDE_PATH}/BitmapData.h
                     ${CM_SG_INCLUDE_PATH}/TransformFaceToCamera.h
                     ${CM_SG_INCLUDE_PATH}/VertexAttrib.h
                     ${CM_SG_INCLUDE_PATH}/Sky.h
-                    ${CM_SG_INCLUDE_PATH}/CameraInfo.h
                     ${CM_SG_INCLUDE_PATH}/ViewportInfo.h
                     ${CM_SG_INCLUDE_PATH}/RealityCamera.h
                     ${CM_SG_INCLUDE_PATH}/Mesh.h)
