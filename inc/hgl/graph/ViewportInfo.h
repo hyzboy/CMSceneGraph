@@ -11,17 +11,17 @@ namespace hgl::graph
     */
     class ViewportInfo
     {
-        Matrix4f ortho_matrix;              ///<64 2D正角视图矩阵
+        math::Matrix4f ortho_matrix;              ///<64 2D正角视图矩阵
 
-        Vector2u canvas_resolution;         ///< 8 画布尺寸(绘图用尺寸)
-        Vector2u viewport_resolution;       ///< 8 视图尺寸(显示的实际尺寸,glFragCoord之类用)
-        Vector2f inv_viewport_resolution;   ///< 8 视图尺寸的倒数
+        math::Vector2u canvas_resolution;         ///< 8 画布尺寸(绘图用尺寸)
+        math::Vector2u viewport_resolution;       ///< 8 视图尺寸(显示的实际尺寸,glFragCoord之类用)
+        math::Vector2f inv_viewport_resolution;   ///< 8 视图尺寸的倒数
 
     public:
 
         ViewportInfo()
         {
-            hgl_zero(*this);
+            mem_zero(*this);
         }
 
         void SetViewport(uint w,uint h)
@@ -38,7 +38,7 @@ namespace hgl::graph
             canvas_resolution.x=w;
             canvas_resolution.y=h;
 
-            ortho_matrix=OrthoMatrix(w,h);
+            ortho_matrix=math::OrthoMatrix(w,h);
         }
 
         void Set(uint w,uint h)
@@ -57,7 +57,7 @@ namespace hgl::graph
             return float(canvas_resolution.x)/float(canvas_resolution.y);
         }
 
-        const Vector2u &GetViewport()const
+        const math::Vector2u &GetViewport()const
         {
             return viewport_resolution;
         }

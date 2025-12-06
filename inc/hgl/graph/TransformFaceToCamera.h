@@ -14,7 +14,7 @@ namespace hgl
         {
             CameraInfo *camera_info=nullptr;
 
-            Matrix4f last_view_matrix;
+            math::Matrix4f last_view_matrix;
 
         protected:
 

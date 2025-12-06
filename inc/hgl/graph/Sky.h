@@ -9,7 +9,7 @@ namespace hgl::graph
     struct SkyInfo
     {
         Color4f     base_sky_color  =Color4f(0.1f, 0.3f, 0.6f, 1.0f); // 天空基础色（由天气/时间驱动）
-        Vector4f    sun_direction   =Vector4f(0, 0, 1, 0);     // w=0 表示方向向量
+        math::Vector4f    sun_direction   =math::Vector4f(0, 0, 1, 0);     // w=0 表示方向向量
         Color4f     sun_color       =Color4f(1, 0.95f, 0.9f, 1);
         Color4f     halo_color      =Color4f(1.0f, 0.9f, 0.7f, 1.0f);
 

@@ -13,7 +13,7 @@ VertexInputConfig::VertexInputConfig(const VIAArray &viaa)
 
     const VertexInputAttribute *sa=via_array.items;
 
-    hgl_zero(count_by_group);
+    mem_zero(count_by_group);
     
     for(uint i=0;i<via_array.count;i++)
     {
@@ -45,7 +45,7 @@ VIL *VertexInputConfig::CreateVIL(const VILConfig *cfg)
     VAConfig vac;
     uint binding=0;
 
-    hgl_cpy(vil->count_by_group,count_by_group);
+    mem_copy(vil->count_by_group,count_by_group);
 
     for(uint group=0;group<uint(VertexInputGroup::RANGE_SIZE);group++)
     {

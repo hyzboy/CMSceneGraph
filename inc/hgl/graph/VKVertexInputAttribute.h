@@ -146,7 +146,7 @@ namespace hgl::graph
                 items=array_realloc(items,count);
             }
                 
-            hgl_cpy(items[count-1],via);
+            mem_copy(items[count-1],via);
             return(true);
         }
 
@@ -169,7 +169,7 @@ namespace hgl::graph
             if(!Init(src->count))
                 return(false);
 
-            hgl_cpy(items,src->items,src->count);
+            mem_copy(items,src->items,src->count);
             return(true);
         }
     };//struct VertexInputAttributeArray

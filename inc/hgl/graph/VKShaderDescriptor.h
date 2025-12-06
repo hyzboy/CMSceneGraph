@@ -23,7 +23,7 @@ namespace hgl
 
             void Init()
             {
-                hgl_zero(name);
+                mem_zero(name);
                 desc_type=VK_DESCRIPTOR_TYPE_MAX_ENUM;
                 set_type=DescriptorSetType::Global;
                 set=-1;
@@ -45,8 +45,8 @@ namespace hgl
                     Init();     ////注：请不要使用memset(this,0..)，因为这会破坏Comparator<>纯虚函数表
                 }
                 else
-                {       //注：请不要使用memcpy/hgl_cpy(*this,sr)来复制数据，因为这会破坏Comparator<>纯虚函数表
-                    hgl_cpy(name,sr->name);
+                {       //注：请不要使用memcpy/mem_copy(*this,sr)来复制数据，因为这会破坏Comparator<>纯虚函数表
+                    mem_copy(name,sr->name);
                     desc_type   =sr->desc_type;
                     set_type    =sr->set_type;
                     set         =sr->set;

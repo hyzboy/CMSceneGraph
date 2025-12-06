@@ -9,10 +9,10 @@ VertexInputLayout::VertexInputLayout(const uint32_t c)
     attr_list=hgl_zero_new<VkVertexInputAttributeDescription>(count);
 
     vif_list=hgl_zero_new<VertexInputFormat>(count);
-    hgl_zero(vif_list_by_group);
+    mem_zero(vif_list_by_group);
 
-    hgl_zero(count_by_group);
-    hgl_zero(first_binding);
+    mem_zero(count_by_group);
+    mem_zero(first_binding);
 }
 
 VertexInputLayout::~VertexInputLayout()
@@ -29,10 +29,10 @@ const int VertexInputLayout::compare(const VertexInputLayout &vil)const
     result=count-vil.count;
     if(result)return result;
 
-    result=hgl_cmp(bind_list,vil.bind_list,count);
+    result=mem_compare(bind_list,vil.bind_list,count);
     if(result)return result;
 
-    result=hgl_cmp(attr_list,vil.attr_list,count);
+    result=mem_compare(attr_list,vil.attr_list,count);
     
     return(result);
 }
