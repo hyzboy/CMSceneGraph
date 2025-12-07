@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include<math>
+#include<hgl/CoreType.h>
 
 namespace hgl::graph
 {
@@ -57,14 +58,6 @@ namespace hgl::graph
             }focus;
         };
 
-        enum class RotateAngle:unsigned int
-        {
-            None=0,                    ///<不旋转
-            Rotate90=90,               ///<顺时针旋转90度
-            Rotate180=180,             ///<顺时针旋转180度
-            Rotate270=270              ///<顺时针旋转270度
-        };
-
         /**
         * 相机设置
         */
@@ -80,7 +73,7 @@ namespace hgl::graph
             float       iso             =800.0f;        ///<ISO感光度
             float       exposure        =0.0f;          ///<曝光补偿(单位：EV)
 
-            RotateAngle rotate_angle    =0;             ///<旋转角度(单位：度，仅可以为0,90,180,270)
+            uint        rotate_angle    =0;             ///<旋转角度(单位：度，仅可以为0,90,180,270)
 
         public:
 
