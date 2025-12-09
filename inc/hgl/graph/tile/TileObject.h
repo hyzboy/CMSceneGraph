@@ -5,6 +5,8 @@
 
 namespace hgl::graph
 {
+    using namespace hgl::math;
+
     struct TileObject
     {
         int id;
