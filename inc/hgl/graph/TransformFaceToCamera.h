@@ -10,7 +10,7 @@ namespace hgl::graph
     /**
     * 永远转向摄像机的变换节点
     */
-    class TransformFaceToCamera:public TransformBase
+    class TransformFaceToCamera:public TransformAction
     {
         CameraInfo *camera_info=nullptr;
 
@@ -28,25 +28,25 @@ namespace hgl::graph
 
     public:
 
-        using TransformBase::TransformBase;
+        using TransformAction::TransformAction;
 
         constexpr const size_t GetTypeHash()const override { return hgl::GetTypeHash<TransformFaceToCamera>(); }
 
-        TransformFaceToCamera():TransformBase()
+        TransformFaceToCamera():TransformAction()
         {
             camera_info=nullptr;
 
             last_view_matrix=Identity4f;
         }
 
-        TransformFaceToCamera(CameraInfo *ci):TransformBase()
+        TransformFaceToCamera(CameraInfo *ci):TransformAction()
         {
             camera_info=ci;
 
             last_view_matrix=Identity4f;
         }
 
-        TransformBase *CloneSelf()const override
+        TransformAction *CloneSelf()const override
         {
             return(new TransformFaceToCamera(camera_info));
         }
@@ -75,5 +75,5 @@ namespace hgl::graph
             UpdateVersion();
             return(true);
         }
-    };//class TransformFaceToCamera:public TransformBase
+    };//class TransformFaceToCamera:public TransformAction
 }//namespace hgl::graph
