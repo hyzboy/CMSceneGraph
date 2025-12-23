@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include<hgl/math/Transform.h>
+#include<hgl/math/TransformAction.h>
 #include<hgl/graph/CameraInfo.h>
 
 namespace hgl::graph
